@@ -25,6 +25,7 @@ const { partner } = Astro.props;
 <PageLayout
 	title={`${partner.name}`}
 	description={partner.affiliation || `Partner: ${partner.name}`}
+	image={partner.image}
 >
 	<!-- Hero -->
 	<Hero

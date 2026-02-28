@@ -42,7 +42,7 @@ const landingPages: Record<string, string> = {
 const landingType = landingPages[permalink];
 ---
 
-<PageLayout title={page.data.title} description={page.data.description}>
+<PageLayout title={page.data.title} description={page.data.description} image={page.data.heroImage}>
 	{page.data.status === 'archived' && archivedBanner && (
 		<Banner variant={mapColorToVariant(archivedBanner.color)} dismissible>
 			{archivedBanner.message}
