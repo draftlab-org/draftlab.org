@@ -1,0 +1,11 @@
+{
+  "id": "global-detention-project",
+  "name": "Global Detention Project",
+  "type": "client",
+  "url": "https://www.globaldetentionproject.org/",
+  "image": "/src/assets/organisations/global-detention-project.svg",
+  "description": "Geneva-based research centre promoting the human rights of detained migrants.",
+  "projects": ["global-detention-project"],
+  "order": 3,
+  "status": "published"
+}

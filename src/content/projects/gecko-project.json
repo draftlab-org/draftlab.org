@@ -1,0 +1,12 @@
+{
+  "name": "Gecko Project",
+  "slug": "gecko-project",
+  "status": "published",
+  "description": "Investigative journalism platform tracking the global surveillance industry.",
+  "organisation": "gecko-project",
+  "phases": ["build"],
+  "modalities": ["studio"],
+  "active": false,
+  "featured": true,
+  "order": 1
+}

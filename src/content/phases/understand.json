@@ -1,0 +1,11 @@
+{
+  "name": "Understand",
+  "number": 1,
+  "slug": "understand",
+  "tagline": "Know the terrain",
+  "subtitle": "Discovery, research, diagnosis",
+  "description": "Knowing the terrain before acting. Includes user research, organizational diagnostics, feasibility studies, landscape analysis, and responsible data assessments. The output is clarity.",
+  "color": "phase-understand",
+  "order": 1,
+  "status": "published"
+}

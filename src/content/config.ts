@@ -1,8 +1,5 @@
 import { defineCollection, type ImageFunction, z } from 'astro:content';
-import articleCategories from './categories/articles.json';
-import partnerCategories from './categories/partners.json';
 import peopleCategories from './categories/people.json';
-import resourceCategories from './categories/resources.json';
 
 // Shared status field for content visibility across all collections
 const statusSchema = z
@@ -15,6 +12,21 @@ const colorPaletteSchema = z.enum([
   'secondary',
   'highlight',
   'neutral',
+]);
+
+// Phase slug enum — used across collections for referencing phases
+const phaseSlugSchema = z.enum([
+  'understand',
+  'define',
+  'build',
+  'sustain',
+]);
+
+// Modality slug enum — used across collections for referencing modalities
+const modalitySlugSchema = z.enum([
+  'clinic',
+  'studio',
+  'council',
 ]);
 
 // Helper to create schemas with image support
@@ -43,6 +55,8 @@ const createSchemas = (image: ImageFunction) => {
     headshot: image(),
     title: z.string().optional(),
     affiliation: z.string().optional(),
+    role: z.string().optional(),
+    bio: z.string().optional(),
     extraInfo: z.string().optional(),
     url: z.string().optional(),
     sections: z.array(
@@ -51,22 +65,14 @@ const createSchemas = (image: ImageFunction) => {
     status: statusSchema,
   });
 
-  //  Partner
-  const partnerSchema = z.object({
-    name: z.string(),
-    affiliation: z.string().optional(),
-    url: z.string().optional(),
-    category: z.enum(partnerCategories.categories as [string, ...string[]]),
-    image: image().optional(),
-  });
-
   return {
     buttonSchema,
     cardSchema,
     personSchema,
-    partnerSchema,
   };
 };
+
+// ── Pages collection ──
 
 const pagesCollection = defineCollection({
   type: 'data',
@@ -111,32 +117,38 @@ const pagesCollection = defineCollection({
         type: z.literal('people'),
         category: z.string().optional(),
       }),
+      // New Draftlab section types
       SectionCommonSchema.extend({
-        type: z.literal('partners'),
-        title: z.string(),
-        category: z.string().optional(),
-      }),
-      SectionCommonSchema.extend({
-        type: z.literal('articlesRoll'),
-        title: z.string().optional(),
-        limit: z.number().optional().default(3),
-        category: z.string().optional(),
-        showViewAll: z.boolean().optional().default(true),
-      }),
-      SectionCommonSchema.extend({
-        type: z.literal('featuredPartners'),
+        type: z.literal('framework'),
         title: z.string().optional(),
         description: z.string().optional(),
-        partners: z.array(z.string()).optional(), // Specific partner IDs
-        limit: z.number().optional().default(4),
-        showViewAll: z.boolean().optional().default(false),
+        showProjects: z.boolean().optional().default(true),
       }),
       SectionCommonSchema.extend({
-        type: z.literal('resourcesRoll'),
-        title: z.string().default('Resources'),
+        type: z.literal('projectsRoll'),
+        title: z.string().optional(),
         description: z.string().optional(),
-        limit: z.number().min(1).max(12).default(3),
-        showViewAll: z.boolean().default(false),
+        limit: z.number().optional(),
+        filterPhase: phaseSlugSchema.optional(),
+        filterModality: modalitySlugSchema.optional(),
+        featuredOnly: z.boolean().optional().default(false),
+      }),
+      SectionCommonSchema.extend({
+        type: z.literal('phasesOverview'),
+        title: z.string().optional(),
+        description: z.string().optional(),
+      }),
+      SectionCommonSchema.extend({
+        type: z.literal('modalitiesOverview'),
+        title: z.string().optional(),
+        description: z.string().optional(),
+      }),
+      SectionCommonSchema.extend({
+        type: z.literal('organisationsRoll'),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        filterType: z.enum(['client', 'partner', 'funder']).optional(),
+        limit: z.number().optional(),
       }),
     ]);
 
@@ -165,42 +177,102 @@ const pagesCollection = defineCollection({
   },
 });
 
+// ── People collection ──
+
 const peopleCollection = defineCollection({
   type: 'data',
   schema: ({ image }) => createSchemas(image).personSchema,
 });
 
-const partnersCollection = defineCollection({
+// ── Phases collection ──
+
+const phasesCollection = defineCollection({
   type: 'data',
-  schema: ({ image }) => {
-    const { partnerSchema } = createSchemas(image);
-    return partnerSchema.extend({
-      id: z.string(),
-      order: z.number().optional().default(999),
-      featured: z.boolean().optional().default(false),
-      status: statusSchema,
-    });
-  },
+  schema: z.object({
+    name: z.string(),
+    number: z.number(),
+    slug: phaseSlugSchema,
+    tagline: z.string(),
+    subtitle: z.string(),
+    description: z.string(),
+    color: z.string(),
+    order: z.number(),
+    status: statusSchema,
+  }),
 });
 
-const articlesCollection = defineCollection({
-  type: 'content',
+// ── Modalities collection ──
+
+const modalitiesCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    name: z.string(),
+    slug: modalitySlugSchema,
+    symbol: z.string(),
+    tagline: z.string(),
+    description: z.string(),
+    distinguishingFeature: z.string(),
+    order: z.number(),
+    status: statusSchema,
+  }),
+});
+
+// ── Framework cells collection (12 cells: 4 phases x 3 modalities) ──
+
+const frameworkCellsCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    phase: phaseSlugSchema,
+    modality: modalitySlugSchema,
+    description: z.string(),
+    order: z.number(),
+    status: statusSchema,
+  }),
+});
+
+// ── Projects collection ──
+
+const projectsCollection = defineCollection({
+  type: 'data',
   schema: ({ image }) =>
     z.object({
-      permalink: z.string(),
-      title: z.string(),
-      excerpt: z.string().optional(),
-      authors: z.array(z.string()), // References to people collection IDs
+      name: z.string(),
+      slug: z.string(),
       status: statusSchema,
-      tags: z.array(z.string()),
-      categories: z
-        .array(z.enum(articleCategories.categories as [string, ...string[]]))
-        .optional(),
-      publishedDate: z.date(),
-      heroImage: image().optional(),
-      relatedArticles: z.array(z.string()).max(3).optional(), // Array of article permalinks (max 3)
+      description: z.string(),
+      longDescription: z.string().optional(),
+      organisation: z.string().optional(),
+      phases: z.array(phaseSlugSchema),
+      modalities: z.array(modalitySlugSchema),
+      startDate: z.string().optional(),
+      endDate: z.string().optional(),
+      active: z.boolean().default(false),
+      featured: z.boolean().default(false),
+      image: image().optional(),
+      url: z.string().optional(),
+      order: z.number().optional().default(999),
     }),
 });
+
+// ── Organisations collection (replaces partners) ──
+
+const organisationsCollection = defineCollection({
+  type: 'data',
+  schema: ({ image }) =>
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      type: z.enum(['client', 'partner', 'funder']),
+      url: z.string().optional(),
+      description: z.string().optional(),
+      image: image().optional(),
+      projects: z.array(z.string()).optional(),
+      order: z.number().optional().default(999),
+      status: statusSchema,
+    }),
+});
+
+// ── Site collection ──
 
 const siteCollection = defineCollection({
   type: 'data',
@@ -243,6 +315,8 @@ const siteCollection = defineCollection({
         .optional(),
     }),
 });
+
+// ── Navigation collection ──
 
 // Flexible link schema - supports internal page refs and external URLs
 const flexibleLinkSchema = z.discriminatedUnion('type', [
@@ -290,6 +364,8 @@ const navigationCollection = defineCollection({
   }),
 });
 
+// ── Categories collection ──
+
 const categoriesCollection = defineCollection({
   type: 'data',
   schema: z.object({
@@ -299,37 +375,17 @@ const categoriesCollection = defineCollection({
   }),
 });
 
-const resourcesCollection = defineCollection({
-  type: 'data',
-  schema: z.object({
-    id: z.string(),
-    title: z.string(),
-    status: statusSchema,
-    description: z.string().optional(),
-    authors: z.string().optional(), // Citation string
-    contributors: z.array(z.string()).optional(), // References to people collection IDs
-    year: z.number(),
-    category: z.enum(resourceCategories.categories as [string, ...string[]]),
-    externalLinks: z
-      .array(
-        z.object({
-          label: z.string(),
-          url: z.string().url(),
-        })
-      )
-      .optional(),
-    publishedDate: z.coerce.date().optional(),
-    tags: z.array(z.string()).optional(),
-  }),
-});
+// ── Export all collections ──
 
 export const collections = {
   people: peopleCollection,
   pages: pagesCollection,
-  articles: articlesCollection,
   site: siteCollection,
   navigation: navigationCollection,
-  partners: partnersCollection,
   categories: categoriesCollection,
-  resources: resourcesCollection,
+  phases: phasesCollection,
+  modalities: modalitiesCollection,
+  frameworkCells: frameworkCellsCollection,
+  projects: projectsCollection,
+  organisations: organisationsCollection,
 };

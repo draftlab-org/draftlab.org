@@ -1,42 +1,22 @@
-title: Draftlab Scaffold
+title: Draftlab
 status: published
-background: highlight
-description: A pretty good web development starter
+description: Creative project design for social good
 sections:
-  - type: card
-    title: It probably has what you are looking for.
-    description: >-
-      A static site that is also a fully configurable website builder,
-      with predefined content categories and most common settings.
-    cards:
-      - title: Accessible by Default
-        content: >-
-          WCAG-compliant components, keyboard navigation, screen reader
-          support, and reduced motion preferences.
-      - title: CMS-ready
-        content: >-
-          Pre-configured settings to work with [PagesCMS](https://pagescms.com). Add articles, upload media, change site settings, the works.
-        button:
-          variant: primary
-          size: md
-          href: /how-to-use
-          text: Learn More
-      - title: Open Source
-        content: >-
-          Free to use, modify, and distribute. Built with Astro, Tailwind,
-          and modern web standards.
-      - title: Privacy by Design
-        content: >-
-          Built-in patterns for consent management, data minimization, and
-          transparent data practices.
+  - type: framework
+    title: How we work
+    description: "The framework below maps what we do across two dimensions: the phase of your project, and the way we show up."
+    showProjects: true
+  - type: richText
+    content: >-
+      Projects rarely move in a straight line, and neither do we. You might engage us at any phase, for any modality, or across several at once. This framework describes the shape of our work.
   - type: button
-    title: Ready to Start Building?
+    title: Ready to start?
     buttons:
       - variant: primary
         size: lg
-        href: /how-to-use
-        text: Learn more
+        href: /work
+        text: See our work
       - variant: outline
         size: lg
-        href: https://github.com/draftlab-org/scaffold
-        text: View on GitHub
+        href: mailto:hello@draftlab.org
+        text: Get in touch

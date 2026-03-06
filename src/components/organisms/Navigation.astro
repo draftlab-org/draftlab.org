@@ -43,39 +43,36 @@ const isActive = (item: NavItemType) => {
 <nav
 	class={`p-6 w-full bg-white flex justify-between items-center ${className}`}
 >
-	<!-- Left side: Logo + Nav Links -->
-	<div class="flex items-center gap-10">
-		<!-- Logo/Site Name -->
-		<div class="shrink-0">
-			<Link
-				href="/"
-				variant="unstyled"
-				class="font-serif text-2xl font-bold text-gray-900 underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8"
-				>{
-					logo ? (
-						<Image src={logo} alt={siteName} class="w-45" />
-					) : (
-						<span>{siteName}</span>
-					)
-				}
-			</Link>
-		</div>
+	<!-- Left side: Logo -->
+	<div class="shrink-0">
+		<Link
+			href="/"
+			variant="unstyled"
+			class="font-serif text-2xl font-bold text-gray-900 underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8"
+			>{
+				logo ? (
+					<Image src={logo} alt={siteName} class="w-45" />
+				) : (
+					<span>{siteName}</span>
+				)
+			}
+		</Link>
+	</div>
 
+	<!-- Right side: Nav Links + Search + Mobile Menu -->
+	<div class="flex items-center gap-6">
 		<!-- Navigation Links -->
 		<div class="hidden items-center space-x-1 md:flex">
 			{items.map((item) => <NavItem item={item} active={isActive(item)} currentPath={currentPath} />)}
 		</div>
-	</div>
 
-	<!-- Right side: Actions + Mobile Menu -->
-	<div class="flex items-center gap-4">
 		<!-- Search Button -->
 		<Button
-			variant="outline"
+			variant="ghost"
 			size="square"
 			type="button"
 			id="search-button"
-			aria-label="Open Menu"
+			aria-label="Search"
 		>
 			<MagnifyingGlassIcon />
 		</Button>

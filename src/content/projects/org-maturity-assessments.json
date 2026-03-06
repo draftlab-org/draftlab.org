@@ -1,0 +1,11 @@
+{
+  "name": "Org Maturity Assessments",
+  "slug": "org-maturity-assessments",
+  "status": "published",
+  "description": "Structured assessments helping organizations understand their digital maturity, identify gaps, and prioritize investments.",
+  "phases": ["understand"],
+  "modalities": ["clinic"],
+  "active": true,
+  "featured": false,
+  "order": 10
+}

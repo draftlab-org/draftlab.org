@@ -68,16 +68,15 @@ const SEARCH_CATEGORIES: CategoryConfig[] = [
     }),
   },
   {
-    name: 'Articles',
-    apiEndpoint: '/api/articles.json',
-    urlPrefix: '/articles/',
+    name: 'Projects',
+    apiEndpoint: '/api/projects.json',
+    urlPrefix: '/work',
     icon: DocumentIcon,
     modifier: '@',
-    transform: (article: any) => ({
-      id: article.id,
-      name: article.data.title,
-      url: `/articles/${article.slug || article.id}`,
-      imageUrl: article.data.heroImage?.src,
+    transform: (project: any) => ({
+      id: project.id,
+      name: project.name,
+      url: '/work',
     }),
   },
 ];
@@ -133,12 +132,9 @@ export default function RichSearch() {
         categoryDataArrays.forEach((data, index) => {
           const category = SEARCH_CATEGORIES[index];
           const items = data
-            // Filter out unpublished articles if applicable
+            // Filter out unpublished items
             .filter((item: any) =>
-              category.name === 'Articles'
-                ? item.data?.status === 'published' ||
-                  item.data?.status === 'archived'
-                : true
+              item.status === 'published' || item.status === 'archived' || item.data?.status === 'published' || item.data?.status === 'archived' || !item.status
             )
             .map((item: any) => {
               const transformed = category.transform(item);

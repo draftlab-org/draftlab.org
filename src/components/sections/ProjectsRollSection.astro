@@ -1,0 +1,69 @@
+---
+import Heading from '@components/atoms/Heading.astro';
+import Text from '@components/atoms/Text.astro';
+import ProjectCard from '@components/molecules/ProjectCard.astro';
+import { getProjects, getFeaturedProjects, getProjectsByPhase, getProjectsByModality } from '@utils/projects';
+import { getOrganisations } from '@utils/organisations';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  limit?: number;
+  filterPhase?: string;
+  filterModality?: string;
+  featuredOnly?: boolean;
+}
+
+const {
+  title,
+  description,
+  limit,
+  filterPhase,
+  filterModality,
+  featuredOnly = false,
+} = Astro.props;
+
+let projects = featuredOnly
+  ? await getFeaturedProjects()
+  : filterPhase
+    ? await getProjectsByPhase(filterPhase)
+    : filterModality
+      ? await getProjectsByModality(filterModality)
+      : await getProjects();
+
+if (limit) {
+  projects = projects.slice(0, limit);
+}
+
+// Build org name lookup
+const orgs = await getOrganisations();
+const orgNames = new Map(orgs.map((o) => [o.data.id, o.data.name]));
+---
+
+<div class="py-4">
+  {title && (
+    <div class="mb-8 max-w-2xl">
+      <Heading level={2} class="mb-3">{title}</Heading>
+      {description && (
+        <Text size="lg" class="text-ink-soft">{description}</Text>
+      )}
+    </div>
+  )}
+
+  {projects.length > 0 ? (
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {projects.map((project) => (
+        <ProjectCard
+          name={project.data.name}
+          description={project.data.description}
+          organisation={project.data.organisation ? orgNames.get(project.data.organisation) : undefined}
+          phases={project.data.phases}
+          active={project.data.active}
+          featured={project.data.featured}
+        />
+      ))}
+    </div>
+  ) : (
+    <p class="text-ink-muted italic">No projects to show.</p>
+  )}
+</div>

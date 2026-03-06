@@ -1,0 +1,235 @@
+---
+import { getCollection } from 'astro:content';
+import PhaseTag from '@components/molecules/PhaseTag.astro';
+import { isVisible } from '@utils/content';
+import { getProjectsForCell } from '@utils/projects';
+
+export interface Props {
+  showProjects?: boolean;
+}
+
+const { showProjects = true } = Astro.props;
+
+// Fetch all data
+const phasesRaw = await getCollection('phases');
+const phases = phasesRaw
+  .filter((e) => isVisible(e))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const modalitiesRaw = await getCollection('modalities');
+const modalities = modalitiesRaw
+  .filter((e) => isVisible(e))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const cellsRaw = await getCollection('frameworkCells');
+const cells = cellsRaw
+  .filter((e) => isVisible(e))
+  .sort((a, b) => a.data.order - b.data.order);
+
+// Helper to find a cell
+function getCell(phase: string, modality: string) {
+  return cells.find(
+    (c) => c.data.phase === phase && c.data.modality === modality
+  );
+}
+
+// Pre-fetch projects for all cells
+const projectsByCell = new Map<string, Awaited<ReturnType<typeof getProjectsForCell>>>();
+if (showProjects) {
+  for (const modality of modalities) {
+    for (const phase of phases) {
+      const key = `${phase.data.slug}-${modality.data.slug}`;
+      projectsByCell.set(key, await getProjectsForCell(phase.data.slug, modality.data.slug));
+    }
+  }
+}
+
+// Phase color utility classes
+const phaseTextColor: Record<string, string> = {
+  understand: 'text-phase-understand-dark',
+  define: 'text-phase-define-dark',
+  build: 'text-phase-build-dark',
+  sustain: 'text-phase-sustain-dark',
+};
+
+const phaseBorderColor: Record<string, string> = {
+  understand: 'bg-phase-understand-dark',
+  define: 'bg-phase-define-dark',
+  build: 'bg-phase-build-dark',
+  sustain: 'bg-phase-sustain-dark',
+};
+---
+
+<div class="framework-matrix" role="region" aria-label="Draftlab work framework — phases and modalities matrix">
+  {/* ── Timeline label ── */}
+  <div class="mb-0 flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.14em] text-ink-muted" aria-hidden="true">
+    <span>Project timeline</span>
+    <span class="h-px flex-1 bg-sand"></span>
+  </div>
+
+  {/* ── Phase headers ── */}
+  <div class="mb-0 hidden grid-cols-[140px_repeat(4,1fr)] gap-0 lg:grid" role="row" aria-label="Phase headers">
+    <div></div>
+    {phases.map((phase, i) => (
+      <div class="relative px-5 pt-4 pb-3">
+        <div class:list={['font-serif text-[0.65rem] uppercase tracking-[0.1em]', phaseTextColor[phase.data.slug]]}>
+          Phase {String(phase.data.number).padStart(2, '0')}
+        </div>
+        <div class:list={['font-serif text-xl font-normal leading-tight', phaseTextColor[phase.data.slug]]}>
+          {phase.data.name}
+        </div>
+        <div class="mt-1 text-[0.75rem] italic leading-snug text-ink-muted">
+          {phase.data.subtitle}
+        </div>
+        {i < phases.length - 1 && (
+          <span class="absolute -right-2.5 top-1/2 z-10 -translate-y-1/2 text-sand">→</span>
+        )}
+      </div>
+    ))}
+  </div>
+
+  {/* ── Matrix grid (desktop) ── */}
+  <div class="hidden overflow-hidden rounded-md border border-sand lg:grid lg:grid-cols-[140px_repeat(4,1fr)]" role="grid" aria-label="Framework matrix">
+    {modalities.map((modality, mIdx) => (
+      <>
+        {/* Modality header cell */}
+        <div class:list={[
+          'flex flex-col justify-center border-r border-sand bg-cream-dark px-4 py-5',
+          mIdx < modalities.length - 1 && 'border-b border-sand',
+        ]}>
+          <span class="mb-1 text-lg">{modality.data.symbol}</span>
+          <span class="font-serif text-base font-medium text-ink">{modality.data.name}</span>
+          <span class="mt-1 text-[0.72rem] italic leading-snug text-ink-muted">
+            {modality.data.tagline}
+          </span>
+        </div>
+
+        {/* Phase cells for this modality row */}
+        {phases.map((phase, pIdx) => {
+          const cell = getCell(phase.data.slug, modality.data.slug);
+          const cellProjects = projectsByCell.get(`${phase.data.slug}-${modality.data.slug}`) || [];
+          const isLastCol = pIdx === phases.length - 1;
+          const isLastRow = mIdx === modalities.length - 1;
+
+          return (
+            <div
+              role="gridcell"
+              aria-label={`${modality.data.name} × ${phase.data.name}`}
+              class:list={[
+                'group relative min-h-[130px] overflow-hidden px-5 py-4 transition-colors duration-200 hover:bg-white/45',
+                !isLastCol && 'border-r border-sand',
+                !isLastRow && 'border-b border-sand',
+              ]}
+            >
+              {/* Phase color accent bar */}
+              <div class:list={['absolute inset-x-0 top-0 h-[3px] opacity-40', phaseBorderColor[phase.data.slug]]} />
+
+              {cell && (
+                <p class="text-[0.8rem] leading-relaxed text-ink-soft">
+                  {cell.data.description}
+                </p>
+              )}
+
+              {showProjects && cellProjects.length > 0 && (
+                <div class="mt-3 flex flex-wrap gap-1.5">
+                  {cellProjects.map((project) => (
+                    <PhaseTag phase={phase.data.slug}>
+                      {project.data.name}
+                    </PhaseTag>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </>
+    ))}
+  </div>
+
+  {/* ── Mobile layout: stacked cards per modality ── */}
+  <div class="flex flex-col gap-6 lg:hidden">
+    {modalities.map((modality) => (
+      <div class="rounded-md border border-sand overflow-hidden">
+        {/* Modality header */}
+        <div class="bg-cream-dark px-4 py-4 border-b border-sand">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">{modality.data.symbol}</span>
+            <span class="font-serif text-lg font-medium text-ink">{modality.data.name}</span>
+          </div>
+          <p class="mt-1 text-[0.8rem] italic text-ink-muted">{modality.data.tagline}</p>
+        </div>
+
+        {/* Phase sub-sections */}
+        {phases.map((phase, pIdx) => {
+          const cell = getCell(phase.data.slug, modality.data.slug);
+          const cellProjects = projectsByCell.get(`${phase.data.slug}-${modality.data.slug}`) || [];
+
+          return (
+            <div class:list={[
+              'relative px-4 py-4',
+              pIdx < phases.length - 1 && 'border-b border-sand/60',
+            ]}>
+              {/* Phase color accent */}
+              <div class:list={['absolute left-0 top-0 bottom-0 w-[3px] opacity-50', phaseBorderColor[phase.data.slug]]} />
+
+              <div class="flex items-baseline gap-2 mb-2">
+                <span class:list={['font-serif text-[0.65rem] uppercase tracking-[0.1em]', phaseTextColor[phase.data.slug]]}>
+                  {String(phase.data.number).padStart(2, '0')}
+                </span>
+                <span class:list={['font-serif text-sm font-normal', phaseTextColor[phase.data.slug]]}>
+                  {phase.data.name}
+                </span>
+              </div>
+
+              {cell && (
+                <p class="text-[0.8rem] leading-relaxed text-ink-soft">
+                  {cell.data.description}
+                </p>
+              )}
+
+              {showProjects && cellProjects.length > 0 && (
+                <div class="mt-2 flex flex-wrap gap-1.5">
+                  {cellProjects.map((project) => (
+                    <PhaseTag phase={phase.data.slug}>
+                      {project.data.name}
+                    </PhaseTag>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    ))}
+  </div>
+
+  {/* ── Legend ── */}
+  <div class="mt-6 flex flex-wrap gap-8 border-t border-sand pt-5 text-[0.78rem] italic text-ink-soft md:gap-12">
+    <div>
+      <h4 class="mb-2 font-serif text-[0.7rem] not-italic uppercase tracking-[0.1em] text-ink-muted">
+        Timeline phases
+      </h4>
+      <div class="flex flex-col gap-1.5">
+        {phases.map((phase) => (
+          <div class="flex items-center gap-2">
+            <span class:list={['h-2 w-2 flex-shrink-0 rounded-full', phaseBorderColor[phase.data.slug]]} />
+            <span>{phase.data.name} — {phase.data.tagline.toLowerCase()}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div>
+      <h4 class="mb-2 font-serif text-[0.7rem] not-italic uppercase tracking-[0.1em] text-ink-muted">
+        Modalities
+      </h4>
+      <div class="flex flex-col gap-1.5">
+        {modalities.map((modality) => (
+          <div class="flex items-center gap-2">
+            <span class="w-4 text-center text-[0.85rem] not-italic">{modality.data.symbol}</span>
+            <span>{modality.data.name} — {modality.data.tagline.toLowerCase().replace(/\.$/, '')}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

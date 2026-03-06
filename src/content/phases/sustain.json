@@ -1,0 +1,11 @@
+{
+  "name": "Sustain",
+  "number": 4,
+  "slug": "sustain",
+  "tagline": "Keep it alive",
+  "subtitle": "Stewardship, capacity, governance",
+  "description": "Keeping it alive. Ongoing product stewardship, iterative development, capacity building, training, governance frameworks, and community of practice facilitation.",
+  "color": "phase-sustain",
+  "order": 4,
+  "status": "published"
+}

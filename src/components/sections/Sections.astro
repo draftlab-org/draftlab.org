@@ -1,13 +1,14 @@
 ---
-import ArticlesRollSection from '@components/sections/ArticlesRollSection.astro';
 import ButtonSection from '@components/sections/ButtonSection.astro';
 import CardSection from '@components/sections/CardSection.astro';
-import FeaturedPartnersSection from '@components/sections/FeaturedPartnersSection.astro';
 import FlexiSection from '@components/sections/FlexiSection.astro';
+import FrameworkSection from '@components/sections/FrameworkSection.astro';
 import HeroSection from '@components/sections/HeroSection.astro';
-import PartnersSection from '@components/sections/PartnersSection.astro';
+import ModalitiesOverviewSection from '@components/sections/ModalitiesOverviewSection.astro';
+import OrganisationsRollSection from '@components/sections/OrganisationsRollSection.astro';
 import PeopleSection from '@components/sections/PeopleSection.astro';
-import ResourcesRollSection from '@components/sections/ResourcesRollSection.astro';
+import PhasesOverviewSection from '@components/sections/PhasesOverviewSection.astro';
+import ProjectsRollSection from '@components/sections/ProjectsRollSection.astro';
 import RichTextSection from '@components/sections/RichTextSection.astro';
 import SectionLayout from '@layouts/SectionLayout.astro';
 
@@ -66,39 +67,46 @@ const { sectionItems } = Astro.props;
               category={section.category}
             />
           );
-        case 'partners':
+        case 'framework':
           return (
-            <PartnersSection
-              title={section.title}
-              category={section.category}
-            />
-          );
-        case 'articlesRoll':
-          return (
-            <ArticlesRollSection
-              title={section.title}
-              limit={section.limit}
-              category={section.category}
-              showViewAll={section.showViewAll}
-            />
-          );
-        case 'featuredPartners':
-          return (
-            <FeaturedPartnersSection
+            <FrameworkSection
               title={section.title}
               description={section.description}
-              partners={section.partners}
-              limit={section.limit}
-              showViewAll={section.showViewAll}
+              showProjects={section.showProjects}
             />
           );
-        case 'resourcesRoll':
+        case 'projectsRoll':
           return (
-            <ResourcesRollSection
+            <ProjectsRollSection
               title={section.title}
               description={section.description}
               limit={section.limit}
-              showViewAll={section.showViewAll}
+              filterPhase={section.filterPhase}
+              filterModality={section.filterModality}
+              featuredOnly={section.featuredOnly}
+            />
+          );
+        case 'phasesOverview':
+          return (
+            <PhasesOverviewSection
+              title={section.title}
+              description={section.description}
+            />
+          );
+        case 'modalitiesOverview':
+          return (
+            <ModalitiesOverviewSection
+              title={section.title}
+              description={section.description}
+            />
+          );
+        case 'organisationsRoll':
+          return (
+            <OrganisationsRollSection
+              title={section.title}
+              description={section.description}
+              filterType={section.filterType}
+              limit={section.limit}
             />
           );
         default:

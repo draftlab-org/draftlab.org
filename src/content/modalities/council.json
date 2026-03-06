@@ -1,0 +1,10 @@
+{
+  "name": "Council",
+  "slug": "council",
+  "symbol": "◉",
+  "tagline": "Multi-stakeholder work where authority is shared, diffuse, or contested.",
+  "description": "The critical distinction from Studio: there is no single defined client. The work happens among organizations or stakeholders, often with competing interests, unclear power dynamics, and no single party that can define the direction alone.",
+  "distinguishingFeature": "Collective movement is the goal.",
+  "order": 3,
+  "status": "published"
+}

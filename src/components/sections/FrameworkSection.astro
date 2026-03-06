@@ -1,0 +1,25 @@
+---
+import Heading from '@components/atoms/Heading.astro';
+import Text from '@components/atoms/Text.astro';
+import FrameworkMatrix from '@components/organisms/FrameworkMatrix.astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  showProjects?: boolean;
+}
+
+const { title, description, showProjects = true } = Astro.props;
+---
+
+<div class="py-4">
+  {title && (
+    <div class="mb-8 max-w-2xl">
+      <Heading level={2} class="mb-3">{title}</Heading>
+      {description && (
+        <Text size="lg" class="text-ink-soft">{description}</Text>
+      )}
+    </div>
+  )}
+  <FrameworkMatrix showProjects={showProjects} />
+</div>

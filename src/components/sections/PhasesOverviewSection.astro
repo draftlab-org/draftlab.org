@@ -1,0 +1,72 @@
+---
+import { getCollection } from 'astro:content';
+import Heading from '@components/atoms/Heading.astro';
+import Text from '@components/atoms/Text.astro';
+import { isVisible } from '@utils/content';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const phasesRaw = await getCollection('phases');
+const phases = phasesRaw
+  .filter((e) => isVisible(e))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const phaseAccent: Record<string, string> = {
+  understand: 'bg-phase-understand-dark',
+  define: 'bg-phase-define-dark',
+  build: 'bg-phase-build-dark',
+  sustain: 'bg-phase-sustain-dark',
+};
+
+const phaseTextColor: Record<string, string> = {
+  understand: 'text-phase-understand-dark',
+  define: 'text-phase-define-dark',
+  build: 'text-phase-build-dark',
+  sustain: 'text-phase-sustain-dark',
+};
+
+const phaseBg: Record<string, string> = {
+  understand: 'bg-phase-understand-light/40',
+  define: 'bg-phase-define-light/40',
+  build: 'bg-phase-build-light/40',
+  sustain: 'bg-phase-sustain-light/40',
+};
+---
+
+<div class="py-4">
+  {title && (
+    <div class="mb-8 max-w-2xl">
+      <Heading level={2} class="mb-3">{title}</Heading>
+      {description && (
+        <Text size="lg" class="text-ink-soft">{description}</Text>
+      )}
+    </div>
+  )}
+
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    {phases.map((phase) => (
+      <div class="group relative overflow-hidden rounded-lg border border-sand p-5">
+        {/* Accent bar */}
+        <div class:list={['absolute inset-x-0 top-0 h-[3px]', phaseAccent[phase.data.slug]]} />
+
+        <div class:list={['font-serif text-[0.65rem] uppercase tracking-[0.1em]', phaseTextColor[phase.data.slug]]}>
+          Phase {String(phase.data.number).padStart(2, '0')}
+        </div>
+        <h3 class:list={['mt-1 font-serif text-xl font-normal', phaseTextColor[phase.data.slug]]}>
+          {phase.data.name}
+        </h3>
+        <p class="mt-0.5 text-[0.75rem] italic text-ink-muted">
+          {phase.data.tagline}
+        </p>
+        <p class="mt-3 text-sm leading-relaxed text-ink-soft">
+          {phase.data.description}
+        </p>
+      </div>
+    ))}
+  </div>
+</div>

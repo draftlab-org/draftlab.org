@@ -1,0 +1,12 @@
+{
+  "name": "Prototype Fund Coaching",
+  "slug": "prototype-fund-coaching",
+  "status": "published",
+  "description": "Coaching and mentorship for open-source grantees navigating development, sustainability, and community building.",
+  "organisation": "prototype-fund",
+  "phases": ["sustain"],
+  "modalities": ["clinic"],
+  "active": true,
+  "featured": false,
+  "order": 7
+}

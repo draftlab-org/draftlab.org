@@ -1,0 +1,11 @@
+{
+  "name": "Build",
+  "number": 3,
+  "slug": "build",
+  "tagline": "Make it real",
+  "subtitle": "Development, prototyping, iteration",
+  "description": "Making it real. Full-service open-source web development, architecture to deployment. Values-aligned, embedded as a partner in the client's team.",
+  "color": "phase-build",
+  "order": 3,
+  "status": "published"
+}

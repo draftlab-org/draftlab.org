@@ -1,0 +1,12 @@
+{
+  "name": "OTF Pro Bono Support",
+  "slug": "otf-pro-bono",
+  "status": "published",
+  "description": "Pro bono design and technical support for internet freedom projects funded by the Open Technology Fund.",
+  "organisation": "open-technology-fund",
+  "phases": ["understand", "define"],
+  "modalities": ["clinic"],
+  "active": true,
+  "featured": false,
+  "order": 8
+}

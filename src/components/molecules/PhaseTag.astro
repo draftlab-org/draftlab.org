@@ -1,0 +1,32 @@
+---
+export interface Props {
+  phase: 'understand' | 'define' | 'build' | 'sustain';
+  size?: 'sm' | 'md';
+  class?: string;
+}
+
+const { phase, size = 'sm', class: className = '' } = Astro.props;
+
+const phaseStyles = {
+  understand: 'tag-understand',
+  define: 'tag-define',
+  build: 'tag-build',
+  sustain: 'tag-sustain',
+};
+
+const sizes = {
+  sm: 'px-2 py-0.5 text-[0.68rem]',
+  md: 'px-3 py-1 text-xs',
+};
+---
+
+<span
+  class:list={[
+    'inline-flex items-center rounded-sm font-serif italic tracking-wide',
+    phaseStyles[phase],
+    sizes[size],
+    className,
+  ]}
+>
+  <slot />
+</span>

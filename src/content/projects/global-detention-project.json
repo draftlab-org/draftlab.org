@@ -1,0 +1,12 @@
+{
+  "name": "Global Detention Project",
+  "slug": "global-detention-project",
+  "status": "published",
+  "description": "Research centre tracking immigration-related detention worldwide, providing evidence for policy and advocacy.",
+  "organisation": "global-detention-project",
+  "phases": ["build"],
+  "modalities": ["studio"],
+  "active": false,
+  "featured": true,
+  "order": 3
+}

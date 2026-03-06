@@ -1,0 +1,7 @@
+{
+  "phase": "build",
+  "modality": "clinic",
+  "description": "Targeted technical review, prototype feedback, or a focused build sprint on a specific component or challenge.",
+  "order": 3,
+  "status": "published"
+}

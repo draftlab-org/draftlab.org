@@ -1,0 +1,9 @@
+{
+  "id": "dot-studio",
+  "name": "DOT Studio",
+  "type": "partner",
+  "url": "https://www.dot.studio/en/",
+  "description": "Boutique software development for media, civic tech, and social impact.",
+  "order": 12,
+  "status": "published"
+}

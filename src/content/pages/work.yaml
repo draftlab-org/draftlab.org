@@ -1,0 +1,19 @@
+title: Work
+status: published
+description: Projects and partnerships across civil society and open technology
+sections:
+  - type: projectsRoll
+    title: Featured projects
+    description: "A selection of the work we're most proud of."
+    featuredOnly: true
+  - type: organisationsRoll
+    title: Organisations we work with
+  - type: richText
+    content: >-
+      We've worked with investigative journalism platforms, human rights research centres, open-source collaboration tools, multi-stakeholder cybersecurity initiatives, and civil society coordination platforms. Every project is different, but they share a commitment to transparency, sovereignty, and serving people who are too often underserved by technology.
+  - type: button
+    buttons:
+      - variant: primary
+        size: lg
+        href: mailto:hello@draftlab.org
+        text: Start a conversation

@@ -1,0 +1,12 @@
+{
+  "name": "Humanitarian Data Stewardship",
+  "slug": "ccd-ukraine",
+  "status": "published",
+  "description": "Multi-stakeholder platform supporting Ukrainian civil society coordination during crisis.",
+  "organisation": "ccd-ukraine",
+  "phases": ["define", "build", "sustain"],
+  "modalities": ["studio", "council"],
+  "active": true,
+  "featured": true,
+  "order": 5
+}

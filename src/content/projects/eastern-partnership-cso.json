@@ -1,0 +1,11 @@
+{
+  "name": "Eastern Partnership CSO Training",
+  "slug": "eastern-partnership-cso",
+  "status": "published",
+  "description": "Capacity building and governance support for civil society organizations across the Eastern Partnership region.",
+  "phases": ["sustain"],
+  "modalities": ["council"],
+  "active": false,
+  "featured": false,
+  "order": 9
+}

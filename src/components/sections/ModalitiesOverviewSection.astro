@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import Heading from '@components/atoms/Heading.astro';
+import Text from '@components/atoms/Text.astro';
+import { isVisible } from '@utils/content';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const modalitiesRaw = await getCollection('modalities');
+const modalities = modalitiesRaw
+  .filter((e) => isVisible(e))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<div class="py-4">
+  {title && (
+    <div class="mb-8 max-w-2xl">
+      <Heading level={2} class="mb-3">{title}</Heading>
+      {description && (
+        <Text size="lg" class="text-ink-soft">{description}</Text>
+      )}
+    </div>
+  )}
+
+  <div class="grid gap-4 sm:grid-cols-3">
+    {modalities.map((modality) => (
+      <div class="rounded-lg border border-sand bg-cream-dark/50 p-6">
+        <span class="mb-2 block text-2xl">{modality.data.symbol}</span>
+        <h3 class="font-serif text-xl font-medium text-ink">
+          {modality.data.name}
+        </h3>
+        <p class="mt-1 text-sm italic text-ink-muted">
+          {modality.data.tagline}
+        </p>
+        <p class="mt-3 text-sm leading-relaxed text-ink-soft">
+          {modality.data.description}
+        </p>
+        <p class="mt-4 border-t border-sand/60 pt-3 text-xs text-ink-muted">
+          {modality.data.distinguishingFeature}
+        </p>
+      </div>
+    ))}
+  </div>
+</div>

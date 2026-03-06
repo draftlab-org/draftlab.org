@@ -19,7 +19,7 @@
   @apply bg-cream text-gray-900;
 }
 .button-ghost {
-  @apply border-dotted text-gray-900 shadow-none hover:translate-0 hover:bg-gray-50 hover:shadow-none focus-visible:ring-gray-900;
+  @apply border-transparent text-gray-900 shadow-none hover:translate-0 hover:bg-gray-50 hover:shadow-none focus-visible:ring-gray-900;
 }
 
 /* Button - Sizes */

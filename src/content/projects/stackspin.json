@@ -1,0 +1,12 @@
+{
+  "name": "Stackspin",
+  "slug": "stackspin",
+  "status": "published",
+  "description": "Self-hosted, open-source collaboration platform giving organizations sovereignty over their digital tools.",
+  "organisation": "stackspin",
+  "phases": ["build", "sustain"],
+  "modalities": ["studio"],
+  "active": true,
+  "featured": true,
+  "order": 4
+}

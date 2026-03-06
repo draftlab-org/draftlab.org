@@ -1,0 +1,10 @@
+{
+  "name": "Clinic",
+  "slug": "clinic",
+  "symbol": "◎",
+  "tagline": "Targeted, time-bounded intervention. Fast, focused, expert-led.",
+  "description": "The lightest-touch modality. A clinic is a defined engagement with a clear scope and endpoint: a session, an audit, a sprint, a coaching check-in. The value is speed and accessibility. This is often how new clients enter the relationship.",
+  "distinguishingFeature": "Clear scope and endpoint. Fast, accessible, expert-led.",
+  "order": 1,
+  "status": "published"
+}

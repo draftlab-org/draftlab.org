@@ -1,49 +1,61 @@
 ---
 import { getCollection } from 'astro:content';
-import Heading from '@components/atoms/Heading.astro';
-import type { Person as PersonType } from '@components/organisms/Person.astro';
-import Person from '@components/organisms/Person.astro';
+import Image from '@components/atoms/Image.astro';
+import Link from '@components/atoms/Link.astro';
+import { isVisible } from '@utils/content';
 
 export interface Props {
   category?: string;
-  sectionLabel?: string;
 }
 
 const { category } = Astro.props;
-// Query all people from the collection
-const peopleEntries = await getCollection('people');
-const allPeople: PersonType[] = peopleEntries.map((entry) => entry.data);
 
-// If category specified, filter by that category; otherwise show all
-const peopleGrid = category
+const peopleEntries = await getCollection('people');
+const allPeople = peopleEntries
+  .filter((entry) => isVisible(entry))
+  .map((entry) => entry.data);
+
+const people = category
   ? allPeople.filter((person) => person.sections.includes(category))
   : allPeople;
-
-// Determine the section title
-const sectionTitle = category || 'Our Team';
-
-
 ---
 
-<div>
-	<!-- Section Headline -->
-	<div class="mb-12 text-center">
-		<Heading level={2} class="mb-4">
-			{sectionTitle}
-		</Heading>
-	</div>
-
-	<!-- People Grid -->
-	<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-		{peopleGrid.map((person) => <Person person={person} />)}
-	</div>
-
-	<!-- Empty State -->
-	{
-		peopleGrid.length === 0 && (
-			<div class="py-12 text-center text-gray-500">
-				No people found in this section.
-			</div>
-		)
-	}
+<div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
+  {people.map((person) => (
+    <div class="flex gap-5">
+      {person.headshot && (
+        <div class="flex-shrink-0">
+          <Image
+            src={person.headshot}
+            alt={person.name}
+            width={120}
+            height={120}
+            class="h-24 w-24 rounded-lg object-cover"
+          />
+        </div>
+      )}
+      <div class="min-w-0">
+        <h3 class="font-serif text-lg font-normal text-ink">
+          {person.url ? (
+            <Link href={person.url} variant="unstyled" class="underline decoration-sand decoration-1 underline-offset-2 hover:decoration-secondary-400" external>
+              {person.name}
+            </Link>
+          ) : (
+            person.name
+          )}
+        </h3>
+        {person.bio && (
+          <p class="mt-2 text-sm leading-relaxed text-ink-soft">
+            {person.bio}
+          </p>
+        )}
+      </div>
+    </div>
+  ))}
 </div>
+
+{people.length === 0 && (
+  <div class="py-12 text-center text-gray-500">
+    No people found.
+  </div>
+)}

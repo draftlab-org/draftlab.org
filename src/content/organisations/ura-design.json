@@ -1,0 +1,10 @@
+{
+  "id": "ura-design",
+  "name": "Ura Design",
+  "type": "partner",
+  "url": "https://ura.design/en/",
+  "image": "/src/assets/organisations/ura-design.svg",
+  "description": "Systemic design consulting for social impact and open-source organisations.",
+  "order": 10,
+  "status": "published"
+}

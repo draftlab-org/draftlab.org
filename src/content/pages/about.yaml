@@ -1,0 +1,42 @@
+title: About
+status: published
+description: Creative project design for social good champions
+sections:
+  - type: richText
+    content: >-
+      Draftlab is a design and technology studio that works with civil society organisations, NGOs, open tech projects, and multi-stakeholder initiatives. We build tools that serve people.
+
+
+      We believe technology should be appropriate to its context: secure where it needs to be, sovereign where it matters, simple where complexity would be a burden. Our clients are under-resourced, values-driven, and navigating problems that don't have neat technical solutions. We meet them where they are.
+
+
+      What makes us different is a disposition. We treat every engagement as a design problem, whether that means facilitating a workshop, writing a technical specification, building a platform, or helping a team govern the thing they've already built. We show up as partners.
+  - type: modalitiesOverview
+    title: How we show up
+    description: "Three ways of working, adapted to the situation."
+  - type: phasesOverview
+    title: Where we meet you
+    description: "Four phases of a project's life. You can enter at any point."
+  - type: richText
+    content: >-
+      ### A collaborative practice
+
+
+      Draftlab is a collective. We bring together independent practitioners with deep, complementary expertise across facilitation, research, technology, and humanitarian systems. On every project, we assemble the right team for the work at hand. Our clients get senior, experienced people who care about the outcome.
+  - type: people
+  - type: richText
+    content: >-
+      ### Open Technology Fund pro bono support
+
+
+      Draftlab provides pro bono design and technical support to internet freedom projects through the Open Technology Fund. If you're an OTF-funded project that could use help with user research, product design, or technical architecture, [get in touch](mailto:hello@draftlab.org).
+  - type: button
+    buttons:
+      - variant: primary
+        size: lg
+        href: /work
+        text: See our work
+      - variant: outline
+        size: lg
+        href: mailto:hello@draftlab.org
+        text: Get in touch

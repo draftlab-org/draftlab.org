@@ -1,0 +1,10 @@
+{
+  "id": "superbloom",
+  "name": "Superbloom",
+  "type": "partner",
+  "url": "https://superbloom.design/",
+  "image": "/src/assets/organisations/superbloom.svg",
+  "description": "Design studio helping teams create responsible, inclusive technology.",
+  "order": 11,
+  "status": "published"
+}

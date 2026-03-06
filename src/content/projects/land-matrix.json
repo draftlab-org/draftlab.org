@@ -1,0 +1,12 @@
+{
+  "name": "Land Matrix",
+  "slug": "land-matrix",
+  "status": "published",
+  "description": "Global observatory monitoring large-scale land acquisitions and their impact on communities.",
+  "organisation": "land-matrix",
+  "phases": ["build"],
+  "modalities": ["studio"],
+  "active": false,
+  "featured": true,
+  "order": 2
+}

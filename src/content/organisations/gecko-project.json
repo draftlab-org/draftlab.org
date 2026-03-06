@@ -1,0 +1,11 @@
+{
+  "id": "gecko-project",
+  "name": "The Gecko Project",
+  "type": "client",
+  "url": "https://thegeckoproject.org/",
+  "image": "/src/assets/organisations/gecko-project.svg",
+  "description": "Investigative journalism initiative uncovering the forces behind land grabs in Southeast Asia.",
+  "projects": ["gecko-project"],
+  "order": 1,
+  "status": "published"
+}

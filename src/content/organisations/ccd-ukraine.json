@@ -1,0 +1,11 @@
+{
+  "id": "ccd-ukraine",
+  "name": "Humanitarian Data Stewardship",
+  "type": "client",
+  "url": "https://datastew.org",
+  "image": "/src/assets/organisations/humanitarian-data-stewardship.png",
+  "description": "Frameworks and tools helping humanitarian organisations share data responsibly for coordination and assistance delivery.",
+  "projects": ["ccd-ukraine"],
+  "order": 5,
+  "status": "published"
+}

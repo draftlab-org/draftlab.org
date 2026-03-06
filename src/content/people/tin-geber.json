@@ -1,0 +1,12 @@
+{
+  "id": "tin-geber",
+  "name": "Tin Geber",
+  "headshot": "/src/assets/people/tin-geber.svg",
+  "title": "Founder",
+  "role": "Creative Director",
+  "bio": "Designer, developer, and facilitator working at the intersection of technology and social good. Tin founded Draftlab to help civil society organizations build appropriate technology that strengthens human systems.",
+  "sections": [
+    "Team"
+  ],
+  "status": "published"
+}

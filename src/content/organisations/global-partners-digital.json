@@ -1,0 +1,10 @@
+{
+  "id": "global-partners-digital",
+  "name": "Global Partners Digital",
+  "type": "partner",
+  "url": "https://www.gp-digital.org/",
+  "image": "/src/assets/organisations/global-partners-digital.svg",
+  "description": "Working to ensure human rights underpin digital technology governance.",
+  "order": 13,
+  "status": "published"
+}

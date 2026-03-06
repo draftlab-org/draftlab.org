@@ -1,0 +1,11 @@
+{
+  "id": "prototype-fund",
+  "name": "Prototype Fund",
+  "type": "partner",
+  "url": "https://www.prototypefund.de/en/",
+  "image": "/src/assets/organisations/prototype-fund.svg",
+  "description": "German federal funding programme supporting open-source software projects.",
+  "projects": ["prototype-fund-coaching"],
+  "order": 7,
+  "status": "published"
+}

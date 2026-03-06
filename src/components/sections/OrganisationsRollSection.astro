@@ -1,0 +1,212 @@
+---
+import Heading from '@components/atoms/Heading.astro';
+import Text from '@components/atoms/Text.astro';
+import Link from '@components/atoms/Link.astro';
+import { getOrganisations, getOrganisationsByType } from '@utils/organisations';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  filterType?: 'client' | 'partner' | 'funder';
+  limit?: number;
+}
+
+const { title, description, filterType, limit } = Astro.props;
+
+let orgs = filterType
+  ? await getOrganisationsByType(filterType)
+  : await getOrganisations();
+
+if (limit) {
+  orgs = orgs.slice(0, limit);
+}
+
+const typeLabels: Record<string, string> = {
+  client: 'Client',
+  partner: 'Partner',
+  funder: 'Funder',
+};
+
+// Assign sizes for masonry variation: every 3rd and 5th item gets a larger tile
+const getSizeClass = (index: number): string => {
+  const pattern = index % 5;
+  if (pattern === 0 || pattern === 3) return 'org-tile-lg';
+  return 'org-tile-sm';
+};
+---
+
+<div class="py-4">
+  {title && (
+    <div class="mb-10 max-w-2xl">
+      <Heading level={2} class="mb-3">{title}</Heading>
+      {description && (
+        <Text size="lg" class="text-ink-soft">{description}</Text>
+      )}
+    </div>
+  )}
+
+  {orgs.length > 0 ? (
+    <div class="org-masonry">
+      {orgs.map((org, i) => {
+        const sizeClass = getSizeClass(i);
+
+        return (
+          <div class:list={['org-tile', sizeClass]} style={`animation-delay: ${i * 60}ms`}>
+            {org.data.image ? (
+              <div class="org-logo-wrap">
+                {org.data.url ? (
+                  <a href={org.data.url} target="_blank" rel="noopener noreferrer" class="org-logo-link">
+                    <img
+                      src={typeof org.data.image === 'string' ? org.data.image : org.data.image.src}
+                      alt={org.data.name}
+                      loading="lazy"
+                      class="org-logo"
+                    />
+                  </a>
+                ) : (
+                  <img
+                    src={typeof org.data.image === 'string' ? org.data.image : org.data.image.src}
+                    alt={org.data.name}
+                    loading="lazy"
+                    class="org-logo"
+                  />
+                )}
+              </div>
+            ) : (
+              <div class="org-logo-wrap org-logo-text-fallback">
+                {org.data.url ? (
+                  <a href={org.data.url} target="_blank" rel="noopener noreferrer" class="org-logo-link">
+                    <span class="org-text-mark">{org.data.name}</span>
+                  </a>
+                ) : (
+                  <span class="org-text-mark">{org.data.name}</span>
+                )}
+              </div>
+            )}
+            <p class="org-label">
+              {org.data.url ? (
+                <a href={org.data.url} target="_blank" rel="noopener noreferrer" class="org-label-link">
+                  {org.data.name}
+                </a>
+              ) : org.data.name}
+              <span class="org-type">{typeLabels[org.data.type]}</span>
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  ) : (
+    <p class="text-ink-muted italic">No organisations to show.</p>
+  )}
+</div>
+
+<style>
+  .org-masonry {
+    columns: 2;
+    column-gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .org-masonry {
+      columns: 3;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .org-masonry {
+      columns: 4;
+      column-gap: 2rem;
+    }
+  }
+
+  .org-tile {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    animation: org-fade-up 0.5s ease both;
+  }
+
+  @media (min-width: 1024px) {
+    .org-tile {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .org-logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .org-logo-wrap:hover {
+    transform: translateY(-2px);
+    opacity: 0.75;
+  }
+
+  .org-logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .org-logo {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    color: var(--color-ink);
+  }
+
+  .org-text-mark {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--color-ink-soft);
+    letter-spacing: -0.01em;
+  }
+
+  .org-label {
+    margin-top: 0.5rem;
+    padding-left: 0.25rem;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--color-ink-soft);
+    line-height: 1.4;
+  }
+
+  .org-label-link {
+    color: var(--color-ink-soft);
+    text-decoration: underline;
+    text-decoration-color: var(--color-sand);
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .org-label-link:hover {
+    text-decoration-color: var(--color-secondary-400);
+  }
+
+  .org-type {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-ink-muted);
+    margin-top: 0.1rem;
+  }
+
+  @keyframes org-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

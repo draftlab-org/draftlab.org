@@ -1,0 +1,13 @@
+{
+  "id": "lucy-chambers",
+  "name": "Lucy Chambers",
+  "headshot": "/src/assets/people/lucy-chambers.svg",
+  "title": "Facilitator & Workshop Designer",
+  "role": "Collaborator",
+  "bio": "Lucy helps organisations get unstuck through custom facilitation: group decision-making, strategy offsites, and staff consultations that emphasise inclusive participation and actionable outcomes.",
+  "url": "https://facilitationmindset.com/",
+  "sections": [
+    "Collaborator"
+  ],
+  "status": "published"
+}

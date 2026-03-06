@@ -1,0 +1,10 @@
+{
+  "name": "Studio",
+  "slug": "studio",
+  "symbol": "◈",
+  "tagline": "Sustained, embedded partnership. Full creative and technical depth.",
+  "description": "Work for a defined client, with a clear relationship of accountability. Draftlab is embedded in the team. This is where full research cycles, extended co-design, and full-stack development live.",
+  "distinguishingFeature": "There is a client. Someone is in charge. Draftlab serves their direction.",
+  "order": 2,
+  "status": "published"
+}

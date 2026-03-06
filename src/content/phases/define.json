@@ -1,0 +1,11 @@
+{
+  "name": "Define",
+  "number": 2,
+  "slug": "define",
+  "tagline": "Shape the response",
+  "subtitle": "Co-design, specification, alignment",
+  "description": "Shaping the response. Synthesizing research into wireframes, feature definitions, technical specs, and shared direction. Produces handover-ready outputs. Key moment for building stakeholder buy-in.",
+  "color": "phase-define",
+  "order": 2,
+  "status": "published"
+}

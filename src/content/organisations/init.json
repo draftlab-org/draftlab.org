@@ -1,0 +1,10 @@
+{
+  "id": "init",
+  "name": "INIT",
+  "type": "partner",
+  "url": "https://init.hr/",
+  "image": "/src/assets/organisations/init.svg",
+  "description": "AI-first software development company based in Zagreb.",
+  "order": 9,
+  "status": "published"
+}
