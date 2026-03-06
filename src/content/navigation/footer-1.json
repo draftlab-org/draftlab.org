@@ -1,10 +1,18 @@
 {
   "slug": "footer-1",
-  "title": "Footer Nav 1",
+  "title": "Navigate",
   "items": [
     {
       "type": "link",
-      "label": "Menu Item",
+      "label": "Home",
+      "link": {
+        "type": "internal",
+        "pageRef": "/"
+      }
+    },
+    {
+      "type": "link",
+      "label": "About",
       "link": {
         "type": "internal",
         "pageRef": "/about"
@@ -12,34 +20,10 @@
     },
     {
       "type": "link",
-      "label": "Menu Item",
+      "label": "Work",
       "link": {
         "type": "internal",
-        "pageRef": "/about"
-      }
-    },
-    {
-      "type": "link",
-      "label": "Menu Item",
-      "link": {
-        "type": "internal",
-        "pageRef": "/about"
-      }
-    },
-    {
-      "type": "link",
-      "label": "Menu Item",
-      "link": {
-        "type": "internal",
-        "pageRef": "/about"
-      }
-    },
-    {
-      "type": "link",
-      "label": "Menu Item",
-      "link": {
-        "type": "internal",
-        "pageRef": "/about"
+        "pageRef": "/work"
       }
     }
   ]

@@ -1,45 +1,29 @@
 {
   "slug": "footer-2",
-  "title": "Footer Nav 2",
+  "title": "Connect",
   "items": [
     {
       "type": "link",
-      "label": "Menu Item",
+      "label": "GitHub",
       "link": {
-        "type": "internal",
-        "pageRef": "/about"
+        "type": "external",
+        "url": "https://github.com/draftlab-org"
       }
     },
     {
       "type": "link",
-      "label": "Menu Item",
+      "label": "Bluesky",
       "link": {
-        "type": "internal",
-        "pageRef": "/about"
+        "type": "external",
+        "url": "https://bsky.app/profile/draftlab.org"
       }
     },
     {
       "type": "link",
-      "label": "Menu Item",
+      "label": "Contact",
       "link": {
-        "type": "internal",
-        "pageRef": "/about"
-      }
-    },
-    {
-      "type": "link",
-      "label": "Menu Item",
-      "link": {
-        "type": "internal",
-        "pageRef": "/about"
-      }
-    },
-    {
-      "type": "link",
-      "label": "Menu Item",
-      "link": {
-        "type": "internal",
-        "pageRef": "/about"
+        "type": "external",
+        "url": "mailto:hello@draftlab.org"
       }
     }
   ]

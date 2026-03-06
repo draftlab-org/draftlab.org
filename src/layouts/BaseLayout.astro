@@ -12,7 +12,7 @@ export interface Props {
 
 const {
   title,
-  description = 'Draftlab Scaffold - Our Web Development Starter',
+  description = 'Creative project design for social good',
   image,
   lang = 'en',
   class: className = '',
@@ -36,7 +36,7 @@ const canonicalURL = Astro.site
 		</Head>
 	</head>
 
-	<body class={className}>
+	<body class={`bg-cream text-ink ${className}`}>
 		<slot />
 	</body>
 </html>

@@ -28,3 +28,4 @@ pnpm-debug.log*
 
 # Local configuration
 .localconfig/
+.claude/

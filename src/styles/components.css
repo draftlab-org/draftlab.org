@@ -10,13 +10,13 @@
   @apply inline-flex items-center justify-center rounded border-2 border-black font-medium shadow-sharp transition duration-75 hover:translate-x-px hover:translate-y-px hover:shadow-sharp-pressed focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50;
 }
 .button-primary {
-  @apply bg-primary-300 text-black;
-}
-.button-secondary {
   @apply bg-secondary-400 text-black;
 }
+.button-secondary {
+  @apply bg-primary-300 text-black;
+}
 .button-outline {
-  @apply bg-white text-gray-900;
+  @apply bg-cream text-gray-900;
 }
 .button-ghost {
   @apply border-dotted text-gray-900 shadow-none hover:translate-0 hover:bg-gray-50 hover:shadow-none focus-visible:ring-gray-900;
@@ -48,13 +48,13 @@
 
 /* Card - Variants */
 .card-default {
-  @apply rounded-lg bg-white p-6 shadow-md;
+  @apply rounded-lg bg-cream p-6 shadow-md;
 }
 .card-bordered {
-  @apply rounded-lg border-6 border-dotted border-primary-300 bg-white p-6 transition-colors duration-100 hover:border-primary-400;
+  @apply rounded-lg border-2 border-sand bg-cream p-6 transition-colors duration-100 hover:border-secondary-400;
 }
 .card-elevated {
-  @apply rounded-lg bg-white p-6 shadow-lg;
+  @apply rounded-lg bg-cream p-6 shadow-lg;
 }
 
 /*
@@ -82,13 +82,20 @@
   @apply bg-gray-100 text-gray-700;
 }
 
-/* Tag - Sizes */
-.tag-size-sm {
-  @apply px-2 py-1 text-xs;
+/* Tag - Phase Variants */
+.tag-understand {
+  @apply text-phase-understand-dark;
+  background-color: var(--color-phase-understand-light);
 }
-.tag-size-md {
-  @apply px-3 py-1.5 text-sm;
+.tag-define {
+  @apply text-phase-define-dark;
+  background-color: var(--color-phase-define-light);
 }
-.tag-size-lg {
-  @apply px-4 py-2 text-base;
+.tag-build {
+  @apply text-phase-build-dark;
+  background-color: var(--color-phase-build-light);
+}
+.tag-sustain {
+  @apply text-phase-sustain-dark;
+  background-color: var(--color-phase-sustain-light);
 }

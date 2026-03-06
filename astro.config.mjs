@@ -20,15 +20,15 @@ export default defineConfig({
     fonts: [
       {
         provider: fontProviders.bunny(),
-        name: 'Rubik',
-        weights: [300, 400, 500, 600, 700, 800],
-        cssVariable: '--font-rubik',
+        name: 'Fraunces',
+        weights: [300, 400, 500],
+        cssVariable: '--font-fraunces',
       },
       {
         provider: fontProviders.bunny(),
-        name: 'IBM Plex Serif',
-        weights: [300, 400, 500, 600, 700],
-        cssVariable: '--font-ibm-plex-serif',
+        name: 'Source Serif 4',
+        weights: [300, 400],
+        cssVariable: '--font-source-serif-4',
       },
       {
         provider: fontProviders.bunny(),

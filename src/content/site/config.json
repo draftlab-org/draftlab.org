@@ -1,19 +1,18 @@
 {
-  "title": "Draftlab Scaffold",
-  "description": "Draftlab Scaffold - A Pretty Good Web Development Starter",
-  "url": "https://scaffold.draftlab.org",
+  "title": "Draftlab",
+  "description": "Creative project design for social good champions through appropriate technology that strengthens human systems.",
+  "url": "https://draftlab.org",
   "favicon": "/favicon.svg",
   "defaultOgImage": "/src/assets/draftlab-seo.png",
-  "defaultLogoLight": "/src/assets/scaffold-logo.svg",
-  "defaultLogoDark": "/src/assets/scaffold-logo-dark.svg",
+  "defaultLogoLight": "/src/assets/draftlab-logo.svg",
+  "defaultLogoDark": "/src/assets/draftlab-logo-dark.svg",
   "social": {
-    "bluesky": "https://bsky.app/yourhandle",
-    "mastodon": "https://mastodon.social/@yourhandle",
-    "github": "https://github.com/draftlab-org/scaffold",
-    "linkedin": "https://linkedin.com/company/yourcompany",
-    "x": "https://x.com/yourhandle"
+    "bluesky": "https://bsky.app/profile/draftlab.org",
+    "mastodon": "https://mastodon.social/@tingeber",
+    "github": "https://github.com/draftlab-org",
+    "linkedin": "https://linkedin.com/company/draftlab"
   },
   "footer": {
-    "bottom": "Some rights reserved. Background images by [Anna Magenta](https://unsplash.com/@annamagenta82) (Unsplash). People images by [OpenPeeps](https://openpeeps.com/) via [DiceBear](https://www.dicebear.com/)"
+    "bottom": "Some rights reserved. Powered by [Scaffold](https://github.com/draftlab-org/scaffold)."
   }
 }
