@@ -1,7 +1,15 @@
 # ============================================================================
-# Pages CMS Configuration
+# Pages CMS 2.0 Configuration — Draftlab.org
 # Documentation: https://pagescms.org/docs/configuration/
 # ============================================================================
+
+settings:
+  content:
+    merge: true  # preserve keys not managed by CMS
+  commit:
+    templates:
+      create: "Create {path} (via Pages CMS)"
+      update: "Update {path} (via Pages CMS)"
 
 # ============================================================================
 # MEDIA
@@ -17,7 +25,7 @@ media:
 # ============================================================================
 components:
   # --------------------------------------------------------------------------
-  # Primitives (button, card, background)
+  # Primitives
   # --------------------------------------------------------------------------
 
   button:
@@ -29,13 +37,13 @@ components:
         options:
           values:
             - label: Primary
-              value: primary
+              name: primary
             - label: Secondary
-              value: secondary
+              name: secondary
             - label: Outline
-              value: outline
+              name: outline
             - label: Ghost
-              value: ghost
+              name: ghost
         required: true
         default: primary
       - name: size
@@ -44,11 +52,11 @@ components:
         options:
           values:
             - label: Small
-              value: sm
+              name: sm
             - label: Medium
-              value: md
+              name: md
             - label: Large
-              value: lg
+              name: lg
         required: true
         default: md
       - name: text
@@ -83,13 +91,13 @@ components:
         options:
           values:
             - label: Primary
-              value: primary
+              name: primary
             - label: Secondary
-              value: secondary
+              name: secondary
             - label: Highlight
-              value: highlight
+              name: highlight
             - label: Neutral
-              value: neutral
+              name: neutral
         description: Card color theme
       - name: button
         label: Button
@@ -132,7 +140,7 @@ components:
   navigation_menu_item:
     type: block
     blockKey: type
-    description: Navigation item that can be a single link or a dropdown menu with multiple links
+    description: Navigation item that can be a single link or a dropdown menu
     blocks:
       - name: link
         label: Single Link
@@ -141,12 +149,10 @@ components:
             label: Link Label
             type: string
             required: true
-            description: Text displayed for the link
           - name: link
             label: Link
             component: flexible_link
             required: true
-            description: A single navigation link
           - name: description
             label: Description
             type: string
@@ -159,13 +165,11 @@ components:
             label: Menu Label
             type: string
             required: true
-            description: Text displayed for the dropdown menu
           - name: children
             label: Menu Links
             type: object
             list: true
             required: true
-            description: List of links in the dropdown menu
             fields:
               - name: label
                 label: Link Label
@@ -178,7 +182,6 @@ components:
               - name: description
                 label: Description
                 type: string
-                description: Optional description for accessibility
 
   # --------------------------------------------------------------------------
   # Layout
@@ -193,24 +196,22 @@ components:
         options:
           values:
             - label: White
-              value: white
+              name: white
             - label: Gray
-              value: gray
+              name: gray
             - label: Gradient
-              value: gradient
+              name: gradient
         default: white
-        description: Select a section background for this section
       - name: bgType
         label: Type
         type: select
         options:
           values:
             - label: Full-width
-              value: full
+              name: full
             - label: Contained
-              value: contained
+              name: contained
         default: full
-        description: Select the background type for this section
 
   # --------------------------------------------------------------------------
   # Section components
@@ -229,7 +230,6 @@ components:
       - name: backgroundImage
         label: Background Image
         type: image
-        description: Optional hero background image
 
   richtext_section:
     type: object
@@ -279,12 +279,134 @@ components:
         label: Cards
         component: card
         list: true
-        description: Grid of content cards
       - name: buttons
         label: Action Buttons
         component: button
         list: true
-        description: Buttons at the bottom of the section
+
+  people_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: category
+        label: Category
+        type: string
+        description: Filter people by section (e.g. "Team"). Leave empty to show all.
+
+  # --- Draftlab-specific section components ---
+
+  framework_section:
+    type: object
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: string
+      - name: showProjects
+        label: Show Project Tags
+        type: boolean
+        default: true
+        description: Display project name tags inside matrix cells
+
+  projects_roll_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: title
+        label: Title
+        type: string
+        default: Featured projects
+      - name: description
+        label: Description
+        type: string
+      - name: limit
+        label: Number of Projects
+        type: number
+        description: How many projects to show. Leave empty to show all.
+      - name: filterPhase
+        label: Filter by Phase
+        type: select
+        options:
+          values:
+            - label: Understand
+              name: understand
+            - label: Define
+              name: define
+            - label: Build
+              name: build
+            - label: Sustain
+              name: sustain
+        description: Only show projects in this phase. Leave empty to show all.
+      - name: filterModality
+        label: Filter by Modality
+        type: select
+        options:
+          values:
+            - label: Clinic
+              name: clinic
+            - label: Studio
+              name: studio
+            - label: Council
+              name: council
+        description: Only show projects using this modality. Leave empty to show all.
+      - name: featuredOnly
+        label: Featured Only
+        type: boolean
+        default: false
+
+  phases_overview_section:
+    type: object
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: string
+
+  modalities_overview_section:
+    type: object
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: string
+
+  organisations_roll_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: string
+      - name: filterType
+        label: Filter by Type
+        type: select
+        options:
+          values:
+            - label: Client
+              name: client
+            - label: Partner
+              name: partner
+            - label: Funder
+              name: funder
+        description: Only show organisations of this type. Leave empty to show all.
+      - name: limit
+        label: Limit
+        type: number
 
   flexi_section:
     type: object
@@ -303,13 +425,11 @@ components:
         label: Nested Sections
         component: section
         list: true
-        description: Nested sections within this flexi section
 
   # Subset of section types allowed inside flexi sections
   section:
     type: block
     blockKey: type
-    description: Add and arrange page sections in any order
     blocks:
       - name: richText
         label: Rich Text Section
@@ -320,108 +440,6 @@ components:
       - name: card
         label: Card Section
         component: card_section
-
-  people_section:
-    type: object
-    fields:
-      - name: background
-        label: Section Background
-        component: background_select
-      - name: category
-        label: Category
-        type: string
-        description: Filter people by section/department (e.g. "Engineering", "Leadership"). Leave empty to show all people.
-
-  partners_section:
-    type: object
-    fields:
-      - name: background
-        label: Section Background
-        component: background_select
-      - name: title
-        label: Title
-        type: string
-        required: true
-      - name: category
-        label: Category
-        type: string
-        description: Filter partners by category (e.g. "sponsor", "technology"). Leave empty to show all partners.
-
-  articles_roll_section:
-    type: object
-    fields:
-      - name: background
-        label: Section Background
-        component: background_select
-      - name: title
-        label: Title
-        type: string
-        default: Latest Articles
-      - name: limit
-        label: Number of Articles
-        type: number
-        default: 3
-        description: How many articles to show (1-12)
-      - name: category
-        label: Category Filter
-        type: string
-        description: Only show articles from this category. Leave empty to show all.
-      - name: showViewAll
-        label: Show "View All" Button
-        type: boolean
-        default: true
-        description: Display a link to the full articles page
-
-  featured_partners_section:
-    type: object
-    fields:
-      - name: background
-        label: Section Background
-        component: background_select
-      - name: title
-        label: Title
-        type: string
-      - name: description
-        label: Description
-        type: rich-text
-      - name: partners
-        label: Specific Partners
-        type: string
-        list: true
-        description: Partner IDs to feature. Leave empty to auto-select.
-      - name: limit
-        label: Limit
-        type: number
-        default: 4
-        description: Max number of partners to show
-      - name: showViewAll
-        label: Show "View All" Button
-        type: boolean
-        default: false
-
-  resources_roll_section:
-    type: object
-    fields:
-      - name: background
-        label: Section Background
-        component: background_select
-      - name: title
-        label: Title
-        type: string
-        default: Resources
-      - name: description
-        label: Description
-        type: rich-text
-      - name: limit
-        label: Number of Resources
-        type: number
-        default: 3
-        description: How many resources to show (1-12)
-      - name: showViewAll
-        label: Show "View All" Button
-        type: boolean
-        default: false
-        description: Display a link to the full resources page
 
 # ============================================================================
 # CONTENT COLLECTIONS
@@ -444,18 +462,15 @@ content:
         label: Page Title
         type: string
         required: true
-        description: The title of the page
 
       - name: permalink
         label: Permalink
         type: string
-        description: The slug, without slashes or parents, like 'about-us' or 'omg-3'.
-        pattern:
-          {
-            message: "This must be a web-safe string like 'about-us' or 'omg-3'.",
-            regex: '^[a-zA-Z0-9_-]*$',
-          }
         required: true
+        description: The slug, without slashes (e.g. 'about' or 'work').
+        pattern:
+          message: "Must be a web-safe string like 'about' or 'work'."
+          regex: '^[a-zA-Z0-9_-]*$'
 
       - name: status
         label: Status
@@ -465,22 +480,20 @@ content:
         options:
           values:
             - label: Draft
-              value: draft
+              name: draft
             - label: Published
-              value: published
+              name: published
             - label: Archived
-              value: archived
-        description: Draft content is only visible in development/preview. New content defaults to Draft.
+              name: archived
 
       - name: description
         label: Page Description
-        type: rich-text
+        type: string
         description: SEO meta description
 
       - name: heroImage
         label: Hero Image
         type: image
-        description: Background image for the page hero section
 
       - name: background
         label: Page Background
@@ -489,19 +502,21 @@ content:
         options:
           values:
             - label: White
-              value: white
+              name: white
             - label: Gray
-              value: gray
+              name: gray
             - label: Gradient
-              value: gradient
+              name: gradient
             - label: Highlight
-              value: highlight
-        description: Default background style for the page
+              name: highlight
 
       - name: sections
         label: Page Sections
         type: block
-        list: true
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{type}"
         required: true
         blockKey: type
         description: Add and arrange page sections in any order
@@ -526,72 +541,58 @@ content:
             label: People Section
             component: people_section
 
-          - name: partners
-            label: Partners Section
-            component: partners_section
+          - name: framework
+            label: Framework Matrix
+            component: framework_section
 
-          - name: articlesRoll
-            label: Articles Roll Section
-            component: articles_roll_section
+          - name: projectsRoll
+            label: Projects Roll
+            component: projects_roll_section
 
-          - name: featuredPartners
-            label: Featured Partners Section
-            component: featured_partners_section
+          - name: phasesOverview
+            label: Phases Overview
+            component: phases_overview_section
 
-          - name: resourcesRoll
-            label: Resources Roll Section
-            component: resources_roll_section
+          - name: modalitiesOverview
+            label: Modalities Overview
+            component: modalities_overview_section
+
+          - name: organisationsRoll
+            label: Organisations Roll
+            component: organisations_roll_section
 
           - name: flexi
             label: Flexi Section
             component: flexi_section
 
   # --------------------------------------------------------------------------
-  # Articles
+  # Projects
   # --------------------------------------------------------------------------
-  - name: articles
-    label: Articles
+  - name: projects
+    label: Projects
     type: collection
-    path: src/content/articles
-    filename: '{fields.permalink}.md'
+    path: src/content/projects
+    format: json
+    filename: '{fields.slug}.json'
+    subfolders: false
     view:
-      fields: [heroImage, title, publishedDate, status]
-      primary: title
-      sort: [publishedDate, title]
-      default:
-        sort: publishedDate
-        order: desc
+      fields: [name, organisation, status]
+      primary: name
+      sort: [name, order]
     fields:
-      - name: permalink
-        label: Permalink
+      - name: name
+        label: Project Name
         type: string
         required: true
-        description: URL-friendly identifier (e.g. my-article-title)
+
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+        description: URL-friendly identifier (e.g. gecko-project)
         pattern:
-          {
-            message: "Must be a web-safe string like 'my-article-title'.",
-            regex: '^[a-zA-Z0-9_-]*$',
-          }
-
-      - name: title
-        label: Title
-        type: string
-        required: true
-        description: Article title
-
-      - name: excerpt
-        label: Excerpt
-        type: string
-        description: Short summary of the article
-
-      - name: authors
-        label: Authors
-        type: reference
-        options:
-          collection: people
-          multiple: true
-          value: "{id}"
-          label: "{fields.name}"
+          message: "Must be a web-safe string like 'gecko-project'."
+          regex: '^[a-zA-Z0-9_-]*$'
 
       - name: status
         label: Status
@@ -601,58 +602,177 @@ content:
         options:
           values:
             - label: Draft
-              value: draft
+              name: draft
             - label: Published
-              value: published
+              name: published
             - label: Archived
-              value: archived
-        description: Draft content is only visible in development/preview. New content defaults to Draft.
+              name: archived
 
-      - name: tags
-        label: Tags
-        type: string
-        list: true
+      - name: description
+        label: Description
+        type: text
         required: true
-        description: Article tags/categories
 
-      - name: publishedDate
-        label: Published Date
+      - name: longDescription
+        label: Long Description
+        type: rich-text
+
+      - name: organisation
+        label: Organisation
+        type: reference
+        options:
+          collection: organisations
+          value: "{id}"
+          label: "{fields.name}"
+
+      - name: phases
+        label: Phases
+        type: select
+        required: true
+        options:
+          multiple: true
+          values:
+            - label: Understand
+              name: understand
+            - label: Define
+              name: define
+            - label: Build
+              name: build
+            - label: Sustain
+              name: sustain
+
+      - name: modalities
+        label: Modalities
+        type: select
+        required: true
+        options:
+          multiple: true
+          values:
+            - label: "Clinic ◎"
+              name: clinic
+            - label: "Studio ◈"
+              name: studio
+            - label: "Council ◉"
+              name: council
+
+      - name: startDate
+        label: Start Date
         type: date
         options:
           format: yyyy-MM-dd
-        required: true
-        description: Date the article was published
 
-      - name: heroImage
-        label: Hero Image
+      - name: endDate
+        label: End Date
+        type: date
+        options:
+          format: yyyy-MM-dd
+
+      - name: active
+        label: Active
+        type: boolean
+        default: false
+        description: Is this project currently active?
+
+      - name: featured
+        label: Featured
+        type: boolean
+        default: false
+        description: Show in featured sections
+
+      - name: image
+        label: Image
         type: image
-        description: Featured image for the article
 
-      - name: relatedArticles
-        label: Related Articles
-        type: reference
-        description: Select up to 3 related articles
-        options:
-          collection: articles
-          multiple: true
-          value: "{permalink}"
-          label: "{title}"
-          image: "{fields.heroImage}"
+      - name: url
+        label: Project URL
+        type: string
 
-      - name: categories
-        label: Categories
+      - name: order
+        label: Display Order
+        type: number
+        default: 999
+
+  # --------------------------------------------------------------------------
+  # Organisations
+  # --------------------------------------------------------------------------
+  - name: organisations
+    label: Organisations
+    type: collection
+    path: src/content/organisations
+    format: json
+    filename: '{fields.id}.json'
+    subfolders: false
+    view:
+      fields: [name, type, status]
+      sort: [type, name]
+      search: [name, description]
+      primary: name
+    fields:
+      - name: id
+        label: ID
+        type: string
+        required: true
+        readonly: true
+        description: Unique identifier (slug format, e.g. gecko-project)
+
+      - name: name
+        label: Organisation Name
+        type: string
+        required: true
+
+      - name: type
+        label: Type
         type: select
+        required: true
         options:
-          multiple: true
-          fetch:
-            url: https://scaffold.draftlab.org/api/categories.json
-            results: articles.categories
-            value: "{name}"
-            label: "{name}"
+          values:
+            - label: Client
+              name: client
+            - label: Partner
+              name: partner
+            - label: Funder
+              name: funder
 
-      - name: body
-        label: Body
-        type: rich-text
+      - name: status
+        label: Status
+        type: select
+        required: true
+        default: draft
+        options:
+          values:
+            - label: Draft
+              name: draft
+            - label: Published
+              name: published
+            - label: Archived
+              name: archived
+
+      - name: url
+        label: Website URL
+        type: string
+
+      - name: description
+        label: Description
+        type: text
+
+      - name: image
+        label: Logo
+        type: image
+        description: Organisation logo (e.g. /src/assets/organisations/logo.svg)
+
+      - name: projects
+        label: Projects
+        type: reference
+        options:
+          collection: projects
+          multiple: true
+          value: "{slug}"
+          label: "{fields.name}"
+
+      - name: order
+        label: Display Order
+        type: number
+        default: 999
 
   # --------------------------------------------------------------------------
   # People
@@ -672,7 +792,8 @@ content:
         label: ID
         type: string
         required: true
-        description: Unique identifier (slug format, e.g. john-doe)
+        readonly: true
+        description: Unique identifier (e.g. tin-geber)
 
       - name: name
         label: Name
@@ -687,22 +808,30 @@ content:
         options:
           values:
             - label: Draft
-              value: draft
+              name: draft
             - label: Published
-              value: published
+              name: published
             - label: Archived
-              value: archived
-        description: Draft content is only visible in development/preview. New content defaults to Draft.
+              name: archived
 
       - name: headshot
         label: Headshot
         type: image
         required: true
-        description: Absolute path from root (e.g. /src/assets/people/john-doe.png)
 
       - name: title
         label: Job Title / Role
         type: string
+
+      - name: role
+        label: Practice Role
+        type: string
+        description: Role within Draftlab (e.g. Creative Director)
+
+      - name: bio
+        label: Bio
+        type: text
+        description: Short biography
 
       - name: affiliation
         label: Affiliation
@@ -715,7 +844,6 @@ content:
       - name: url
         label: Link
         type: string
-        description: Optional external link
 
       - name: sections
         label: Sections/Departments
@@ -723,200 +851,239 @@ content:
         required: true
         options:
           multiple: true
-          fetch:
-            url: https://scaffold.draftlab.org/api/categories.json
-            results: people.categories
-            value: "{name}"
-            label: "{name}"
+          values:
+            - label: Team
+              name: Team
+            - label: Associates
+              name: Associates
 
   # --------------------------------------------------------------------------
-  # Partners
+  # Phases (framework data)
   # --------------------------------------------------------------------------
-  - name: partners
-    label: Partners
+  - name: phases
+    label: Phases
     type: collection
-    path: src/content/partners
+    path: src/content/phases
     format: json
-    filename: '{fields.id}.json'
+    filename: '{fields.slug}.json'
     subfolders: false
     view:
-      fields: [image, name, affiliation, category, status]
-      sort: [category, name]
-      search: [name, affiliation]
+      fields: [name, number, status]
       primary: name
+      sort: [order]
+      default:
+        sort: order
+        order: asc
     fields:
-      - name: id
-        label: ID
-        type: string
-        required: true
-        description: Unique identifier (slug format, e.g. tech-corp)
-
       - name: name
-        label: Partner Name
+        label: Name
         type: string
         required: true
 
-      - name: status
-        label: Status
+      - name: number
+        label: Number
+        type: number
+        required: true
+
+      - name: slug
+        label: Slug
         type: select
         required: true
-        default: draft
         options:
           values:
-            - label: Draft
-              value: draft
-            - label: Published
-              value: published
-            - label: Archived
-              value: archived
-        description: Draft content is only visible in development/preview. New content defaults to Draft.
+            - label: Understand
+              name: understand
+            - label: Define
+              name: define
+            - label: Build
+              name: build
+            - label: Sustain
+              name: sustain
 
-      - name: affiliation
-        label: Affiliation
+      - name: tagline
+        label: Tagline
         type: string
-        description: e.g. "Platinum Sponsor", "Technology Partner"
-
-      - name: url
-        label: Website URL
-        type: string
-        description: Partner's website URL
-
-      - name: category
-        label: Category
-        type: select
         required: true
-        options:
-          multiple: false
-          fetch:
-            url: https://scaffold.draftlab.org/api/categories.json
-            results: partners.categories
-            value: "{name}"
-            label: "{name}"
 
-      - name: image
-        label: Logo
-        type: image
-        description: Absolute path to partner logo (e.g. /src/assets/partners/logo.png)
+      - name: subtitle
+        label: Subtitle
+        type: string
+        required: true
+
+      - name: description
+        label: Description
+        type: text
+        required: true
+
+      - name: color
+        label: Color Token
+        type: string
+        required: true
+        description: CSS color token name (e.g. phase-understand)
 
       - name: order
         label: Display Order
         type: number
-        default: 999
-        description: Lower numbers appear first (1, 2, 3...)
-
-      - name: featured
-        label: Featured
-        type: boolean
-        default: false
-        description: Show this partner in featured sections
-
-  # --------------------------------------------------------------------------
-  # Resources
-  # --------------------------------------------------------------------------
-  - name: resources
-    label: Resources
-    type: collection
-    path: src/content/resources
-    format: json
-    filename: '{fields.id}.json'
-    subfolders: false
-    view:
-      fields: [title, category, year, status]
-      sort: [year, title]
-      search: [title, authors, description]
-      primary: title
-    fields:
-      - name: id
-        label: ID
-        type: string
-        required: true
-        description: Unique identifier (e.g. 2024-api-design-guide)
-
-      - name: title
-        label: Title
-        type: string
         required: true
 
       - name: status
         label: Status
         type: select
         required: true
-        default: draft
+        default: published
         options:
           values:
             - label: Draft
-              value: draft
+              name: draft
             - label: Published
-              value: published
+              name: published
             - label: Archived
-              value: archived
-        description: Draft content is only visible in development/preview. New content defaults to Draft.
+              name: archived
 
-      - name: description
-        label: Description
-        type: rich-text
-        description: Brief summary of the resource (supports markdown)
-
-      - name: authors
-        label: Authors
+  # --------------------------------------------------------------------------
+  # Modalities (framework data)
+  # --------------------------------------------------------------------------
+  - name: modalities
+    label: Modalities
+    type: collection
+    path: src/content/modalities
+    format: json
+    filename: '{fields.slug}.json'
+    subfolders: false
+    view:
+      fields: [name, symbol, status]
+      primary: name
+      sort: [order]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: name
+        label: Name
         type: string
-        description: Citation string (e.g. "Jane Doe, John Smith")
-
-      - name: contributors
-        label: Contributors
-        type: reference
-        options:
-          collection: people
-          required: false
-          multiple: true
-          value: '{id}'
-          label: '{fields.name}'
-        description: Link to people in the team
-
-      - name: year
-        label: Year
-        type: number
         required: true
-        description: Publication year
 
-      - name: category
-        label: Category
+      - name: slug
+        label: Slug
         type: select
         required: true
         options:
-          multiple: false
-          fetch:
-            url: https://scaffold.draftlab.org/api/categories.json
-            results: resources.categories
-            value: "{name}"
-            label: "{name}"
+          values:
+            - label: "Clinic ◎"
+              name: clinic
+            - label: "Studio ◈"
+              name: studio
+            - label: "Council ◉"
+              name: council
 
-      - name: externalLinks
-        label: External Links
-        type: object
-        list: true
-        fields:
-          - name: label
-            label: Label
-            type: string
-            required: true
-          - name: url
-            label: URL
-            type: string
-            required: true
-            description: Full URL (e.g. https://example.com/paper.pdf)
-
-      - name: publishedDate
-        label: Published Date
-        type: date
-        options:
-          format: yyyy-MM-dd
-        description: Exact publication date (optional, year is used for sorting)
-
-      - name: tags
-        label: Tags
+      - name: symbol
+        label: Symbol
         type: string
-        list: true
+        required: true
+        description: Unicode symbol (◎, ◈, or ◉)
+
+      - name: tagline
+        label: Tagline
+        type: string
+        required: true
+
+      - name: description
+        label: Description
+        type: text
+        required: true
+
+      - name: distinguishingFeature
+        label: Distinguishing Feature
+        type: string
+        required: true
+
+      - name: order
+        label: Display Order
+        type: number
+        required: true
+
+      - name: status
+        label: Status
+        type: select
+        required: true
+        default: published
+        options:
+          values:
+            - label: Draft
+              name: draft
+            - label: Published
+              name: published
+            - label: Archived
+              name: archived
+
+  # --------------------------------------------------------------------------
+  # Framework Cells (12 phase x modality intersections)
+  # --------------------------------------------------------------------------
+  - name: frameworkCells
+    label: Framework Cells
+    type: collection
+    path: src/content/frameworkCells
+    format: json
+    subfolders: false
+    view:
+      fields: [phase, modality, status]
+      primary: phase
+      sort: [order]
+      default:
+        sort: order
+        order: asc
+    fields:
+      - name: phase
+        label: Phase
+        type: select
+        required: true
+        options:
+          values:
+            - label: Understand
+              name: understand
+            - label: Define
+              name: define
+            - label: Build
+              name: build
+            - label: Sustain
+              name: sustain
+
+      - name: modality
+        label: Modality
+        type: select
+        required: true
+        options:
+          values:
+            - label: Clinic
+              name: clinic
+            - label: Studio
+              name: studio
+            - label: Council
+              name: council
+
+      - name: description
+        label: Description
+        type: text
+        required: true
+
+      - name: order
+        label: Display Order
+        type: number
+        required: true
+
+      - name: status
+        label: Status
+        type: select
+        required: true
+        default: published
+        options:
+          values:
+            - label: Draft
+              name: draft
+            - label: Published
+              name: published
+            - label: Archived
+              name: archived
 
   # --------------------------------------------------------------------------
   # Categories
@@ -936,13 +1103,11 @@ content:
         label: ID
         type: string
         required: true
-        description: Unique identifier (e.g. people, partners, articles, resources)
 
       - name: name
         label: Name
         type: string
         required: true
-        description: Display name for this category group
 
       - name: categories
         label: Categories
@@ -962,40 +1127,34 @@ content:
         label: Site Title
         type: string
         required: true
-        description: The name of your website
 
       - name: description
         label: Site Description
         type: string
         required: true
-        description: Default meta description for SEO
 
       - name: url
         label: Site URL
         type: string
         required: true
-        description: Your website's URL (e.g. https://example.com)
+        description: "Your website's URL (e.g. https://draftlab.org)"
 
       - name: favicon
         label: Favicon Path
         type: string
         default: /favicon.svg
-        description: Path to your favicon file
 
       - name: defaultOgImage
         label: Default Open Graph Image
         type: image
-        description: Default image for social media sharing
 
       - name: defaultLogoLight
         label: Logo (Light Background)
         type: image
-        description: Site logo for use on light backgrounds
 
       - name: defaultLogoDark
         label: Logo (Dark Background)
         type: image
-        description: Site logo for use on dark backgrounds
 
       - name: social
         label: Social Media Links
@@ -1004,35 +1163,27 @@ content:
           - name: bluesky
             label: BlueSky URL
             type: string
-            description: Full URL to your Bluesky profile
           - name: mastodon
             label: Mastodon URL
             type: string
-            description: Full URL to your Mastodon profile
           - name: github
             label: GitHub URL
             type: string
-            description: Full URL to your GitHub profile or organization
           - name: linkedin
             label: LinkedIn URL
             type: string
-            description: Full URL to your LinkedIn profile or company page
           - name: x
             label: X URL
             type: string
-            description: Full URL to your X profile
           - name: facebook
             label: Facebook URL
             type: string
-            description: Full URL to your Facebook page
           - name: instagram
             label: Instagram URL
             type: string
-            description: Full URL to your Instagram profile
           - name: youtube
             label: YouTube URL
             type: string
-            description: Full URL to your YouTube channel
 
       - name: footer
         label: Footer
@@ -1045,18 +1196,16 @@ content:
             label: Bottom Text
             type: string
             required: true
-            description: Text shown at the bottom of the footer (supports markdown links)
+            description: Text shown at the bottom of the footer (supports markdown)
 
       - name: archivedBanner
         label: Archived Banner
         type: object
-        description: Banner shown on archived content pages. Leave empty to disable.
         fields:
           - name: message
             label: Message
             type: string
             required: true
-            description: Text displayed in the archived page banner
           - name: color
             label: Color
             type: select
@@ -1065,29 +1214,26 @@ content:
             options:
               values:
                 - label: Primary
-                  value: primary
+                  name: primary
                 - label: Secondary
-                  value: secondary
+                  name: secondary
                 - label: Highlight
-                  value: highlight
+                  name: highlight
                 - label: Neutral
-                  value: neutral
-            description: Color palette for the banner
+                  name: neutral
 
       - name: cookieConsent
         label: Cookie Consent
         type: object
-        description: Cookie banner and analytics settings. Leave empty to disable.
         fields:
           - name: message
             label: Banner Message
             type: rich-text
             required: true
-            description: Message shown in the cookie consent banner (supports markdown)
           - name: googleAnalyticsId
             label: Google Analytics Measurement ID
             type: string
-            description: "GA4 Measurement ID (e.g. G-XXXXXXXXXX). Leave empty to disable analytics."
+            description: "GA4 Measurement ID (e.g. G-XXXXXXXXXX). Leave empty to disable."
 
   # --------------------------------------------------------------------------
   # Navigation Menus
@@ -1097,7 +1243,7 @@ content:
     type: collection
     path: src/content/navigation
     format: json
-    filename: '{{fields.slug}}.json'
+    filename: '{fields.slug}.json'
     subfolders: false
     view:
       fields: [title]
@@ -1107,21 +1253,21 @@ content:
         label: Menu ID
         type: string
         required: true
-        description: Unique identifier for this menu (e.g. main, footer-1, footer-2)
+        description: Unique identifier for this menu (e.g. main, footer-1)
         pattern:
-          {
-            message: "Must be a web-safe string like 'main' or 'footer-1'.",
-            regex: '^[a-zA-Z0-9_-]*$',
-          }
+          message: "Must be a web-safe string like 'main' or 'footer-1'."
+          regex: '^[a-zA-Z0-9_-]*$'
 
       - name: title
         label: Menu Title
         type: string
         required: true
-        description: Display title for this menu
 
       - name: items
         label: Menu Items
         component: navigation_menu_item
-        list: true
+        list:
+          collapsible:
+            collapsed: false
+            summary: "{label}"
         required: true
