@@ -1,7 +1,7 @@
 {
-  "id": "ccd-ukraine",
-  "name": "Humanitarian Data Stewardship",
+  "id": "ccd",
+  "name": "Collaborative Cash Delivery Network",
   "type": "client",
-  "url": "https://datastew.org",
+  "url": "https://www.collaborativecash.org/",
   "image": "/src/assets/organisations/humanitarian-data-stewardship.png"
 }
