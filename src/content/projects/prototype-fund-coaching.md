@@ -1,0 +1,24 @@
+---
+name: Prototype Fund Coaching
+slug: prototype-fund-coaching
+status: published
+description: Coaching and mentorship for open-source grantees navigating development, sustainability, and community building.
+client: prototype-fund
+partners:
+  - superbloom
+phases:
+  - sustain
+modalities:
+  - clinic
+yearStart: 2023
+projectStatus: active
+featured: false
+skills:
+  - capacity-building
+  - human-centered-design
+  - multi-stakeholder-coordination
+---
+
+A coaching track for Prototype Fund grantees in the months after their funded build concludes — the stretch where most open-source projects quietly fade. Sessions focus on community hand-off, governance, and finding the next sustainable shape for the work.
+
+The emphasis is on practical next steps: a one-page sustainment plan, clear ownership, and a realistic read on what the team can carry forward without external funding.

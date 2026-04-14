@@ -24,6 +24,8 @@ sections:
 
       Draftlab is a collective. We bring together independent practitioners with deep, complementary expertise across facilitation, research, technology, and humanitarian systems. On every project, we assemble the right team for the work at hand. Our clients get senior, experienced people who care about the outcome.
   - type: people
+  - type: organisationsRoll
+    title: Organisations we work with
   - type: richText
     content: >-
       ### Open Technology Fund pro bono support

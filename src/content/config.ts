@@ -1,4 +1,5 @@
 import { defineCollection, type ImageFunction, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 import peopleCategories from './categories/people.json';
 
 // Shared status field for content visibility across all collections
@@ -230,27 +231,40 @@ const frameworkCellsCollection = defineCollection({
   }),
 });
 
+// ── Skills collection ──
+
+const skillsCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    name: z.string(),
+    slug: z.string(),
+    description: z.string(),
+    icon: z.string(),
+    status: statusSchema,
+  }),
+});
+
 // ── Projects collection ──
 
 const projectsCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: ({ image }) =>
     z.object({
       name: z.string(),
       slug: z.string(),
       status: statusSchema,
       description: z.string(),
-      longDescription: z.string().optional(),
-      organisation: z.string().optional(),
+      client: z.string().optional(),
+      partners: z.array(z.string()).optional(),
       phases: z.array(phaseSlugSchema),
       modalities: z.array(modalitySlugSchema),
-      startDate: z.string().optional(),
-      endDate: z.string().optional(),
-      active: z.boolean().default(false),
+      skills: z.array(z.string()).optional(),
+      yearStart: z.number().optional(),
+      yearEnd: z.number().optional(),
+      projectStatus: z.enum(['active', 'complete']).default('complete'),
       featured: z.boolean().default(false),
       image: image().optional(),
       url: z.string().optional(),
-      order: z.number().optional().default(999),
     }),
 });
 
@@ -386,6 +400,7 @@ export const collections = {
   phases: phasesCollection,
   modalities: modalitiesCollection,
   frameworkCells: frameworkCellsCollection,
+  skills: skillsCollection,
   projects: projectsCollection,
   organisations: organisationsCollection,
 };

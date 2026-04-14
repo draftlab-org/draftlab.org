@@ -572,13 +572,13 @@ content:
     label: Projects
     type: collection
     path: src/content/projects
-    format: json
-    filename: '{fields.slug}.json'
+    format: yaml-frontmatter
+    filename: '{fields.slug}.md'
     subfolders: false
     view:
-      fields: [name, organisation, status]
+      fields: [name, client, status]
       primary: name
-      sort: [name, order]
+      sort: [name]
     fields:
       - name: name
         label: Project Name
@@ -613,17 +613,23 @@ content:
         type: text
         required: true
 
-      - name: longDescription
-        label: Long Description
-        type: rich-text
-
-      - name: organisation
-        label: Organisation
+      - name: client
+        label: Client
         type: reference
         options:
           collection: organisations
           value: "{id}"
           label: "{fields.name}"
+
+      - name: partners
+        label: Partners
+        type: reference
+        options:
+          collection: organisations
+          multiple: true
+          value: "{id}"
+          label: "{fields.name}"
+        description: Other organisations involved in this project
 
       - name: phases
         label: Phases
@@ -655,23 +661,34 @@ content:
             - label: "Council ◉"
               name: council
 
-      - name: startDate
-        label: Start Date
-        type: date
+      - name: skills
+        label: Skills
+        type: reference
         options:
-          format: yyyy-MM-dd
+          collection: skills
+          multiple: true
+          value: "{slug}"
+          label: "{fields.name}"
+        description: Types of work involved in this project
 
-      - name: endDate
-        label: End Date
-        type: date
+      - name: yearStart
+        label: Start Year
+        type: number
+
+      - name: yearEnd
+        label: End Year
+        type: number
+
+      - name: projectStatus
+        label: Project Status
+        type: select
+        default: complete
         options:
-          format: yyyy-MM-dd
-
-      - name: active
-        label: Active
-        type: boolean
-        default: false
-        description: Is this project currently active?
+          values:
+            - label: Active
+              name: active
+            - label: Complete
+              name: complete
 
       - name: featured
         label: Featured
@@ -687,10 +704,9 @@ content:
         label: Project URL
         type: string
 
-      - name: order
-        label: Display Order
-        type: number
-        default: 999
+      - name: body
+        label: Long Description
+        type: rich-text
 
   # --------------------------------------------------------------------------
   # Organisations
@@ -1070,6 +1086,61 @@ content:
         label: Display Order
         type: number
         required: true
+
+      - name: status
+        label: Status
+        type: select
+        required: true
+        default: published
+        options:
+          values:
+            - label: Draft
+              name: draft
+            - label: Published
+              name: published
+            - label: Archived
+              name: archived
+
+  # --------------------------------------------------------------------------
+  # Skills
+  # --------------------------------------------------------------------------
+  - name: skills
+    label: Skills
+    type: collection
+    path: src/content/skills
+    format: json
+    filename: '{fields.slug}.json'
+    subfolders: false
+    view:
+      fields: [name, icon, status]
+      primary: name
+    fields:
+      - name: name
+        label: Skill Name
+        type: string
+        required: true
+
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+        readonly: true
+        description: URL-friendly identifier (e.g. user-research)
+        pattern:
+          message: "Must be a web-safe string like 'user-research'."
+          regex: '^[a-zA-Z0-9_-]*$'
+
+      - name: description
+        label: Description
+        type: string
+        required: true
+        description: Short list of activities (e.g. "interviews, usability testing, synthesis")
+
+      - name: icon
+        label: Icon
+        type: string
+        required: true
+        description: "Iconify icon ID (e.g. hugeicons:test-tube-01)"
 
       - name: status
         label: Status

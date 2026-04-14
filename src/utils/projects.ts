@@ -5,7 +5,7 @@ export async function getProjects() {
   const entries = await getCollection('projects');
   return entries
     .filter((entry) => isVisible(entry))
-    .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+    .sort((a, b) => a.data.name.localeCompare(b.data.name));
 }
 
 export async function getFeaturedProjects() {

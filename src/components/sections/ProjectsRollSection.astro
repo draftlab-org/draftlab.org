@@ -1,9 +1,11 @@
 ---
+import { getCollection } from 'astro:content';
 import Heading from '@components/atoms/Heading.astro';
 import Text from '@components/atoms/Text.astro';
 import ProjectCard from '@components/molecules/ProjectCard.astro';
 import { getProjects, getFeaturedProjects, getProjectsByPhase, getProjectsByModality } from '@utils/projects';
 import { getOrganisations } from '@utils/organisations';
+import { isVisible } from '@utils/content';
 
 export interface Props {
   title?: string;
@@ -38,6 +40,14 @@ if (limit) {
 // Build org name lookup
 const orgs = await getOrganisations();
 const orgNames = new Map(orgs.map((o) => [o.data.id, o.data.name]));
+
+// Build skills lookup
+const allSkills = await getCollection('skills');
+const skillsBySlug = new Map(
+  allSkills
+    .filter((s) => isVisible(s))
+    .map((s) => [s.data.slug, { name: s.data.name, slug: s.data.slug, icon: s.data.icon }])
+);
 ---
 
 <div class="py-4">
@@ -55,10 +65,12 @@ const orgNames = new Map(orgs.map((o) => [o.data.id, o.data.name]));
       {projects.map((project) => (
         <ProjectCard
           name={project.data.name}
+          slug={project.data.slug}
           description={project.data.description}
-          organisation={project.data.organisation ? orgNames.get(project.data.organisation) : undefined}
+          client={project.data.client ? orgNames.get(project.data.client) : undefined}
           phases={project.data.phases}
-          active={project.data.active}
+          skills={project.data.skills?.map((s: string) => skillsBySlug.get(s)).filter(Boolean) as any}
+          projectStatus={project.data.projectStatus}
           featured={project.data.featured}
         />
       ))}

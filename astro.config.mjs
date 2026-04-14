@@ -45,10 +45,14 @@ export default defineConfig({
     plugins: [
       // @ts-expect-error
       tailwindcss(),
-      // @ts-expect-error
+      // @ts-expect-error — React components (MobileMenu, RichSearch, etc.)
       Icons({
         compiler: 'jsx',
         jsx: 'react',
+      }),
+      // @ts-expect-error — Astro components (static ~icons/ imports in .astro files)
+      Icons({
+        compiler: 'astro',
       }),
     ],
   },

@@ -1,0 +1,27 @@
+---
+import hugeiconsPack from '@iconify/json/json/hugeicons.json';
+import { getIconData, iconToHTML, iconToSVG } from '@iconify/utils';
+
+export interface Props {
+  icon: string;
+  size?: number;
+  class?: string;
+}
+
+const { icon, size = 20, class: className = '' } = Astro.props;
+
+// Parse "collection:name" format
+const [, name] = icon.split(':');
+const iconData = getIconData(hugeiconsPack, name);
+
+let svgHtml = '';
+if (iconData) {
+  const rendered = iconToSVG(iconData, { height: size, width: size });
+  svgHtml = iconToHTML(rendered.body, {
+    ...rendered.attributes,
+    class: className,
+  });
+}
+---
+
+<Fragment set:html={svgHtml} />

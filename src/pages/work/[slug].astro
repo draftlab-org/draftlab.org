@@ -1,0 +1,210 @@
+---
+import { getCollection, render } from 'astro:content';
+import SkillIcon from '@components/atoms/SkillIcon.astro';
+import PageLayout from '@layouts/PageLayout.astro';
+import { isVisible } from '@utils/content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async () => {
+	const projects = await getCollection('projects');
+	const orgs = await getCollection('organisations');
+	const skills = await getCollection('skills');
+	const phases = await getCollection('phases');
+	const modalities = await getCollection('modalities');
+
+	const orgMap = new Map(orgs.map((o) => [o.data.id, o.data]));
+	const skillMap = new Map(skills.filter((s) => isVisible(s)).map((s) => [s.data.slug, s.data]));
+	const phaseMap = new Map(phases.map((p) => [p.data.slug, p.data]));
+	const modalityMap = new Map(modalities.map((m) => [m.data.slug, m.data]));
+
+	return projects
+		.filter((entry) => isVisible(entry))
+		.map((entry) => ({
+			params: { slug: entry.data.slug },
+			props: {
+				entry,
+				project: entry.data,
+				client: entry.data.client ? orgMap.get(entry.data.client) : undefined,
+				resolvedPartners: (entry.data.partners ?? []).map((p: string) => orgMap.get(p)).filter(Boolean),
+				resolvedSkills: (entry.data.skills ?? []).map((s: string) => skillMap.get(s)).filter(Boolean),
+				resolvedPhases: entry.data.phases.map((p: string) => phaseMap.get(p)).filter(Boolean),
+				resolvedModalities: entry.data.modalities.map((m: string) => modalityMap.get(m)).filter(Boolean),
+			},
+		}));
+}) satisfies GetStaticPaths;
+
+const { entry, project, client, resolvedPartners, resolvedSkills, resolvedPhases, resolvedModalities } = Astro.props;
+const { Content } = await render(entry);
+const isActive = project.projectStatus === 'active';
+
+const phaseColorClass = {
+	understand: 'bg-phase-understand',
+	define: 'bg-phase-define',
+	build: 'bg-phase-build',
+	sustain: 'bg-phase-sustain',
+};
+
+const modalitySymbols: Record<string, string> = {
+	clinic: '◎',
+	studio: '◈',
+	council: '◉',
+};
+---
+
+<PageLayout
+	title={`${project.name} — Draftlab`}
+	description={project.description}
+>
+	{/* Phase accent bar across the top */}
+	<div class="flex h-1.5">
+		{project.phases.map((phase: string) => (
+			<div class:list={['flex-1', phaseColorClass[phase as keyof typeof phaseColorClass]]} />
+		))}
+	</div>
+
+	<article class="mx-auto max-w-3xl px-4 pt-12 pb-20 sm:px-6 lg:px-8">
+		{/* Back link */}
+		<a href="/work" data-component class="group mb-10 inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600">
+			<span class="transition-transform group-hover:-translate-x-0.5">&larr;</span>
+			All projects
+		</a>
+
+		{/* Header */}
+		<header class="mb-12">
+			<h1 class="font-serif text-4xl font-bold tracking-tight text-ink md:text-5xl">
+				{project.name}
+			</h1>
+
+			{client && (
+				<p class="mt-3 font-serif text-lg italic text-ink-muted">
+					{client.url ? (
+						<a href={client.url} target="_blank" rel="noopener noreferrer">
+							{client.name}
+						</a>
+					) : (
+						client.name
+					)}
+				</p>
+			)}
+
+			{resolvedPartners.length > 0 && (
+				<p class="mt-2 text-sm text-ink-muted">
+					<span class="font-medium">With </span>
+					{resolvedPartners.map((partner: any, i: number) => (
+						<>
+							{i > 0 && <span>, </span>}
+							{partner.url ? (
+								<a href={partner.url} target="_blank" rel="noopener noreferrer">{partner.name}</a>
+							) : (
+								<span>{partner.name}</span>
+							)}
+						</>
+					))}
+				</p>
+			)}
+
+			{/* Status badge */}
+			{isActive && (
+				<span class="mt-4 inline-flex items-center gap-1.5 rounded-full bg-phase-understand-light px-3 py-1 text-xs font-medium text-phase-understand-dark">
+					<span class="h-1.5 w-1.5 rounded-full bg-phase-understand animate-pulse" />
+					Active project
+				</span>
+			)}
+		</header>
+
+		{/* Description */}
+		<section class="mb-12">
+			<p class="text-lg leading-relaxed text-ink-soft">
+				{project.description}
+			</p>
+			<div class="prose prose-ink mt-4 max-w-none leading-relaxed text-ink-soft">
+				<Content />
+			</div>
+		</section>
+
+		{/* Phases & Modalities */}
+		<section class="mb-12 grid gap-8 sm:grid-cols-2">
+			<div>
+				<h2 class="mb-3 font-serif text-sm font-medium uppercase tracking-wider text-ink-muted">Phases</h2>
+				<div class="space-y-2">
+					{resolvedPhases.map((phase: any) => (
+						<div class="flex items-center gap-3">
+							<div class:list={['h-3 w-3 rounded-sm', phaseColorClass[phase.slug as keyof typeof phaseColorClass]]} />
+							<div>
+								<span class="font-serif text-base font-medium text-ink">{phase.name}</span>
+								<span class="ml-2 text-sm text-ink-muted">{phase.tagline}</span>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+			<div>
+				<h2 class="mb-3 font-serif text-sm font-medium uppercase tracking-wider text-ink-muted">Modalities</h2>
+				<div class="space-y-2">
+					{resolvedModalities.map((modality: any) => (
+						<div class="flex items-center gap-3">
+							<span class="w-3 text-center text-base text-ink-muted">{modalitySymbols[modality.slug]}</span>
+							<div>
+								<span class="font-serif text-base font-medium text-ink">{modality.name}</span>
+								<span class="ml-2 text-sm text-ink-muted">{modality.distinguishingFeature}</span>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		{/* Skills */}
+		{resolvedSkills.length > 0 && (
+			<section class="mb-12">
+				<h2 class="mb-4 font-serif text-sm font-medium uppercase tracking-wider text-ink-muted">Skills applied</h2>
+				<div class="flex flex-wrap gap-3">
+					{resolvedSkills.map((skill: any) => (
+						<span class="inline-flex items-center gap-2 rounded-md border border-sand bg-cream-dark/40 px-3 py-1.5 text-sm text-ink-soft">
+							<SkillIcon icon={skill.icon} size={16} class="text-secondary-500" />
+							{skill.name}
+						</span>
+					))}
+				</div>
+			</section>
+		)}
+
+		{/* Timeline */}
+		{(project.yearStart || project.yearEnd) && (
+			<section class="mb-12">
+				<h2 class="mb-3 font-serif text-sm font-medium uppercase tracking-wider text-ink-muted">Timeline</h2>
+				<p class="text-base text-ink-soft">
+					{project.yearStart && <span>{project.yearStart}</span>}
+					{project.yearStart && project.yearEnd && <span> — </span>}
+					{project.yearEnd && <span>{project.yearEnd}</span>}
+					{project.yearStart && !project.yearEnd && isActive && <span> — ongoing</span>}
+				</p>
+			</section>
+		)}
+
+		{/* External link */}
+		{project.url && (
+			<div class="mt-12 border-t border-sand pt-8">
+				<a
+					href={project.url}
+					target="_blank"
+					rel="noopener noreferrer"
+					data-component
+					class="button-base button-outline button-size-md inline-flex items-center gap-2"
+				>
+					Visit project
+					<span class="text-xs">&nearr;</span>
+				</a>
+			</div>
+		)}
+
+		{/* Back to work */}
+		<div class="mt-16 border-t border-sand pt-8">
+			<a href="/work" data-component class="group inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600">
+				<span class="transition-transform group-hover:-translate-x-0.5">&larr;</span>
+				Back to all projects
+			</a>
+		</div>
+	</article>
+</PageLayout>
