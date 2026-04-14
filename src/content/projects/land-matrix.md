@@ -7,7 +7,7 @@ client: land-matrix
 partners:
   - init
 phases:
-  - build
+  - deliver
 modalities:
   - studio
 yearStart: 2019

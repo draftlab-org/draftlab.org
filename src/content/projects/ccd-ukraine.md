@@ -9,11 +9,11 @@ partners:
   - global-partners-digital
 phases:
   - define
-  - build
+  - deliver
   - sustain
 modalities:
   - studio
-  - council
+  - community
 yearStart: 2022
 yearEnd: 2024
 projectStatus: active

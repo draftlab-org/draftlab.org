@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Heading from '@components/atoms/Heading.astro';
 import Text from '@components/atoms/Text.astro';
 import { isVisible } from '@utils/content';
+import { renderMarkdown } from '@utils/renderMarkdown';
 
 export interface Props {
   title?: string;
@@ -14,26 +15,32 @@ const { title, description } = Astro.props;
 const phasesRaw = await getCollection('phases');
 const phases = phasesRaw
   .filter((e) => isVisible(e))
-  .sort((a, b) => a.data.order - b.data.order);
+  .sort((a, b) => a.data.number - b.data.number);
+
+const phaseDescriptionHtml = new Map<string, string>();
+for (const phase of phases) {
+  const rendered = await renderMarkdown(phase.data.description);
+  phaseDescriptionHtml.set(phase.data.slug, rendered?.html ?? phase.data.description);
+}
 
 const phaseAccent: Record<string, string> = {
   understand: 'bg-phase-understand-dark',
   define: 'bg-phase-define-dark',
-  build: 'bg-phase-build-dark',
+  deliver: 'bg-phase-deliver-dark',
   sustain: 'bg-phase-sustain-dark',
 };
 
 const phaseTextColor: Record<string, string> = {
   understand: 'text-phase-understand-dark',
   define: 'text-phase-define-dark',
-  build: 'text-phase-build-dark',
+  deliver: 'text-phase-deliver-dark',
   sustain: 'text-phase-sustain-dark',
 };
 
 const phaseBg: Record<string, string> = {
   understand: 'bg-phase-understand-light/40',
   define: 'bg-phase-define-light/40',
-  build: 'bg-phase-build-light/40',
+  deliver: 'bg-phase-deliver-light/40',
   sustain: 'bg-phase-sustain-light/40',
 };
 ---
@@ -63,9 +70,7 @@ const phaseBg: Record<string, string> = {
         <p class="mt-0.5 text-[0.75rem] italic text-ink-muted">
           {phase.data.tagline}
         </p>
-        <p class="mt-3 text-sm leading-relaxed text-ink-soft">
-          {phase.data.description}
-        </p>
+        <div class="prose prose-sm mt-3 max-w-none text-sm leading-relaxed text-ink-soft" set:html={phaseDescriptionHtml.get(phase.data.slug)} />
       </div>
     ))}
   </div>

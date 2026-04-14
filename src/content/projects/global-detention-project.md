@@ -7,7 +7,7 @@ client: global-detention-project
 partners:
   - ura-design
 phases:
-  - build
+  - deliver
 modalities:
   - studio
 yearStart: 2020

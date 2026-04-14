@@ -7,7 +7,7 @@ export interface Props {
   slug: string;
   description: string;
   client?: string;
-  phases: Array<'understand' | 'define' | 'build' | 'sustain'>;
+  phases: Array<'understand' | 'define' | 'deliver' | 'sustain'>;
   skills?: Array<{ name: string; slug: string; icon: string }>;
   projectStatus?: 'active' | 'complete';
   featured?: boolean;
@@ -44,7 +44,7 @@ const isActive = projectStatus === 'active';
         'absolute top-0 left-0 right-0 h-[3px] rounded-t-lg opacity-50',
         phases[0] === 'understand' && 'bg-phase-understand',
         phases[0] === 'define' && 'bg-phase-define',
-        phases[0] === 'build' && 'bg-phase-build',
+        phases[0] === 'deliver' && 'bg-phase-deliver',
         phases[0] === 'sustain' && 'bg-phase-sustain',
       ]}
     />

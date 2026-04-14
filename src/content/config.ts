@@ -19,7 +19,7 @@ const colorPaletteSchema = z.enum([
 const phaseSlugSchema = z.enum([
   'understand',
   'define',
-  'build',
+  'deliver',
   'sustain',
 ]);
 
@@ -27,7 +27,7 @@ const phaseSlugSchema = z.enum([
 const modalitySlugSchema = z.enum([
   'clinic',
   'studio',
-  'council',
+  'community',
 ]);
 
 // Helper to create schemas with image support
@@ -194,11 +194,8 @@ const phasesCollection = defineCollection({
     number: z.number(),
     slug: phaseSlugSchema,
     tagline: z.string(),
-    subtitle: z.string(),
     description: z.string(),
     color: z.string(),
-    order: z.number(),
-    status: statusSchema,
   }),
 });
 
@@ -212,9 +209,7 @@ const modalitiesCollection = defineCollection({
     symbol: z.string(),
     tagline: z.string(),
     description: z.string(),
-    distinguishingFeature: z.string(),
     order: z.number(),
-    status: statusSchema,
   }),
 });
 
@@ -278,11 +273,7 @@ const organisationsCollection = defineCollection({
       name: z.string(),
       type: z.enum(['client', 'partner', 'funder']),
       url: z.string().optional(),
-      description: z.string().optional(),
       image: image().optional(),
-      projects: z.array(z.string()).optional(),
-      order: z.number().optional().default(999),
-      status: statusSchema,
     }),
 });
 

@@ -40,14 +40,14 @@ const isActive = project.projectStatus === 'active';
 const phaseColorClass = {
 	understand: 'bg-phase-understand',
 	define: 'bg-phase-define',
-	build: 'bg-phase-build',
+	deliver: 'bg-phase-deliver',
 	sustain: 'bg-phase-sustain',
 };
 
 const modalitySymbols: Record<string, string> = {
 	clinic: '◎',
 	studio: '◈',
-	council: '◉',
+	community: '◉',
 };
 ---
 
@@ -147,7 +147,7 @@ const modalitySymbols: Record<string, string> = {
 							<span class="w-3 text-center text-base text-ink-muted">{modalitySymbols[modality.slug]}</span>
 							<div>
 								<span class="font-serif text-base font-medium text-ink">{modality.name}</span>
-								<span class="ml-2 text-sm text-ink-muted">{modality.distinguishingFeature}</span>
+								<span class="ml-2 text-sm text-ink-muted">{modality.tagline}</span>
 							</div>
 						</div>
 					))}

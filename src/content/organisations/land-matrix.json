@@ -3,9 +3,5 @@
   "name": "Land Matrix",
   "type": "client",
   "url": "https://landmatrix.org/",
-  "image": "/src/assets/organisations/land-matrix.png",
-  "description": "Global land monitoring initiative hosted by a consortium of research and development organizations.",
-  "projects": ["land-matrix"],
-  "order": 2,
-  "status": "published"
+  "image": "/src/assets/organisations/land-matrix.png"
 }

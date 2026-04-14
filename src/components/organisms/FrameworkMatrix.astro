@@ -14,7 +14,7 @@ const { showProjects = true } = Astro.props;
 const phasesRaw = await getCollection('phases');
 const phases = phasesRaw
   .filter((e) => isVisible(e))
-  .sort((a, b) => a.data.order - b.data.order);
+  .sort((a, b) => a.data.number - b.data.number);
 
 const modalitiesRaw = await getCollection('modalities');
 const modalities = modalitiesRaw
@@ -48,14 +48,14 @@ if (showProjects) {
 const phaseTextColor: Record<string, string> = {
   understand: 'text-phase-understand-dark',
   define: 'text-phase-define-dark',
-  build: 'text-phase-build-dark',
+  deliver: 'text-phase-deliver-dark',
   sustain: 'text-phase-sustain-dark',
 };
 
 const phaseBorderColor: Record<string, string> = {
   understand: 'bg-phase-understand-dark',
   define: 'bg-phase-define-dark',
-  build: 'bg-phase-build-dark',
+  deliver: 'bg-phase-deliver-dark',
   sustain: 'bg-phase-sustain-dark',
 };
 ---
@@ -79,7 +79,7 @@ const phaseBorderColor: Record<string, string> = {
           {phase.data.name}
         </div>
         <div class="mt-1 text-[0.75rem] italic leading-snug text-ink-muted">
-          {phase.data.subtitle}
+          {phase.data.tagline}
         </div>
         {i < phases.length - 1 && (
           <span class="absolute -right-2.5 top-1/2 z-10 -translate-y-1/2 text-sand">→</span>

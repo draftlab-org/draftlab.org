@@ -1,0 +1,7 @@
+{
+  "phase": "deliver",
+  "modality": "clinic",
+  "description": "A focused delivery sprint — a small piece of work taken across the finish line, whether that's a prototype, a reviewed artefact, a facilitated workshop, or a short intervention a team can act on right away.",
+  "order": 3,
+  "status": "published"
+}

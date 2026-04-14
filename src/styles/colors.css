@@ -64,10 +64,10 @@
   --color-phase-define: oklch(48% 0.08 240);
   --color-phase-define-dark: oklch(38% 0.06 240);
 
-  /* Build: terracotta — #8A4A30 dark / #E8D4C8 light */
-  --color-phase-build-light: oklch(90% 0.04 55);
-  --color-phase-build: oklch(48% 0.1 45);
-  --color-phase-build-dark: oklch(38% 0.08 40);
+  /* Deliver: terracotta — #8A4A30 dark / #E8D4C8 light */
+  --color-phase-deliver-light: oklch(90% 0.04 55);
+  --color-phase-deliver: oklch(48% 0.1 45);
+  --color-phase-deliver-dark: oklch(38% 0.08 40);
 
   /* Sustain: muted purple — #5A3A7A dark / #E0D8E8 light */
   --color-phase-sustain-light: oklch(90% 0.04 300);

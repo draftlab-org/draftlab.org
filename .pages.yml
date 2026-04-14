@@ -338,8 +338,8 @@ components:
               name: understand
             - label: Define
               name: define
-            - label: Build
-              name: build
+            - label: Deliver
+              name: deliver
             - label: Sustain
               name: sustain
         description: Only show projects in this phase. Leave empty to show all.
@@ -352,8 +352,8 @@ components:
               name: clinic
             - label: Studio
               name: studio
-            - label: Council
-              name: council
+            - label: Community
+              name: community
         description: Only show projects using this modality. Leave empty to show all.
       - name: featuredOnly
         label: Featured Only
@@ -642,8 +642,8 @@ content:
               name: understand
             - label: Define
               name: define
-            - label: Build
-              name: build
+            - label: Deliver
+              name: deliver
             - label: Sustain
               name: sustain
 
@@ -658,8 +658,8 @@ content:
               name: clinic
             - label: "Studio ◈"
               name: studio
-            - label: "Council ◉"
-              name: council
+            - label: "Community ◉"
+              name: community
 
       - name: skills
         label: Skills
@@ -719,9 +719,9 @@ content:
     filename: '{fields.id}.json'
     subfolders: false
     view:
-      fields: [name, type, status]
+      fields: [name, type]
       sort: [type, name]
-      search: [name, description]
+      search: [name]
       primary: name
     fields:
       - name: id
@@ -749,46 +749,14 @@ content:
             - label: Funder
               name: funder
 
-      - name: status
-        label: Status
-        type: select
-        required: true
-        default: draft
-        options:
-          values:
-            - label: Draft
-              name: draft
-            - label: Published
-              name: published
-            - label: Archived
-              name: archived
-
       - name: url
         label: Website URL
         type: string
-
-      - name: description
-        label: Description
-        type: text
 
       - name: image
         label: Logo
         type: image
         description: Organisation logo (e.g. /src/assets/organisations/logo.svg)
-
-      - name: projects
-        label: Projects
-        type: reference
-        options:
-          collection: projects
-          multiple: true
-          value: "{slug}"
-          label: "{fields.name}"
-
-      - name: order
-        label: Display Order
-        type: number
-        default: 999
 
   # --------------------------------------------------------------------------
   # People
@@ -884,11 +852,11 @@ content:
     filename: '{fields.slug}.json'
     subfolders: false
     view:
-      fields: [name, number, status]
+      fields: [name, number]
       primary: name
-      sort: [order]
+      sort: [number]
       default:
-        sort: order
+        sort: number
         order: asc
     fields:
       - name: name
@@ -900,6 +868,7 @@ content:
         label: Number
         type: number
         required: true
+        description: Phase order (1–4)
 
       - name: slug
         label: Slug
@@ -911,8 +880,8 @@ content:
               name: understand
             - label: Define
               name: define
-            - label: Build
-              name: build
+            - label: Deliver
+              name: deliver
             - label: Sustain
               name: sustain
 
@@ -921,40 +890,17 @@ content:
         type: string
         required: true
 
-      - name: subtitle
-        label: Subtitle
-        type: string
-        required: true
-
       - name: description
         label: Description
-        type: text
+        type: rich-text
         required: true
+        description: Supports markdown formatting
 
       - name: color
         label: Color Token
         type: string
         required: true
         description: CSS color token name (e.g. phase-understand)
-
-      - name: order
-        label: Display Order
-        type: number
-        required: true
-
-      - name: status
-        label: Status
-        type: select
-        required: true
-        default: published
-        options:
-          values:
-            - label: Draft
-              name: draft
-            - label: Published
-              name: published
-            - label: Archived
-              name: archived
 
   # --------------------------------------------------------------------------
   # Modalities (framework data)
@@ -967,7 +913,7 @@ content:
     filename: '{fields.slug}.json'
     subfolders: false
     view:
-      fields: [name, symbol, status]
+      fields: [name, symbol]
       primary: name
       sort: [order]
       default:
@@ -989,8 +935,8 @@ content:
               name: clinic
             - label: "Studio ◈"
               name: studio
-            - label: "Council ◉"
-              name: council
+            - label: "Community ◉"
+              name: community
 
       - name: symbol
         label: Symbol
@@ -1008,29 +954,10 @@ content:
         type: text
         required: true
 
-      - name: distinguishingFeature
-        label: Distinguishing Feature
-        type: string
-        required: true
-
       - name: order
         label: Display Order
         type: number
         required: true
-
-      - name: status
-        label: Status
-        type: select
-        required: true
-        default: published
-        options:
-          values:
-            - label: Draft
-              name: draft
-            - label: Published
-              name: published
-            - label: Archived
-              name: archived
 
   # --------------------------------------------------------------------------
   # Framework Cells (12 phase x modality intersections)
@@ -1059,8 +986,8 @@ content:
               name: understand
             - label: Define
               name: define
-            - label: Build
-              name: build
+            - label: Deliver
+              name: deliver
             - label: Sustain
               name: sustain
 
@@ -1074,8 +1001,8 @@ content:
               name: clinic
             - label: Studio
               name: studio
-            - label: Council
-              name: council
+            - label: Community
+              name: community
 
       - name: description
         label: Description

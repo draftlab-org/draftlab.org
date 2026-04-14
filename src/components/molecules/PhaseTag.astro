@@ -1,6 +1,6 @@
 ---
 export interface Props {
-  phase: 'understand' | 'define' | 'build' | 'sustain';
+  phase: 'understand' | 'define' | 'deliver' | 'sustain';
   size?: 'sm' | 'md';
   class?: string;
 }
@@ -10,7 +10,7 @@ const { phase, size = 'sm', class: className = '' } = Astro.props;
 const phaseStyles = {
   understand: 'tag-understand',
   define: 'tag-define',
-  build: 'tag-build',
+  deliver: 'tag-deliver',
   sustain: 'tag-sustain',
 };
 

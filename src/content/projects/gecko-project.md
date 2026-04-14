@@ -7,7 +7,7 @@ client: gecko-project
 partners:
   - dot-studio
 phases:
-  - build
+  - deliver
 modalities:
   - studio
 yearStart: 2021

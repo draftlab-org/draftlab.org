@@ -3,9 +3,5 @@
   "name": "Stackspin",
   "type": "client",
   "url": "https://www.stackspin.net/",
-  "image": "/src/assets/organisations/stackspin.png",
-  "description": "Open-source project building sovereign digital collaboration infrastructure.",
-  "projects": ["stackspin"],
-  "order": 4,
-  "status": "published"
+  "image": "/src/assets/organisations/stackspin.png"
 }

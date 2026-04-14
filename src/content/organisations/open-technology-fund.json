@@ -3,9 +3,5 @@
   "name": "Open Technology Fund",
   "type": "funder",
   "url": "https://www.opentech.fund/",
-  "image": "/src/assets/organisations/open-technology-fund.png",
-  "description": "US government-funded programme supporting internet freedom technologies worldwide.",
-  "projects": ["otf-pro-bono"],
-  "order": 8,
-  "status": "published"
+  "image": "/src/assets/organisations/open-technology-fund.png"
 }

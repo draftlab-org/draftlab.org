@@ -91,9 +91,9 @@
   @apply text-phase-define-dark;
   background-color: var(--color-phase-define-light);
 }
-.tag-build {
-  @apply text-phase-build-dark;
-  background-color: var(--color-phase-build-light);
+.tag-deliver {
+  @apply text-phase-deliver-dark;
+  background-color: var(--color-phase-deliver-light);
 }
 .tag-sustain {
   @apply text-phase-sustain-dark;

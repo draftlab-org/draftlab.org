@@ -9,7 +9,7 @@ partners:
 phases:
   - sustain
 modalities:
-  - council
+  - community
 yearStart: 2020
 yearEnd: 2022
 projectStatus: complete

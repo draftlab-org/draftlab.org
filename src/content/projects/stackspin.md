@@ -8,7 +8,7 @@ partners:
   - dot-studio
   - init
 phases:
-  - build
+  - deliver
   - sustain
 modalities:
   - studio
