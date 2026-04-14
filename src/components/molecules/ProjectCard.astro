@@ -27,6 +27,11 @@ const {
 } = Astro.props;
 
 const isActive = projectStatus === 'active';
+
+const PHASE_ORDER = ['understand', 'define', 'deliver', 'sustain'] as const;
+const orderedPhases = [...phases].sort(
+  (a, b) => PHASE_ORDER.indexOf(a) - PHASE_ORDER.indexOf(b)
+);
 ---
 
 <a
@@ -38,14 +43,14 @@ const isActive = projectStatus === 'active';
   ]}
 >
   {/* Phase color bar */}
-  {phases[0] && (
+  {orderedPhases[0] && (
     <div
       class:list={[
         'absolute top-0 left-0 right-0 h-[3px] rounded-t-lg opacity-50',
-        phases[0] === 'understand' && 'bg-phase-understand',
-        phases[0] === 'define' && 'bg-phase-define',
-        phases[0] === 'deliver' && 'bg-phase-deliver',
-        phases[0] === 'sustain' && 'bg-phase-sustain',
+        orderedPhases[0] === 'understand' && 'bg-phase-understand',
+        orderedPhases[0] === 'define' && 'bg-phase-define',
+        orderedPhases[0] === 'deliver' && 'bg-phase-deliver',
+        orderedPhases[0] === 'sustain' && 'bg-phase-sustain',
       ]}
     />
   )}
@@ -78,7 +83,7 @@ const isActive = projectStatus === 'active';
   )}
 
   <div class="mt-3 flex flex-wrap gap-1.5">
-    {phases.map((phase) => (
+    {orderedPhases.map((phase) => (
       <PhaseTag phase={phase}>
         {phase.charAt(0).toUpperCase() + phase.slice(1)}
       </PhaseTag>
