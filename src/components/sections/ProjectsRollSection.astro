@@ -72,6 +72,7 @@ const skillsBySlug = new Map(
           skills={project.data.skills?.map((s: string) => skillsBySlug.get(s)).filter(Boolean) as any}
           projectStatus={project.data.projectStatus}
           featured={project.data.featured}
+          image={project.data.image}
         />
       ))}
     </div>

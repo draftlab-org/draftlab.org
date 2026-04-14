@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import PhaseTag from '@components/molecules/PhaseTag.astro';
 import SkillIcon from '@components/atoms/SkillIcon.astro';
 
@@ -11,6 +13,7 @@ export interface Props {
   skills?: Array<{ name: string; slug: string; icon: string }>;
   projectStatus?: 'active' | 'complete';
   featured?: boolean;
+  image?: ImageMetadata;
   class?: string;
 }
 
@@ -23,6 +26,7 @@ const {
   skills = [],
   projectStatus = 'complete',
   featured = false,
+  image,
   class: className = '',
 } = Astro.props;
 
@@ -37,16 +41,30 @@ const orderedPhases = [...phases].sort(
 <a
   href={`/work/${slug}`}
   class:list={[
-    'group relative block rounded-lg border-2 border-sand bg-cream p-5 transition-colors duration-150 hover:border-secondary-400',
+    'group relative block overflow-hidden rounded-lg border-2 border-sand bg-cream no-underline transition-colors duration-150 hover:border-secondary-400 [&_*]:no-underline',
     featured && 'ring-1 ring-secondary-200',
     className,
   ]}
 >
+  {/* Background image */}
+  {image && (
+    <div class="absolute inset-0 z-0 overflow-hidden">
+      <Image
+        src={image}
+        alt=""
+        aria-hidden="true"
+        class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+      />
+      {/* Legibility overlay: cream at bottom fading to transparent at top */}
+      <div class="absolute inset-0 bg-gradient-to-t from-cream/95 via-cream/80 to-cream/30" />
+    </div>
+  )}
+
   {/* Phase color bar */}
   {orderedPhases[0] && (
     <div
       class:list={[
-        'absolute top-0 left-0 right-0 h-[3px] rounded-t-lg opacity-50',
+        'absolute top-0 left-0 right-0 z-20 h-[3px] opacity-60',
         orderedPhases[0] === 'understand' && 'bg-phase-understand',
         orderedPhases[0] === 'define' && 'bg-phase-define',
         orderedPhases[0] === 'deliver' && 'bg-phase-deliver',
@@ -55,6 +73,7 @@ const orderedPhases = [...phases].sort(
     />
   )}
 
+  <div class:list={['relative z-10 p-5', image && 'pt-32']}>
   <div class="flex items-start justify-between gap-3">
     <h3 class="font-serif text-lg font-normal leading-tight text-ink group-hover:text-secondary-600 transition-colors">
       {name}
@@ -88,5 +107,6 @@ const orderedPhases = [...phases].sort(
         {phase.charAt(0).toUpperCase() + phase.slice(1)}
       </PhaseTag>
     ))}
+  </div>
   </div>
 </a>
