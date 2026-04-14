@@ -728,8 +728,10 @@ content:
         label: ID
         type: string
         required: true
-        readonly: true
-        description: Unique identifier (slug format, e.g. gecko-project)
+        description: Unique identifier in slug format (e.g. gecko-project). Used as the filename and for references from other collections. Cannot be changed after creation.
+        pattern:
+          message: "Must be a web-safe slug like 'gecko-project'."
+          regex: '^[a-z0-9][a-z0-9-]*$'
 
       - name: name
         label: Organisation Name
@@ -776,8 +778,10 @@ content:
         label: ID
         type: string
         required: true
-        readonly: true
-        description: Unique identifier (e.g. tin-geber)
+        description: Unique identifier in slug format (e.g. tin-geber). Used as the filename. Cannot be changed after creation.
+        pattern:
+          message: "Must be a web-safe slug like 'tin-geber'."
+          regex: '^[a-z0-9][a-z0-9-]*$'
 
       - name: name
         label: Name
@@ -1051,8 +1055,7 @@ content:
         label: Slug
         type: string
         required: true
-        readonly: true
-        description: URL-friendly identifier (e.g. user-research)
+        description: URL-friendly identifier (e.g. user-research). Used as the filename and for references from projects. Cannot be changed after creation.
         pattern:
           message: "Must be a web-safe string like 'user-research'."
           regex: '^[a-zA-Z0-9_-]*$'
