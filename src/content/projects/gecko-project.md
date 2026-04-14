@@ -1,5 +1,5 @@
 ---
-name: Gecko Project
+name: "Long-form interactive storytelling platform "
 slug: gecko-project
 status: published
 description: Investigative journalism platform tracking the global surveillance industry.
