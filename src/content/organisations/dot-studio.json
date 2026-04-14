@@ -2,5 +2,6 @@
   "id": "dot-studio",
   "name": "DOT Studio",
   "type": "partner",
-  "url": "https://www.dot.studio/en/"
+  "url": "https://www.dot.studio/en/",
+  "image": "/src/assets/organisations/dotstudio.svg"
 }
