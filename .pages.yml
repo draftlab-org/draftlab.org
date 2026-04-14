@@ -719,7 +719,7 @@ content:
     filename: '{fields.id}.json'
     subfolders: false
     view:
-      fields: [name, type]
+      fields: [image, name, type]
       sort: [type, name]
       search: [name]
       primary: name
