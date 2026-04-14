@@ -4,10 +4,10 @@ slug: gecko-project
 status: published
 description: Investigative journalism platform tracking the global surveillance industry.
 client: gecko-project
-partners:
-  - dot-studio
 phases:
   - deliver
+  - define
+  - sustain
 modalities:
   - studio
 yearStart: 2021
@@ -15,11 +15,12 @@ yearEnd: 2023
 projectStatus: complete
 featured: true
 skills:
-  - ai-automation
-  - multi-stakeholder-coordination
-  - responsible-data-governance
+  - data-architecture
+  - web-platform-development
+  - ux-interaction-design
+image: /src/assets/Screenshot 2026-04-14 at 17.25.16.png
+url: https://thegeckoproject.org
 ---
-
 Designed and built the editorial and data infrastructure for an investigative outlet focused on the global surveillance trade. The platform ties long-form reporting to a structured evidence store, so investigations can share sources and updates without leaking sensitive methods.
 
 A light editorial workflow keeps contributors across jurisdictions in sync, and a governance layer controls who can see what at each stage of a story.
