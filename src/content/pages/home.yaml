@@ -9,9 +9,9 @@ sections:
   #   showProjects: true
   - type: richText
     content: >-
-      Projects rarely move in a straight line, and neither do we. You might engage us at any phase, for any modality, or across several at once. This framework describes the shape of our work.
+      Projects rarely move in a straight line, and neither do we. You might engage us at any phase, for any modality, or across several at once.
   - type: button
-    title: Ready to start?
+    title: Learn more
     buttons:
       - variant: primary
         size: lg
