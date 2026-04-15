@@ -1,0 +1,22 @@
+---
+name: Vision and Strategy for the Humanitarian Data Exchange
+slug: vision-strategy-humdata
+status: published
+description: Strategic support and advisory to envision a future for the
+  Humanitarian Data Exchange
+client: humdata
+phases:
+  - define
+modalities:
+  - clinic
+skills:
+  - ai-automation
+  - user-research
+  - product-strategy
+  - strategic-advising
+yearStart: 2026
+yearEnd: 2026
+projectStatus: complete
+featured: false
+url: https://data.humdata.org/
+---
