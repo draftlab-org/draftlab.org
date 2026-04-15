@@ -1,0 +1,151 @@
+---
+import { getCollection } from 'astro:content';
+import Heading from '@components/atoms/Heading.astro';
+import Text from '@components/atoms/Text.astro';
+import SkillsCloud, {
+  type SkillsCloudSkill,
+} from '@components/organisms/SkillsCloud';
+import hugeiconsPack from '@iconify/json/json/hugeicons.json';
+import { getIconData, iconToHTML, iconToSVG } from '@iconify/utils';
+import { isVisible } from '@utils/content';
+
+export interface Props {
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+}
+
+const {
+  eyebrow,
+  heading = 'Creative project design for social good champions.',
+  body,
+} = Astro.props;
+
+const skillsRaw = await getCollection('skills');
+const skills = skillsRaw
+  .filter((e) => isVisible(e))
+  .map((e) => e.data)
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const renderIconSvg = (iconId: string, size = 48): string => {
+  const [, name] = iconId.split(':');
+  const data = getIconData(hugeiconsPack, name);
+  if (!data) return '';
+  const rendered = iconToSVG(data, { height: size, width: size });
+  return iconToHTML(rendered.body, {
+    ...rendered.attributes,
+    width: String(size),
+    height: String(size),
+  });
+};
+
+const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
+  slug: s.slug,
+  name: s.name,
+  iconSvg: renderIconSvg(s.icon, 48),
+}));
+---
+
+<div class="py-8 md:py-12" data-skills-cloud-root>
+	<div class="grid items-center gap-10 md:grid-cols-2 md:gap-16">
+		<div class="skills-cloud-wrap">
+			<SkillsCloud client:visible skills={cloudSkills} />
+		</div>
+
+		<div class="max-w-xl">
+			{
+				eyebrow && (
+					<p class="mb-3 text-xs font-medium tracking-wide text-ink-muted uppercase">
+						{eyebrow}
+					</p>
+				)
+			}
+			<Heading
+				level={2}
+				class="gradient-phase bg-clip-text pb-2 text-balance text-transparent"
+			>
+				{heading}
+			</Heading>
+			{
+				body && (
+					<Text size="lg" class="mt-4 text-ink-soft">
+						{body}
+					</Text>
+				)
+			}
+		</div>
+	</div>
+
+	<ul class="sr-only">
+		{skills.map((s) => <li>{s.name}</li>)}
+	</ul>
+</div>
+
+<style is:global>
+	.skills-cloud-wrap {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		max-height: 32rem;
+	}
+
+	.skills-cloud {
+		position: absolute;
+		inset: 0;
+		perspective: 1000px;
+		transform-style: preserve-3d;
+		--mx: 0px;
+		--my: 0px;
+		--sy: 0px;
+	}
+
+	.skills-cloud__icon {
+		position: absolute;
+		width: var(--size, 40px);
+		height: var(--size, 40px);
+		margin-left: calc(var(--size, 40px) * -0.5);
+		margin-top: calc(var(--size, 40px) * -0.5);
+		color: var(--color-ink-soft, currentColor);
+		transform: translate3d(
+			calc((var(--mx) + var(--sy)) * var(--depth, 1)),
+			calc((var(--my) + var(--sy)) * var(--depth, 1)),
+			var(--z, 0px)
+		);
+		transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+		animation: skills-cloud-float var(--duration, 8s) ease-in-out
+			calc(var(--delay, 0s) * -1) infinite;
+		will-change: transform;
+	}
+
+	.skills-cloud[data-returning='true'] .skills-cloud__icon {
+		transition: transform 3s cubic-bezier(0.22, 1, 0.36, 1) 400ms;
+	}
+
+	.skills-cloud[data-returning='entering'] .skills-cloud__icon {
+		transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.skills-cloud__icon > svg {
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+
+	@keyframes skills-cloud-float {
+		0%,
+		100% {
+			translate: 0 -3px;
+		}
+		50% {
+			translate: 0 3px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.skills-cloud__icon {
+			animation: none;
+			transition: none;
+			transform: translate3d(0, 0, var(--z, 0px));
+		}
+	}
+</style>

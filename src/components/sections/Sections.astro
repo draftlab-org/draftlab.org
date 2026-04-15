@@ -11,6 +11,7 @@ import PhasesOverviewSection from '@components/sections/PhasesOverviewSection.as
 import ProjectsFilterGridSection from '@components/sections/ProjectsFilterGridSection.astro';
 import ProjectsRollSection from '@components/sections/ProjectsRollSection.astro';
 import RichTextSection from '@components/sections/RichTextSection.astro';
+import SkillsCloudSection from '@components/sections/SkillsCloudSection.astro';
 import SkillsSection from '@components/sections/SkillsSection.astro';
 import SectionLayout from '@layouts/SectionLayout.astro';
 
@@ -114,6 +115,14 @@ const { sectionItems } = Astro.props;
             <SkillsSection
               title={section.title}
               description={section.description}
+            />
+          );
+        case 'skillsCloud':
+          return (
+            <SkillsCloudSection
+              eyebrow={section.eyebrow}
+              heading={section.heading}
+              body={section.body}
             />
           );
         case 'organisationsRoll':
