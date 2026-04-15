@@ -312,6 +312,17 @@ components:
         default: true
         description: Display project name tags inside matrix cells
 
+  projects_filter_grid_section:
+    type: object
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: string
+        description: Optional intro text shown above the interactive filter.
+
   projects_roll_section:
     type: object
     fields:
@@ -558,6 +569,10 @@ content:
           - name: projectsRoll
             label: Projects Roll
             component: projects_roll_section
+
+          - name: projectsFilterGrid
+            label: Projects Filter Grid
+            component: projects_filter_grid_section
 
           - name: phasesOverview
             label: Phases Overview

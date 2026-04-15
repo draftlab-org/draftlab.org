@@ -1,0 +1,151 @@
+---
+import hugeiconsPack from '@iconify/json/json/hugeicons.json';
+import { getIconData, iconToHTML, iconToSVG } from '@iconify/utils';
+import { getCollection } from 'astro:content';
+import Heading from '@components/atoms/Heading.astro';
+import Text from '@components/atoms/Text.astro';
+import ProjectCard from '@components/molecules/ProjectCard.astro';
+import ProjectsFilter, {
+  type FilterOption,
+  type ProjectTagData,
+} from '@components/organisms/ProjectsFilter';
+import { isVisible } from '@utils/content';
+import { getOrganisations } from '@utils/organisations';
+import { getProjects } from '@utils/projects';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const gridId = 'projects-filter-grid';
+
+const projects = await getProjects();
+const orgs = await getOrganisations();
+const orgById = new Map(orgs.map((o) => [o.data.id, o.data]));
+
+const allSkills = (await getCollection('skills')).filter((s) => isVisible(s));
+const skillsBySlug = new Map(
+  allSkills.map((s) => [
+    s.data.slug,
+    { name: s.data.name, slug: s.data.slug, icon: s.data.icon },
+  ])
+);
+
+const phaseEntries = (await getCollection('phases')).sort(
+  (a, b) => a.data.number - b.data.number
+);
+const modalityEntries = (await getCollection('modalities')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+// Pre-render icon SVGs for skills (used inside the React island)
+const renderIconSvg = (iconId: string, size = 16): string => {
+  const [, name] = iconId.split(':');
+  const data = getIconData(hugeiconsPack, name);
+  if (!data) return '';
+  const rendered = iconToSVG(data, { height: size, width: size });
+  return iconToHTML(rendered.body, rendered.attributes);
+};
+
+const skillOptions: FilterOption[] = allSkills
+  .slice()
+  .sort((a, b) => a.data.name.localeCompare(b.data.name))
+  .map((s) => ({
+    slug: s.data.slug,
+    name: s.data.name,
+    iconSvg: renderIconSvg(s.data.icon, 16),
+  }));
+
+const phaseOptions: FilterOption[] = phaseEntries.map((p) => ({
+  slug: p.data.slug,
+  name: p.data.name,
+  swatchColor: `var(--color-phase-${p.data.slug})`,
+}));
+
+const modalityOptions: FilterOption[] = modalityEntries.map((m) => ({
+  slug: m.data.slug,
+  name: m.data.name,
+  symbol: m.data.symbol,
+}));
+
+const projectTags: ProjectTagData[] = projects.map((p) => ({
+  slug: p.data.slug,
+  phases: p.data.phases ?? [],
+  modalities: p.data.modalities ?? [],
+  skills: p.data.skills ?? [],
+}));
+---
+
+<div class="py-4">
+  {
+    (title || description) && (
+      <div class="mb-8 max-w-2xl">
+        {title && (
+          <Heading level={2} class="mb-3">
+            {title}
+          </Heading>
+        )}
+        {description && (
+          <Text size="lg" class="text-ink-soft">
+            {description}
+          </Text>
+        )}
+      </div>
+    )
+  }
+
+  <ProjectsFilter
+    client:load
+    gridId={gridId}
+    phases={phaseOptions}
+    modalities={modalityOptions}
+    skills={skillOptions}
+    projects={projectTags}
+  />
+
+  <div id={gridId} class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      projects.map((project) => (
+        <div
+          data-project-slug={project.data.slug}
+          data-phases={(project.data.phases ?? []).join(',')}
+          data-modalities={(project.data.modalities ?? []).join(',')}
+          data-skills={(project.data.skills ?? []).join(',')}
+          class:list={[project.data.image && 'sm:col-span-2']}
+        >
+          <ProjectCard
+            name={project.data.name}
+            slug={project.data.slug}
+            description={project.data.description}
+            client={
+              project.data.client
+                ? orgById.get(project.data.client)?.name
+                : undefined
+            }
+            clientLogo={
+              project.data.client
+                ? orgById.get(project.data.client)?.image
+                : undefined
+            }
+            phases={project.data.phases}
+            skills={
+              project.data.skills
+                ?.map((s: string) => skillsBySlug.get(s))
+                .filter(Boolean) as any
+            }
+            projectStatus={project.data.projectStatus}
+            featured={project.data.featured}
+            image={project.data.image}
+          />
+        </div>
+      ))
+    }
+  </div>
+
+  <p id={`${gridId}-empty`} hidden class="mt-8 text-ink-muted italic">
+    No projects match the selected filters.
+  </p>
+</div>

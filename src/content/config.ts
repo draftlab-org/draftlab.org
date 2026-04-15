@@ -127,6 +127,11 @@ const pagesCollection = defineCollection({
         showProjects: z.boolean().optional().default(true),
       }),
       SectionCommonSchema.extend({
+        type: z.literal('projectsFilterGrid'),
+        title: z.string().optional(),
+        description: z.string().optional(),
+      }),
+      SectionCommonSchema.extend({
         type: z.literal('projectsRoll'),
         title: z.string().optional(),
         description: z.string().optional(),

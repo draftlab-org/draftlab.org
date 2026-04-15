@@ -8,6 +8,7 @@ import ModalitiesOverviewSection from '@components/sections/ModalitiesOverviewSe
 import OrganisationsRollSection from '@components/sections/OrganisationsRollSection.astro';
 import PeopleSection from '@components/sections/PeopleSection.astro';
 import PhasesOverviewSection from '@components/sections/PhasesOverviewSection.astro';
+import ProjectsFilterGridSection from '@components/sections/ProjectsFilterGridSection.astro';
 import ProjectsRollSection from '@components/sections/ProjectsRollSection.astro';
 import RichTextSection from '@components/sections/RichTextSection.astro';
 import SkillsSection from '@components/sections/SkillsSection.astro';
@@ -85,6 +86,13 @@ const { sectionItems } = Astro.props;
               filterPhase={section.filterPhase}
               filterModality={section.filterModality}
               featuredOnly={section.featuredOnly}
+            />
+          );
+        case 'projectsFilterGrid':
+          return (
+            <ProjectsFilterGridSection
+              title={section.title}
+              description={section.description}
             />
           );
         case 'phasesOverview':
