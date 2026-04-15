@@ -10,6 +10,7 @@ import PeopleSection from '@components/sections/PeopleSection.astro';
 import PhasesOverviewSection from '@components/sections/PhasesOverviewSection.astro';
 import ProjectsRollSection from '@components/sections/ProjectsRollSection.astro';
 import RichTextSection from '@components/sections/RichTextSection.astro';
+import SkillsSection from '@components/sections/SkillsSection.astro';
 import SectionLayout from '@layouts/SectionLayout.astro';
 
 const { sectionItems } = Astro.props;
@@ -96,6 +97,13 @@ const { sectionItems } = Astro.props;
         case 'modalitiesOverview':
           return (
             <ModalitiesOverviewSection
+              title={section.title}
+              description={section.description}
+            />
+          );
+        case 'skills':
+          return (
+            <SkillsSection
               title={section.title}
               description={section.description}
             />

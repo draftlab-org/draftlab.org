@@ -380,6 +380,16 @@ components:
         label: Description
         type: string
 
+  skills_section:
+    type: object
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: string
+
   organisations_roll_section:
     type: object
     fields:
@@ -560,6 +570,10 @@ content:
           - name: organisationsRoll
             label: Organisations Roll
             component: organisations_roll_section
+
+          - name: skills
+            label: Skills
+            component: skills_section
 
           - name: flexi
             label: Flexi Section

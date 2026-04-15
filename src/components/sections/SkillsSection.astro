@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import Heading from '@components/atoms/Heading.astro';
+import SkillIcon from '@components/atoms/SkillIcon.astro';
+import Text from '@components/atoms/Text.astro';
+import { isVisible } from '@utils/content';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const skillsRaw = await getCollection('skills');
+const skills = skillsRaw
+  .filter((e) => isVisible(e))
+  .map((e) => e.data)
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<div class="py-4">
+  {title && (
+    <div class="mb-8 max-w-2xl">
+      <Heading level={2} class="mb-3">{title}</Heading>
+      {description && (
+        <Text size="lg" class="text-ink-soft">{description}</Text>
+      )}
+    </div>
+  )}
+
+  <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    {skills.map((skill) => (
+      <div class="group flex gap-3 rounded-lg border border-sand p-3 transition-colors hover:border-secondary-400">
+        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-cream text-ink-muted transition-colors group-hover:text-secondary-500">
+          <SkillIcon icon={skill.icon} size={18} />
+        </div>
+        <div class="min-w-0">
+          <h3 class="font-serif text-sm font-normal leading-tight text-ink">
+            {skill.name}
+          </h3>
+          {skill.description && (
+            <p class="mt-1 text-xs leading-snug text-ink-soft">
+              {skill.description}
+            </p>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

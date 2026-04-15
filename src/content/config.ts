@@ -146,6 +146,11 @@ const pagesCollection = defineCollection({
         description: z.string().optional(),
       }),
       SectionCommonSchema.extend({
+        type: z.literal('skills'),
+        title: z.string().optional(),
+        description: z.string().optional(),
+      }),
+      SectionCommonSchema.extend({
         type: z.literal('organisationsRoll'),
         title: z.string().optional(),
         description: z.string().optional(),
