@@ -833,6 +833,16 @@ content:
         label: Link
         type: string
 
+      - name: skills
+        label: Skills
+        type: reference
+        options:
+          collection: skills
+          multiple: true
+          value: "{slug}"
+          label: "{fields.name}"
+        description: Skills this person brings to the practice
+
       - name: sections
         label: Sections/Departments
         type: select

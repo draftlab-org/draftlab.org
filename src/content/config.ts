@@ -60,6 +60,7 @@ const createSchemas = (image: ImageFunction) => {
     bio: z.string().optional(),
     extraInfo: z.string().optional(),
     url: z.string().optional(),
+    skills: z.array(z.string()).optional(),
     sections: z.array(
       z.enum(peopleCategories.categories as [string, ...string[]])
     ),
