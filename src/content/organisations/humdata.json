@@ -1,0 +1,7 @@
+{
+  "id": "humdata",
+  "name": "Centre for Humanitarian Data",
+  "type": "client",
+  "url": "https://centre.humdata.org/",
+  "image": "/src/assets/organisations/humdata-logo.svg"
+}
