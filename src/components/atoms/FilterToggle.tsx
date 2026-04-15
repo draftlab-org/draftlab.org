@@ -33,7 +33,7 @@ export default function FilterToggle({
         'group relative inline-flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition-all duration-150 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
         active
           ? 'border-transparent gradient-phase-light text-ink shadow-sm'
-          : 'border-gray-200 bg-white/60 text-ink-muted opacity-60 grayscale hover:border-gray-300 hover:opacity-100 hover:grayscale-0'
+          : 'border-gray-200 bg-white text-ink-muted/70 grayscale hover:border-gray-300 hover:text-ink hover:grayscale-0'
       )}
     >
       {iconSvg && (

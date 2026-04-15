@@ -1,6 +1,13 @@
 import FilterToggle from '@components/atoms/FilterToggle';
 import type { ReactNode } from 'react';
-import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 export interface FilterOption {
   slug: string;
@@ -153,6 +160,33 @@ export default function ProjectsFilter({
 
   const clear = useCallback(() => setState(EMPTY_STATE), []);
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [open, setOpen] = useState(false);
+  const panelId = `${gridId}-filter-panel`;
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      const el = containerRef.current;
+      if (el && e.target instanceof Node && !el.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  const handleTriggerClick = useCallback(() => {
+    setOpen((v) => !v);
+  }, []);
+
   const activeCount =
     state.phases.length + state.modalities.length + state.skills.length;
 
@@ -295,23 +329,65 @@ export default function ProjectsFilter({
   );
 
   return (
-    <div className="mb-8 space-y-4 rounded-lg border border-gray-200 bg-cream/40 p-4 sm:p-5">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <p className="text-sm leading-relaxed text-ink-soft">{summary}</p>
-        {activeCount > 0 && (
+    <div
+      ref={containerRef}
+      className="sticky top-24 z-30 mx-auto mb-8 w-9/10"
+    >
+      <div className="relative">
+        <div className="flex flex-wrap items-stretch gap-2 border border-gray-200 bg-white/60 shadow-sm backdrop-blur-md">
           <button
             type="button"
-            onClick={clear}
-            className="shrink-0 text-xs font-medium text-ink-muted underline-offset-2 hover:text-ink hover:underline"
+            aria-expanded={open}
+            aria-controls={panelId}
+            onClick={handleTriggerClick}
+            className="flex flex-1 cursor-pointer items-center gap-3 px-4 py-3 text-left text-sm leading-relaxed text-ink-soft transition-colors hover:bg-white/50 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
-            Clear all
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={cx(
+                'h-4 w-4 shrink-0 text-ink-muted transition-transform duration-200',
+                open ? 'rotate-180' : 'rotate-0'
+              )}
+            >
+              <path d="M5 7.5l5 5 5-5" />
+            </svg>
+            <span className="flex-1">{summary}</span>
           </button>
-        )}
-      </div>
+          {activeCount > 0 && (
+            <button
+              type="button"
+              onClick={clear}
+              className="shrink-0 self-center pr-4 text-xs font-medium text-ink-muted underline-offset-2 hover:text-ink hover:underline"
+            >
+              Clear all
+            </button>
+          )}
+        </div>
 
-      {renderRow('Modalities', 'modalities', modalities)}
-      {renderRow('Phases', 'phases', phases)}
-      {renderRow('Skills', 'skills', skills)}
+        <div
+          id={panelId}
+          aria-hidden={!open}
+          className={cx(
+            'absolute top-full -right-px -left-px border border-t-0 border-gray-200 bg-white/60 shadow-sm backdrop-blur-md transition-opacity duration-200 ease-out',
+            open ? 'opacity-100' : 'pointer-events-none opacity-0'
+          )}
+        >
+          <div className="space-y-4 p-4 sm:p-5">
+            {renderRow('Modalities', 'modalities', modalities)}
+            {renderRow('Phases', 'phases', phases)}
+            {renderRow('Skills', 'skills', skills)}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
+
+const cx = (...parts: Array<string | false | null | undefined>) =>
+  parts.filter(Boolean).join(' ');
