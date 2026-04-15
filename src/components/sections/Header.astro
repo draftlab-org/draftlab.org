@@ -1,6 +1,6 @@
 ---
-import Navigation from '@components/organisms/Navigation.astro';
 import { getEntry } from 'astro:content';
+import Navigation from '@components/organisms/Navigation.astro';
 import type { NavItem } from '@utils/navigation';
 
 const siteConfig = await getEntry('site', 'config');
@@ -34,4 +34,8 @@ const transparentClass = transparent ? 'bg-transparent border-transparent' : '';
 	>
 		<slot name="actions" slot="actions" />
 	</Navigation>
+	<div
+		class="flex h-1.5 bg-linear-to-r/longer from-phase-understand via-phase-define via-phase-deliver to-phase-sustain"
+	>
+	</div>
 </header>

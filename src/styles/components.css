@@ -1,3 +1,11 @@
+@utility gradient-phase {
+  @apply bg-linear-to-r from-phase-understand via-phase-define via-phase-deliver to-phase-sustain;
+}
+
+@utility gradient-phase-light {
+  @apply bg-linear-to-r from-phase-understand-light via-phase-define-light via-phase-deliver-light to-phase-sustain-light;
+}
+
 /*
   -------------
   Button
@@ -10,13 +18,13 @@
   @apply inline-flex items-center justify-center rounded border-2 border-black font-medium shadow-sharp transition duration-75 hover:translate-x-px hover:translate-y-px hover:shadow-sharp-pressed focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50;
 }
 .button-primary {
-  @apply bg-secondary-400 text-black;
+  @apply gradient-phase-light text-black transition hover:gradient-phase hover:text-white;
 }
 .button-secondary {
   @apply bg-primary-300 text-black;
 }
 .button-outline {
-  @apply bg-cream text-gray-900;
+  @apply bg-transparent text-gray-900;
 }
 .button-ghost {
   @apply border-transparent text-gray-900 shadow-none hover:translate-0 hover:bg-gray-50 hover:shadow-none focus-visible:ring-gray-900;
@@ -98,4 +106,9 @@
 .tag-sustain {
   @apply text-phase-sustain-dark;
   background-color: var(--color-phase-sustain-light);
+}
+
+/* Polygons for phases */
+.phases-polygon {
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
 }

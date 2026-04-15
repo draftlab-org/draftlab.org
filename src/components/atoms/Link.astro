@@ -1,7 +1,7 @@
 ---
 export interface Props {
   href: string;
-  variant?: 'default' | 'nav' | 'footer' | 'unstyled';
+  variant?: 'default' | 'nav' | 'footer' | 'unstyled' | 'brackets';
   external?: boolean;
   class?: string;
   [key: string]: any;
@@ -20,6 +20,7 @@ const variants = {
   nav: 'text-xl',
   footer: 'text-white text-sm hover:underline underline-offset-4 transition',
   unstyled: '',
+  brackets: 'link-brackets'
 };
 
 const classes = `${variants[variant]} ${className}`;

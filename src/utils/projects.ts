@@ -3,9 +3,21 @@ import { isVisible } from '@utils/content';
 
 export async function getProjects() {
   const entries = await getCollection('projects');
-  return entries
-    .filter((entry) => isVisible(entry))
-    .sort((a, b) => a.data.name.localeCompare(b.data.name));
+  return entries.filter((entry) => isVisible(entry)).sort((a, b) => {
+    const aActive = a.data.projectStatus === 'active' ? 0 : 1;
+    const bActive = b.data.projectStatus === 'active' ? 0 : 1;
+    if (aActive !== bActive) return aActive - bActive;
+
+    const aEnd = a.data.yearEnd ?? -Infinity;
+    const bEnd = b.data.yearEnd ?? -Infinity;
+    if (aEnd !== bEnd) return bEnd - aEnd;
+
+    const aStart = a.data.yearStart ?? -Infinity;
+    const bStart = b.data.yearStart ?? -Infinity;
+    if (aStart !== bStart) return bStart - aStart;
+
+    return a.data.name.localeCompare(b.data.name);
+  });
 }
 
 export async function getFeaturedProjects() {

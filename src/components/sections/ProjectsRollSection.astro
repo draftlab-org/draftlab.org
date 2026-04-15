@@ -37,9 +37,9 @@ if (limit) {
   projects = projects.slice(0, limit);
 }
 
-// Build org name lookup
+// Build org lookup
 const orgs = await getOrganisations();
-const orgNames = new Map(orgs.map((o) => [o.data.id, o.data.name]));
+const orgById = new Map(orgs.map((o) => [o.data.id, o.data]));
 
 // Build skills lookup
 const allSkills = await getCollection('skills');
@@ -67,12 +67,14 @@ const skillsBySlug = new Map(
           name={project.data.name}
           slug={project.data.slug}
           description={project.data.description}
-          client={project.data.client ? orgNames.get(project.data.client) : undefined}
+          client={project.data.client ? orgById.get(project.data.client)?.name : undefined}
+          clientLogo={project.data.client ? orgById.get(project.data.client)?.image : undefined}
           phases={project.data.phases}
           skills={project.data.skills?.map((s: string) => skillsBySlug.get(s)).filter(Boolean) as any}
           projectStatus={project.data.projectStatus}
           featured={project.data.featured}
           image={project.data.image}
+          class={project.data.image ? 'sm:col-span-2' : ''}
         />
       ))}
     </div>

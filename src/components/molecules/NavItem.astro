@@ -19,19 +19,24 @@ const {
 } = Astro.props;
 
 const activeStyles = active
-  ? 'decoration-primary-300'
-  : 'decoration-white transition transition-300 hover:decoration-gray-100';
+  ? 'is-active'
+  : '';
 
-const classes = `underline underline-offset-8 decoration-dotted decoration-4 inline-flex items-center px-3 py-2 ${activeStyles} ${className}`;
+const classes = ` ${activeStyles} ${className}`;
 ---
 
 {
 	item.type === 'dropdown' ? (
-		<NavItemDropdown client:load item={item} active={active} currentPath={currentPath} />
+		<NavItemDropdown
+			client:load
+			item={item}
+			active={active}
+			currentPath={currentPath}
+		/>
 	) : (
 		<Link
 			href={resolveFlexibleLink(item.link)}
-			variant="nav"
+			variant="brackets"
 			class={classes}
 			external={isExternalLink(item.link)}
 		>

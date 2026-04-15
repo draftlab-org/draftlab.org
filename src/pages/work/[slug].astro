@@ -52,6 +52,22 @@ const phaseColorClass = {
 	sustain: 'bg-phase-sustain',
 };
 
+const phaseBg: Record<string, string> = {
+	understand: 'bg-phase-understand-light',
+	define: 'bg-phase-define-light',
+	deliver: 'bg-phase-deliver-light',
+	sustain: 'bg-phase-sustain-light',
+};
+
+const phaseText: Record<string, string> = {
+	understand: 'text-phase-understand-dark',
+	define: 'text-phase-define-dark',
+	deliver: 'text-phase-deliver-dark',
+	sustain: 'text-phase-sustain-dark',
+};
+
+const phaseSet = new Set(project.phases);
+
 const modalitySymbols: Record<string, string> = {
 	clinic: '◎',
 	studio: '◈',
@@ -64,76 +80,124 @@ const modalitySymbols: Record<string, string> = {
 	description={project.description}
 >
 	{/* Phase accent bar across the top */}
-	<div class="flex h-1.5">
+	<!-- <div class="flex h-1.5">
 		{orderedPhaseSlugs.map((phase: string) => (
 			<div class:list={['flex-1', phaseColorClass[phase as keyof typeof phaseColorClass]]} />
 		))}
-	</div>
+	</div> -->
 
 	<article class="mx-auto max-w-3xl px-4 pt-12 pb-20 sm:px-6 lg:px-8">
 		{/* Back link */}
-		<a href="/work" data-component class="group mb-10 inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600">
-			<span class="transition-transform group-hover:-translate-x-0.5">&larr;</span>
+		<a
+			href="/work"
+			data-component
+			class="group mb-10 inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600"
+		>
+			<span class="transition-transform group-hover:-translate-x-0.5"
+				>&larr;</span
+			>
 			All projects
 		</a>
 
 		{/* Header */}
 		<header class="mb-12">
-			<h1 class="font-serif text-4xl font-bold tracking-tight text-ink md:text-5xl">
+			<h1
+				class="font-serif text-4xl font-bold tracking-tight text-ink md:text-5xl"
+			>
 				{project.name}
 			</h1>
 
-			{client && (
-				<div class="mt-5 flex items-center gap-3">
-					<span class="font-serif text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted">Client</span>
-					{client.url ? (
-						<a href={client.url} target="_blank" rel="noopener noreferrer" title={client.name} class="inline-flex items-center">
-							{client.image ? (
-								<img src={client.image.src} alt={client.name} class="h-10 w-auto" />
-							) : (
-								<span class="font-serif text-lg italic text-ink-muted">{client.name}</span>
-							)}
-						</a>
-					) : (
-						client.image ? (
-							<img src={client.image.src} alt={client.name} class="h-10 w-auto" title={client.name} />
-						) : (
-							<span class="font-serif text-lg italic text-ink-muted">{client.name}</span>
-						)
-					)}
-				</div>
-			)}
-
-			{resolvedPartners.length > 0 && (
-				<div class="mt-4 flex items-center gap-4 flex-wrap">
-					<span class="font-serif text-[0.7rem] uppercase tracking-[0.1em] text-ink-muted">With</span>
-					{resolvedPartners.map((partner: any) => (
-						partner.url ? (
-							<a href={partner.url} target="_blank" rel="noopener noreferrer" title={partner.name} class="inline-flex items-center">
-								{partner.image ? (
-									<img src={partner.image.src} alt={partner.name} class="h-8 w-auto" />
+			{
+				client && (
+					<div class="mt-5 flex items-center gap-3">
+						<span class="font-serif text-[0.7rem] tracking-[0.1em] text-ink-muted uppercase">
+							Client
+						</span>
+						{client.url ? (
+							<a
+								href={client.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								title={client.name}
+								class="inline-flex items-center"
+							>
+								{client.image ? (
+									<img
+										src={client.image.src}
+										alt={client.name}
+										class="h-10 w-auto"
+									/>
 								) : (
-									<span class="text-sm text-ink-muted">{partner.name}</span>
+									<span class="font-serif text-lg text-ink-muted italic">
+										{client.name}
+									</span>
 								)}
 							</a>
+						) : client.image ? (
+							<img
+								src={client.image.src}
+								alt={client.name}
+								class="h-10 w-auto"
+								title={client.name}
+							/>
 						) : (
-							partner.image ? (
-								<img src={partner.image.src} alt={partner.name} class="h-8 w-auto" title={partner.name} />
+							<span class="font-serif text-lg text-ink-muted italic">
+								{client.name}
+							</span>
+						)}
+					</div>
+				)
+			}
+
+			{
+				resolvedPartners.length > 0 && (
+					<div class="mt-4 flex flex-wrap items-center gap-4">
+						<span class="font-serif text-[0.7rem] tracking-[0.1em] text-ink-muted uppercase">
+							With
+						</span>
+						{resolvedPartners.map((partner: any) =>
+							partner.url ? (
+								<a
+									href={partner.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									title={partner.name}
+									class="inline-flex items-center"
+								>
+									{partner.image ? (
+										<img
+											src={partner.image.src}
+											alt={partner.name}
+											class="h-8 w-auto"
+										/>
+									) : (
+										<span class="text-sm text-ink-muted">{partner.name}</span>
+									)}
+								</a>
+							) : partner.image ? (
+								<img
+									src={partner.image.src}
+									alt={partner.name}
+									class="h-8 w-auto"
+									title={partner.name}
+								/>
 							) : (
 								<span class="text-sm text-ink-muted">{partner.name}</span>
 							)
-						)
-					))}
-				</div>
-			)}
+						)}
+					</div>
+				)
+			}
 
 			{/* Status badge */}
-			{isActive && (
-				<span class="mt-4 inline-flex items-center gap-1.5 rounded-full bg-phase-understand-light px-3 py-1 text-xs font-medium text-phase-understand-dark">
-					<span class="h-1.5 w-1.5 rounded-full bg-phase-understand animate-pulse" />
-					Active project
-				</span>
-			)}
+			{
+				isActive && (
+					<span class="mt-4 inline-flex items-center gap-1.5 rounded-full bg-phase-understand-light px-3 py-1 text-xs font-medium text-phase-understand-dark">
+						<span class="h-1.5 w-1.5 animate-pulse rounded-full bg-phase-understand" />
+						Active project
+					</span>
+				)
+			}
 		</header>
 
 		{/* Description */}
@@ -141,92 +205,145 @@ const modalitySymbols: Record<string, string> = {
 			<p class="text-lg leading-relaxed text-ink-soft">
 				{project.description}
 			</p>
-			<div class="prose prose-ink mt-4 max-w-none leading-relaxed text-ink-soft">
+			<div
+				class="prose-ink prose mt-4 max-w-none leading-relaxed text-ink-soft"
+			>
 				<Content />
 			</div>
 		</section>
 
-		{/* Phases & Modalities */}
-		<section class="mb-12 grid gap-8 sm:grid-cols-2">
-			<div>
-				<h2 class="mb-3 font-serif text-sm font-medium uppercase tracking-wider text-ink-muted">Phases</h2>
-				<div class="space-y-2">
-					{orderedPhases.map((phase: any) => (
-						<div class="flex items-center gap-3">
-							<div class:list={['h-3 w-3 rounded-sm', phaseColorClass[phase.slug as keyof typeof phaseColorClass]]} />
-							<div>
-								<span class="font-serif text-base font-medium text-ink">{phase.name}</span>
-								<span class="ml-2 text-sm text-ink-muted">{phase.tagline}</span>
-							</div>
+		{/* Phases bar */}
+		<section class="mb-12">
+			<h2 class="mb-3 font-serif text-sm font-medium tracking-wider text-ink-muted uppercase">
+				Phases
+			</h2>
+			<div class="relative flex h-8 drop-shadow-xs/30">
+				{PHASE_ORDER.map((phase, i) => {
+					const active = phaseSet.has(phase as any);
+					const isFirst = i === 0;
+					return (
+						<div
+							class:list={[
+								'relative flex flex-1 items-end',
+								!isFirst && '-ml-2',
+								active ? phaseBg[phase] : 'bg-cream',
+							]}
+							style="clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);"
+						>
+							<span
+								class:list={[
+									'truncate pr-1 pl-3 font-serif text-xs capitalize',
+									active ? phaseText[phase] : 'text-gray-400',
+								]}
+							>
+								{phase}
+							</span>
 						</div>
-					))}
-				</div>
+					);
+				})}
 			</div>
+		</section>
 
+		{/* Modalities */}
+		<section class="mb-12">
 			<div>
-				<h2 class="mb-3 font-serif text-sm font-medium uppercase tracking-wider text-ink-muted">Modalities</h2>
+				<h2
+					class="mb-3 font-serif text-sm font-medium tracking-wider text-ink-muted uppercase"
+				>
+					Modalities
+				</h2>
 				<div class="space-y-2">
-					{resolvedModalities.map((modality: any) => (
-						<div class="flex items-center gap-3">
-							<span class="w-3 text-center text-base text-ink-muted">{modalitySymbols[modality.slug]}</span>
-							<div>
-								<span class="font-serif text-base font-medium text-ink">{modality.name}</span>
-								<span class="ml-2 text-sm text-ink-muted">{modality.tagline}</span>
+					{
+						resolvedModalities.map((modality: any) => (
+							<div class="flex items-center gap-3">
+								<span class="w-3 text-center text-base text-ink-muted">
+									{modalitySymbols[modality.slug]}
+								</span>
+								<div>
+									<span class="font-serif text-base font-medium text-ink">
+										{modality.name}
+									</span>
+									<span class="ml-2 text-sm text-ink-muted">
+										{modality.tagline}
+									</span>
+								</div>
 							</div>
-						</div>
-					))}
+						))
+					}
 				</div>
 			</div>
 		</section>
 
 		{/* Skills */}
-		{resolvedSkills.length > 0 && (
-			<section class="mb-12">
-				<h2 class="mb-4 font-serif text-sm font-medium uppercase tracking-wider text-ink-muted">Skills applied</h2>
-				<div class="flex flex-wrap gap-3">
-					{resolvedSkills.map((skill: any) => (
-						<span class="inline-flex items-center gap-2 rounded-md border border-sand bg-cream-dark/40 px-3 py-1.5 text-sm text-ink-soft">
-							<SkillIcon icon={skill.icon} size={16} class="text-secondary-500" />
-							{skill.name}
-						</span>
-					))}
-				</div>
-			</section>
-		)}
+		{
+			resolvedSkills.length > 0 && (
+				<section class="mb-12">
+					<h2 class="mb-4 font-serif text-sm font-medium tracking-wider text-ink-muted uppercase">
+						Skills applied
+					</h2>
+					<div class="flex flex-wrap gap-3">
+						{resolvedSkills.map((skill: any) => (
+							<span class="inline-flex items-center gap-2 rounded-md border border-sand bg-cream-dark/40 px-3 py-1.5 text-sm text-ink-soft">
+								<SkillIcon
+									icon={skill.icon}
+									size={16}
+									class="text-secondary-500"
+								/>
+								{skill.name}
+							</span>
+						))}
+					</div>
+				</section>
+			)
+		}
 
 		{/* Timeline */}
-		{(project.yearStart || project.yearEnd) && (
-			<section class="mb-12">
-				<h2 class="mb-3 font-serif text-sm font-medium uppercase tracking-wider text-ink-muted">Timeline</h2>
-				<p class="text-base text-ink-soft">
-					{project.yearStart && <span>{project.yearStart}</span>}
-					{project.yearStart && project.yearEnd && <span> — </span>}
-					{project.yearEnd && <span>{project.yearEnd}</span>}
-					{project.yearStart && !project.yearEnd && isActive && <span> — ongoing</span>}
-				</p>
-			</section>
-		)}
+		{
+			(project.yearStart || project.yearEnd) && (
+				<section class="mb-12">
+					<h2 class="mb-3 font-serif text-sm font-medium tracking-wider text-ink-muted uppercase">
+						Timeline
+					</h2>
+					<p class="text-base text-ink-soft">
+						{project.yearStart && <span>{project.yearStart}</span>}
+						{project.yearStart && project.yearEnd && <span> — </span>}
+						{project.yearEnd && <span>{project.yearEnd}</span>}
+						{project.yearStart && !project.yearEnd && isActive && (
+							<span> — ongoing</span>
+						)}
+					</p>
+				</section>
+			)
+		}
 
 		{/* External link */}
-		{project.url && (
-			<div class="mt-12 border-t border-sand pt-8">
-				<a
-					href={project.url}
-					target="_blank"
-					rel="noopener noreferrer"
-					data-component
-					class="button-base button-outline button-size-md inline-flex items-center gap-2"
-				>
-					Visit project
-					<span class="text-xs">&nearr;</span>
-				</a>
-			</div>
-		)}
+		{
+			project.url && (
+				<div class="mt-12 border-t border-sand pt-8">
+					<a
+						href={project.url}
+						target="_blank"
+						rel="noopener noreferrer"
+						data-component
+						class="button-base button-outline button-size-md inline-flex items-center gap-2"
+					>
+						Visit project
+						<span class="text-xs">&nearr;</span>
+					</a>
+				</div>
+			)
+		}
 
 		{/* Back to work */}
 		<div class="mt-16 border-t border-sand pt-8">
-			<a href="/work" data-component class="group inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600">
-				<span class="transition-transform group-hover:-translate-x-0.5">&larr;</span>
+			<a
+				href="/work"
+				data-component
+				class="group inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600"
+			>
+				<span class="transition-transform group-hover:-translate-x-0.5"
+					>&larr;</span
+				>
 				Back to all projects
 			</a>
 		</div>

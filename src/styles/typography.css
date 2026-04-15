@@ -9,6 +9,65 @@
   @apply text-secondary-600 underline underline-offset-2 transition-colors hover:text-secondary-800;
 }
 
+/* src/styles/global.css (or wherever your global stylesheet lives) */
+
+@utility link-brackets {
+  @apply no-underline;
+
+  position: relative;
+  display: inline-block;
+  padding: 0.1em 0.4em;
+  background-image:
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor);
+  background-size:
+    0 2px,
+    2px 0,
+    0 2px,
+    2px 0,
+    0 2px,
+    2px 0,
+    0 2px,
+    2px 0;
+  background-position:
+    top left,
+    top left,
+    top right,
+    top right,
+    bottom left,
+    bottom left,
+    bottom right,
+    bottom right;
+  background-repeat: no-repeat;
+  transition:
+    color 0.2s ease,
+    background-size 0.2s ease;
+
+  &:hover,
+  &.is-active,
+  &[aria-current='page'] {
+    background-size:
+      0.5em 2px,
+      2px 0.5em,
+      0.5em 2px,
+      2px 0.5em,
+      0.5em 2px,
+      2px 0.5em,
+      0.5em 2px,
+      2px 0.5em;
+  }
+}
+
+.prose a {
+  @apply link-default;
+}
+
 /* Remove backtick pseudo-elements from prose inline code.
    Must be unlayered to override @tailwindcss/typography plugin styles. */
 .prose

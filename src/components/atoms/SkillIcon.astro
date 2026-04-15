@@ -6,22 +6,41 @@ export interface Props {
   icon: string;
   size?: number;
   class?: string;
+  asMask?: boolean;
 }
 
-const { icon, size = 20, class: className = '' } = Astro.props;
+const { icon, size = 20, class: className = '', asMask = false } = Astro.props;
 
-// Parse "collection:name" format
 const [, name] = icon.split(':');
 const iconData = getIconData(hugeiconsPack, name);
 
 let svgHtml = '';
+let maskUrl = '';
+
 if (iconData) {
   const rendered = iconToSVG(iconData, { height: size, width: size });
-  svgHtml = iconToHTML(rendered.body, {
-    ...rendered.attributes,
-    class: className,
-  });
+  if (asMask) {
+    const attrs = Object.entries(rendered.attributes)
+      .map(([k, v]) => `${k}='${v}'`)
+      .join(' ');
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' ${attrs}>${rendered.body}</svg>`;
+    maskUrl = `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
+  } else {
+    svgHtml = iconToHTML(rendered.body, {
+      ...rendered.attributes,
+      class: className,
+    });
+  }
 }
 ---
 
-<Fragment set:html={svgHtml} />
+{
+  asMask ? (
+    <span
+      class={className}
+      style={`display: inline-block; mask-image: ${maskUrl}; -webkit-mask-image: ${maskUrl}; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center; mask-size: contain; -webkit-mask-size: contain;`}
+    />
+  ) : (
+    <Fragment set:html={svgHtml} />
+  )
+}

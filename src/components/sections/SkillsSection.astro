@@ -29,18 +29,22 @@ const skills = skillsRaw
     </div>
   )}
 
-  <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="grid gap-x-10 gap-y-6 sm:grid-cols-2">
     {skills.map((skill) => (
-      <div class="group flex gap-3 rounded-lg border border-sand p-3 transition-colors hover:border-secondary-400">
-        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-cream text-ink-muted transition-colors group-hover:text-secondary-500">
-          <SkillIcon icon={skill.icon} size={18} />
+      <div class="group flex items-stretch gap-4 transition-colors">
+        <div class="flex aspect-square w-12 shrink-0 items-center justify-center">
+          <SkillIcon
+            icon={skill.icon}
+            asMask
+            class="gradient-phase h-full w-full"
+          />
         </div>
-        <div class="min-w-0">
+        <div class="min-w-0 self-center">
           <h3 class="font-serif text-sm font-normal leading-tight text-ink">
             {skill.name}
           </h3>
           {skill.description && (
-            <p class="mt-1 text-xs leading-snug text-ink-soft">
+            <p class="mt-1 line-clamp-2 text-xs leading-snug text-ink-soft">
               {skill.description}
             </p>
           )}

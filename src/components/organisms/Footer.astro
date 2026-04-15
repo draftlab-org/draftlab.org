@@ -35,7 +35,7 @@ const copyrightText = `© ${currentYear} ${siteConfig.title}.`;
 const { html: footerBottomHtml } = await renderMarkdown(siteConfig.footer.bottom);
 ---
 
-<footer class={`bg-ink text-cream ${className}`}>
+<footer class={`gradient-phase text-white ${className}`}>
 	<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
 		<!-- Main footer content: 3 columns on desktop, stack on mobile -->
 		<div class="mb-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
@@ -86,7 +86,7 @@ const { html: footerBottomHtml } = await renderMarkdown(siteConfig.footer.bottom
 									const external = isExternalLink(item.link);
 									return (
 										<li>
-											<Link href={href} variant="footer" external={external}>
+											<Link href={href} variant="brackets" external={external}>
 												{item.label}
 											</Link>
 										</li>
@@ -110,7 +110,7 @@ const { html: footerBottomHtml } = await renderMarkdown(siteConfig.footer.bottom
 									const external = isExternalLink(item.link);
 									return (
 										<li>
-											<Link href={href} variant="footer" external={external}>
+											<Link href={href} variant="brackets" external={external}>
 												{item.label}
 											</Link>
 										</li>

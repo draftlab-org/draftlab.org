@@ -75,12 +75,12 @@
   --color-phase-sustain-dark: oklch(32% 0.08 300);
 
   /* Semantic tokens */
-  --color-cream: #F2EAD8;
-  --color-cream-dark: #E8DCCA;
-  --color-ink: #1C1612;
-  --color-ink-soft: #4A3F35;
-  --color-ink-muted: #8A7A6E;
-  --color-sand: #C9B99A;
+  --color-cream: #f2ead8;
+  --color-cream-dark: #e8dcca;
+  --color-ink: #1c1612;
+  --color-ink-soft: #4a3f35;
+  --color-ink-muted: #8a7a6e;
+  --color-sand: #c9b99a;
 
   --color-white: #ffffff;
   --color-black: #000000;

@@ -29,15 +29,15 @@ const skillsBySlug = new Map(
 <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
 	{
 		people.map((person) => (
-			<div class="flex gap-5">
+			<div class="flex max-h-44 items-stretch gap-5 overflow-hidden">
 				{person.headshot && (
-					<div class="shrink-0">
+					<div class="aspect-square shrink-0 self-stretch">
 						<Image
 							src={person.headshot}
 							alt={person.name}
-							width={120}
-							height={120}
-							class="h-24 w-24 rounded-lg object-cover"
+							width={240}
+							height={240}
+							class="h-full w-full object-cover"
 						/>
 					</div>
 				)}
@@ -57,7 +57,7 @@ const skillsBySlug = new Map(
 						)}
 					</h3>
 					{person.bio && (
-						<p class="mt-2 text-sm leading-relaxed text-ink-soft">
+						<p class="mt-2 line-clamp-4 text-sm leading-relaxed text-ink-soft">
 							{person.bio}
 						</p>
 					)}

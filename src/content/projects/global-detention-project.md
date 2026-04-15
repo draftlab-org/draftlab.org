@@ -20,6 +20,6 @@ skills:
   - ux-interaction-design
 ---
 
-Rebuilt the Global Detention Project's public research platform around a structured country dataset, so researchers, journalists, and policy advocates could move between narrative reports and raw indicators without friction.
+Rebuilt the [Global Detention Project's](https://google.com) public research platform around a structured country dataset, so researchers, journalists, and policy advocates could move between narrative reports and raw indicators without friction.
 
 Alongside the platform rebuild we ran a capacity-building track with the in-house team: documentation practices, editorial workflow, and a maintenance runbook to keep the data fresh after handover.
