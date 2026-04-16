@@ -19,5 +19,5 @@ sections:
         text: See our work
       - variant: outline
         size: lg
-        href: mailto:hello@draftlab.org
+        href: /get-in-touch
         text: Get in touch

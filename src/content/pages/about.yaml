@@ -34,7 +34,7 @@ sections:
       ### Open Technology Fund pro bono support
 
 
-      Draftlab provides pro bono design and technical support to internet freedom projects through the Open Technology Fund. If you're an OTF-funded project that could use help with user research, product design, or technical architecture, [get in touch](mailto:hello@draftlab.org).
+      Draftlab provides pro bono design and technical support to internet freedom projects through the Open Technology Fund. If you're an OTF-funded project that could use help with user research, product design, or technical architecture, [get in touch](/get-in-touch).
   - type: button
     buttons:
       - variant: primary
@@ -43,5 +43,5 @@ sections:
         text: See our work
       - variant: outline
         size: lg
-        href: mailto:hello@draftlab.org
+        href: /get-in-touch
         text: Get in touch

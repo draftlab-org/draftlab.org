@@ -22,12 +22,12 @@
     },
     {
       "type": "link",
-      "label": "Contact",
+      "label": "Get in touch",
       "link": {
-        "type": "external",
-        "url": "mailto:hello@draftlab.org"
+        "type": "internal",
+        "pageRef": "/get-in-touch"
       },
-      "description": "Get in touch"
+      "description": "Book a conversation with Draftlab"
     }
   ]
 }

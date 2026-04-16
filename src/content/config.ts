@@ -168,6 +168,13 @@ const pagesCollection = defineCollection({
         filterType: z.enum(['client', 'partner', 'funder']).optional(),
         limit: z.number().optional(),
       }),
+      SectionCommonSchema.extend({
+        type: z.literal('calEmbed'),
+        calLink: z.string().optional(),
+        namespace: z.string().optional(),
+        origin: z.string().optional(),
+        minHeight: z.string().optional(),
+      }),
     ]);
 
     const flexiSectionSchema = SectionCommonSchema.extend({

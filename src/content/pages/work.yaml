@@ -10,5 +10,5 @@ sections:
     buttons:
       - variant: primary
         size: lg
-        href: mailto:hello@draftlab.org
+        href: /get-in-touch
         text: Start a conversation

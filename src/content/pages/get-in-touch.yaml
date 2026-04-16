@@ -1,0 +1,15 @@
+title: Get in touch
+status: published
+description: Book a 30-minute conversation with Draftlab.
+sections:
+  - type: hero
+    title: Get in touch
+    subtitle: Book a 30-minute conversation. We'll listen to where you are, what you're working on, and figure out together whether we're the right fit.
+  - type: calEmbed
+    calLink: book/30min
+    namespace: 30min
+    origin: https://cal.draftlab.org
+    minHeight: 720px
+  - type: richText
+    content: >-
+      Prefer email? Write to [hello@draftlab.org](mailto:hello@draftlab.org) and we'll get back to you.
