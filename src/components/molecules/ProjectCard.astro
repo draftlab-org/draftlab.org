@@ -1,5 +1,6 @@
 ---
 import draftlabLogo from '@assets/draftlab-logo.svg';
+import GradientLink from '@components/atoms/GradientLink.astro';
 import SkillIcon from '@components/atoms/SkillIcon.astro';
 import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
@@ -82,11 +83,12 @@ const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
 			/>
 		</div>
 
-		<h2
-			class="font-serif leading-tight font-normal text-ink transition-colors group-hover:text-secondary-600"
-		>
-			{name}
-		</h2>
+		<GradientLink
+			as="h2"
+			text={name}
+			trigger="group-hover"
+			class="font-serif leading-tight font-normal text-ink"
+		/>
 
 		<p class="mt-3 line-clamp-3 text-sm leading-relaxed text-ink-soft">
 			{description}

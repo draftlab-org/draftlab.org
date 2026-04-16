@@ -1,5 +1,6 @@
 ---
 import Button from '@components/atoms/Button.astro';
+import GradientLink from '@components/atoms/GradientLink.astro';
 import Link from '@components/atoms/Link.astro';
 import NavItem from '@components/molecules/NavItem.astro';
 import MobileMenu from '@components/organisms/MobileMenu';
@@ -48,12 +49,20 @@ const isActive = (item: NavItemType) => {
 		<Link
 			href="/"
 			variant="unstyled"
-			class="font-serif text-2xl font-bold text-gray-900 underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8"
-			>{
+			class="group font-serif text-2xl font-bold text-gray-900 underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8"
+		>
+			{
 				logo ? (
-					<Image src={logo} alt={siteName} class="w-45" />
+					<span class="relative inline-block">
+						<Image src={logo} alt={siteName} class="w-45" />
+						<span
+							aria-hidden="true"
+							class="absolute inset-0 gradient-phase opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+							style={`mask-image: url(${logo.src}); -webkit-mask-image: url(${logo.src}); mask-size: contain; -webkit-mask-size: contain; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: left center; -webkit-mask-position: left center;`}
+						/>
+					</span>
 				) : (
-					<span>{siteName}</span>
+					<GradientLink text={siteName} as="span" trigger="group-hover" />
 				)
 			}
 		</Link>

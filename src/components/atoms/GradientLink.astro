@@ -1,0 +1,34 @@
+---
+interface Props {
+  text: string;
+  as?: 'a' | 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div';
+  href?: string;
+  trigger?: 'hover' | 'group-hover';
+  class?: string;
+}
+
+const {
+  text,
+  as = 'span',
+  href,
+  trigger = 'hover',
+  class: className = '',
+} = Astro.props;
+
+const Tag = href ? 'a' : as;
+const hoverClass =
+  trigger === 'group-hover'
+    ? 'group-hover:opacity-100'
+    : 'hover:opacity-100';
+---
+
+<Tag href={href} class:list={['relative', className]}>
+	<span>{text}</span>
+	<span
+		aria-hidden="true"
+		class:list={[
+			'absolute inset-0 gradient-phase bg-clip-text text-transparent opacity-0 transition-opacity duration-200',
+			hoverClass,
+		]}>{text}</span
+	>
+</Tag>

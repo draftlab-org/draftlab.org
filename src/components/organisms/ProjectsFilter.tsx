@@ -190,8 +190,6 @@ export default function ProjectsFilter({
   const activeCount =
     state.phases.length + state.modalities.length + state.skills.length;
 
-  const visibleCount = visibleSlugs.size;
-
   const renderModalityChip = (slug: string): ReactNode => {
     const m = modalityBySlug.get(slug);
     if (!m) return slug;
@@ -235,71 +233,65 @@ export default function ProjectsFilter({
 
   const summary: ReactNode = useMemo(() => {
     if (activeCount === 0) {
-      return (
-        <>
-          Showing all <strong>{projects.length}</strong>{' '}
-          {projects.length === 1 ? 'project' : 'projects'}.
-        </>
-      );
+      return <>Showing projects from all phases using all skills.</>;
     }
 
-    const parts: ReactNode[] = [
-      <>
-        Showing <strong>{visibleCount}</strong>
-      </>,
+    const parts: Array<{ id: string; node: ReactNode }> = [
+      { id: 'showing', node: <>Showing</> },
     ];
 
     if (state.modalities.length > 0) {
-      parts.push(
-        <>
-          {' '}
-          {joinWithAnd(
-            state.modalities.map((s) => wrap(`m-${s}`, renderModalityChip(s)))
-          )}
-        </>
-      );
+      parts.push({
+        id: 'modalities',
+        node: (
+          <>
+            {' '}
+            {joinWithAnd(
+              state.modalities.map((s) => wrap(`m-${s}`, renderModalityChip(s)))
+            )}
+          </>
+        ),
+      });
     }
 
-    parts.push(<> {visibleCount === 1 ? 'project' : 'projects'}</>);
+    parts.push({ id: 'projects', node: <> projects</> });
 
     if (state.phases.length > 0) {
       const isSingle = state.phases.length === 1;
-      parts.push(
-        <>
-          {' '}
-          from {isSingle ? 'the ' : ''}
-          {joinWithAnd(
-            state.phases.map((s) => wrap(`p-${s}`, renderPhaseChip(s)))
-          )}{' '}
-          {isSingle ? 'phase' : 'phases'}
-        </>
-      );
+      parts.push({
+        id: 'phases',
+        node: (
+          <>
+            {' '}
+            from {isSingle ? 'the ' : ''}
+            {joinWithAnd(
+              state.phases.map((s) => wrap(`p-${s}`, renderPhaseChip(s)))
+            )}{' '}
+            {isSingle ? 'phase' : 'phases'}
+          </>
+        ),
+      });
     }
 
     if (state.skills.length > 0) {
-      parts.push(
-        <>
-          {' '}
-          using{' '}
-          {joinWithAnd(
-            state.skills.map((s) => wrap(`s-${s}`, renderSkillChip(s)))
-          )}
-        </>
-      );
+      parts.push({
+        id: 'skills',
+        node: (
+          <>
+            {' '}
+            using{' '}
+            {joinWithAnd(
+              state.skills.map((s) => wrap(`s-${s}`, renderSkillChip(s)))
+            )}
+          </>
+        ),
+      });
     }
 
-    parts.push(<>.</>);
+    parts.push({ id: 'period', node: <>.</> });
 
-    return parts.map((p, i) => <Fragment key={i}>{p}</Fragment>);
-  }, [
-    activeCount,
-    projects.length,
-    visibleCount,
-    state,
-    modalityBySlug,
-    phaseBySlug,
-    skillBySlug,
-  ]);
+    return parts.map((p) => <Fragment key={p.id}>{p.node}</Fragment>);
+  }, [activeCount, state]);
 
   const renderRow = (
     label: string,
@@ -331,7 +323,7 @@ export default function ProjectsFilter({
   return (
     <div
       ref={containerRef}
-      className="sticky top-24 z-30 mx-auto mb-8 w-9/10"
+      className="sticky top-24 z-30 mx-auto mb-8 w-full sm:w-9/10"
     >
       <div className="relative">
         <div className="flex flex-wrap items-stretch gap-2 border border-gray-200 bg-white/60 shadow-sm backdrop-blur-md">
@@ -363,9 +355,21 @@ export default function ProjectsFilter({
             <button
               type="button"
               onClick={clear}
-              className="shrink-0 self-center pr-4 text-xs font-medium text-ink-muted underline-offset-2 hover:text-ink hover:underline"
+              aria-label="Clear all filters"
+              className="shrink-0 cursor-pointer self-center pr-4 text-ink-muted hover:text-ink focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
-              Clear all
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4"
+              >
+                <path d="M5 5l10 10M15 5L5 15" />
+              </svg>
             </button>
           )}
         </div>
