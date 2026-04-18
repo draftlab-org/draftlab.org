@@ -27,8 +27,6 @@ sections:
   - type: skills
     title: What we do
     description: "The skills we bring to every engagement."
-  - type: organisationsRoll
-    title: Organisations we work with
   - type: richText
     content: >-
       ### Open Technology Fund pro bono support

@@ -1,0 +1,46 @@
+---
+import Heading from '@components/atoms/Heading.astro';
+import Text from '@components/atoms/Text.astro';
+import { getProjects } from '@utils/projects';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const allProjects = await getProjects();
+const activeProjects = allProjects.filter(
+  (p) => p.data.projectStatus === 'active'
+);
+---
+
+{
+	activeProjects.length > 0 && (
+		<div class="relative left-1/2 -ml-[50vw] w-screen px-4 py-12 text-cream sm:px-6 md:py-16 lg:px-10">
+			{title && (
+				<Heading level={4} class="mb-3 text-cream">
+					{title}
+				</Heading>
+			)}
+			{description && (
+				<Text size="lg" class="mb-6 max-w-2xl text-cream/90">
+					{description}
+				</Text>
+			)}
+			<ul class="flex flex-col gap-y-2 text-2xl font-semibold md:text-3xl lg:text-4xl">
+				{activeProjects.map((project) => (
+					<li>
+						<a
+							href={`/work/${project.data.slug}`}
+							class="text-cream hover:text-white"
+						>
+							<h2 class="link-brackets">{project.data.name}</h2>
+						</a>
+					</li>
+				))}
+			</ul>
+		</div>
+	)
+}

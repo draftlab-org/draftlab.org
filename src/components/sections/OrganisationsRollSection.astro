@@ -34,7 +34,7 @@ const orgsWithLogos = orgs.filter((o) => o.data.image);
   )}
 
   {orgsWithLogos.length > 0 ? (
-    <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+    <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {orgsWithLogos.map((org) => {
         const imgSrc = typeof org.data.image === 'string' ? org.data.image : org.data.image!.src;
         const tile = (
@@ -44,7 +44,7 @@ const orgsWithLogos = orgs.filter((o) => o.data.image);
               alt={org.data.name}
               title={org.data.name}
               loading="lazy"
-              class="absolute inset-0 h-full w-full object-contain p-4"
+              class="absolute inset-0 h-full w-full object-contain p-6 md:p-8"
             />
           </div>
         );

@@ -201,6 +201,10 @@ components:
               name: gray
             - label: Gradient
               name: gradient
+            - label: Phase Gradient
+              name: phase-gradient
+            - label: Phase Gradient (light)
+              name: phase-gradient-light
         default: white
       - name: bgType
         label: Type
@@ -322,6 +326,20 @@ components:
         label: Description
         type: string
         description: Optional intro text shown above the interactive filter.
+
+  active_projects_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: string
+        description: Optional intro text shown above the list of active project titles.
 
   projects_roll_section:
     type: object
@@ -573,6 +591,10 @@ content:
           - name: projectsFilterGrid
             label: Projects Filter Grid
             component: projects_filter_grid_section
+
+          - name: activeProjects
+            label: Active Projects (titles only)
+            component: active_projects_section
 
           - name: phasesOverview
             label: Phases Overview

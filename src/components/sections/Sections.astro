@@ -1,4 +1,5 @@
 ---
+import ActiveProjectsSection from '@components/sections/ActiveProjectsSection.astro';
 import ButtonSection from '@components/sections/ButtonSection.astro';
 import CalEmbedSection from '@components/sections/CalEmbedSection.astro';
 import CardSection from '@components/sections/CardSection.astro';
@@ -51,7 +52,6 @@ const { sectionItems } = Astro.props;
         case 'richText':
           return (
             <RichTextSection
-              background={section.background}
               content={section.content}
               withTOC={section.withTOC}
             />
@@ -93,6 +93,13 @@ const { sectionItems } = Astro.props;
         case 'projectsFilterGrid':
           return (
             <ProjectsFilterGridSection
+              title={section.title}
+              description={section.description}
+            />
+          );
+        case 'activeProjects':
+          return (
+            <ActiveProjectsSection
               title={section.title}
               description={section.description}
             />

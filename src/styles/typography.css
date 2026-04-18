@@ -27,14 +27,14 @@
     linear-gradient(currentColor, currentColor),
     linear-gradient(currentColor, currentColor);
   background-size:
-    0 2px,
-    2px 0,
-    0 2px,
-    2px 0,
-    0 2px,
-    2px 0,
-    0 2px,
-    2px 0;
+    0 0.1em,
+    0.1em 0,
+    0 0.1em,
+    0.1em 0,
+    0 0.1em,
+    0.1em 0,
+    0 0.1em,
+    0.1em 0;
   background-position:
     top left,
     top left,
@@ -53,14 +53,14 @@
   &.is-active,
   &[aria-current='page'] {
     background-size:
-      0.5em 2px,
-      2px 0.5em,
-      0.5em 2px,
-      2px 0.5em,
-      0.5em 2px,
-      2px 0.5em,
-      0.5em 2px,
-      2px 0.5em;
+      0.3em 0.1em,
+      0.1em 0.3em,
+      0.3em 0.1em,
+      0.1em 0.3em,
+      0.3em 0.1em,
+      0.1em 0.3em,
+      0.3em 0.1em,
+      0.1em 0.3em;
   }
 }
 

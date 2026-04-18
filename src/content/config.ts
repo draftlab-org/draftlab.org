@@ -141,6 +141,11 @@ const pagesCollection = defineCollection({
         featuredOnly: z.boolean().optional().default(false),
       }),
       SectionCommonSchema.extend({
+        type: z.literal('activeProjects'),
+        title: z.string().optional(),
+        description: z.string().optional(),
+      }),
+      SectionCommonSchema.extend({
         type: z.literal('phasesOverview'),
         title: z.string().optional(),
         description: z.string().optional(),
