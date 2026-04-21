@@ -43,9 +43,9 @@ const activeProjects = allProjects.filter(
 						<div class="flex flex-row items-baseline gap-3">
 							<a
 								href={`/work/${project.data.slug}`}
-								class="group text-cream hover:text-white"
+								class="group text-cream no-underline hover:text-white"
 							>
-								<h2 class="group link-brackets min-w-sm">
+								<h2 class="">
 									{project.data.name}
 									<div class="flex place-content-end gap-4">
 										<div class="flex gap-1">
@@ -79,11 +79,11 @@ const activeProjects = allProjects.filter(
 				))}
 				<li>
 					<div class="flex flex-row items-baseline gap-3">
-						<a href="/work/" class="group text-cream hover:text-white">
-							<h2 class="group link-brackets min-w-sm">
-								All projects
-								<div class="flex place-content-end gap-4" />
-							</h2>
+						<a
+							href="/work/"
+							class="group text-cream no-underline hover:text-white"
+						>
+							<h2 class="group">All projects</h2>
 						</a>
 					</div>
 				</li>
