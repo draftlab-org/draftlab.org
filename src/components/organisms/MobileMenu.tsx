@@ -1,3 +1,4 @@
+import draftlabLogoUrl from '@assets/draftlab-logo.svg?url';
 import {
   Dialog,
   DialogBackdrop,
@@ -74,9 +75,15 @@ export default function MobileMenu({
               <div className="flex h-16 shrink-0 items-center">
                 <a
                   href="/"
-                  className="font-serif text-2xl font-bold text-gray-900 underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8"
+                  aria-label={siteConfig.name}
+                  aria-current={isActive('/') ? 'page' : undefined}
+                  className="group"
                 >
-                  {siteConfig.name}
+                  <img
+                    src={draftlabLogoUrl}
+                    alt={siteConfig.name}
+                    className="h-8 w-auto"
+                  />
                 </a>
               </div>
               <nav className="flex flex-1 flex-col">
@@ -89,7 +96,9 @@ export default function MobileMenu({
                             <li key={item.label}>
                               <Disclosure as="div">
                                 <DisclosureButton className="group flex w-full items-center gap-x-4 text-xl text-black">
-                                  {item.label}
+                                  <span className="link-brackets">
+                                    {item.label}
+                                  </span>
                                   <IconChevronDown class="ml-auto h-5 w-5 shrink-0 transition-transform group-data-open:rotate-180" />
                                 </DisclosureButton>
                                 <DisclosurePanel
@@ -101,6 +110,7 @@ export default function MobileMenu({
                                       child.link
                                     );
                                     const external = isExternalLink(child.link);
+                                    const active = isActive(href);
                                     return (
                                       <li key={child.label}>
                                         <a
@@ -113,13 +123,16 @@ export default function MobileMenu({
                                               ? 'noopener noreferrer'
                                               : undefined
                                           }
-                                          className={`group flex items-center gap-x-2 text-lg text-gray-700 ${
-                                            isActive(href)
-                                              ? 'underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8'
-                                              : 'no-underline'
-                                          }`}
+                                          aria-current={
+                                            active ? 'page' : undefined
+                                          }
+                                          className="group flex items-center gap-x-2 text-lg text-gray-700"
                                         >
-                                          {child.label}
+                                          <span
+                                            className={`link-brackets ${active ? 'is-active' : ''}`}
+                                          >
+                                            {child.label}
+                                          </span>
                                           {external && (
                                             <IconExternalLink class="h-4 w-4 opacity-70" />
                                           )}
@@ -135,19 +148,21 @@ export default function MobileMenu({
 
                         const href = resolveFlexibleLink(item.link);
                         const external = isExternalLink(item.link);
+                        const active = isActive(href);
                         return (
                           <li key={item.label}>
                             <a
                               href={href}
                               target={external ? '_blank' : undefined}
                               rel={external ? 'noopener noreferrer' : undefined}
-                              className={`group flex items-center gap-x-4 text-xl text-black ${
-                                isActive(href)
-                                  ? 'underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8'
-                                  : 'no-underline'
-                              }`}
+                              aria-current={active ? 'page' : undefined}
+                              className="group flex items-center gap-x-4 text-xl text-black no-underline"
                             >
-                              {item.label}
+                              <span
+                                className={`link-brackets ${active ? 'is-active' : ''}`}
+                              >
+                                {item.label}
+                              </span>
                               {external && (
                                 <IconExternalLink class="h-4 w-4 opacity-70" />
                               )}

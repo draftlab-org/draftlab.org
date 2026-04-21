@@ -46,14 +46,14 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 }));
 ---
 
-<div class="py-8 md:py-12" data-skills-cloud-root>
+<div class="relative overflow-hidden py-8 md:py-12">
 	<div class="grid items-center gap-10 md:grid-cols-2 md:gap-16">
 		<div class="skills-cloud-wrap hidden h-auto md:block">
 			<SkillsCloud client:visible skills={cloudSkills} />
 		</div>
 
 		<div
-			class="relative flex h-96 max-w-xl items-center overflow-hidden md:col-start-2 md:h-auto"
+			class="relative flex h-96 max-w-xl items-center md:col-start-2 md:h-auto"
 		>
 			{
 				eyebrow && (
@@ -75,18 +75,14 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 					</Text>
 				)
 			}
-			<div
-				data-skills-watermark
-				data-section-visible="true"
-				class="fixed top-24 -z-10 block h-full w-xl overflow-hidden opacity-25 transition-opacity duration-300 data-[section-visible=false]:pointer-events-none data-[section-visible=false]:opacity-0 md:hidden"
-			>
-				<div class="skills-cloud-wrap h-auto">
-					<SkillsCloud client:visible skills={cloudSkills} />
-				</div>
-			</div>
 		</div>
 	</div>
 
+	<div class="absolute top-0 -z-10 block h-96 w-lg opacity-15 md:hidden">
+		<div class="skills-cloud-wrap h-auto">
+			<SkillsCloud client:visible skills={cloudSkills} />
+		</div>
+	</div>
 	<ul class="sr-only">
 		{skills.map((s) => <li>{s.name}</li>)}
 	</ul>
@@ -159,21 +155,3 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 		}
 	}
 </style>
-
-<script>
-	const section = document.querySelector('[data-skills-cloud-root]');
-	const watermark = document.querySelector<HTMLElement>(
-		'[data-skills-watermark]'
-	);
-	if (section && watermark && 'IntersectionObserver' in window) {
-		const io = new IntersectionObserver(
-			([entry]) => {
-				watermark.dataset.sectionVisible = entry.isIntersecting
-					? 'true'
-					: 'false';
-			},
-			{ threshold: 0 }
-		);
-		io.observe(section);
-	}
-</script>
