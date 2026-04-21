@@ -10,10 +10,10 @@ import { siteConfig } from '@lib/config';
 import type { NavItem } from '@utils/navigation';
 import { isExternalLink, resolveFlexibleLink } from '@utils/navigation';
 import { useState } from 'react';
-import IconBars3 from '~icons/heroicons/bars-3';
-import IconXMark from '~icons/heroicons/x-mark';
-import IconChevronDown from '~icons/heroicons/chevron-down-20-solid';
 import IconExternalLink from '~icons/heroicons/arrow-top-right-on-square-20-solid';
+import IconBars3 from '~icons/heroicons/bars-3';
+import IconChevronDown from '~icons/heroicons/chevron-down-20-solid';
+import IconXMark from '~icons/heroicons/x-mark';
 
 interface MobileMenuProps {
   items: NavItem[];

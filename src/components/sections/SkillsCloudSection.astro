@@ -53,7 +53,7 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 		</div>
 
 		<div
-			class="relative flex h-96 max-w-xl items-center md:col-start-2 md:h-auto"
+			class="relative flex h-96 max-w-xl items-center overflow-hidden md:col-start-2 md:h-auto"
 		>
 			{
 				eyebrow && (
@@ -76,7 +76,9 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 				)
 			}
 			<div
-				class="fixed top-24 -right-1/4 -z-10 block h-full w-full opacity-25 md:hidden"
+				data-skills-watermark
+				data-section-visible="true"
+				class="fixed top-24 -right-1/4 -z-10 block h-full w-lg opacity-25 transition-opacity duration-300 md:hidden data-[section-visible=false]:pointer-events-none data-[section-visible=false]:opacity-0"
 			>
 				<div class="skills-cloud-wrap h-auto">
 					<SkillsCloud client:visible skills={cloudSkills} />
@@ -95,7 +97,6 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 		position: relative;
 		width: 100%;
 		aspect-ratio: 1 / 1;
-		max-height: 32rem;
 	}
 
 	.skills-cloud {
@@ -158,3 +159,21 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 		}
 	}
 </style>
+
+<script>
+	const section = document.querySelector('[data-skills-cloud-root]');
+	const watermark = document.querySelector<HTMLElement>(
+		'[data-skills-watermark]'
+	);
+	if (section && watermark && 'IntersectionObserver' in window) {
+		const io = new IntersectionObserver(
+			([entry]) => {
+				watermark.dataset.sectionVisible = entry.isIntersecting
+					? 'true'
+					: 'false';
+			},
+			{ threshold: 0 }
+		);
+		io.observe(section);
+	}
+</script>
