@@ -48,7 +48,7 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 
 <div class="py-8 md:py-12" data-skills-cloud-root>
 	<div class="grid items-center gap-10 md:grid-cols-2 md:gap-16">
-		<div class="skills-cloud-wrap">
+		<div class="skills-cloud-wrap h-64 md:h-auto">
 			<SkillsCloud client:visible skills={cloudSkills} />
 		</div>
 
@@ -87,23 +87,6 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 		width: 100%;
 		aspect-ratio: 1 / 1;
 		max-height: 32rem;
-	}
-
-	/* On desktop, detach the cloud from flow and pin it to the viewport. The
-	   text column still sits in grid col 2 (md:col-start-2); subsequent page
-	   sections are position: relative (via SectionLayout) and paint above the
-	   cloud's z-index: -1, so they scroll over it naturally. */
-	@media (min-width: 768px) {
-		.skills-cloud-wrap {
-			position: fixed;
-			top: 50%;
-			left: 4vw;
-			width: min(44vw, 34rem);
-			max-height: min(80vh, 34rem);
-			transform: translateY(-50%);
-			z-index: -1;
-			pointer-events: none;
-		}
 	}
 
 	.skills-cloud {
