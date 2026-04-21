@@ -48,11 +48,13 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 
 <div class="py-8 md:py-12" data-skills-cloud-root>
 	<div class="grid items-center gap-10 md:grid-cols-2 md:gap-16">
-		<div class="skills-cloud-wrap h-64 md:h-auto">
+		<div class="skills-cloud-wrap hidden h-auto md:block">
 			<SkillsCloud client:visible skills={cloudSkills} />
 		</div>
 
-		<div class="max-w-xl md:col-start-2">
+		<div
+			class="relative flex h-96 max-w-xl items-center md:col-start-2 md:h-auto"
+		>
 			{
 				eyebrow && (
 					<p class="mb-3 text-xs font-medium tracking-wide text-ink-muted uppercase">
@@ -73,6 +75,13 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 					</Text>
 				)
 			}
+			<div
+				class="absolute -right-1/4 -z-10 block h-auto w-full opacity-45 md:hidden"
+			>
+				<div class="skills-cloud-wrap h-auto">
+					<SkillsCloud client:visible skills={cloudSkills} />
+				</div>
+			</div>
 		</div>
 	</div>
 
