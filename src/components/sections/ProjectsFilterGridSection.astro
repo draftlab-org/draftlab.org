@@ -10,6 +10,10 @@ import ProjectsFilter, {
   type ProjectTagData,
 } from '@components/organisms/ProjectsFilter';
 import { isVisible } from '@utils/content';
+import {
+  type ModalitySlug,
+  modalityIconSvgs,
+} from '@utils/modalityIcons';
 import { getOrganisations } from '@utils/organisations';
 import { getProjects } from '@utils/projects';
 
@@ -27,12 +31,6 @@ const orgs = await getOrganisations();
 const orgById = new Map(orgs.map((o) => [o.data.id, o.data]));
 
 const allSkills = (await getCollection('skills')).filter((s) => isVisible(s));
-const skillsBySlug = new Map(
-  allSkills.map((s) => [
-    s.data.slug,
-    { name: s.data.name, slug: s.data.slug, icon: s.data.icon },
-  ])
-);
 
 const phaseEntries = (await getCollection('phases')).sort(
   (a, b) => a.data.number - b.data.number
@@ -68,7 +66,7 @@ const phaseOptions: FilterOption[] = phaseEntries.map((p) => ({
 const modalityOptions: FilterOption[] = modalityEntries.map((m) => ({
   slug: m.data.slug,
   name: m.data.name,
-  symbol: m.data.symbol,
+  iconSvg: modalityIconSvgs[m.data.slug as ModalitySlug],
 }));
 
 const projectTags: ProjectTagData[] = projects.map((p) => ({
@@ -131,11 +129,7 @@ const projectTags: ProjectTagData[] = projects.map((p) => ({
                 : undefined
             }
             phases={project.data.phases}
-            skills={
-              project.data.skills
-                ?.map((s: string) => skillsBySlug.get(s))
-                .filter(Boolean) as any
-            }
+            skills={project.data.skills}
             projectStatus={project.data.projectStatus}
             featured={project.data.featured}
             image={project.data.image}

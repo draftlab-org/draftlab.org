@@ -1,8 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
+import ModalityIcon from '@components/atoms/ModalityIcon.astro';
 import SkillIcon from '@components/atoms/SkillIcon.astro';
 import PageLayout from '@layouts/PageLayout.astro';
 import { isVisible } from '@utils/content';
+import type { ModalitySlug } from '@utils/modalityIcons';
 import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths = (async () => {
@@ -67,12 +69,6 @@ const phaseText: Record<string, string> = {
 };
 
 const phaseSet = new Set(project.phases);
-
-const modalitySymbols: Record<string, string> = {
-	clinic: '◎',
-	studio: '◈',
-	community: '◉',
-};
 ---
 
 <PageLayout
@@ -256,9 +252,12 @@ const modalitySymbols: Record<string, string> = {
 					{
 						resolvedModalities.map((modality: any) => (
 							<div class="flex items-center gap-3">
-								<span class="w-3 text-center text-base text-ink-muted">
-									{modalitySymbols[modality.slug]}
-								</span>
+								<ModalityIcon
+									slug={modality.slug as ModalitySlug}
+									size={16}
+									class="shrink-0 text-ink-muted"
+									decorative
+								/>
 								<div>
 									<span class="font-serif text-base font-medium text-ink">
 										{modality.name}
@@ -285,7 +284,7 @@ const modalitySymbols: Record<string, string> = {
 						{resolvedSkills.map((skill: any) => (
 							<span class="inline-flex items-center gap-2 rounded-md border border-sand bg-cream-dark/40 px-3 py-1.5 text-sm text-ink-soft">
 								<SkillIcon
-									icon={skill.icon}
+									slug={skill.slug}
 									size={16}
 									class="text-secondary-500"
 								/>

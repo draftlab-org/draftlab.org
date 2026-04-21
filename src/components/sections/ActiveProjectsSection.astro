@@ -1,5 +1,6 @@
 ---
 import Heading from '@components/atoms/Heading.astro';
+import SkillIcon from '@components/atoms/SkillIcon.astro';
 import Text from '@components/atoms/Text.astro';
 import { getProjects } from '@utils/projects';
 
@@ -32,15 +33,31 @@ const activeProjects = allProjects.filter(
 			<ul class="flex flex-col gap-y-2 text-2xl font-semibold md:text-3xl lg:text-4xl">
 				{activeProjects.map((project) => (
 					<li>
-						<a
-							href={`/work/${project.data.slug}`}
-							class="text-cream hover:text-white"
-						>
-							<h2 class="link-brackets">{project.data.name}</h2>
-						</a>
+						<div class="group flex flex-row items-baseline gap-2">
+							<a
+								href={`/work/${project.data.slug}`}
+								class="text-cream hover:text-white"
+							>
+								<h2 class="link-brackets">{project.data.name}</h2>
+							</a>
+							{project.data.skills?.map((slug, i) => (
+								<span
+									class="skill-reveal text-white/0 transition-colors group-hover:text-white"
+									style={`--i: ${i}`}
+								>
+									<SkillIcon slug={slug} />
+								</span>
+							))}
+						</div>
 					</li>
 				))}
 			</ul>
 		</div>
 	)
 }
+
+<style>
+	.group:hover .skill-reveal {
+		transition-delay: calc(var(--i, 0) * 80ms);
+	}
+</style>

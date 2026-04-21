@@ -5,7 +5,6 @@ export interface FilterToggleProps {
   active: boolean;
   onToggle: () => void;
   iconSvg?: string;
-  symbol?: string;
   swatchStyle?: CSSProperties;
   title?: string;
 }
@@ -18,7 +17,6 @@ export default function FilterToggle({
   active,
   onToggle,
   iconSvg,
-  symbol,
   swatchStyle,
   title,
 }: FilterToggleProps) {
@@ -49,11 +47,6 @@ export default function FilterToggle({
           className="inline-block h-3 w-3 shrink-0 rounded-full"
           style={swatchStyle}
         />
-      )}
-      {symbol && (
-        <span aria-hidden="true" className="text-base leading-none">
-          {symbol}
-        </span>
       )}
       <span className="font-medium">{label}</span>
     </button>

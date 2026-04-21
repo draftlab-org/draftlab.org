@@ -13,7 +13,6 @@ export interface FilterOption {
   slug: string;
   name: string;
   iconSvg?: string;
-  symbol?: string;
   swatchColor?: string;
 }
 
@@ -195,7 +194,13 @@ export default function ProjectsFilter({
     if (!m) return slug;
     return (
       <span className="inline-flex items-center gap-1 font-medium text-ink">
-        {m.symbol && <span aria-hidden="true">{m.symbol}</span>}
+        {m.iconSvg && (
+          <span
+            aria-hidden="true"
+            className="inline-flex h-4 w-4 shrink-0 items-center justify-center text-ink"
+            dangerouslySetInnerHTML={{ __html: m.iconSvg }}
+          />
+        )}
         {m.name}
       </span>
     );
@@ -310,7 +315,6 @@ export default function ProjectsFilter({
             active={state[key].includes(opt.slug)}
             onToggle={() => toggle(key, opt.slug)}
             iconSvg={opt.iconSvg}
-            symbol={opt.symbol}
             swatchStyle={
               opt.swatchColor ? { backgroundColor: opt.swatchColor } : undefined
             }

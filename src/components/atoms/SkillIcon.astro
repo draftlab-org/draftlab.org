@@ -1,18 +1,30 @@
 ---
 import hugeiconsPack from '@iconify/json/json/hugeicons.json';
 import { getIconData, iconToHTML, iconToSVG } from '@iconify/utils';
+import { getSkillBySlug } from '@utils/skills';
 
 export interface Props {
-  icon: string;
+  slug: string;
   size?: number;
   class?: string;
   asMask?: boolean;
+  title?: string;
 }
 
-const { icon, size = 20, class: className = '', asMask = false } = Astro.props;
+const {
+  slug,
+  size = 20,
+  class: className = '',
+  asMask = false,
+  title: titleOverride,
+} = Astro.props;
 
-const [, name] = icon.split(':');
-const iconData = getIconData(hugeiconsPack, name);
+const skill = await getSkillBySlug(slug);
+const icon = skill?.icon ?? '';
+const title = titleOverride ?? skill?.name;
+
+const [, iconName] = icon.split(':');
+const iconData = iconName ? getIconData(hugeiconsPack, iconName) : null;
 
 let svgHtml = '';
 let maskUrl = '';
@@ -26,21 +38,22 @@ if (iconData) {
     const svg = `<svg xmlns='http://www.w3.org/2000/svg' ${attrs}>${rendered.body}</svg>`;
     maskUrl = `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
   } else {
-    svgHtml = iconToHTML(rendered.body, {
-      ...rendered.attributes,
-      class: className,
-    });
+    svgHtml = iconToHTML(rendered.body, rendered.attributes);
   }
 }
 ---
 
 {
-  asMask ? (
+  iconData && asMask && (
     <span
       class={className}
+      title={title}
       style={`display: inline-block; mask-image: ${maskUrl}; -webkit-mask-image: ${maskUrl}; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center; mask-size: contain; -webkit-mask-size: contain;`}
     />
-  ) : (
-    <Fragment set:html={svgHtml} />
+  )
+}
+{
+  iconData && !asMask && (
+    <span class:list={['inline-flex', className]} title={title} set:html={svgHtml} />
   )
 }

@@ -1,8 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import Heading from '@components/atoms/Heading.astro';
+import ModalityIcon from '@components/atoms/ModalityIcon.astro';
 import Text from '@components/atoms/Text.astro';
 import { isVisible } from '@utils/content';
+import type { ModalitySlug } from '@utils/modalityIcons';
 
 export interface Props {
   title?: string;
@@ -30,7 +32,11 @@ const modalities = modalitiesRaw
   <div class="grid gap-4 sm:grid-cols-3">
     {modalities.map((modality) => (
       <div class="rounded-lg border border-sand bg-cream-dark/50 p-6">
-        <span class="mb-2 block text-2xl">{modality.data.symbol}</span>
+        <ModalityIcon
+          slug={modality.data.slug as ModalitySlug}
+          size={40}
+          class="mb-2 block text-ink"
+        />
         <h3 class="font-serif text-xl font-medium text-ink">
           {modality.data.name}
         </h3>

@@ -1,0 +1,54 @@
+---
+import {
+  type ModalitySlug,
+  modalityIconSvgs,
+} from '@utils/modalityIcons';
+
+export interface Props {
+  slug: ModalitySlug;
+  size?: number;
+  class?: string;
+  title?: string;
+  decorative?: boolean;
+}
+
+const MODALITY_NAMES: Record<ModalitySlug, string> = {
+  clinic: 'Clinic',
+  studio: 'Studio',
+  community: 'Community',
+};
+
+const {
+  slug,
+  size = 20,
+  class: className = '',
+  title,
+  decorative = false,
+} = Astro.props;
+
+const svg = modalityIconSvgs[slug];
+const label = title ?? MODALITY_NAMES[slug];
+const style = `width: ${size}px; height: ${size}px;`;
+---
+
+{
+  svg && decorative && (
+    <span
+      class:list={['inline-block leading-none', className]}
+      style={style}
+      aria-hidden="true"
+      set:html={svg}
+    />
+  )
+}
+{
+  svg && !decorative && (
+    <span
+      class:list={['inline-block leading-none', className]}
+      style={style}
+      role="img"
+      aria-label={label}
+      set:html={svg}
+    />
+  )
+}

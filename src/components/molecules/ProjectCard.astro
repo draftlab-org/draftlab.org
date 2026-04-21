@@ -14,7 +14,7 @@ export interface Props {
   client?: string;
   clientLogo?: ImageMetadata;
   phases: Array<'understand' | 'define' | 'deliver' | 'sustain'>;
-  skills?: Array<{ name: string; slug: string; icon: string }>;
+  skills?: string[];
   projectStatus?: 'active' | 'complete';
   featured?: boolean;
   image?: ImageMetadata;
@@ -97,13 +97,12 @@ const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
 		{
 			skills.length > 0 && (
 				<div class="mt-auto flex flex-wrap justify-end gap-2 pt-4">
-					{skills.map((skill) => (
-						<span
+					{skills.map((slug) => (
+						<SkillIcon
+							slug={slug}
+							size={18}
 							class="text-ink-muted transition-colors hover:text-secondary-500"
-							title={skill.name}
-						>
-							<SkillIcon icon={skill.icon} size={18} />
-						</span>
+						/>
 					))}
 				</div>
 			)

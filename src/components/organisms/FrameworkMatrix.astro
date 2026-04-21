@@ -1,7 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
+import ModalityIcon from '@components/atoms/ModalityIcon.astro';
 import PhaseTag from '@components/molecules/PhaseTag.astro';
 import { isVisible } from '@utils/content';
+import type { ModalitySlug } from '@utils/modalityIcons';
 import { getProjectsForCell } from '@utils/projects';
 
 export interface Props {
@@ -97,7 +99,12 @@ const phaseBorderColor: Record<string, string> = {
           'flex flex-col justify-center border-r border-sand bg-cream-dark px-4 py-5',
           mIdx < modalities.length - 1 && 'border-b border-sand',
         ]}>
-          <span class="mb-1 text-lg">{modality.data.symbol}</span>
+          <ModalityIcon
+            slug={modality.data.slug as ModalitySlug}
+            size={20}
+            class="mb-1 text-ink"
+            decorative
+          />
           <span class="font-serif text-base font-medium text-ink">{modality.data.name}</span>
           <span class="mt-1 text-[0.72rem] italic leading-snug text-ink-muted">
             {modality.data.tagline}
@@ -153,7 +160,12 @@ const phaseBorderColor: Record<string, string> = {
         {/* Modality header */}
         <div class="bg-cream-dark px-4 py-4 border-b border-sand">
           <div class="flex items-center gap-2">
-            <span class="text-lg">{modality.data.symbol}</span>
+            <ModalityIcon
+              slug={modality.data.slug as ModalitySlug}
+              size={20}
+              class="text-ink"
+              decorative
+            />
             <span class="font-serif text-lg font-medium text-ink">{modality.data.name}</span>
           </div>
           <p class="mt-1 text-[0.8rem] italic text-ink-muted">{modality.data.tagline}</p>
@@ -225,7 +237,12 @@ const phaseBorderColor: Record<string, string> = {
       <div class="flex flex-col gap-1.5">
         {modalities.map((modality) => (
           <div class="flex items-center gap-2">
-            <span class="w-4 text-center text-[0.85rem] not-italic">{modality.data.symbol}</span>
+            <ModalityIcon
+              slug={modality.data.slug as ModalitySlug}
+              size={14}
+              class="shrink-0 text-ink-muted"
+              decorative
+            />
             <span>{modality.data.name} — {modality.data.tagline.toLowerCase().replace(/\.$/, '')}</span>
           </div>
         ))}
