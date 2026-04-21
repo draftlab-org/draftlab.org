@@ -76,7 +76,7 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 				)
 			}
 			<div
-				class="absolute -right-1/4 -z-10 block h-full w-full opacity-25 md:hidden"
+				class="fixed top-24 -right-1/4 -z-10 block h-full w-full opacity-25 md:hidden"
 			>
 				<div class="skills-cloud-wrap h-auto">
 					<SkillsCloud client:visible skills={cloudSkills} />
