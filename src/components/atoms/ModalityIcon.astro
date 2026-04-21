@@ -10,6 +10,7 @@ export interface Props {
   class?: string;
   title?: string;
   decorative?: boolean;
+  asMask?: boolean;
 }
 
 const MODALITY_NAMES: Record<ModalitySlug, string> = {
@@ -24,15 +25,43 @@ const {
   class: className = '',
   title,
   decorative = false,
+  asMask = false,
 } = Astro.props;
 
 const svg = modalityIconSvgs[slug];
 const label = title ?? MODALITY_NAMES[slug];
-const style = `width: ${size}px; height: ${size}px;`;
+
+// For `asMask`, encode the SVG as a data URI and use it as a CSS mask-image
+// on an empty span. Any background utility on that span (e.g. gradient-phase)
+// then becomes the icon's rendered color.
+let style = `width: ${size}px; height: ${size}px;`;
+if (asMask && svg) {
+  const maskUrl = `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
+  style += ` mask-image: ${maskUrl}; -webkit-mask-image: ${maskUrl}; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center; mask-size: contain; -webkit-mask-size: contain;`;
+}
 ---
 
 {
-  svg && decorative && (
+  svg && asMask && decorative && (
+    <span
+      class:list={['inline-block', className]}
+      style={style}
+      aria-hidden="true"
+    />
+  )
+}
+{
+  svg && asMask && !decorative && (
+    <span
+      class:list={['inline-block', className]}
+      style={style}
+      role="img"
+      aria-label={label}
+    />
+  )
+}
+{
+  svg && !asMask && decorative && (
     <span
       class:list={['inline-block leading-none', className]}
       style={style}
@@ -42,7 +71,7 @@ const style = `width: ${size}px; height: ${size}px;`;
   )
 }
 {
-  svg && !decorative && (
+  svg && !asMask && !decorative && (
     <span
       class:list={['inline-block leading-none', className]}
       style={style}

@@ -1,13 +1,11 @@
 {
   "id": "alicja-peszkowska",
   "name": "Alicja Peszkowska",
-  "headshot": "/src/assets/people/alicja-peszkowska.svg",
+  "headshot": "/src/assets/people/alicja-peszkowska.png",
   "title": "Anthropologist & Participation Strategist",
   "role": "Collaborator",
   "bio": "Alicja helps people clarify their mission, strengthen their communities, and design participation. She specialises in community engagement, branding, and storytelling across nonprofit and corporate sectors.",
   "url": "https://superbloom.design/about/people/alicja-peszkowska/",
-  "sections": [
-    "Collaborator"
-  ],
+  "sections": ["Collaborator"],
   "status": "published"
 }

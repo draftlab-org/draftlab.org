@@ -1,14 +1,12 @@
 {
   "id": "tom-walker",
   "name": "Tom Walker",
-  "headshot": "/src/assets/tomw-headshot.jpg",
+  "headshot": "/src/assets/people/tomw-headshot.jpg",
   "title": "Researcher & Project Manager",
   "role": "Collaborator",
   "bio": "Tom specialises in data, technology, human rights, and environmental issues, helping civil society organisations use technology and data effectively and responsibly. He has worked with the BBC, ICRC, Amnesty, Open Society Foundations, and others across 27 countries.",
   "url": "https://tomwalker.fyi/",
-  "sections": [
-    "Team"
-  ],
+  "sections": ["Team"],
   "status": "published",
   "skills": [
     "capacity-building",

@@ -1,7 +1,9 @@
 ---
 import Heading from '@components/atoms/Heading.astro';
+import ModalityIcon from '@components/atoms/ModalityIcon.astro';
 import SkillIcon from '@components/atoms/SkillIcon.astro';
 import Text from '@components/atoms/Text.astro';
+import type { ModalitySlug } from '@utils/modalityIcons';
 import { getProjects } from '@utils/projects';
 
 export interface Props {
@@ -19,38 +21,72 @@ const activeProjects = allProjects.filter(
 
 {
 	activeProjects.length > 0 && (
-		<div class="relative left-1/2 -ml-[50vw] w-screen px-4 py-12 text-cream sm:px-6 md:py-16 lg:px-10">
-			{title && (
-				<Heading level={4} class="mb-3 text-cream">
-					{title}
-				</Heading>
-			)}
-			{description && (
-				<Text size="lg" class="mb-6 max-w-2xl text-cream/90">
-					{description}
-				</Text>
-			)}
-			<ul class="flex flex-col gap-y-2 text-2xl font-semibold md:text-3xl lg:text-4xl">
+		<div class="grid grid-cols-1 gap-4 text-cream md:grid-cols-8 md:gap-2">
+			<div class="flex flex-col items-start border-b-2 border-b-cream md:col-span-1 md:items-end md:border-r-2 md:border-b-0 md:border-r-cream md:pr-1 md:pb-0">
+				{title && (
+					<Heading
+						level={4}
+						class="font-sans text-cream uppercase md:rotate-180 md:whitespace-nowrap md:[writing-mode:vertical-rl]"
+					>
+						{title}
+					</Heading>
+				)}
+				{description && (
+					<Text size="lg" class="mb-6 max-w-2xl text-cream/90">
+						{description}
+					</Text>
+				)}
+			</div>
+			<ul class="flex flex-col gap-y-2 text-2xl font-semibold md:col-span-7 md:text-3xl lg:text-4xl">
 				{activeProjects.map((project) => (
 					<li>
-						<div class="group flex flex-row items-baseline gap-2">
+						<div class="flex flex-row items-baseline gap-3">
 							<a
 								href={`/work/${project.data.slug}`}
-								class="text-cream hover:text-white"
+								class="group text-cream hover:text-white"
 							>
-								<h2 class="link-brackets">{project.data.name}</h2>
+								<h2 class="group link-brackets min-w-sm">
+									{project.data.name}
+									<div class="flex place-content-end gap-4">
+										<div class="flex gap-1">
+											{project.data.modalities?.map((slug, i) => (
+												<span
+													class="skill-reveal text-white/0 transition-colors group-hover:text-white"
+													style={`--i: ${i}`}
+												>
+													<ModalityIcon
+														slug={slug as ModalitySlug}
+														decorative
+													/>
+												</span>
+											))}
+										</div>
+										<div class="flex gap-1">
+											{project.data.skills?.map((slug, i) => (
+												<span
+													class="skill-reveal text-white/0 transition-colors group-hover:text-white"
+													style={`--i: ${i}`}
+												>
+													<SkillIcon slug={slug} />
+												</span>
+											))}
+										</div>
+									</div>
+								</h2>
 							</a>
-							{project.data.skills?.map((slug, i) => (
-								<span
-									class="skill-reveal text-white/0 transition-colors group-hover:text-white"
-									style={`--i: ${i}`}
-								>
-									<SkillIcon slug={slug} />
-								</span>
-							))}
 						</div>
 					</li>
 				))}
+				<li>
+					<div class="flex flex-row items-baseline gap-3">
+						<a href="/work/" class="group text-cream hover:text-white">
+							<h2 class="group link-brackets min-w-sm">
+								All projects
+								<div class="flex place-content-end gap-4" />
+							</h2>
+						</a>
+					</div>
+				</li>
 			</ul>
 		</div>
 	)
@@ -58,6 +94,6 @@ const activeProjects = allProjects.filter(
 
 <style>
 	.group:hover .skill-reveal {
-		transition-delay: calc(var(--i, 0) * 80ms);
+		transition-delay: calc(var(--i, 0) * 50ms);
 	}
 </style>

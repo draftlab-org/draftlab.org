@@ -6,6 +6,10 @@
   @apply bg-linear-to-r from-phase-understand-light via-phase-define-light via-phase-deliver-light to-phase-sustain-light;
 }
 
+@utility gradient-phase-dark {
+  @apply bg-linear-to-r from-phase-understand-dark via-phase-define-dark via-phase-deliver-dark to-phase-sustain-dark;
+}
+
 /*
   -------------
   Button

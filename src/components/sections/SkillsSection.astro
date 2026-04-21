@@ -31,7 +31,11 @@ const skills = skillsRaw
 
   <div class="grid gap-x-10 gap-y-6 sm:grid-cols-2">
     {skills.map((skill) => (
-      <div class="group flex items-stretch gap-4 transition-colors">
+      <a
+        href={`/work?skills=${skill.slug}`}
+        class="group flex items-stretch gap-4 p-2 no-underline transition-shadow duration-150 hover:shadow-sm"
+        aria-label={`See projects using ${skill.name}`}
+      >
         <div class="flex aspect-square w-12 shrink-0 items-center justify-center">
           <SkillIcon
             slug={skill.slug}
@@ -49,7 +53,7 @@ const skills = skillsRaw
             </p>
           )}
         </div>
-      </div>
+      </a>
     ))}
   </div>
 </div>

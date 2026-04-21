@@ -12,34 +12,36 @@ sections:
 
       What makes us different is a disposition. We treat every engagement as a design problem, whether that means facilitating a workshop, writing a technical specification, building a platform, or helping a team govern the thing they've already built. We show up as partners.
   - type: modalitiesOverview
-    title: How we show up
-    description: "Three ways of working, adapted to the situation."
+    title: Our work modes
   - type: phasesOverview
-    title: Where we meet you
-    description: "Four phases of a project's life. You can enter at any point."
+    title: Full lifecycle
+
+  - type: skills
+    title: Our toolbox
   - type: richText
+    background:
+      bgColor: phase-gradient-light
     content: >-
       ### A collaborative practice
 
 
       Draftlab is a collective. We bring together independent practitioners with deep, complementary expertise across facilitation, research, technology, and humanitarian systems. On every project, we assemble the right team for the work at hand. Our clients get senior, experienced people who care about the outcome.
   - type: people
-  - type: skills
-    title: What we do
-    description: "The skills we bring to every engagement."
   - type: richText
+    background:
+      bgColor: phase-gradient-light
     content: >-
-      ### Open Technology Fund pro bono support
+      ### Apply for pro bono support
 
 
       Draftlab provides pro bono design and technical support to internet freedom projects through the Open Technology Fund. If you're an OTF-funded project that could use help with user research, product design, or technical architecture, [get in touch](/get-in-touch).
-  - type: button
-    buttons:
-      - variant: primary
-        size: lg
-        href: /work
-        text: See our work
-      - variant: outline
-        size: lg
-        href: /get-in-touch
-        text: Get in touch
+  # - type: button
+  #   buttons:
+  #     - variant: primary
+  #       size: lg
+  #       href: /work
+  #       text: See our work
+  #     - variant: outline
+  #       size: lg
+  #       href: /get-in-touch
+  #       text: Get in touch

@@ -31,22 +31,27 @@ const modalities = modalitiesRaw
 
   <div class="grid gap-4 sm:grid-cols-3">
     {modalities.map((modality) => (
-      <div class="rounded-lg border border-sand bg-cream-dark/50 p-6">
-        <ModalityIcon
-          slug={modality.data.slug as ModalitySlug}
-          size={40}
-          class="mb-2 block text-ink"
-        />
-        <h3 class="font-serif text-xl font-medium text-ink">
-          {modality.data.name}
-        </h3>
-        <p class="mt-1 text-sm italic text-ink-muted">
+      <a
+        href={`/work?modalities=${modality.data.slug}`}
+        class="flex flex-col bg-white p-6 no-underline shadow-sm transition-shadow duration-150 hover:shadow-md"
+        aria-label={`See ${modality.data.name} projects`}
+      >
+        <div class="flex items-center gap-4">
+          <ModalityIcon
+            slug={modality.data.slug as ModalitySlug}
+            size={56}
+            asMask
+            decorative
+            class="gradient-phase shrink-0"
+          />
+          <h3 class="font-serif text-xl font-medium text-ink">
+            {modality.data.name}
+          </h3>
+        </div>
+        <p class="mt-3 text-sm italic text-ink-muted">
           {modality.data.tagline}
         </p>
-        <p class="mt-3 text-sm leading-relaxed text-ink-soft">
-          {modality.data.description}
-        </p>
-      </div>
+      </a>
     ))}
   </div>
 </div>
