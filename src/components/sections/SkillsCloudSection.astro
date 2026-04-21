@@ -78,7 +78,7 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 			<div
 				data-skills-watermark
 				data-section-visible="true"
-				class="fixed top-24 -right-1/4 -z-10 block h-full w-lg opacity-25 transition-opacity duration-300 md:hidden data-[section-visible=false]:pointer-events-none data-[section-visible=false]:opacity-0"
+				class="fixed top-24 -z-10 block h-full w-xl overflow-hidden opacity-25 transition-opacity duration-300 data-[section-visible=false]:pointer-events-none data-[section-visible=false]:opacity-0 md:hidden"
 			>
 				<div class="skills-cloud-wrap h-auto">
 					<SkillsCloud client:visible skills={cloudSkills} />
