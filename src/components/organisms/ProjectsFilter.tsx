@@ -193,11 +193,11 @@ export default function ProjectsFilter({
     const m = modalityBySlug.get(slug);
     if (!m) return slug;
     return (
-      <span className="inline-flex items-center gap-1 font-medium text-ink">
+      <span className="inline-flex items-baseline gap-1 font-medium text-ink">
         {m.iconSvg && (
           <span
             aria-hidden="true"
-            className="inline-flex h-4 w-4 shrink-0 items-center justify-center text-ink"
+            className="h-3 w-3 text-ink"
             dangerouslySetInnerHTML={{ __html: m.iconSvg }}
           />
         )}
