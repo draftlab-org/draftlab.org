@@ -189,52 +189,67 @@ export default function ProjectsFilter({
   const activeCount =
     state.phases.length + state.modalities.length + state.skills.length;
 
-  const renderModalityChip = (slug: string): ReactNode => {
-    const m = modalityBySlug.get(slug);
-    if (!m) return slug;
-    return (
-      <span className="inline-flex items-baseline gap-1 font-medium text-ink">
-        {m.iconSvg && (
-          <span
-            aria-hidden="true"
-            className="h-3 w-3 text-ink"
-            dangerouslySetInnerHTML={{ __html: m.iconSvg }}
-          />
-        )}
-        {m.name}
-      </span>
-    );
-  };
+  // Inline-icon-beside-text: wrapper is sized 1em × 1em (matches text size),
+  // nudged down ~1/8em to sit on the text baseline. The inner SVG is expected
+  // to have width="100%" height="100%" so it fills the wrapper.
+  const chipIconClass =
+    'inline-block size-[1em] shrink-0 align-[-0.125em] [&>svg]:h-full [&>svg]:w-full';
 
-  const renderPhaseChip = (slug: string): ReactNode => {
-    const p = phaseBySlug.get(slug);
-    if (!p) return slug;
-    return (
-      <span
-        className="font-medium"
-        style={{ color: `var(--color-phase-${slug}-dark)` }}
-      >
-        {p.name}
-      </span>
-    );
-  };
+  const renderModalityChip = useCallback(
+    (slug: string): ReactNode => {
+      const m = modalityBySlug.get(slug);
+      if (!m) return slug;
+      return (
+        <span className="font-medium text-ink">
+          {m.iconSvg && (
+            <span
+              aria-hidden="true"
+              className={`${chipIconClass} mr-1 text-ink`}
+              dangerouslySetInnerHTML={{ __html: m.iconSvg }}
+            />
+          )}
+          {m.name}
+        </span>
+      );
+    },
+    [modalityBySlug]
+  );
 
-  const renderSkillChip = (slug: string): ReactNode => {
-    const s = skillBySlug.get(slug);
-    if (!s) return slug;
-    return (
-      <span className="inline-flex items-baseline gap-1 font-medium text-ink">
-        {s.iconSvg && (
-          <span
-            aria-hidden="true"
-            className="h-3 w-3.5 text-ink-muted"
-            dangerouslySetInnerHTML={{ __html: s.iconSvg }}
-          />
-        )}
-        {s.name}
-      </span>
-    );
-  };
+  const renderPhaseChip = useCallback(
+    (slug: string): ReactNode => {
+      const p = phaseBySlug.get(slug);
+      if (!p) return slug;
+      return (
+        <span
+          className="font-medium"
+          style={{ color: `var(--color-phase-${slug}-dark)` }}
+        >
+          {p.name}
+        </span>
+      );
+    },
+    [phaseBySlug]
+  );
+
+  const renderSkillChip = useCallback(
+    (slug: string): ReactNode => {
+      const s = skillBySlug.get(slug);
+      if (!s) return slug;
+      return (
+        <span className="font-medium text-ink">
+          {s.iconSvg && (
+            <span
+              aria-hidden="true"
+              className={`${chipIconClass} mr-1 text-ink-muted`}
+              dangerouslySetInnerHTML={{ __html: s.iconSvg }}
+            />
+          )}
+          {s.name}
+        </span>
+      );
+    },
+    [skillBySlug]
+  );
 
   const summary: ReactNode = useMemo(() => {
     if (activeCount === 0) {
@@ -296,7 +311,7 @@ export default function ProjectsFilter({
     parts.push({ id: 'period', node: <>.</> });
 
     return parts.map((p) => <Fragment key={p.id}>{p.node}</Fragment>);
-  }, [activeCount, state]);
+  }, [activeCount, state, renderModalityChip, renderPhaseChip, renderSkillChip]);
 
   const renderRow = (
     label: string,

@@ -39,12 +39,14 @@ const modalityEntries = (await getCollection('modalities')).sort(
   (a, b) => a.data.order - b.data.order
 );
 
-// Pre-render icon SVGs for skills (used inside the React island)
-const renderIconSvg = (iconId: string, size = 16): string => {
+// Pre-render icon SVGs for skills (used inside the React island). The SVG's
+// root is width="100%" height="100%" so the icon scales to whatever wrapper
+// sizes it — filter-toggle buttons (h-4 w-4) and inline chips (1em) both work.
+const renderIconSvg = (iconId: string): string => {
   const [, name] = iconId.split(':');
   const data = getIconData(hugeiconsPack, name);
   if (!data) return '';
-  const rendered = iconToSVG(data, { height: size, width: size });
+  const rendered = iconToSVG(data, { height: '100%', width: '100%' });
   return iconToHTML(rendered.body, rendered.attributes);
 };
 
@@ -54,7 +56,7 @@ const skillOptions: FilterOption[] = allSkills
   .map((s) => ({
     slug: s.data.slug,
     name: s.data.name,
-    iconSvg: renderIconSvg(s.data.icon, 16),
+    iconSvg: renderIconSvg(s.data.icon),
   }));
 
 const phaseOptions: FilterOption[] = phaseEntries.map((p) => ({
