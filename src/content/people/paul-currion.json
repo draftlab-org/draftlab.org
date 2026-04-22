@@ -5,7 +5,9 @@
   "title": "Humanitarian Technologist & Writer",
   "role": "Collaborator",
   "bio": "Paul works at the intersection of humanitarian aid, technology, and systems thinking, with deep expertise in crisis response, information management, digital identity, and data stewardship in humanitarian contexts.",
-  "url": "https://currion.net/",
+  "social": {
+    "personalSite": "https://currion.net/"
+  },
   "sections": ["Collaborator"],
   "status": "published"
 }

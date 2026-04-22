@@ -59,7 +59,19 @@ const createSchemas = (image: ImageFunction) => {
     role: z.string().optional(),
     bio: z.string().optional(),
     extraInfo: z.string().optional(),
-    url: z.string().optional(),
+    social: z
+      .object({
+        personalSite: z.string().optional(),
+        bluesky: z.string().optional(),
+        github: z.string().optional(),
+        mastodon: z.string().optional(),
+        linkedin: z.string().optional(),
+        x: z.string().optional(),
+        facebook: z.string().optional(),
+        instagram: z.string().optional(),
+        youtube: z.string().optional(),
+      })
+      .optional(),
     skills: z.array(z.string()).optional(),
     sections: z.array(
       z.enum(peopleCategories.categories as [string, ...string[]])

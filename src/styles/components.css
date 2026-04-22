@@ -10,6 +10,42 @@
   @apply bg-linear-to-r from-phase-understand-dark via-phase-define-dark via-phase-deliver-dark to-phase-sustain-dark;
 }
 
+/* Static L-shaped corner brackets drawn at each corner of a box.
+   Same 8-linear-gradient technique as the link-brackets utility
+   (src/styles/typography.css) but with fixed pixel dimensions, so
+   brackets stay put regardless of text size and are always visible.
+   Uses currentColor — set color via text-* utilities on the caller. */
+@utility corner-brackets {
+  background-image:
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor);
+  background-size:
+    28px 11px,
+    11px 28px,
+    28px 11px,
+    11px 28px,
+    28px 11px,
+    11px 28px,
+    28px 11px,
+    11px 28px;
+  background-position:
+    top left,
+    top left,
+    top right,
+    top right,
+    bottom left,
+    bottom left,
+    bottom right,
+    bottom right;
+  background-repeat: no-repeat;
+}
+
 /*
   -------------
   Button

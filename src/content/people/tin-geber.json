@@ -7,7 +7,11 @@
   "bio": "Designer, developer, and facilitator working at the intersection of technology and social good. Tin founded Draftlab to help civil society organizations build appropriate technology that strengthens human systems.",
   "sections": ["Team"],
   "status": "published",
-  "url": "https://tin.fyi",
+  "social": {
+    "personalSite": "https://tin.fyi",
+    "bluesky": "https://bsky.app/profile/tin.fyi",
+    "github": "https://github.com/tingeber"
+  },
   "skills": [
     "ai-automation",
     "capacity-building",

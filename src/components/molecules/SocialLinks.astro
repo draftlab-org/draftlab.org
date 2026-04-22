@@ -1,32 +1,51 @@
 ---
 import { getEntry } from 'astro:content';
-import IconBluesky from '~icons/simple-icons/bluesky';
-import IconFacebook from '~icons/simple-icons/facebook';
-import IconGithub from '~icons/simple-icons/github';
-import IconInstagram from '~icons/simple-icons/instagram';
-import IconLinkedin from '~icons/simple-icons/linkedin';
-import IconMastodon from '~icons/simple-icons/mastodon';
-import IconX from '~icons/simple-icons/x';
-import IconYoutube from '~icons/simple-icons/youtube';
+import heroiconsPack from '@iconify/json/json/heroicons.json';
+import simpleIconsPack from '@iconify/json/json/simple-icons.json';
+import { getIconData, iconToSVG } from '@iconify/utils';
 
-// Fetch site config for social links
-const siteConfig = await getEntry('site', 'config');
-const social = siteConfig?.data.social;
+export interface Props {
+  /** Optional social object. Defaults to site config social links. */
+  social?: Record<string, string | undefined> | null;
+  class?: string;
+  /** Tailwind sizing classes applied to each icon element (e.g. "w-5 h-5"). */
+  iconClass?: string;
+  /** Classes applied to each link/icon element — controls color + hover. */
+  linkClass?: string;
+}
 
-// Map of social network to icon component
-const iconMap = {
-  bluesky: IconBluesky,
-  github: IconGithub,
-  linkedin: IconLinkedin,
-  mastodon: IconMastodon,
-  x: IconX,
-  facebook: IconFacebook,
-  instagram: IconInstagram,
-  youtube: IconYoutube,
+const {
+  social: socialProp,
+  class: className = '',
+  iconClass = 'w-5 h-5',
+  linkClass = 'bg-current transition-opacity hover:opacity-80',
+} = Astro.props;
+
+// Default to site config social links when none is passed.
+let social: Record<string, string | undefined> | null | undefined = socialProp;
+if (social === undefined) {
+  const siteConfig = await getEntry('site', 'config');
+  social = siteConfig?.data.social;
+}
+
+// Each entry maps a social key → the iconify pack + icon name to render.
+const iconMap: Record<
+  string,
+  { pack: typeof simpleIconsPack | typeof heroiconsPack; name: string }
+> = {
+  personalSite: { pack: heroiconsPack, name: 'globe-alt-20-solid' },
+  bluesky: { pack: simpleIconsPack, name: 'bluesky' },
+  github: { pack: simpleIconsPack, name: 'github' },
+  linkedin: { pack: simpleIconsPack, name: 'linkedin' },
+  mastodon: { pack: simpleIconsPack, name: 'mastodon' },
+  x: { pack: simpleIconsPack, name: 'x' },
+  facebook: { pack: simpleIconsPack, name: 'facebook' },
+  instagram: { pack: simpleIconsPack, name: 'instagram' },
+  youtube: { pack: simpleIconsPack, name: 'youtube' },
 };
 
-// Map of social network to label
-const labelMap = {
+const labelMap: Record<string, string> = {
+  personalSite: 'Personal website',
   bluesky: 'Bluesky',
   github: 'GitHub',
   linkedin: 'LinkedIn',
@@ -37,39 +56,51 @@ const labelMap = {
   youtube: 'YouTube',
 };
 
-export interface Props {
-  class?: string;
-  iconClass?: string;
+function maskUrlFor(
+  pack: typeof simpleIconsPack | typeof heroiconsPack,
+  name: string
+): string {
+  const iconData = getIconData(pack, name);
+  if (!iconData) return '';
+  const rendered = iconToSVG(iconData, { height: '100%', width: '100%' });
+  const attrs = Object.entries(rendered.attributes)
+    .map(([k, v]) => `${k}='${v}'`)
+    .join(' ');
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' ${attrs}>${rendered.body}</svg>`;
+  return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
 }
 
-const { class: className = '', iconClass = 'w-5 h-5' } = Astro.props;
-
-// Build list of active social links
 const socialLinks = social
   ? Object.entries(social)
-      .filter(([_, url]) => url && url.trim() !== '')
-      .map(([network, url]) => ({
-        network,
-        url,
-        icon: iconMap[network as keyof typeof iconMap],
-        label: labelMap[network as keyof typeof labelMap],
-      }))
+      .filter(([key, url]) => url && url.trim() !== '' && key in iconMap)
+      .map(([key, url]) => {
+        const { pack, name } = iconMap[key];
+        return {
+          key,
+          url,
+          label: labelMap[key],
+          maskUrl: maskUrlFor(pack, name),
+        };
+      })
+      .filter((entry) => entry.maskUrl)
   : [];
+
+const maskStyle =
+  'mask-size: contain; -webkit-mask-size: contain; mask-position: center; -webkit-mask-position: center; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat;';
 ---
 
 {
 	socialLinks.length > 0 && (
-		<div class={`flex items-center gap-4 ${className}`}>
-			{socialLinks.map(({ network, url, icon: Icon, label }) => (
+		<div class:list={['flex items-center', className]}>
+			{socialLinks.map(({ url, label, maskUrl }) => (
 				<a
 					href={url}
 					target="_blank"
 					rel="noopener noreferrer"
-					class="transition-colors hover:text-gray-900 dark:text-white dark:hover:text-primary-300"
 					aria-label={label}
-				>
-					<Icon class={iconClass} />
-				</a>
+					class:list={['inline-block', iconClass, linkClass]}
+					style={`${maskStyle} mask-image: ${maskUrl}; -webkit-mask-image: ${maskUrl};`}
+				/>
 			))}
 		</div>
 	)

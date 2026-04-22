@@ -880,9 +880,37 @@ content:
         label: Other/Previous Affiliations
         type: string
 
-      - name: url
-        label: Link
-        type: string
+      - name: social
+        label: Social Media Links
+        type: object
+        fields:
+          - name: personalSite
+            label: Personal Website URL
+            type: string
+          - name: bluesky
+            label: BlueSky URL
+            type: string
+          - name: mastodon
+            label: Mastodon URL
+            type: string
+          - name: github
+            label: GitHub URL
+            type: string
+          - name: linkedin
+            label: LinkedIn URL
+            type: string
+          - name: x
+            label: X URL
+            type: string
+          - name: facebook
+            label: Facebook URL
+            type: string
+          - name: instagram
+            label: Instagram URL
+            type: string
+          - name: youtube
+            label: YouTube URL
+            type: string
 
       - name: skills
         label: Skills
