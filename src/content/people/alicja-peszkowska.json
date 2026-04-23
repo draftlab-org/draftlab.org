@@ -9,6 +9,16 @@
     "linkedin": "https://www.linkedin.com/in/alicja-peszkowska",
     "medium": "https://alicja-peas.medium.com/"
   },
-  "sections": ["Collaborator"],
-  "status": "published"
+  "sections": [
+    "Associates"
+  ],
+  "status": "published",
+  "skills": [
+    "capacity-building",
+    "grant-programme-development",
+    "human-centered-design",
+    "multi-stakeholder-coordination",
+    "strategic-advising",
+    "user-research"
+  ]
 }
