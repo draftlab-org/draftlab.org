@@ -8,6 +8,15 @@
   "social": {
     "personalSite": "https://currion.net/"
   },
-  "sections": ["Collaborator"],
-  "status": "published"
+  "sections": [
+    "Collaborator"
+  ],
+  "status": "published",
+  "skills": [
+    "data-architecture",
+    "multi-stakeholder-coordination",
+    "organisational-diagnostics",
+    "responsible-data-governance",
+    "strategic-advising"
+  ]
 }
