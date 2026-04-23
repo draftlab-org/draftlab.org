@@ -934,8 +934,10 @@ content:
           values:
             - label: Team
               name: Team
-            - label: Associates
-              name: Associates
+            - label: Collaborator
+              name: Collaborator
+            - label: Advisor
+              name: Advisor
 
   # --------------------------------------------------------------------------
   # Phases (framework data)
