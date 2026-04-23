@@ -17,6 +17,7 @@ export default defineConfig({
     enabled: false,
   },
   experimental: {
+    contentIntellisense: true,
     fonts: [
       {
         provider: fontProviders.bunny(),

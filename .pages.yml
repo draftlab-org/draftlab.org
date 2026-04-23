@@ -911,6 +911,9 @@ content:
           - name: youtube
             label: YouTube URL
             type: string
+          - name: medium
+            label: Medium URL
+            type: string
 
       - name: skills
         label: Skills
@@ -1273,6 +1276,9 @@ content:
             type: string
           - name: youtube
             label: YouTube URL
+            type: string
+          - name: medium
+            label: Medium URL
             type: string
 
       - name: footer

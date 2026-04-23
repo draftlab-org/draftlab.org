@@ -70,6 +70,7 @@ const createSchemas = (image: ImageFunction) => {
         facebook: z.string().optional(),
         instagram: z.string().optional(),
         youtube: z.string().optional(),
+        medium: z.string().optional(),
       })
       .optional(),
     skills: z.array(z.string()).optional(),
@@ -341,6 +342,7 @@ const siteCollection = defineCollection({
           facebook: z.string().optional(),
           instagram: z.string().optional(),
           youtube: z.string().optional(),
+          medium: z.string().optional(),
         })
         .optional(),
       footer: z.object({
