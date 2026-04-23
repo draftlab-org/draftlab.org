@@ -9,6 +9,7 @@ export interface Props {
   class?: string;
   asMask?: boolean;
   title?: string;
+  tooltip?: boolean;
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   class: className = '',
   asMask = false,
   title: titleOverride,
+  tooltip = true,
 } = Astro.props;
 
 const skill = await getSkillBySlug(slug);
@@ -44,16 +46,51 @@ if (iconData) {
 ---
 
 {
-  iconData && asMask && (
-    <span
-      class={className}
-      title={title}
-      style={`display: inline-block; mask-image: ${maskUrl}; -webkit-mask-image: ${maskUrl}; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center; mask-size: contain; -webkit-mask-size: contain;`}
-    />
-  )
+	iconData && !tooltip && asMask && (
+		<span
+			class={className}
+			role="img"
+			aria-label={title}
+			style={`display: inline-block; mask-image: ${maskUrl}; -webkit-mask-image: ${maskUrl}; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center; mask-size: contain; -webkit-mask-size: contain;`}
+		/>
+	)
 }
 {
-  iconData && !asMask && (
-    <span class:list={['inline-flex', className]} title={title} set:html={svgHtml} />
-  )
+	iconData && !tooltip && !asMask && (
+		<span
+			class:list={['inline-flex', className]}
+			role="img"
+			aria-label={title}
+			set:html={svgHtml}
+		/>
+	)
+}
+{
+	iconData && tooltip && (
+		<span class="group relative inline-flex">
+			{asMask ? (
+				<span
+					class={className}
+					role="img"
+					aria-label={title}
+					style={`display: inline-block; mask-image: ${maskUrl}; -webkit-mask-image: ${maskUrl}; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center; mask-size: contain; -webkit-mask-size: contain;`}
+				/>
+			) : (
+				<span
+					class:list={['inline-flex', className]}
+					role="img"
+					aria-label={title}
+					set:html={svgHtml}
+				/>
+			)}
+			{title && (
+				<span
+					aria-hidden="true"
+					class="pointer-events-none absolute bottom-full left-1/2 z-50 mb-1.5 -translate-x-1/2 translate-y-1 border border-ink/20 bg-cream px-2 py-1 pb-[0.22rem] font-mono text-[0.65rem] leading-none font-medium tracking-[0.14em] whitespace-nowrap text-ink uppercase opacity-0 shadow-[2px_2px_0_color-mix(in_srgb,var(--color-ink)_10%,transparent)] transition duration-150 ease-out group-focus-within:translate-y-0 group-focus-within:opacity-100 group-hover:translate-y-0 group-hover:opacity-100 motion-reduce:translate-y-0 motion-reduce:transition-none"
+				>
+					{title}
+				</span>
+			)}
+		</span>
+	)
 }
