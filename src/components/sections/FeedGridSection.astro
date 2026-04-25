@@ -1,0 +1,160 @@
+---
+import { getCollection } from 'astro:content';
+import hugeiconsPack from '@iconify/json/json/hugeicons.json';
+import { getIconData, iconToHTML, iconToSVG } from '@iconify/utils';
+import Heading from '@components/atoms/Heading.astro';
+import Text from '@components/atoms/Text.astro';
+import ProjectCard from '@components/molecules/ProjectCard.astro';
+import QuoteCard from '@components/molecules/QuoteCard.astro';
+import FeedFilter, {
+  type FeedItemTagData,
+  type FilterOption,
+} from '@components/organisms/FeedFilter';
+import { isVisible } from '@utils/content';
+import { FEED_ITEM_KINDS, getFeedItems } from '@utils/feed';
+import {
+  type ModalitySlug,
+  modalityIconSvgs,
+} from '@utils/modalityIcons';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const gridId = 'feed-grid';
+
+const items = await getFeedItems();
+
+const allSkills = (await getCollection('skills')).filter((s) => isVisible(s));
+
+const phaseEntries = (await getCollection('phases')).sort(
+  (a, b) => a.data.number - b.data.number
+);
+const modalityEntries = (await getCollection('modalities')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+// Pre-render icon SVGs server-side. Root width/height = 100% so the icon
+// scales to whatever wrapper sizes it (filter toggles h-4 w-4 vs inline 1em).
+const renderIconSvg = (iconId: string): string => {
+  const [, name] = iconId.split(':');
+  const data = getIconData(hugeiconsPack, name);
+  if (!data) return '';
+  const rendered = iconToSVG(data, { height: '100%', width: '100%' });
+  return iconToHTML(rendered.body, rendered.attributes);
+};
+
+const typeOptions: FilterOption[] = FEED_ITEM_KINDS.map((k) => ({
+  slug: k.slug,
+  name: k.name,
+}));
+
+const skillOptions: FilterOption[] = allSkills
+  .slice()
+  .sort((a, b) => a.data.name.localeCompare(b.data.name))
+  .map((s) => ({
+    slug: s.data.slug,
+    name: s.data.name,
+    iconSvg: renderIconSvg(s.data.icon),
+  }));
+
+const phaseOptions: FilterOption[] = phaseEntries.map((p) => ({
+  slug: p.data.slug,
+  name: p.data.name,
+  swatchColor: `var(--color-phase-${p.data.slug})`,
+}));
+
+const modalityOptions: FilterOption[] = modalityEntries.map((m) => ({
+  slug: m.data.slug,
+  name: m.data.name,
+  iconSvg: modalityIconSvgs[m.data.slug as ModalitySlug],
+}));
+
+const itemTags: FeedItemTagData[] = items.map((it) => ({
+  slug: it.slug,
+  kind: it.kind,
+  phases: it.phases,
+  modalities: it.modalities,
+  skills: it.skills,
+}));
+---
+
+<div class="py-4">
+	{
+		(title || description) && (
+			<div class="mb-8 max-w-2xl">
+				{title && (
+					<Heading level={2} class="mb-3">
+						{title}
+					</Heading>
+				)}
+				{description && (
+					<Text size="lg" class="text-ink-soft">
+						{description}
+					</Text>
+				)}
+			</div>
+		)
+	}
+
+	<FeedFilter
+		client:load
+		gridId={gridId}
+		types={typeOptions}
+		modalities={modalityOptions}
+		phases={phaseOptions}
+		skills={skillOptions}
+		items={itemTags}
+	/>
+
+	<div id={gridId} class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+		{
+			items.map((item) => (
+				<div
+					data-feed-slug={`${item.kind}-${item.slug}`}
+					data-feed-kind={item.kind}
+					data-phases={item.phases.join(',')}
+					data-modalities={item.modalities.join(',')}
+					data-skills={item.skills.join(',')}
+					class:list={[
+						item.kind === 'project' &&
+							item.data.image &&
+							'sm:col-span-2',
+					]}
+				>
+					{item.kind === 'project' && (
+						<ProjectCard
+							name={item.data.name}
+							slug={item.slug}
+							description={item.data.description}
+							client={item.data.client}
+							clientLogo={item.data.clientLogo}
+							phases={item.phases as Array<
+								'understand' | 'define' | 'deliver' | 'sustain'
+							>}
+							skills={item.skills}
+							projectStatus={item.data.projectStatus}
+							featured={item.data.featured}
+							image={item.data.image}
+						/>
+					)}
+					{item.kind === 'quote' && (
+						<QuoteCard
+							quote={item.data.quote}
+							name={item.data.name}
+							orgName={item.data.orgName}
+							orgLogo={item.data.orgLogo}
+						/>
+					)}
+				</div>
+			))
+		}
+	</div>
+
+	<p id={`${gridId}-empty`} hidden class="mt-8 text-ink-muted italic">
+		Nothing matches the selected filters.
+	</p>
+</div>

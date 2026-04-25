@@ -1,4 +1,3 @@
----
 name: Prototype Fund Coaching
 slug: prototype-fund-coaching
 status: published
@@ -17,8 +16,7 @@ skills:
   - capacity-building
   - human-centered-design
   - multi-stakeholder-coordination
----
+body: |
+  A coaching track for Prototype Fund grantees in the months after their funded build concludes — the stretch where most open-source projects quietly fade. Sessions focus on community hand-off, governance, and finding the next sustainable shape for the work.
 
-A coaching track for Prototype Fund grantees in the months after their funded build concludes — the stretch where most open-source projects quietly fade. Sessions focus on community hand-off, governance, and finding the next sustainable shape for the work.
-
-The emphasis is on practical next steps: a one-page sustainment plan, clear ownership, and a realistic read on what the team can carry forward without external funding.
+  The emphasis is on practical next steps: a one-page sustainment plan, clear ownership, and a realistic read on what the team can carry forward without external funding.

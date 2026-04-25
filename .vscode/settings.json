@@ -1,7 +1,7 @@
 {
   "yaml.schemas": {
     "./.astro/collections/pages.schema.json": "/src/content/pages/*.yaml",
-    "./.astro/collections/projects.schema.json": "/src/content/projects/*.md"
+    "./.astro/collections/projects.schema.json": "/src/content/projects/*.yaml"
   },
   "json.schemas": [
     {
@@ -31,6 +31,10 @@
     {
       "fileMatch": ["/src/content/phases/*.json"],
       "url": "./.astro/collections/phases.schema.json"
+    },
+    {
+      "fileMatch": ["/src/content/quotes/*.json"],
+      "url": "./.astro/collections/quotes.schema.json"
     },
     {
       "fileMatch": ["/src/content/site/*.json"],

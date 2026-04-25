@@ -13,12 +13,12 @@
     },
     {
       "type": "link",
-      "label": "Work",
+      "label": "Feed",
       "link": {
         "type": "internal",
-        "pageRef": "/work"
+        "pageRef": "/feed"
       },
-      "description": "Our work"
+      "description": "Our feed"
     },
     {
       "type": "link",

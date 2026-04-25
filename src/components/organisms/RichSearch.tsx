@@ -70,13 +70,13 @@ const SEARCH_CATEGORIES: CategoryConfig[] = [
   {
     name: 'Projects',
     apiEndpoint: '/api/projects.json',
-    urlPrefix: '/work',
+    urlPrefix: '/projects',
     icon: DocumentIcon,
     modifier: '@',
     transform: (project: any) => ({
       id: project.id,
       name: project.name,
-      url: '/work',
+      url: '/projects',
     }),
   },
 ];

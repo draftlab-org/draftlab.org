@@ -1,5 +1,4 @@
-import { defineCollection, type ImageFunction, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { defineCollection, type ImageFunction, reference, z } from 'astro:content';
 import peopleCategories from './categories/people.json';
 
 // Shared status field for content visibility across all collections
@@ -140,7 +139,7 @@ const pagesCollection = defineCollection({
         showProjects: z.boolean().optional().default(true),
       }),
       SectionCommonSchema.extend({
-        type: z.literal('projectsFilterGrid'),
+        type: z.literal('feedGrid'),
         title: z.string().optional(),
         description: z.string().optional(),
       }),
@@ -284,7 +283,7 @@ const skillsCollection = defineCollection({
 // ── Projects collection ──
 
 const projectsCollection = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
+  type: 'data',
   schema: ({ image }) =>
     z.object({
       name: z.string(),
@@ -302,6 +301,7 @@ const projectsCollection = defineCollection({
       featured: z.boolean().default(false),
       image: image().optional(),
       url: z.string().optional(),
+      body: z.string().optional(),
     }),
 });
 
@@ -317,6 +317,19 @@ const organisationsCollection = defineCollection({
       url: z.string().optional(),
       image: image().optional(),
     }),
+});
+
+// ── Quotes collection ──
+
+const quotesCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    date: z.string(),
+    name: z.string(),
+    quote: z.string(),
+    project: reference('projects').optional(),
+    organisation: reference('organisations'),
+  }),
 });
 
 // ── Site collection ──
@@ -437,4 +450,5 @@ export const collections = {
   skills: skillsCollection,
   projects: projectsCollection,
   organisations: organisationsCollection,
+  quotes: quotesCollection,
 };

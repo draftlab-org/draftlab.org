@@ -1,0 +1,26 @@
+name: Stackspin
+slug: stackspin
+status: published
+description: Self-hosted, open-source collaboration platform giving organizations sovereignty over their digital tools.
+client: stackspin
+partners:
+  - dot-studio
+  - init
+phases:
+  - deliver
+  - sustain
+modalities:
+  - studio
+yearStart: 2021
+projectStatus: active
+featured: true
+skills:
+  - ai-automation
+  - grant-programme-development
+  - organisational-diagnostics
+  - product-strategy
+  - responsible-data-governance
+body: |
+  Long-running studio engagement with the Stackspin team on product strategy, governance, and the grant programmes that underwrite the platform's development. Stackspin gives human-rights and civil-society organisations a sovereign alternative to mainstream collaboration tools, and the work keeps that offering coherent as the ecosystem around it shifts.
+
+  Current focus is on funding diversification and on a clearer product surface for the organisations adopting Stackspin for the first time.

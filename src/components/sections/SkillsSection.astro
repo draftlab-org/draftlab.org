@@ -32,7 +32,7 @@ const skills = skillsRaw
   <div class="grid gap-x-10 gap-y-6 sm:grid-cols-2">
     {skills.map((skill) => (
       <a
-        href={`/work?skills=${skill.slug}`}
+        href={`/feed?skills=${skill.slug}`}
         class="group flex items-stretch gap-4 p-2 no-underline transition-shadow duration-150 hover:shadow-sm"
         aria-label={`See projects using ${skill.name}`}
       >

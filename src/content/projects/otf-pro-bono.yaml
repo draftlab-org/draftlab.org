@@ -1,4 +1,3 @@
----
 name: OTF Pro Bono Support
 slug: otf-pro-bono
 status: published
@@ -21,8 +20,7 @@ skills:
   - grant-programme-development
   - human-centered-design
   - web-platform-development
----
+body: |
+  Draftlab offers a rotating slot of pro bono clinic hours to projects in the Open Technology Fund portfolio. Most engagements are short: a scoping conversation, a focused deliverable, and a hand-off that leaves the team better equipped to continue on their own.
 
-Draftlab offers a rotating slot of pro bono clinic hours to projects in the Open Technology Fund portfolio. Most engagements are short: a scoping conversation, a focused deliverable, and a hand-off that leaves the team better equipped to continue on their own.
-
-Typical requests range from product-strategy reviews and threat-model refreshes to light design or architecture support before a bigger build.
+  Typical requests range from product-strategy reviews and threat-model refreshes to light design or architecture support before a bigger build.

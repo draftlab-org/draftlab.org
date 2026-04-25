@@ -16,26 +16,35 @@ export interface FilterOption {
   swatchColor?: string;
 }
 
-export interface ProjectTagData {
-  slug: string;
+export interface FeedItemTagData {
+  slug: string;          // unique within (kind, slug)
+  kind: string;          // matches one of the type filter slugs
   phases: string[];
   modalities: string[];
   skills: string[];
 }
 
-export interface ProjectsFilterProps {
+export interface FeedFilterProps {
   gridId: string;
-  phases: FilterOption[];
+  types: FilterOption[];
   modalities: FilterOption[];
+  phases: FilterOption[];
   skills: FilterOption[];
-  projects: ProjectTagData[];
+  items: FeedItemTagData[];
 }
 
-type FilterKey = 'phases' | 'modalities' | 'skills';
+type FilterKey = 'types' | 'modalities' | 'phases' | 'skills';
 
 type FilterState = Record<FilterKey, string[]>;
 
-const EMPTY_STATE: FilterState = { phases: [], modalities: [], skills: [] };
+const EMPTY_STATE: FilterState = {
+  types: [],
+  modalities: [],
+  phases: [],
+  skills: [],
+};
+
+const FILTER_KEYS: FilterKey[] = ['types', 'modalities', 'phases', 'skills'];
 
 const readFromUrl = (): FilterState => {
   if (typeof window === 'undefined') return EMPTY_STATE;
@@ -46,8 +55,9 @@ const readFromUrl = (): FilterState => {
       .map((s) => s.trim())
       .filter(Boolean);
   return {
-    phases: parse('phases'),
+    types: parse('types'),
     modalities: parse('modalities'),
+    phases: parse('phases'),
     skills: parse('skills'),
   };
 };
@@ -55,7 +65,7 @@ const readFromUrl = (): FilterState => {
 const writeToUrl = (state: FilterState) => {
   if (typeof window === 'undefined') return;
   const p = new URLSearchParams(window.location.search);
-  (Object.keys(state) as FilterKey[]).forEach((k) => {
+  FILTER_KEYS.forEach((k) => {
     if (state[k].length > 0) p.set(k, state[k].join(','));
     else p.delete(k);
   });
@@ -66,13 +76,14 @@ const writeToUrl = (state: FilterState) => {
   window.history.replaceState({}, '', url);
 };
 
-const matches = (project: ProjectTagData, state: FilterState): boolean => {
-  const check = (key: FilterKey) => {
+const matches = (item: FeedItemTagData, state: FilterState): boolean => {
+  if (state.types.length > 0 && !state.types.includes(item.kind)) return false;
+  const check = (key: 'modalities' | 'phases' | 'skills') => {
     const sel = state[key];
     if (sel.length === 0) return true;
-    return sel.some((s) => project[key].includes(s));
+    return sel.some((s) => item[key].includes(s));
   };
-  return check('phases') && check('modalities') && check('skills');
+  return check('modalities') && check('phases') && check('skills');
 };
 
 const joinWithAnd = (items: ReactNode[]): ReactNode[] => {
@@ -92,13 +103,19 @@ const wrap = (key: string, node: ReactNode): ReactNode => (
   <Fragment key={key}>{node}</Fragment>
 );
 
-export default function ProjectsFilter({
+// Pluralize a kind-name into the noun used in the summary line.
+// "Project" → "projects", "Quote" → "quotes". Crude but the registry only
+// holds short single-word names today.
+const pluralizeKind = (name: string) => `${name.toLowerCase()}s`;
+
+export default function FeedFilter({
   gridId,
-  phases,
+  types,
   modalities,
+  phases,
   skills,
-  projects,
-}: ProjectsFilterProps) {
+  items,
+}: FeedFilterProps) {
   const [state, setState] = useState<FilterState>(EMPTY_STATE);
   const [hydrated, setHydrated] = useState(false);
 
@@ -107,6 +124,10 @@ export default function ProjectsFilter({
     setHydrated(true);
   }, []);
 
+  const typeBySlug = useMemo(
+    () => new Map(types.map((o) => [o.slug, o])),
+    [types]
+  );
   const phaseBySlug = useMemo(
     () => new Map(phases.map((o) => [o.slug, o])),
     [phases]
@@ -122,19 +143,19 @@ export default function ProjectsFilter({
 
   const visibleSlugs = useMemo(() => {
     const set = new Set<string>();
-    projects.forEach((p) => {
-      if (matches(p, state)) set.add(p.slug);
+    items.forEach((p) => {
+      if (matches(p, state)) set.add(`${p.kind}-${p.slug}`);
     });
     return set;
-  }, [projects, state]);
+  }, [items, state]);
 
   useEffect(() => {
     if (!hydrated) return;
     writeToUrl(state);
     const grid = document.getElementById(gridId);
     if (!grid) return;
-    grid.querySelectorAll<HTMLElement>('[data-project-slug]').forEach((el) => {
-      const slug = el.dataset.projectSlug ?? '';
+    grid.querySelectorAll<HTMLElement>('[data-feed-slug]').forEach((el) => {
+      const slug = el.dataset.feedSlug ?? '';
       el.toggleAttribute('hidden', !visibleSlugs.has(slug));
     });
     const empty = document.getElementById(`${gridId}-empty`);
@@ -186,14 +207,34 @@ export default function ProjectsFilter({
     setOpen((v) => !v);
   }, []);
 
-  const activeCount =
-    state.phases.length + state.modalities.length + state.skills.length;
+  const activeCount = FILTER_KEYS.reduce((n, k) => n + state[k].length, 0);
 
-  // Inline-icon-beside-text: wrapper is sized 1em × 1em (matches text size),
-  // nudged down ~1/8em to sit on the text baseline. The inner SVG is expected
-  // to have width="100%" height="100%" so it fills the wrapper.
+  // Inline-icon-beside-text wrapper. SVG inside is expected to have
+  // width="100%" height="100%" so it fills the wrapper.
   const chipIconClass =
     'inline-block size-[1em] shrink-0 align-[-0.125em] [&>svg]:h-full [&>svg]:w-full';
+
+  // Placeholder treatment for the "all X" slots in the summary line — signals
+  // to users that those words are filterable slots, not fixed copy.
+  const placeholderClass =
+    'italic text-ink-muted underline decoration-ink-muted/50 decoration-dotted underline-offset-4';
+
+  // The noun phrase that follows "Showing": pluralized kind names from the
+  // active types filter (or the registry's full list if no type filter).
+  const renderKindNoun = useCallback(
+    (slugs: string[]): ReactNode => {
+      const list = (slugs.length > 0 ? slugs : types.map((t) => t.slug))
+        .map((slug) => typeBySlug.get(slug))
+        .filter((t): t is FilterOption => Boolean(t));
+      if (list.length === 0) return 'items';
+      return joinWithAnd(
+        list.map((t) =>
+          wrap(`t-${t.slug}`, <span>{pluralizeKind(t.name)}</span>)
+        )
+      );
+    },
+    [typeBySlug, types]
+  );
 
   const renderModalityChip = useCallback(
     (slug: string): ReactNode => {
@@ -252,10 +293,6 @@ export default function ProjectsFilter({
   );
 
   const summary: ReactNode = useMemo(() => {
-    if (activeCount === 0) {
-      return <>Showing projects from all phases using all skills.</>;
-    }
-
     const parts: Array<{ id: string; node: ReactNode }> = [
       { id: 'showing', node: <>Showing</> },
     ];
@@ -274,7 +311,23 @@ export default function ProjectsFilter({
       });
     }
 
-    parts.push({ id: 'projects', node: <> projects</> });
+    parts.push({
+      id: 'noun',
+      node:
+        state.types.length > 0 ? (
+          <> {renderKindNoun(state.types)}</>
+        ) : state.modalities.length > 0 ? (
+          // Modalities sit before the noun as an adjective ("Studio content"),
+          // so the "all content" placeholder reads broken once a modality is
+          // picked. Drop to plain "content" in that case.
+          <> content</>
+        ) : (
+          <>
+            {' '}
+            <span className={placeholderClass}>all content</span>
+          </>
+        ),
+    });
 
     if (state.phases.length > 0) {
       const isSingle = state.phases.length === 1;
@@ -288,6 +341,16 @@ export default function ProjectsFilter({
               state.phases.map((s) => wrap(`p-${s}`, renderPhaseChip(s)))
             )}{' '}
             {isSingle ? 'phase' : 'phases'}
+          </>
+        ),
+      });
+    } else {
+      parts.push({
+        id: 'phases-default',
+        node: (
+          <>
+            {' '}
+            from <span className={placeholderClass}>all phases</span>
           </>
         ),
       });
@@ -306,12 +369,28 @@ export default function ProjectsFilter({
           </>
         ),
       });
+    } else {
+      parts.push({
+        id: 'skills-default',
+        node: (
+          <>
+            {' '}
+            using <span className={placeholderClass}>all skills</span>
+          </>
+        ),
+      });
     }
 
     parts.push({ id: 'period', node: <>.</> });
 
     return parts.map((p) => <Fragment key={p.id}>{p.node}</Fragment>);
-  }, [activeCount, state, renderModalityChip, renderPhaseChip, renderSkillChip]);
+  }, [
+    state,
+    renderKindNoun,
+    renderModalityChip,
+    renderPhaseChip,
+    renderSkillChip,
+  ]);
 
   const renderRow = (
     label: string,
@@ -402,6 +481,7 @@ export default function ProjectsFilter({
           )}
         >
           <div className="space-y-4 p-4 sm:p-5">
+            {renderRow('Types', 'types', types)}
             {renderRow('Modalities', 'modalities', modalities)}
             {renderRow('Phases', 'phases', phases)}
             {renderRow('Skills', 'skills', skills)}

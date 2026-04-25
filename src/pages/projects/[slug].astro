@@ -1,10 +1,11 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import ModalityIcon from '@components/atoms/ModalityIcon.astro';
 import SkillIcon from '@components/atoms/SkillIcon.astro';
 import PageLayout from '@layouts/PageLayout.astro';
 import { isVisible } from '@utils/content';
 import type { ModalitySlug } from '@utils/modalityIcons';
+import { renderMarkdownWithImages } from '@utils/renderMarkdown';
 import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths = (async () => {
@@ -24,7 +25,6 @@ export const getStaticPaths = (async () => {
 		.map((entry) => ({
 			params: { slug: entry.data.slug },
 			props: {
-				entry,
 				project: entry.data,
 				client: entry.data.client ? orgMap.get(entry.data.client) : undefined,
 				resolvedPartners: (entry.data.partners ?? []).map((p: string) => orgMap.get(p)).filter(Boolean),
@@ -35,8 +35,8 @@ export const getStaticPaths = (async () => {
 		}));
 }) satisfies GetStaticPaths;
 
-const { entry, project, client, resolvedPartners, resolvedSkills, resolvedPhases, resolvedModalities } = Astro.props;
-const { Content } = await render(entry);
+const { project, client, resolvedPartners, resolvedSkills, resolvedPhases, resolvedModalities } = Astro.props;
+const bodyHtml = project.body ? (await renderMarkdownWithImages(project.body)).html : '';
 const isActive = project.projectStatus === 'active';
 
 const PHASE_ORDER = ['understand', 'define', 'deliver', 'sustain'];
@@ -85,7 +85,7 @@ const phaseSet = new Set(project.phases);
 	<article class="mx-auto max-w-3xl px-4 pt-12 pb-20 sm:px-6 lg:px-8">
 		{/* Back link */}
 		<a
-			href="/work"
+			href="/feed"
 			data-component
 			class="group mb-10 inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600"
 		>
@@ -201,11 +201,12 @@ const phaseSet = new Set(project.phases);
 			<p class="text-lg leading-relaxed text-ink-soft">
 				{project.description}
 			</p>
-			<div
-				class="prose-ink prose mt-4 max-w-none leading-relaxed text-ink-soft"
-			>
-				<Content />
-			</div>
+			{bodyHtml && (
+				<div
+					class="prose-ink prose mt-4 max-w-none leading-relaxed text-ink-soft"
+					set:html={bodyHtml}
+				/>
+			)}
 		</section>
 
 		{/* Phases bar */}
@@ -336,7 +337,7 @@ const phaseSet = new Set(project.phases);
 		{/* Back to work */}
 		<div class="mt-16 border-t border-sand pt-8">
 			<a
-				href="/work"
+				href="/feed"
 				data-component
 				class="group inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600"
 			>

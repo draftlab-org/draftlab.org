@@ -46,7 +46,7 @@ const phaseTextColor: Record<string, string> = {
       const cardGradient = `linear-gradient(to right, var(--color-phase-${phase.data.slug}-light), var(--color-white))`;
       return (
         <a
-          href={`/work?phases=${phase.data.slug}`}
+          href={`/feed?phases=${phase.data.slug}`}
           class="group flex flex-col p-5 no-underline shadow-sm transition-shadow duration-150 hover:shadow-md"
           style={`background: ${cardGradient};`}
           aria-label={`See ${phase.data.name} phase projects`}

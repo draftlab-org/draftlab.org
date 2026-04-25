@@ -3,6 +3,7 @@ import ActiveProjectsSection from '@components/sections/ActiveProjectsSection.as
 import ButtonSection from '@components/sections/ButtonSection.astro';
 import CalEmbedSection from '@components/sections/CalEmbedSection.astro';
 import CardSection from '@components/sections/CardSection.astro';
+import FeedGridSection from '@components/sections/FeedGridSection.astro';
 import FlexiSection from '@components/sections/FlexiSection.astro';
 import FrameworkSection from '@components/sections/FrameworkSection.astro';
 import HeroSection from '@components/sections/HeroSection.astro';
@@ -10,7 +11,6 @@ import ModalitiesOverviewSection from '@components/sections/ModalitiesOverviewSe
 import OrganisationsRollSection from '@components/sections/OrganisationsRollSection.astro';
 import PeopleSection from '@components/sections/PeopleSection.astro';
 import PhasesOverviewSection from '@components/sections/PhasesOverviewSection.astro';
-import ProjectsFilterGridSection from '@components/sections/ProjectsFilterGridSection.astro';
 import ProjectsRollSection from '@components/sections/ProjectsRollSection.astro';
 import RichTextSection from '@components/sections/RichTextSection.astro';
 import SkillsCloudSection from '@components/sections/SkillsCloudSection.astro';
@@ -90,9 +90,9 @@ const { sectionItems } = Astro.props;
               featuredOnly={section.featuredOnly}
             />
           );
-        case 'projectsFilterGrid':
+        case 'feedGrid':
           return (
-            <ProjectsFilterGridSection
+            <FeedGridSection
               title={section.title}
               description={section.description}
             />

@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+export interface Props {
+  quote: string;
+  name: string;
+  orgName?: string;
+  orgLogo?: ImageMetadata;
+  class?: string;
+}
+
+const { quote, name, orgName, orgLogo, class: className = '' } = Astro.props;
+---
+
+<figure class:list={['flex h-full flex-col justify-end p-5', className]}>
+	<blockquote
+		class="font-serif text-xl leading-snug text-ink italic md:text-2xl"
+	>
+		&ldquo;{quote}&rdquo;
+	</blockquote>
+
+	<figcaption class="mt-6 flex items-center justify-between gap-4">
+		<span
+			class="font-mono text-[0.7rem] tracking-widest text-ink-muted uppercase"
+		>
+			&mdash; {name}
+		</span>
+		{
+			orgLogo && (
+				<Image
+					src={orgLogo}
+					alt={orgName ?? ''}
+					class="h-8 w-auto object-contain object-right grayscale"
+				/>
+			)
+		}
+	</figcaption>
+</figure>

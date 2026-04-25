@@ -316,7 +316,7 @@ components:
         default: true
         description: Display project name tags inside matrix cells
 
-  projects_filter_grid_section:
+  feed_grid_section:
     type: object
     fields:
       - name: title
@@ -325,7 +325,7 @@ components:
       - name: description
         label: Description
         type: string
-        description: Optional intro text shown above the interactive filter.
+        description: Optional intro text shown above the chronological feed of mixed projects + quotes.
 
   active_projects_section:
     type: object
@@ -588,9 +588,9 @@ content:
             label: Projects Roll
             component: projects_roll_section
 
-          - name: projectsFilterGrid
-            label: Projects Filter Grid
-            component: projects_filter_grid_section
+          - name: feedGrid
+            label: Feed Grid
+            component: feed_grid_section
 
           - name: activeProjects
             label: Active Projects (titles only)
@@ -623,8 +623,8 @@ content:
     label: Projects
     type: collection
     path: src/content/projects
-    format: yaml-frontmatter
-    filename: '{fields.slug}.md'
+    format: yaml
+    filename: '{fields.slug}.yaml'
     subfolders: false
     view:
       fields: [name, client, status]
@@ -1179,6 +1179,58 @@ content:
               name: published
             - label: Archived
               name: archived
+
+  # --------------------------------------------------------------------------
+  # Quotes
+  # --------------------------------------------------------------------------
+  - name: quotes
+    label: Quotes
+    type: collection
+    path: src/content/quotes
+    format: json
+    filename: '{fields.date}-{fields.name}.json'
+    subfolders: false
+    view:
+      fields: [date, name, organisation]
+      primary: name
+      sort: [date]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: date
+        label: Date
+        type: date
+        required: true
+
+      - name: name
+        label: Name
+        type: string
+        required: true
+        description: Name of the person being quoted
+
+      - name: quote
+        label: Quote
+        type: text
+        required: true
+
+      - name: organisation
+        label: Organisation
+        type: reference
+        required: true
+        options:
+          collection: organisations
+          value: "{id}"
+          label: "{fields.name}"
+
+      - name: project
+        label: Project
+        type: reference
+        options:
+          collection: projects
+          value: "{slug}"
+          label: "{fields.name}"
+        description: Optional — leave empty if the quote isn't tied to a specific project
 
   # --------------------------------------------------------------------------
   # Categories

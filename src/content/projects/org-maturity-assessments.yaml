@@ -1,4 +1,3 @@
----
 name: Org Maturity Assessments
 slug: org-maturity-assessments
 status: published
@@ -20,8 +19,7 @@ skills:
   - grant-programme-development
   - organisational-diagnostics
   - responsible-data-governance
----
+body: |
+  An ongoing clinic offering short, structured diagnostics for small and mid-sized non-profits — covering data governance, security posture, team capacity, and tooling. Each assessment produces a prioritised set of investments an organisation can act on inside a single funding cycle.
 
-An ongoing clinic offering short, structured diagnostics for small and mid-sized non-profits — covering data governance, security posture, team capacity, and tooling. Each assessment produces a prioritised set of investments an organisation can act on inside a single funding cycle.
-
-The format is deliberately lightweight: two weeks, a few interviews, a focused readout. It's designed to be a useful first step, not a consulting engagement.
+  The format is deliberately lightweight: two weeks, a few interviews, a focused readout. It's designed to be a useful first step, not a consulting engagement.

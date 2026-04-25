@@ -1,8 +1,8 @@
-title: Work
+title: Feed
 status: published
-description: Projects and partnerships across civil society and open technology
+description: A chronological stream of projects, quotes, and notes from our work across civil society and open technology.
 sections:
-  - type: projectsFilterGrid
+  - type: feedGrid
   - type: richText
     content: >-
       We've worked with investigative journalism platforms, human rights research centres, open-source collaboration tools, multi-stakeholder cybersecurity initiatives, and civil society coordination platforms. Every project is different, but they share a commitment to transparency, sovereignty, and serving people who are too often underserved by technology.

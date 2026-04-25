@@ -1,4 +1,3 @@
----
 name: Eastern Partnership CSO Training
 slug: eastern-partnership-cso
 status: published
@@ -20,7 +19,7 @@ skills:
   - user-research
 client: eap-civil-society
 url: https://digicomp.perpend.io/
----
-A programme supporting civil society organisations across Armenia, Georgia, Moldova, and Ukraine in building durable digital and governance practices. Sessions alternated between cohort-wide workshops and one-on-one clinics tailored to each organisation's stage.
+body: |
+  A programme supporting civil society organisations across Armenia, Georgia, Moldova, and Ukraine in building durable digital and governance practices. Sessions alternated between cohort-wide workshops and one-on-one clinics tailored to each organisation's stage.
 
-Outputs included a shared security baseline, a lightweight data-architecture template, and a peer-review council that continued to meet after the formal programme closed.
+  Outputs included a shared security baseline, a lightweight data-architecture template, and a peer-review council that continued to meet after the formal programme closed.
