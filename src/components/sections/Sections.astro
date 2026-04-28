@@ -1,6 +1,7 @@
 ---
 import ActiveProjectsSection from '@components/sections/ActiveProjectsSection.astro';
 import LatestUpdatesSection from '@components/sections/LatestUpdatesSection.astro';
+import HowWeWorkSection from '@components/sections/HowWeWorkSection.astro';
 import ButtonSection from '@components/sections/ButtonSection.astro';
 import CalEmbedSection from '@components/sections/CalEmbedSection.astro';
 import CardSection from '@components/sections/CardSection.astro';
@@ -111,6 +112,13 @@ const { sectionItems } = Astro.props;
               title={section.title}
               description={section.description}
               limit={section.limit}
+            />
+          );
+        case 'howWeWork':
+          return (
+            <HowWeWorkSection
+              title={section.title}
+              description={section.description}
             />
           );
         case 'phasesOverview':

@@ -1,0 +1,210 @@
+---
+import { getCollection } from 'astro:content';
+import ModalityIcon from '@components/atoms/ModalityIcon.astro';
+import type { ModalitySlug } from '@utils/modalityIcons';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const PHASE_ORDER = ['understand', 'define', 'deliver', 'sustain'] as const;
+type PhaseSlug = (typeof PHASE_ORDER)[number];
+
+const [phaseEntries, modalityEntries] = await Promise.all([
+  getCollection('phases'),
+  getCollection('modalities'),
+]);
+
+const phaseBySlug = new Map(phaseEntries.map((p) => [p.data.slug, p.data]));
+
+interface PhaseColumn {
+  slug: PhaseSlug;
+  name: string;
+  tagline: string;
+}
+
+const phases: PhaseColumn[] = PHASE_ORDER.map((slug) => {
+  const meta = phaseBySlug.get(slug);
+  return {
+    slug,
+    name: meta?.name ?? slug,
+    tagline: meta?.tagline ?? '',
+  };
+});
+
+const modalities = modalityEntries
+  .slice()
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((m) => ({
+    slug: m.data.slug as ModalitySlug,
+    name: m.data.name,
+    tagline: m.data.tagline,
+  }));
+---
+
+<section class="text-ink">
+	<header class="mb-10 flex flex-col items-start gap-4 md:mb-14">
+		<span class="link-brackets is-active font-mono text-[0.7rem] tracking-[0.32em] text-ink-muted uppercase">
+			How we work
+		</span>
+		{
+			title && (
+				<h2 class="font-serif text-3xl leading-[1.05] font-light tracking-tight text-ink md:text-5xl">
+					{title}
+				</h2>
+			)
+		}
+		{
+			description && (
+				<p class="max-w-2xl font-serif text-base leading-relaxed text-ink-soft md:text-lg">
+					{description}
+				</p>
+			)
+		}
+	</header>
+
+	{/* Axis label — Phases */}
+	<p class="mb-6 font-mono text-[0.6rem] tracking-[0.32em] text-ink-muted/70 uppercase md:mb-8">
+		Across phases
+	</p>
+
+	{/* Mobile: vertical timeline. A single continuous line behind the
+	    dot column runs from below the first dot to the bottom of the
+	    sustain row. Dots sit on top of the line via `relative z-10`, so
+	    they punch through. Phase name + tagline in the right column —
+	    different x position from the line, so no overlap. */}
+	<ol class="relative flex flex-col sm:hidden">
+		<span
+			class="pointer-events-none absolute top-[13px] bottom-0 left-[3px] w-px bg-sand"
+			aria-hidden="true"
+		/>
+		{
+			phases.map((col) => (
+				<li class="flex gap-4 pb-10 last:pb-0">
+					<div class="w-2 shrink-0 pt-[5px]">
+						<span
+							class="relative z-10 block h-2 w-2 rounded-full"
+							style={`background: var(--color-phase-${col.slug}-dark);`}
+							aria-hidden="true"
+						/>
+					</div>
+
+					<div class="flex flex-col gap-1.5">
+						<span
+							class="font-mono text-[0.78rem] tracking-[0.2em] uppercase"
+							style={`color: var(--color-phase-${col.slug}-dark);`}
+						>
+							{col.name}
+						</span>
+						{col.tagline && (
+							<p class="font-mono text-[0.65rem] tracking-[0.18em] text-ink-muted/80 uppercase">
+								{col.tagline}
+							</p>
+						)}
+					</div>
+				</li>
+			))
+		}
+	</ol>
+
+	{/* Desktop: horizontal timeline. Dot + name in a flex row with a
+	    `flex-1` connector that auto-aligns to the dot's vertical centre.
+	    First three phases use a negative right margin to bridge into the
+	    next column; the last phase keeps natural flex-1, so the line
+	    ends at the column's right edge — i.e. the container's right
+	    edge — extending the track past sustain. Tagline lives in a
+	    separate row below, never crossed by the line. */}
+	<div class="hidden grid-cols-4 gap-x-10 sm:grid">
+		{
+			phases.map((col, i) => (
+				<div class="flex flex-col">
+					<div class="flex items-center gap-2.5">
+						<span
+							class="relative z-10 block h-2 w-2 shrink-0 rounded-full"
+							style={`background: var(--color-phase-${col.slug}-dark);`}
+							aria-hidden="true"
+						/>
+						<span
+							class="font-mono text-[0.78rem] tracking-[0.2em] uppercase"
+							style={`color: var(--color-phase-${col.slug}-dark);`}
+						>
+							{col.name}
+						</span>
+						<span
+							class="block h-px flex-1 bg-sand"
+							style={
+								i < phases.length - 1
+									? 'margin-right: -2.5rem;'
+									: undefined
+							}
+							aria-hidden="true"
+						/>
+					</div>
+
+					{col.tagline && (
+						<p class="mt-3 font-mono text-[0.65rem] tracking-[0.18em] text-ink-muted/80 uppercase">
+							{col.tagline}
+						</p>
+					)}
+				</div>
+			))
+		}
+	</div>
+
+	{/* Axis label — Modalities */}
+	<p class="mt-16 mb-6 font-mono text-[0.6rem] tracking-[0.32em] text-ink-muted/70 uppercase md:mt-20 md:mb-8">
+		And across modalities
+	</p>
+
+	{/* Modalities — 3-up grid on desktop, stacked on mobile. Each cell
+	    pairs the modality icon (mark) with name and a short tagline.
+	    Mirrors the phases column structure: header row (icon + name) on
+	    top, tagline below. */}
+	<div class="grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-x-10 sm:gap-y-0">
+		{
+			modalities.map((m) => (
+				<div class="flex gap-4 sm:flex-col sm:gap-3">
+					<ModalityIcon
+						slug={m.slug}
+						size={32}
+						class="mt-[2px] shrink-0 text-ink sm:mt-0"
+						decorative
+					/>
+					<div class="flex flex-col gap-1.5">
+						<span class="font-mono text-[0.78rem] tracking-[0.2em] text-ink uppercase">
+							{m.name}
+						</span>
+						<p class="font-serif text-sm leading-relaxed text-ink-soft md:text-base">
+							{m.tagline}
+						</p>
+					</div>
+				</div>
+			))
+		}
+	</div>
+
+	{/* Closing — link to about */}
+	<div class="mt-14 flex justify-end md:mt-20">
+		<a
+			href="/about"
+			class="group inline-flex items-center gap-4 no-underline"
+		>
+			<span class="font-mono text-sm tracking-[0.22em] text-ink uppercase md:text-[0.95rem]">
+				Read about our approach
+			</span>
+			<span
+				aria-hidden="true"
+				class="block h-px w-12 bg-ink-muted/60 transition-[width,background-color] duration-300 group-hover:w-20 group-hover:bg-ink"
+			/>
+			<span
+				aria-hidden="true"
+				class="font-mono text-base text-ink transition-transform duration-300 group-hover:translate-x-1 md:text-lg"
+			>
+				→
+			</span>
+		</a>
+	</div>
+</section>
