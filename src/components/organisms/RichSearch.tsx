@@ -24,9 +24,8 @@ type SearchResult = {
   imageUrl?: string;
 };
 
-// Type for unplugin-icons components which use 'class' instead of 'className'
 type IconComponent = React.ComponentType<{
-  class?: string;
+  className?: string;
   'aria-hidden'?: 'true' | 'false';
 }>;
 
@@ -248,7 +247,7 @@ export default function RichSearch() {
                 onBlur={() => setRawQuery('')}
               />
               <MagnifyingGlassIcon
-                class="pointer-events-none col-start-1 row-start-1 ml-4 size-5 self-center text-gray-400"
+                className="pointer-events-none col-start-1 row-start-1 ml-4 size-5 self-center text-gray-400"
                 aria-hidden="true"
               />
             </div>
@@ -315,7 +314,7 @@ export default function RichSearch() {
                                 />
                               ) : (
                                 <Icon
-                                  class="size-6 flex-none text-gray-500 group-data-focus:text-gray-700"
+                                  className="size-6 flex-none text-gray-500 group-data-focus:text-gray-700"
                                   aria-hidden="true"
                                 />
                               )}
@@ -334,7 +333,7 @@ export default function RichSearch() {
             {!loading && rawQuery === '?' && (
               <div className="px-6 py-14 text-center text-sm sm:px-14">
                 <LifebuoyIcon
-                  class="mx-auto size-6 text-gray-400"
+                  className="mx-auto size-6 text-gray-400"
                   aria-hidden="true"
                 />
                 <p className="mt-4 font-semibold text-gray-900">
@@ -356,7 +355,7 @@ export default function RichSearch() {
               ) && (
                 <div className="px-6 py-14 text-center text-sm sm:px-14">
                   <ExclamationTriangleIcon
-                    class="mx-auto size-6 text-gray-400"
+                    className="mx-auto size-6 text-gray-400"
                     aria-hidden="true"
                   />
                   <p className="mt-4 font-semibold text-gray-900">

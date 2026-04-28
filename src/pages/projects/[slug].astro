@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import ModalityIcon from '@components/atoms/ModalityIcon.astro';
 import SkillIcon from '@components/atoms/SkillIcon.astro';
+import ProjectUpdatesTimeline from '@components/sections/ProjectUpdatesTimeline.astro';
 import PageLayout from '@layouts/PageLayout.astro';
 import { isVisible } from '@utils/content';
 import type { ModalitySlug } from '@utils/modalityIcons';
@@ -106,7 +107,7 @@ const phaseSet = new Set(project.phases);
 			{
 				client && (
 					<div class="mt-5 flex items-center gap-3">
-						<span class="font-serif text-[0.7rem] tracking-[0.1em] text-ink-muted uppercase">
+						<span class="font-serif text-[0.7rem] tracking-widest text-ink-muted uppercase">
 							Client
 						</span>
 						{client.url ? (
@@ -148,7 +149,7 @@ const phaseSet = new Set(project.phases);
 			{
 				resolvedPartners.length > 0 && (
 					<div class="mt-4 flex flex-wrap items-center gap-4">
-						<span class="font-serif text-[0.7rem] tracking-[0.1em] text-ink-muted uppercase">
+						<span class="font-serif text-[0.7rem] tracking-widest text-ink-muted uppercase">
 							With
 						</span>
 						{resolvedPartners.map((partner: any) =>
@@ -201,43 +202,49 @@ const phaseSet = new Set(project.phases);
 			<p class="text-lg leading-relaxed text-ink-soft">
 				{project.description}
 			</p>
-			{bodyHtml && (
-				<div
-					class="prose-ink prose mt-4 max-w-none leading-relaxed text-ink-soft"
-					set:html={bodyHtml}
-				/>
-			)}
+			{
+				bodyHtml && (
+					<div
+						class="prose-ink prose mt-4 max-w-none leading-relaxed text-ink-soft"
+						set:html={bodyHtml}
+					/>
+				)
+			}
 		</section>
 
 		{/* Phases bar */}
 		<section class="mb-12">
-			<h2 class="mb-3 font-serif text-sm font-medium tracking-wider text-ink-muted uppercase">
+			<h2
+				class="mb-3 font-serif text-sm font-medium tracking-wider text-ink-muted uppercase"
+			>
 				Phases
 			</h2>
 			<div class="relative flex h-8 drop-shadow-xs/30">
-				{PHASE_ORDER.map((phase, i) => {
-					const active = phaseSet.has(phase as any);
-					const isFirst = i === 0;
-					return (
-						<div
-							class:list={[
-								'relative flex flex-1 items-end',
-								!isFirst && '-ml-2',
-								active ? phaseBg[phase] : 'bg-cream',
-							]}
-							style="clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);"
-						>
-							<span
+				{
+					PHASE_ORDER.map((phase, i) => {
+						const active = phaseSet.has(phase as any);
+						const isFirst = i === 0;
+						return (
+							<div
 								class:list={[
-									'truncate pr-1 pl-3 font-serif text-xs capitalize',
-									active ? phaseText[phase] : 'text-gray-400',
+									'relative flex flex-1 items-end',
+									!isFirst && '-ml-2',
+									active ? phaseBg[phase] : 'bg-cream',
 								]}
+								style="clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);"
 							>
-								{phase}
-							</span>
-						</div>
-					);
-				})}
+								<span
+									class:list={[
+										'truncate pr-1 pl-3 font-serif text-xs capitalize',
+										active ? phaseText[phase] : 'text-gray-400',
+									]}
+								>
+									{phase}
+								</span>
+							</div>
+						);
+					})
+				}
 			</div>
 		</section>
 
@@ -315,6 +322,9 @@ const phaseSet = new Set(project.phases);
 				</section>
 			)
 		}
+
+		{/* Updates timeline */}
+		<ProjectUpdatesTimeline projectSlug={project.slug} />
 
 		{/* External link */}
 		{

@@ -48,10 +48,6 @@ export default defineConfig({
         compiler: 'jsx',
         jsx: 'react',
       }),
-      // Astro components (static ~icons/ imports in .astro files)
-      Icons({
-        compiler: 'astro',
-      }),
     ],
   },
 

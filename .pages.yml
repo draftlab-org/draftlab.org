@@ -1233,6 +1233,73 @@ content:
         description: Optional — leave empty if the quote isn't tied to a specific project
 
   # --------------------------------------------------------------------------
+  # Updates (per-project posts; future Bluesky/Mastodon syndication)
+  # --------------------------------------------------------------------------
+  - name: updates
+    label: Updates
+    type: collection
+    path: src/content/updates
+    format: json
+    filename: '{fields.date}-{fields.project}.json'
+    subfolders: false
+    view:
+      fields: [date, project, title, status]
+      primary: title
+      sort: [date]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: date
+        label: Date
+        type: date
+        required: true
+
+      - name: project
+        label: Project
+        type: reference
+        required: true
+        options:
+          collection: projects
+          value: "{slug}"
+          label: "{fields.name}"
+
+      - name: update
+        label: Short update
+        type: text
+        required: true
+        description: "Short post (kept under ~300 chars for Bluesky compatibility) — what gets syndicated to social later."
+
+      - name: status
+        label: Status
+        type: select
+        required: true
+        default: draft
+        options:
+          values:
+            - label: Draft
+              name: draft
+            - label: Published
+              name: published
+            - label: Archived
+              name: archived
+
+      - name: title
+        label: Title
+        type: string
+        description: Optional display title shown above the update on the project page.
+
+      - name: image
+        label: Featured image
+        type: image
+        description: Optional. Used on the project timeline and (later) attached to the social post.
+
+      - name: body
+        label: Long-form body
+        type: rich-text
+        description: Optional. Web-only enrichment — does not get syndicated.
+
+  # --------------------------------------------------------------------------
   # Categories
   # --------------------------------------------------------------------------
   - name: categories

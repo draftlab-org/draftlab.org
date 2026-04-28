@@ -24,7 +24,7 @@ interface FilterDropdownProps {
 function ChevronIcon({ open }: { open: boolean }) {
   return (
     <IconChevronDown
-      class={`h-5 w-5 text-gray-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+      className={`h-5 w-5 text-gray-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
       aria-hidden="true"
     />
   );
@@ -32,7 +32,7 @@ function ChevronIcon({ open }: { open: boolean }) {
 
 function CheckIcon() {
   return (
-    <IconCheck class="h-5 w-5 text-primary-600" aria-hidden="true" />
+    <IconCheck className="h-5 w-5 text-primary-600" aria-hidden="true" />
   );
 }
 

@@ -43,6 +43,10 @@
     {
       "fileMatch": ["/src/content/skills/*.json"],
       "url": "./.astro/collections/skills.schema.json"
+    },
+    {
+      "fileMatch": ["/src/content/updates/*.json"],
+      "url": "./.astro/collections/updates.schema.json"
     }
   ]
 }

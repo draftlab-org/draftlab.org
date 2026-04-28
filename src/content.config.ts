@@ -324,6 +324,22 @@ const quotesCollection = defineCollection({
   }),
 });
 
+// ── Updates collection ──
+
+const updatesCollection = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/updates' }),
+  schema: ({ image }) =>
+    z.object({
+      date: z.string(),
+      project: reference('projects'),
+      update: z.string(),
+      title: z.string().optional(),
+      image: image().optional(),
+      body: z.string().optional(),
+      status: statusSchema,
+    }),
+});
+
 // ── Site collection ──
 
 const siteCollection = defineCollection({
@@ -439,4 +455,5 @@ export const collections = {
   projects: projectsCollection,
   organisations: organisationsCollection,
   quotes: quotesCollection,
+  updates: updatesCollection,
 };
