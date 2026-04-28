@@ -32,7 +32,7 @@ const modalities = modalitiesRaw
   <div class="grid gap-4 sm:grid-cols-3">
     {modalities.map((modality) => (
       <a
-        href={`/feed?modalities=${modality.data.slug}`}
+        href={`/projects?modalities=${modality.data.slug}`}
         class="flex flex-col bg-white p-6 no-underline shadow-sm transition-shadow duration-150 hover:shadow-md"
         aria-label={`See ${modality.data.name} projects`}
       >

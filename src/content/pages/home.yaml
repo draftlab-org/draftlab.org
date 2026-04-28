@@ -23,8 +23,8 @@ sections:
     buttons:
       - variant: primary
         size: lg
-        href: /feed
-        text: See our feed
+        href: /projects
+        text: See our projects
       - variant: outline
         size: lg
         href: /get-in-touch

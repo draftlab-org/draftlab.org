@@ -11,7 +11,7 @@ import FeedFilter, {
   type FilterOption,
 } from '@components/organisms/FeedFilter';
 import { isVisible } from '@utils/content';
-import { FEED_ITEM_KINDS, getFeedItems } from '@utils/feed';
+import { getFeedItems } from '@utils/feed';
 import {
   type ModalitySlug,
   modalityIconSvgs,
@@ -46,11 +46,6 @@ const renderIconSvg = (iconId: string): string => {
   const rendered = iconToSVG(data, { height: '100%', width: '100%' });
   return iconToHTML(rendered.body, rendered.attributes);
 };
-
-const typeOptions: FilterOption[] = FEED_ITEM_KINDS.map((k) => ({
-  slug: k.slug,
-  name: k.name,
-}));
 
 const skillOptions: FilterOption[] = allSkills
   .slice()
@@ -103,7 +98,6 @@ const itemTags: FeedItemTagData[] = items.map((it) => ({
 	<FeedFilter
 		client:load
 		gridId={gridId}
-		types={typeOptions}
 		modalities={modalityOptions}
 		phases={phaseOptions}
 		skills={skillOptions}

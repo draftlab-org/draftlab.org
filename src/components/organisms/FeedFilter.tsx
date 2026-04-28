@@ -18,7 +18,7 @@ export interface FilterOption {
 
 export interface FeedItemTagData {
   slug: string;          // unique within (kind, slug)
-  kind: string;          // matches one of the type filter slugs
+  kind: string;          // 'project' | 'quote'
   phases: string[];
   modalities: string[];
   skills: string[];
@@ -26,25 +26,23 @@ export interface FeedItemTagData {
 
 export interface FeedFilterProps {
   gridId: string;
-  types: FilterOption[];
   modalities: FilterOption[];
   phases: FilterOption[];
   skills: FilterOption[];
   items: FeedItemTagData[];
 }
 
-type FilterKey = 'types' | 'modalities' | 'phases' | 'skills';
+type FilterKey = 'modalities' | 'phases' | 'skills';
 
 type FilterState = Record<FilterKey, string[]>;
 
 const EMPTY_STATE: FilterState = {
-  types: [],
   modalities: [],
   phases: [],
   skills: [],
 };
 
-const FILTER_KEYS: FilterKey[] = ['types', 'modalities', 'phases', 'skills'];
+const FILTER_KEYS: FilterKey[] = ['modalities', 'phases', 'skills'];
 
 const readFromUrl = (): FilterState => {
   if (typeof window === 'undefined') return EMPTY_STATE;
@@ -55,7 +53,6 @@ const readFromUrl = (): FilterState => {
       .map((s) => s.trim())
       .filter(Boolean);
   return {
-    types: parse('types'),
     modalities: parse('modalities'),
     phases: parse('phases'),
     skills: parse('skills'),
@@ -77,8 +74,7 @@ const writeToUrl = (state: FilterState) => {
 };
 
 const matches = (item: FeedItemTagData, state: FilterState): boolean => {
-  if (state.types.length > 0 && !state.types.includes(item.kind)) return false;
-  const check = (key: 'modalities' | 'phases' | 'skills') => {
+  const check = (key: FilterKey) => {
     const sel = state[key];
     if (sel.length === 0) return true;
     return sel.some((s) => item[key].includes(s));
@@ -103,14 +99,8 @@ const wrap = (key: string, node: ReactNode): ReactNode => (
   <Fragment key={key}>{node}</Fragment>
 );
 
-// Pluralize a kind-name into the noun used in the summary line.
-// "Project" → "projects", "Quote" → "quotes". Crude but the registry only
-// holds short single-word names today.
-const pluralizeKind = (name: string) => `${name.toLowerCase()}s`;
-
 export default function FeedFilter({
   gridId,
-  types,
   modalities,
   phases,
   skills,
@@ -124,10 +114,6 @@ export default function FeedFilter({
     setHydrated(true);
   }, []);
 
-  const typeBySlug = useMemo(
-    () => new Map(types.map((o) => [o.slug, o])),
-    [types]
-  );
   const phaseBySlug = useMemo(
     () => new Map(phases.map((o) => [o.slug, o])),
     [phases]
@@ -214,27 +200,10 @@ export default function FeedFilter({
   const chipIconClass =
     'inline-block size-[1em] shrink-0 align-[-0.125em] [&>svg]:h-full [&>svg]:w-full';
 
-  // Placeholder treatment for the "all X" slots in the summary line — signals
-  // to users that those words are filterable slots, not fixed copy.
+  // Placeholder treatment for the "all X" slots — signals to users that those
+  // words are filterable slots, not fixed copy.
   const placeholderClass =
     'italic text-ink-muted underline decoration-ink-muted/50 decoration-dotted underline-offset-4';
-
-  // The noun phrase that follows "Showing": pluralized kind names from the
-  // active types filter (or the registry's full list if no type filter).
-  const renderKindNoun = useCallback(
-    (slugs: string[]): ReactNode => {
-      const list = (slugs.length > 0 ? slugs : types.map((t) => t.slug))
-        .map((slug) => typeBySlug.get(slug))
-        .filter((t): t is FilterOption => Boolean(t));
-      if (list.length === 0) return 'items';
-      return joinWithAnd(
-        list.map((t) =>
-          wrap(`t-${t.slug}`, <span>{pluralizeKind(t.name)}</span>)
-        )
-      );
-    },
-    [typeBySlug, types]
-  );
 
   const renderModalityChip = useCallback(
     (slug: string): ReactNode => {
@@ -314,17 +283,12 @@ export default function FeedFilter({
     parts.push({
       id: 'noun',
       node:
-        state.types.length > 0 ? (
-          <> {renderKindNoun(state.types)}</>
-        ) : state.modalities.length > 0 ? (
-          // Modalities sit before the noun as an adjective ("Studio content"),
-          // so the "all content" placeholder reads broken once a modality is
-          // picked. Drop to plain "content" in that case.
-          <> content</>
+        state.modalities.length > 0 ? (
+          <> projects</>
         ) : (
           <>
             {' '}
-            <span className={placeholderClass}>all content</span>
+            <span className={placeholderClass}>all projects</span>
           </>
         ),
     });
@@ -384,13 +348,7 @@ export default function FeedFilter({
     parts.push({ id: 'period', node: <>.</> });
 
     return parts.map((p) => <Fragment key={p.id}>{p.node}</Fragment>);
-  }, [
-    state,
-    renderKindNoun,
-    renderModalityChip,
-    renderPhaseChip,
-    renderSkillChip,
-  ]);
+  }, [state, renderModalityChip, renderPhaseChip, renderSkillChip]);
 
   const renderRow = (
     label: string,
@@ -481,7 +439,6 @@ export default function FeedFilter({
           )}
         >
           <div className="space-y-4 p-4 sm:p-5">
-            {renderRow('Types', 'types', types)}
             {renderRow('Modalities', 'modalities', modalities)}
             {renderRow('Phases', 'phases', phases)}
             {renderRow('Skills', 'skills', skills)}
