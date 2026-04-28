@@ -58,7 +58,7 @@ const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
 <a
 	href={`/projects/${slug}`}
 	class:list={[
-		'group relative flex h-full overflow-hidden no-underline shadow-sm transition-colors duration-150 **:no-underline hover:shadow-md',
+		'group relative flex h-full no-underline shadow-sm transition-colors duration-150 **:no-underline hover:shadow-md',
 		featured && 'ring-1 ring-secondary-200',
 		className,
 	]}
@@ -101,6 +101,7 @@ const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
 						<SkillIcon
 							slug={slug}
 							size={18}
+							tooltip
 							class="text-ink-muted transition-colors hover:text-secondary-500"
 						/>
 					))}

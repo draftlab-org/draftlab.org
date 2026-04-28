@@ -67,7 +67,7 @@ const people = category
 						{person.skills && person.skills.length > 0 && (
 							<div class="mt-auto flex flex-wrap gap-2 pt-5">
 								{person.skills.map((slug) => (
-									<SkillIcon slug={slug} size={16} class="text-ink-muted" />
+									<SkillIcon slug={slug} size={16} class="text-ink-muted" tooltip />
 								))}
 							</div>
 						)}
