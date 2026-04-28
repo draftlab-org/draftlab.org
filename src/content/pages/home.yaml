@@ -7,8 +7,8 @@ sections:
   #   title: How we work
   #   description: 'The framework below maps what we do across two dimensions: the phase of your project, and the way we show up.'
   #   showProjects: true
-  - type: activeProjects
-    title: Active projects
+  - type: latestUpdates
+    limit: 4
     background:
       bgColor: phase-gradient
       bgType: full

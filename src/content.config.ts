@@ -150,6 +150,12 @@ const pagesCollection = defineCollection({
         description: z.string().optional(),
       }),
       SectionCommonSchema.extend({
+        type: z.literal('latestUpdates'),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        limit: z.number().optional(),
+      }),
+      SectionCommonSchema.extend({
         type: z.literal('phasesOverview'),
         title: z.string().optional(),
         description: z.string().optional(),

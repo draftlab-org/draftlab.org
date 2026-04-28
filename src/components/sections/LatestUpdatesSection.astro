@@ -1,0 +1,200 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { isVisible } from '@utils/content';
+import { getOrganisations } from '@utils/organisations';
+import { getProjects } from '@utils/projects';
+import type { ImageMetadata } from 'astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  limit?: number;
+}
+
+const { limit = 4 } = Astro.props;
+
+const [allUpdates, projects, organisations] = await Promise.all([
+  getCollection('updates'),
+  getProjects(),
+  getOrganisations(),
+]);
+
+const projectBySlug = new Map(projects.map((p) => [p.data.slug, p]));
+const orgById = new Map(organisations.map((o) => [o.data.id, o.data]));
+
+const dateFmt = new Intl.DateTimeFormat('en-GB', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+});
+
+interface Resolved {
+  date: string;
+  dateLabel: string;
+  update: string;
+  projectName: string;
+  projectSlug: string;
+  clientName?: string;
+  image?: ImageMetadata;
+  title?: string;
+}
+
+const resolved: Resolved[] = allUpdates
+  .filter(isVisible)
+  .map((entry): Resolved | null => {
+    const ref = entry.data.project as unknown;
+    const projectSlug =
+      typeof ref === 'string'
+        ? ref
+        : (ref as { id?: string; slug?: string })?.id ??
+          (ref as { slug?: string })?.slug ??
+          '';
+    const project = projectBySlug.get(projectSlug);
+    if (!project) return null;
+    const client = project.data.client
+      ? orgById.get(project.data.client)
+      : undefined;
+    return {
+      date: entry.data.date,
+      dateLabel: dateFmt.format(new Date(entry.data.date)),
+      update: entry.data.update,
+      projectName: project.data.name,
+      projectSlug,
+      clientName: client?.name,
+      image: entry.data.image,
+      title: entry.data.title,
+    };
+  })
+  .filter((x): x is Resolved => x !== null)
+  .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
+  .slice(0, limit);
+---
+
+{
+	resolved.length > 0 && (
+		<div class="text-cream">
+			<header class="mb-8">
+				<span class="font-mono text-[0.7rem] tracking-[0.32em] text-cream uppercase">
+					<span class="mr-3 inline-block h-1.5 w-1.5 translate-y-[-0.18em] rounded-full bg-cream" />
+					Latest updates
+				</span>
+			</header>
+
+			<ol class="space-y-6 md:space-y-8">
+				{resolved.map((r, i) => (
+					<li
+						class="dispatch group/dispatch"
+						style={`--i: ${i}`}
+					>
+						<a
+							href={`/projects/${r.projectSlug}`}
+							class="block no-underline transition-transform duration-300 ease-out hover:translate-x-1"
+						>
+							{/* Mono kicker — FOR project · WITH client */}
+							<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 font-mono text-[0.65rem] tracking-[0.2em] text-cream uppercase tabular-nums md:text-[0.7rem]">
+								<span class="flex items-center gap-2">
+									<span class="text-cream/85">For</span>
+									<span class="text-cream underline decoration-cream/60 decoration-dotted underline-offset-[0.32em] transition-[text-decoration-color] duration-200 group-hover/dispatch:decoration-cream">
+										{r.projectName}
+									</span>
+								</span>
+								{r.clientName && r.clientName !== r.projectName && (
+									<>
+										<span aria-hidden="true" class="text-cream/60">
+											·
+										</span>
+										<span class="text-cream">
+											<span class="text-cream/85">With</span>{' '}
+											{r.clientName}
+										</span>
+									</>
+								)}
+							</div>
+
+							{/* Body row — image (when present) + Fraunces update text */}
+							<div class="mt-2 flex items-start gap-4 md:mt-3 md:gap-5">
+								{r.image && (
+									<figure
+										class="aspect-[4/3] w-20 shrink-0 overflow-hidden md:w-24"
+										aria-hidden="true"
+									>
+										<Image
+											src={r.image}
+											alt={r.title ?? r.update}
+											widths={[120, 192, 240]}
+											sizes="(min-width: 768px) 96px, 80px"
+											class="block h-full w-full object-cover"
+										/>
+									</figure>
+								)}
+								<p class="min-w-0 flex-1 font-serif text-lg leading-[1.32] font-light text-cream md:text-[1.2rem] md:leading-[1.28] lg:text-[1.4rem] lg:leading-[1.22]">
+									{r.update}
+								</p>
+							</div>
+
+							{/* Footer cue */}
+							<div class="mt-3 inline-flex items-center gap-3 font-mono text-[0.7rem] tracking-[0.22em] text-cream uppercase md:mt-4 md:text-[0.75rem]">
+								<span
+									aria-hidden="true"
+									class="block h-px w-8 bg-cream/60 transition-all duration-300 group-hover/dispatch:w-14 group-hover/dispatch:bg-cream"
+								/>
+								<span>Visit project page</span>
+								<span
+									aria-hidden="true"
+									class="inline-block transition-transform duration-300 group-hover/dispatch:translate-x-1"
+								>
+									→
+								</span>
+							</div>
+						</a>
+					</li>
+				))}
+			</ol>
+
+			{/* Closing bar — link to all projects */}
+			<div class="mt-12 flex justify-end pt-4 md:mt-16">
+				<a
+					href="/projects"
+					class="group inline-flex items-center gap-4 no-underline"
+				>
+					<span class="font-mono text-sm tracking-[0.22em] text-cream uppercase md:text-[0.95rem]">
+						See all projects
+					</span>
+					<span
+						aria-hidden="true"
+						class="block h-px w-12 bg-cream/60 transition-all duration-300 group-hover:w-20 group-hover:bg-cream"
+					/>
+					<span
+						aria-hidden="true"
+						class="font-mono text-base text-cream transition-transform duration-300 group-hover:translate-x-1 md:text-lg"
+					>
+						→
+					</span>
+				</a>
+			</div>
+		</div>
+	)
+}
+
+<style>
+	.dispatch {
+		animation: dispatch-in 0.7s cubic-bezier(0.2, 0.7, 0.25, 1) backwards;
+		animation-delay: calc(var(--i, 0) * 90ms + 80ms);
+	}
+	@keyframes dispatch-in {
+		0% {
+			opacity: 0;
+			transform: translateY(14px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.dispatch {
+			animation: none;
+		}
+	}
+</style>
