@@ -26,12 +26,9 @@ const updates = allUpdates
 	})
 	.sort((a, b) => Date.parse(b.data.date) - Date.parse(a.data.date));
 
-const dayFmt = new Intl.DateTimeFormat('en-GB', { day: '2-digit' });
-const monthFmt = new Intl.DateTimeFormat('en-GB', { month: 'long' });
-const yearFmt = new Intl.DateTimeFormat('en-GB', { year: 'numeric' });
-const longDateFmt = new Intl.DateTimeFormat('en-GB', {
-	day: 'numeric',
-	month: 'long',
+const dateFmt = new Intl.DateTimeFormat('en-GB', {
+	day: '2-digit',
+	month: 'short',
 	year: 'numeric',
 });
 
@@ -46,55 +43,38 @@ const total = updates.length;
 
 {
 	updates.length > 0 && (
-		<section class="mb-12">
-			<header class="mb-10 flex items-baseline justify-between border-b border-sand pb-3">
-				<h2 class="font-serif text-sm font-medium tracking-widest text-ink-muted uppercase">
-					Updates
-				</h2>
-				<span class="font-mono text-[0.65rem] tracking-[0.18em] text-ink-muted/70 uppercase">
-					{total === 1 ? '1 dispatch' : `${total} dispatches`}
-				</span>
-			</header>
+		<section>
+			<h2 class="mb-10 font-serif text-sm font-medium tracking-widest text-ink-muted uppercase">
+				Updates
+			</h2>
 
-			<ol class="space-y-20">
+			<ol class="space-y-16">
 				{updates.map((entry, i) => {
 					const dateObj = new Date(entry.data.date);
-					const day = dayFmt.format(dateObj);
-					const month = monthFmt.format(dateObj);
-					const year = yearFmt.format(dateObj);
-					const longDate = longDateFmt.format(dateObj);
-					const dispatchNo = String(total - i).padStart(3, '0');
+					const dateLabel = dateFmt.format(dateObj);
+					const number = String(total - i).padStart(3, '0');
 					const bodyHtml = renderedBodies[i];
 					const hasHeadingMatter = entry.data.title || entry.data.image;
 					return (
-						<li class="grid gap-x-10 gap-y-5 md:grid-cols-[6.5rem_1fr]">
-							{/* Gutter — typographic anchor */}
-							<aside class="flex flex-row items-baseline gap-4 md:flex-col md:items-start md:gap-0">
+						<li class="grid gap-x-8 gap-y-3 md:grid-cols-[6.5rem_1fr]">
+							{/* Gutter — number prominent, date subordinate */}
+							<aside class="flex flex-row items-baseline gap-3 md:flex-col md:items-start md:gap-0">
 								<span
-									class="font-mono text-[0.65rem] tracking-[0.22em] text-secondary-600 uppercase"
+									class="font-mono text-base leading-none font-medium tracking-[0.15em] text-secondary-600 uppercase tabular-nums"
 									aria-hidden="true"
 								>
-									№ {dispatchNo}
+									№ {number}
 								</span>
 								<time
 									datetime={entry.data.date}
-									class="flex flex-row items-baseline gap-2 md:mt-3 md:flex-col md:items-start md:gap-0"
+									class="font-mono text-[0.65rem] tracking-[0.18em] text-ink-muted uppercase tabular-nums md:mt-2"
 								>
-									<span class="font-serif text-5xl font-light leading-none text-ink tabular-nums md:text-6xl">
-										{day}
-									</span>
-									<span class="font-mono text-[0.7rem] tracking-[0.15em] text-ink-muted uppercase md:mt-2">
-										{month}
-									</span>
-									<span class="font-mono text-[0.7rem] tracking-[0.15em] text-ink-muted/70 uppercase md:mt-0.5">
-										{year}
-									</span>
-									<span class="sr-only">— {longDate}</span>
+									{dateLabel}
 								</time>
 							</aside>
 
 							{/* Content column */}
-							<div class="md:pl-2">
+							<div>
 								{entry.data.title && (
 									<h3 class="font-serif text-2xl leading-[1.15] font-medium text-ink md:text-[1.75rem]">
 										{entry.data.title}
@@ -104,7 +84,7 @@ const total = updates.length;
 								{entry.data.image && (
 									<figure
 										class:list={[
-											'corner-brackets aspect-16/10 w-full text-secondary-500',
+											'corner-brackets aspect-16/10 w-full p-3 text-ink',
 											entry.data.title ? 'mt-6' : 'mt-0',
 										]}
 									>
@@ -129,7 +109,7 @@ const total = updates.length;
 
 								{bodyHtml && (
 									<div
-										class="prose-ink prose mt-5 max-w-none border-l border-sand/70 pl-5 text-ink-soft italic [&>:first-child]:mt-0 [&>p]:font-serif"
+										class="prose-ink prose mt-5 max-w-none border-l border-sand/70 pl-5 leading-relaxed text-ink-soft *:first:mt-0 [&>p]:font-serif [&>p]:text-base"
 										set:html={bodyHtml}
 									/>
 								)}

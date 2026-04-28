@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import ModalityIcon from '@components/atoms/ModalityIcon.astro';
 import SkillIcon from '@components/atoms/SkillIcon.astro';
@@ -17,7 +18,9 @@ export const getStaticPaths = (async () => {
 	const modalities = await getCollection('modalities');
 
 	const orgMap = new Map(orgs.map((o) => [o.data.id, o.data]));
-	const skillMap = new Map(skills.filter((s) => isVisible(s)).map((s) => [s.data.slug, s.data]));
+	const skillMap = new Map(
+		skills.filter((s) => isVisible(s)).map((s) => [s.data.slug, s.data])
+	);
 	const phaseMap = new Map(phases.map((p) => [p.data.slug, p.data]));
 	const modalityMap = new Map(modalities.map((m) => [m.data.slug, m.data]));
 
@@ -28,267 +31,319 @@ export const getStaticPaths = (async () => {
 			props: {
 				project: entry.data,
 				client: entry.data.client ? orgMap.get(entry.data.client) : undefined,
-				resolvedPartners: (entry.data.partners ?? []).map((p: string) => orgMap.get(p)).filter(Boolean),
-				resolvedSkills: (entry.data.skills ?? []).map((s: string) => skillMap.get(s)).filter(Boolean),
-				resolvedPhases: entry.data.phases.map((p: string) => phaseMap.get(p)).filter(Boolean),
-				resolvedModalities: entry.data.modalities.map((m: string) => modalityMap.get(m)).filter(Boolean),
+				resolvedPartners: (entry.data.partners ?? [])
+					.map((p: string) => orgMap.get(p))
+					.filter(Boolean),
+				resolvedSkills: (entry.data.skills ?? [])
+					.map((s: string) => skillMap.get(s))
+					.filter(Boolean),
+				resolvedPhases: entry.data.phases
+					.map((p: string) => phaseMap.get(p))
+					.filter(Boolean),
+				resolvedModalities: entry.data.modalities
+					.map((m: string) => modalityMap.get(m))
+					.filter(Boolean),
 			},
 		}));
 }) satisfies GetStaticPaths;
 
-const { project, client, resolvedPartners, resolvedSkills, resolvedPhases, resolvedModalities } = Astro.props;
-const bodyHtml = project.body ? (await renderMarkdownWithImages(project.body)).html : '';
+const {
+	project,
+	client,
+	resolvedPartners,
+	resolvedSkills,
+	resolvedPhases,
+	resolvedModalities,
+} = Astro.props;
+const bodyHtml = project.body
+	? (await renderMarkdownWithImages(project.body)).html
+	: '';
 const isActive = project.projectStatus === 'active';
 
-const PHASE_ORDER = ['understand', 'define', 'deliver', 'sustain'];
-const orderedPhases = [...resolvedPhases].sort(
-	(a: any, b: any) => PHASE_ORDER.indexOf(a.slug) - PHASE_ORDER.indexOf(b.slug)
-);
-const orderedPhaseSlugs = [...project.phases].sort(
-	(a: string, b: string) => PHASE_ORDER.indexOf(a) - PHASE_ORDER.indexOf(b)
-);
-
-const phaseColorClass = {
-	understand: 'bg-phase-understand',
-	define: 'bg-phase-define',
-	deliver: 'bg-phase-deliver',
-	sustain: 'bg-phase-sustain',
-};
-
-const phaseBg: Record<string, string> = {
-	understand: 'bg-phase-understand-light',
-	define: 'bg-phase-define-light',
-	deliver: 'bg-phase-deliver-light',
-	sustain: 'bg-phase-sustain-light',
-};
-
-const phaseText: Record<string, string> = {
-	understand: 'text-phase-understand-dark',
-	define: 'text-phase-define-dark',
-	deliver: 'text-phase-deliver-dark',
-	sustain: 'text-phase-sustain-dark',
-};
+const PHASE_ORDER = ['understand', 'define', 'deliver', 'sustain'] as const;
 
 const phaseSet = new Set(project.phases);
+
+const statusLabel = isActive ? 'Active' : 'Complete';
 ---
 
 <PageLayout
 	title={`${project.name} — Draftlab`}
 	description={project.description}
 >
-	{/* Phase accent bar across the top */}
-	<!-- <div class="flex h-1.5">
-		{orderedPhaseSlugs.map((phase: string) => (
-			<div class:list={['flex-1', phaseColorClass[phase as keyof typeof phaseColorClass]]} />
-		))}
-	</div> -->
-
-	<article class="mx-auto max-w-3xl px-4 pt-12 pb-20 sm:px-6 lg:px-8">
+	<article class="mx-auto max-w-3xl px-4 pt-10 pb-20 sm:px-6 lg:px-8">
 		{/* Back link */}
 		<a
 			href="/feed"
 			data-component
 			class="group mb-10 inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600"
 		>
-			<span class="transition-transform group-hover:-translate-x-0.5"
-				>&larr;</span
-			>
+			<span class="transition-transform group-hover:-translate-x-0.5">&larr;</span>
 			All projects
 		</a>
 
-		{/* Header */}
-		<header class="mb-12">
+		{/* Hero image — only when present, framed in corner-brackets */}
+		{
+			project.image && (
+				<figure class="corner-brackets mb-10 aspect-3/2 w-full p-3 text-ink">
+					<div class="h-full w-full overflow-hidden">
+						<Image
+							src={project.image}
+							alt={project.name}
+							class="block h-full w-full object-cover"
+						/>
+					</div>
+				</figure>
+			)
+		}
+
+		{/* Identity zone — title, phases, credits */}
+		<header class="mb-10">
 			<h1
-				class="font-serif text-4xl font-bold tracking-tight text-ink md:text-5xl"
+				class="font-serif text-4xl leading-[1.05] font-medium text-ink md:text-6xl"
 			>
 				{project.name}
 			</h1>
 
+			{/* Credits — FOR client · WITH partners, single wrapping line */}
 			{
-				client && (
-					<div class="mt-5 flex items-center gap-3">
-						<span class="font-serif text-[0.7rem] tracking-widest text-ink-muted uppercase">
-							Client
-						</span>
-						{client.url ? (
-							<a
-								href={client.url}
-								target="_blank"
-								rel="noopener noreferrer"
-								title={client.name}
-								class="inline-flex items-center"
-							>
-								{client.image ? (
+				(client || resolvedPartners.length > 0) && (
+					<div class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
+						{client && (
+							<span class="inline-flex items-center gap-3">
+								<span class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted/70 uppercase">
+									For
+								</span>
+								{client.url ? (
+									<a
+										href={client.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										title={client.name}
+										class="inline-flex items-center"
+									>
+										{client.image ? (
+											<img
+												src={client.image.src}
+												alt={client.name}
+												class="h-9 w-auto"
+											/>
+										) : (
+											<span class="font-serif text-base text-ink italic">
+												{client.name}
+											</span>
+										)}
+									</a>
+								) : client.image ? (
 									<img
 										src={client.image.src}
 										alt={client.name}
-										class="h-10 w-auto"
+										class="h-9 w-auto"
+										title={client.name}
 									/>
 								) : (
-									<span class="font-serif text-lg text-ink-muted italic">
+									<span class="font-serif text-base text-ink italic">
 										{client.name}
 									</span>
 								)}
-							</a>
-						) : client.image ? (
-							<img
-								src={client.image.src}
-								alt={client.name}
-								class="h-10 w-auto"
-								title={client.name}
-							/>
-						) : (
-							<span class="font-serif text-lg text-ink-muted italic">
-								{client.name}
+							</span>
+						)}
+						{resolvedPartners.length > 0 && (
+							<span class="inline-flex flex-wrap items-center gap-x-3 gap-y-2">
+								<span class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted/70 uppercase">
+									With
+								</span>
+								{resolvedPartners.map((partner: any, idx: number) => (
+									<>
+										{idx > 0 && (
+											<span
+												class="font-mono text-xs text-ink-muted/40"
+												aria-hidden="true"
+											>
+												·
+											</span>
+										)}
+										{partner.url ? (
+											<a
+												href={partner.url}
+												target="_blank"
+												rel="noopener noreferrer"
+												title={partner.name}
+												class="inline-flex items-center"
+											>
+												{partner.image ? (
+													<img
+														src={partner.image.src}
+														alt={partner.name}
+														class="h-7 w-auto"
+													/>
+												) : (
+													<span class="text-sm text-ink-muted">{partner.name}</span>
+												)}
+											</a>
+										) : partner.image ? (
+											<img
+												src={partner.image.src}
+												alt={partner.name}
+												class="h-7 w-auto"
+												title={partner.name}
+											/>
+										) : (
+											<span class="text-sm text-ink-muted">{partner.name}</span>
+										)}
+									</>
+								))}
 							</span>
 						)}
 					</div>
 				)
 			}
-
-			{
-				resolvedPartners.length > 0 && (
-					<div class="mt-4 flex flex-wrap items-center gap-4">
-						<span class="font-serif text-[0.7rem] tracking-widest text-ink-muted uppercase">
-							With
-						</span>
-						{resolvedPartners.map((partner: any) =>
-							partner.url ? (
-								<a
-									href={partner.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									title={partner.name}
-									class="inline-flex items-center"
-								>
-									{partner.image ? (
-										<img
-											src={partner.image.src}
-											alt={partner.name}
-											class="h-8 w-auto"
-										/>
-									) : (
-										<span class="text-sm text-ink-muted">{partner.name}</span>
-									)}
-								</a>
-							) : partner.image ? (
-								<img
-									src={partner.image.src}
-									alt={partner.name}
-									class="h-8 w-auto"
-									title={partner.name}
-								/>
-							) : (
-								<span class="text-sm text-ink-muted">{partner.name}</span>
-							)
-						)}
-					</div>
-				)
-			}
-
-			{/* Status badge */}
-			{
-				isActive && (
-					<span class="mt-4 inline-flex items-center gap-1.5 rounded-full bg-phase-understand-light px-3 py-1 text-xs font-medium text-phase-understand-dark">
-						<span class="h-1.5 w-1.5 animate-pulse rounded-full bg-phase-understand" />
-						Active project
-					</span>
-				)
-			}
 		</header>
 
-		{/* Description */}
+		{/* Colophon — compressed metadata strip */}
+		<dl
+			class="mb-12 grid grid-cols-1 items-start gap-x-6 gap-y-6 border-y border-sand py-5 sm:grid-cols-2"
+		>
+			<div class="flex flex-col sm:col-span-2">
+				<dt
+					class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted/70 uppercase"
+				>
+					Phases
+				</dt>
+				<dd class="mt-3">
+					<div
+						class="flex items-center gap-2 sm:gap-3"
+						role="group"
+						aria-label="Project phases covered"
+					>
+						{
+							PHASE_ORDER.map((phase, i) => {
+								const active = phaseSet.has(phase as any);
+								return (
+									<>
+										{i > 0 && (
+											<span class="h-px flex-1 bg-sand" aria-hidden="true" />
+										)}
+										<span
+											class="inline-flex shrink-0 items-center gap-2 font-mono text-[0.65rem] tracking-[0.2em] uppercase sm:text-sm sm:tracking-wider"
+											aria-current={active ? 'true' : undefined}
+										>
+											{active ? (
+												<span
+													class="h-2 w-2 shrink-0 rounded-full"
+													style={`background: var(--color-phase-${phase}-dark);`}
+													aria-hidden="true"
+												/>
+											) : (
+												<span
+													class="h-2 w-2 shrink-0 rounded-full border border-ink-muted/35"
+													aria-hidden="true"
+												/>
+											)}
+											<span
+												class:list={[!active && 'text-ink-muted/45']}
+												style={
+													active
+														? `color: var(--color-phase-${phase}-dark);`
+														: undefined
+												}
+											>
+												{phase}
+											</span>
+										</span>
+									</>
+								);
+							})
+						}
+					</div>
+				</dd>
+			</div>
+			<div class="flex flex-col">
+				<dt
+					class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted/70 uppercase"
+				>
+					Modality
+				</dt>
+				<dd
+					class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-sm tracking-wider text-ink uppercase"
+				>
+					{
+						resolvedModalities.length > 0 ? (
+							resolvedModalities.map((modality: any, idx: number) => (
+								<>
+									{idx > 0 && (
+										<span class="text-ink-muted/40" aria-hidden="true">
+											·
+										</span>
+									)}
+									<span class="inline-flex items-center gap-1.5">
+										<ModalityIcon
+											slug={modality.slug as ModalitySlug}
+											size={12}
+											class="shrink-0 text-ink-muted"
+											decorative
+										/>
+										{modality.name}
+									</span>
+								</>
+							))
+						) : (
+							<span>—</span>
+						)
+					}
+				</dd>
+			</div>
+			<div class="flex flex-col">
+				<dt
+					class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted/70 uppercase"
+				>
+					Status
+				</dt>
+				<dd
+					class:list={[
+						'mt-2 inline-flex items-center gap-2 font-mono text-sm tracking-wider uppercase',
+						isActive ? 'text-phase-understand-dark' : 'text-ink',
+					]}
+				>
+					{
+						isActive && (
+							<span
+								class="relative inline-flex h-2 w-2 shrink-0"
+								aria-hidden="true"
+							>
+								<span class="absolute inset-0 animate-ping rounded-full bg-phase-understand opacity-75" />
+								<span class="relative inline-flex h-2 w-2 rounded-full bg-phase-understand" />
+							</span>
+						)
+					}
+					{statusLabel}
+				</dd>
+			</div>
+		</dl>
+
+		{/* Narrative — lead + body */}
 		<section class="mb-12">
-			<p class="text-lg leading-relaxed text-ink-soft">
+			<p class="font-serif text-xl leading-relaxed text-ink-soft md:text-[1.4rem]">
 				{project.description}
 			</p>
 			{
 				bodyHtml && (
 					<div
-						class="prose-ink prose mt-4 max-w-none leading-relaxed text-ink-soft"
+						class="prose-ink prose mt-6 max-w-none leading-relaxed text-ink-soft"
 						set:html={bodyHtml}
 					/>
 				)
 			}
 		</section>
 
-		{/* Phases bar */}
-		<section class="mb-12">
-			<h2
-				class="mb-3 font-serif text-sm font-medium tracking-wider text-ink-muted uppercase"
-			>
-				Phases
-			</h2>
-			<div class="relative flex h-8 drop-shadow-xs/30">
-				{
-					PHASE_ORDER.map((phase, i) => {
-						const active = phaseSet.has(phase as any);
-						const isFirst = i === 0;
-						return (
-							<div
-								class:list={[
-									'relative flex flex-1 items-end',
-									!isFirst && '-ml-2',
-									active ? phaseBg[phase] : 'bg-cream',
-								]}
-								style="clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);"
-							>
-								<span
-									class:list={[
-										'truncate pr-1 pl-3 font-serif text-xs capitalize',
-										active ? phaseText[phase] : 'text-gray-400',
-									]}
-								>
-									{phase}
-								</span>
-							</div>
-						);
-					})
-				}
-			</div>
-		</section>
-
-		{/* Modalities */}
-		<section class="mb-12">
-			<div>
-				<h2
-					class="mb-3 font-serif text-sm font-medium tracking-wider text-ink-muted uppercase"
-				>
-					Modalities
-				</h2>
-				<div class="space-y-2">
-					{
-						resolvedModalities.map((modality: any) => (
-							<div class="flex items-center gap-3">
-								<ModalityIcon
-									slug={modality.slug as ModalitySlug}
-									size={16}
-									class="shrink-0 text-ink-muted"
-									decorative
-								/>
-								<div>
-									<span class="font-serif text-base font-medium text-ink">
-										{modality.name}
-									</span>
-									<span class="ml-2 text-sm text-ink-muted">
-										{modality.tagline}
-									</span>
-								</div>
-							</div>
-						))
-					}
-				</div>
-			</div>
-		</section>
-
 		{/* Skills */}
 		{
 			resolvedSkills.length > 0 && (
-				<section class="mb-12">
-					<h2 class="mb-4 font-serif text-sm font-medium tracking-wider text-ink-muted uppercase">
+				<section class="mb-12 border-t border-sand pt-8">
+					<h2 class="mb-4 font-serif text-sm font-medium tracking-widest text-ink-muted uppercase">
 						Skills applied
 					</h2>
-					<div class="flex flex-wrap gap-3">
+					<div class="flex flex-wrap gap-2.5">
 						{resolvedSkills.map((skill: any) => (
 							<span class="inline-flex items-center gap-2 rounded-md border border-sand bg-cream-dark/40 px-3 py-1.5 text-sm text-ink-soft">
 								<SkillIcon
@@ -304,27 +359,10 @@ const phaseSet = new Set(project.phases);
 			)
 		}
 
-		{/* Timeline */}
-		{
-			(project.yearStart || project.yearEnd) && (
-				<section class="mb-12">
-					<h2 class="mb-3 font-serif text-sm font-medium tracking-wider text-ink-muted uppercase">
-						Timeline
-					</h2>
-					<p class="text-base text-ink-soft">
-						{project.yearStart && <span>{project.yearStart}</span>}
-						{project.yearStart && project.yearEnd && <span> — </span>}
-						{project.yearEnd && <span>{project.yearEnd}</span>}
-						{project.yearStart && !project.yearEnd && isActive && (
-							<span> — ongoing</span>
-						)}
-					</p>
-				</section>
-			)
-		}
-
-		{/* Updates timeline */}
-		<ProjectUpdatesTimeline projectSlug={project.slug} />
+		{/* Updates */}
+		<div class="border-t border-sand pt-8">
+			<ProjectUpdatesTimeline projectSlug={project.slug} />
+		</div>
 
 		{/* External link */}
 		{
@@ -344,16 +382,14 @@ const phaseSet = new Set(project.phases);
 			)
 		}
 
-		{/* Back to work */}
+		{/* Back to feed */}
 		<div class="mt-16 border-t border-sand pt-8">
 			<a
 				href="/feed"
 				data-component
 				class="group inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600"
 			>
-				<span class="transition-transform group-hover:-translate-x-0.5"
-					>&larr;</span
-				>
+				<span class="transition-transform group-hover:-translate-x-0.5">&larr;</span>
 				Back to all projects
 			</a>
 		</div>

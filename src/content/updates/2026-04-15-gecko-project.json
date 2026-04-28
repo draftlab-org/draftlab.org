@@ -3,6 +3,7 @@
   "project": "gecko-project",
   "update": "Shipped a new round of investigative tooling for the Gecko team — long-form storytelling now scrolls across narrative chapters with embedded archival evidence, and the editorial team can stage drafts without touching the live build.",
   "title": "Storytelling tooling, round two",
+  "image": "/src/assets/updates/gecko-storytelling-tooling.png",
   "status": "published",
   "body": "This was a cross-functional sprint with the Gecko editors and the dev team. The hard part wasn't the scrolling chapters — it was getting the staging workflow to feel natural for editors who were used to a CMS-only flow.\n\nWhat we ended up with: a side-by-side preview that mirrors the production CSS, plus a one-click rollback if the new chapter breaks at any breakpoint. Small, but it changes how willing editors are to experiment."
 }
