@@ -341,6 +341,38 @@ components:
         type: string
         description: Optional intro text shown above the list of active project titles.
 
+  latest_updates_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: string
+        description: Optional intro shown above the dispatches feed.
+      - name: limit
+        label: Limit
+        type: number
+        description: How many updates to display. Defaults to 4.
+
+  how_we_work_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: string
+        description: Optional intro text shown above the phases timeline.
+
   projects_roll_section:
     type: object
     fields:
@@ -595,6 +627,14 @@ content:
           - name: activeProjects
             label: Active Projects (titles only)
             component: active_projects_section
+
+          - name: latestUpdates
+            label: Latest Updates (gradient banner)
+            component: latest_updates_section
+
+          - name: howWeWork
+            label: How We Work (phases timeline + modalities)
+            component: how_we_work_section
 
           - name: phasesOverview
             label: Phases Overview
