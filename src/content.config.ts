@@ -1,12 +1,12 @@
-import { defineCollection, type ImageFunction, reference, z } from 'astro:content';
-import peopleCategories from './categories/people.json';
+import { defineCollection, type ImageFunction, reference } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
+import peopleCategories from './content/categories/people.json';
 
-// Shared status field for content visibility across all collections
 const statusSchema = z
   .enum(['draft', 'published', 'archived'])
   .default('draft');
 
-// Shared color palette enum matching the site's design tokens
 const colorPaletteSchema = z.enum([
   'primary',
   'secondary',
@@ -14,7 +14,6 @@ const colorPaletteSchema = z.enum([
   'neutral',
 ]);
 
-// Phase slug enum — used across collections for referencing phases
 const phaseSlugSchema = z.enum([
   'understand',
   'define',
@@ -22,16 +21,13 @@ const phaseSlugSchema = z.enum([
   'sustain',
 ]);
 
-// Modality slug enum — used across collections for referencing modalities
 const modalitySlugSchema = z.enum([
   'clinic',
   'studio',
   'community',
 ]);
 
-// Helper to create schemas with image support
 const createSchemas = (image: ImageFunction) => {
-  // Atoms
   const buttonSchema = z.object({
     variant: z.string(),
     size: z.string(),
@@ -39,7 +35,6 @@ const createSchemas = (image: ImageFunction) => {
     text: z.string(),
   });
 
-  // Card
   const cardSchema = z.object({
     title: z.string(),
     content: z.string().optional(),
@@ -48,7 +43,6 @@ const createSchemas = (image: ImageFunction) => {
     color: colorPaletteSchema.optional(),
   });
 
-  //  Person
   const personSchema = z.object({
     id: z.string(),
     name: z.string(),
@@ -89,7 +83,7 @@ const createSchemas = (image: ImageFunction) => {
 // ── Pages collection ──
 
 const pagesCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/pages' }),
   schema: ({ image }) => {
     const { buttonSchema, cardSchema } = createSchemas(image);
 
@@ -102,7 +96,6 @@ const pagesCollection = defineCollection({
         .optional(),
     });
 
-    // Sections defined as a union type so they can be used as variable components
     const sectionsSchema = z.discriminatedUnion('type', [
       SectionCommonSchema.extend({
         type: z.literal('hero'),
@@ -131,7 +124,6 @@ const pagesCollection = defineCollection({
         type: z.literal('people'),
         category: z.string().optional(),
       }),
-      // New Draftlab section types
       SectionCommonSchema.extend({
         type: z.literal('framework'),
         title: z.string().optional(),
@@ -222,14 +214,14 @@ const pagesCollection = defineCollection({
 // ── People collection ──
 
 const peopleCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/people' }),
   schema: ({ image }) => createSchemas(image).personSchema,
 });
 
 // ── Phases collection ──
 
 const phasesCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/phases' }),
   schema: z.object({
     name: z.string(),
     number: z.number(),
@@ -243,7 +235,7 @@ const phasesCollection = defineCollection({
 // ── Modalities collection ──
 
 const modalitiesCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/modalities' }),
   schema: z.object({
     name: z.string(),
     slug: modalitySlugSchema,
@@ -257,7 +249,7 @@ const modalitiesCollection = defineCollection({
 // ── Framework cells collection (12 cells: 4 phases x 3 modalities) ──
 
 const frameworkCellsCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/frameworkCells' }),
   schema: z.object({
     phase: phaseSlugSchema,
     modality: modalitySlugSchema,
@@ -270,7 +262,7 @@ const frameworkCellsCollection = defineCollection({
 // ── Skills collection ──
 
 const skillsCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/skills' }),
   schema: z.object({
     name: z.string(),
     slug: z.string(),
@@ -283,7 +275,7 @@ const skillsCollection = defineCollection({
 // ── Projects collection ──
 
 const projectsCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/projects' }),
   schema: ({ image }) =>
     z.object({
       name: z.string(),
@@ -305,10 +297,10 @@ const projectsCollection = defineCollection({
     }),
 });
 
-// ── Organisations collection (replaces partners) ──
+// ── Organisations collection ──
 
 const organisationsCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/organisations' }),
   schema: ({ image }) =>
     z.object({
       id: z.string(),
@@ -322,7 +314,7 @@ const organisationsCollection = defineCollection({
 // ── Quotes collection ──
 
 const quotesCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/quotes' }),
   schema: z.object({
     date: z.string(),
     name: z.string(),
@@ -335,12 +327,12 @@ const quotesCollection = defineCollection({
 // ── Site collection ──
 
 const siteCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/site' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
       description: z.string(),
-      url: z.string().url(),
+      url: z.url(),
       favicon: z.string().default('/favicon.svg'),
       defaultOgImage: image().optional(),
       defaultLogoLight: image().optional(),
@@ -379,7 +371,6 @@ const siteCollection = defineCollection({
 
 // ── Navigation collection ──
 
-// Flexible link schema - supports internal page refs and external URLs
 const flexibleLinkSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('internal'),
@@ -387,11 +378,10 @@ const flexibleLinkSchema = z.discriminatedUnion('type', [
   }),
   z.object({
     type: z.literal('external'),
-    url: z.string().url(),
+    url: z.url(),
   }),
 ]);
 
-// Navigation item schema - supports single links and dropdowns
 const navItemLinkSchema = z.object({
   type: z.literal('link'),
   label: z.string(),
@@ -417,7 +407,7 @@ const navigationItemSchema = z.discriminatedUnion('type', [
 ]);
 
 const navigationCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/navigation' }),
   schema: z.object({
     slug: z.string(),
     title: z.string(),
@@ -428,15 +418,13 @@ const navigationCollection = defineCollection({
 // ── Categories collection ──
 
 const categoriesCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/categories' }),
   schema: z.object({
     id: z.string(),
     name: z.string(),
     categories: z.array(z.string()),
   }),
 });
-
-// ── Export all collections ──
 
 export const collections = {
   people: peopleCollection,

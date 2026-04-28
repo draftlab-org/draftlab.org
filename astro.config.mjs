@@ -18,40 +18,37 @@ export default defineConfig({
   },
   experimental: {
     contentIntellisense: true,
-    fonts: [
-      {
-        provider: fontProviders.bunny(),
-        name: 'Fraunces',
-        weights: [300, 400, 500],
-        cssVariable: '--font-fraunces',
-      },
-      {
-        provider: fontProviders.bunny(),
-        name: 'Source Serif 4',
-        weights: [300, 400],
-        cssVariable: '--font-source-serif-4',
-      },
-      {
-        provider: fontProviders.bunny(),
-        name: 'JetBrains Mono',
-        weights: [300, 400],
-        cssVariable: '--font-jetbrains-mono',
-      },
-    ],
   },
+  fonts: [
+    {
+      provider: fontProviders.bunny(),
+      name: 'Fraunces',
+      weights: [300, 400, 500],
+      cssVariable: '--font-fraunces',
+    },
+    {
+      provider: fontProviders.bunny(),
+      name: 'Source Serif 4',
+      weights: [300, 400],
+      cssVariable: '--font-source-serif-4',
+    },
+    {
+      provider: fontProviders.bunny(),
+      name: 'JetBrains Mono',
+      weights: [300, 400],
+      cssVariable: '--font-jetbrains-mono',
+    },
+  ],
 
   vite: {
-    // TODO #1 - remove expect error when Astro updates to Vite 7
-    // https://github.com/withastro/astro/issues/14030#issuecomment-3027129338
     plugins: [
-      // @ts-expect-error
       tailwindcss(),
-      // @ts-expect-error — React components (MobileMenu, RichSearch, etc.)
+      // React components (MobileMenu, RichSearch, etc.)
       Icons({
         compiler: 'jsx',
         jsx: 'react',
       }),
-      // @ts-expect-error — Astro components (static ~icons/ imports in .astro files)
+      // Astro components (static ~icons/ imports in .astro files)
       Icons({
         compiler: 'astro',
       }),
