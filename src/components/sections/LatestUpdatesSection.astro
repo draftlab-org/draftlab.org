@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
+import SectionTitle from '@components/atoms/SectionTitle.astro';
 import { isVisible } from '@utils/content';
 import { getOrganisations } from '@utils/organisations';
 import { getProjects } from '@utils/projects';
@@ -12,7 +13,7 @@ export interface Props {
   limit?: number;
 }
 
-const { limit = 4 } = Astro.props;
+const { title = 'Latest updates', limit = 4 } = Astro.props;
 
 const [allUpdates, projects, organisations] = await Promise.all([
   getCollection('updates'),
@@ -75,9 +76,7 @@ const resolved: Resolved[] = allUpdates
 	resolved.length > 0 && (
 		<div class="text-cream">
 			<header class="mb-10 md:mb-8">
-				<span class="link-brackets is-active font-mono text-[0.7rem] tracking-[0.32em] text-cream uppercase">
-					Latest updates
-				</span>
+				<SectionTitle title={title} class="text-cream" />
 			</header>
 
 			<ol class="space-y-12 md:space-y-8">

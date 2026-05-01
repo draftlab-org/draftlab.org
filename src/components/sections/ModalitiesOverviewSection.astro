@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import Heading from '@components/atoms/Heading.astro';
 import ModalityIcon from '@components/atoms/ModalityIcon.astro';
+import SectionTitle from '@components/atoms/SectionTitle.astro';
 import Text from '@components/atoms/Text.astro';
 import { isVisible } from '@utils/content';
 import type { ModalitySlug } from '@utils/modalityIcons';
@@ -21,8 +21,8 @@ const modalities = modalitiesRaw
 
 <div class="py-4">
   {title && (
-    <div class="mb-8 max-w-2xl">
-      <Heading level={2} class="mb-3">{title}</Heading>
+    <div class="mb-8 flex max-w-2xl flex-col gap-3">
+      <SectionTitle title={title} />
       {description && (
         <Text size="lg" class="text-ink-soft">{description}</Text>
       )}

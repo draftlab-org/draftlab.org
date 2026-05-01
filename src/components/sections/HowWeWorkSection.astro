@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import ModalityIcon from '@components/atoms/ModalityIcon.astro';
+import SectionTitle from '@components/atoms/SectionTitle.astro';
 import type { ModalitySlug } from '@utils/modalityIcons';
 
 export interface Props {
@@ -8,7 +9,7 @@ export interface Props {
   description?: string;
 }
 
-const { title, description } = Astro.props;
+const { title = 'How we work', description } = Astro.props;
 
 const PHASE_ORDER = ['understand', 'define', 'deliver', 'sustain'] as const;
 type PhaseSlug = (typeof PHASE_ORDER)[number];
@@ -47,16 +48,7 @@ const modalities = modalityEntries
 
 <section class="text-ink">
 	<header class="mb-10 flex flex-col items-start gap-4 md:mb-14">
-		<span class="link-brackets is-active font-mono text-[0.7rem] tracking-[0.32em] text-ink-muted uppercase">
-			How we work
-		</span>
-		{
-			title && (
-				<h2 class="font-serif text-3xl leading-[1.05] font-light tracking-tight text-ink md:text-5xl">
-					{title}
-				</h2>
-			)
-		}
+		<SectionTitle title={title} class="text-ink" />
 		{
 			description && (
 				<p class="max-w-2xl font-serif text-base leading-relaxed text-ink-soft md:text-lg">

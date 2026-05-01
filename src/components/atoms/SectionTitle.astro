@@ -1,0 +1,20 @@
+---
+export interface Props {
+  title: string;
+  as?: 'h1' | 'h2' | 'h3' | 'h4';
+  class?: string;
+  id?: string;
+}
+
+const { title, as: Tag = 'h2', class: className = '', id } = Astro.props;
+---
+
+<Tag
+	id={id}
+	class:list={[
+		'link-brackets is-active inline-block w-fit font-serif text-xl font-bold tracking-tight md:text-2xl',
+		className,
+	]}
+>
+	{title}
+</Tag>

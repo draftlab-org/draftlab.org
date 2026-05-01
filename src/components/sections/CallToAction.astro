@@ -1,6 +1,6 @@
 ---
 import Button from '@components/atoms/Button.astro';
-import Heading from '@components/atoms/Heading.astro';
+import SectionTitle from '@components/atoms/SectionTitle.astro';
 import Text from '@components/atoms/Text.astro';
 
 export interface Props {
@@ -42,9 +42,7 @@ const descColor = background === 'blue' || background === 'gradient' ? 'text-blu
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="text-center">
 			<!-- Title -->
-			<Heading level={2} class={`mb-4 ${textColor}`}>
-				{title}
-			</Heading>
+			<SectionTitle title={title} class={`mb-4 ${textColor}`} />
 
 			<!-- Description -->
 			{

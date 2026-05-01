@@ -1,5 +1,5 @@
 ---
-import Heading from '@components/atoms/Heading.astro';
+import SectionTitle from '@components/atoms/SectionTitle.astro';
 import Text from '@components/atoms/Text.astro';
 import { getOrganisations, getOrganisationsByType } from '@utils/organisations';
 
@@ -25,8 +25,8 @@ const orgsWithLogos = orgs.filter((o) => o.data.image);
 
 <div class="py-4">
   {title && (
-    <div class="mb-10 max-w-2xl">
-      <Heading level={2} class="mb-3">{title}</Heading>
+    <div class="mb-10 flex max-w-2xl flex-col gap-3">
+      <SectionTitle title={title} />
       {description && (
         <Text size="lg" class="text-ink-soft">{description}</Text>
       )}

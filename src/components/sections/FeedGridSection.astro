@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import hugeiconsPack from '@iconify/json/json/hugeicons.json';
 import { getIconData, iconToHTML, iconToSVG } from '@iconify/utils';
-import Heading from '@components/atoms/Heading.astro';
+import SectionTitle from '@components/atoms/SectionTitle.astro';
 import Text from '@components/atoms/Text.astro';
 import ProjectCard from '@components/molecules/ProjectCard.astro';
 import QuoteCard from '@components/molecules/QuoteCard.astro';
@@ -80,12 +80,8 @@ const itemTags: FeedItemTagData[] = items.map((it) => ({
 <div class="py-4">
 	{
 		(title || description) && (
-			<div class="mb-8 max-w-2xl">
-				{title && (
-					<Heading level={2} class="mb-3">
-						{title}
-					</Heading>
-				)}
+			<div class="mb-8 flex max-w-2xl flex-col gap-3">
+				{title && <SectionTitle title={title} />}
 				{description && (
 					<Text size="lg" class="text-ink-soft">
 						{description}
