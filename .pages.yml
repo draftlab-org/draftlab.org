@@ -420,6 +420,16 @@ components:
         label: Featured Only
         type: boolean
         default: false
+      - name: hideImages
+        label: Hide Images
+        type: boolean
+        default: false
+        description: Suppress card images so all blocks stay the same size.
+      - name: wide
+        label: Wide Cards
+        type: boolean
+        default: false
+        description: Two cards per row in a landscape (wider-than-tall) aspect ratio.
 
   phases_overview_section:
     type: object

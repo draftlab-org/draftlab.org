@@ -1,7 +1,6 @@
 ---
 import ActiveProjectsSection from '@components/sections/ActiveProjectsSection.astro';
-import LatestUpdatesSection from '@components/sections/LatestUpdatesSection.astro';
-import HowWeWorkSection from '@components/sections/HowWeWorkSection.astro';
+import ApplyForUxdSection from '@components/sections/ApplyForUxdSection.astro';
 import ButtonSection from '@components/sections/ButtonSection.astro';
 import CalEmbedSection from '@components/sections/CalEmbedSection.astro';
 import CardSection from '@components/sections/CardSection.astro';
@@ -9,6 +8,8 @@ import FeedGridSection from '@components/sections/FeedGridSection.astro';
 import FlexiSection from '@components/sections/FlexiSection.astro';
 import FrameworkSection from '@components/sections/FrameworkSection.astro';
 import HeroSection from '@components/sections/HeroSection.astro';
+import HowWeWorkSection from '@components/sections/HowWeWorkSection.astro';
+import LatestUpdatesSection from '@components/sections/LatestUpdatesSection.astro';
 import ModalitiesOverviewSection from '@components/sections/ModalitiesOverviewSection.astro';
 import OrganisationsRollSection from '@components/sections/OrganisationsRollSection.astro';
 import PeopleSection from '@components/sections/PeopleSection.astro';
@@ -17,6 +18,7 @@ import ProjectsRollSection from '@components/sections/ProjectsRollSection.astro'
 import RichTextSection from '@components/sections/RichTextSection.astro';
 import SkillsCloudSection from '@components/sections/SkillsCloudSection.astro';
 import SkillsSection from '@components/sections/SkillsSection.astro';
+import UxdCtaSection from '@components/sections/UxdCtaSection.astro';
 import SectionLayout from '@layouts/SectionLayout.astro';
 
 const { sectionItems } = Astro.props;
@@ -90,6 +92,8 @@ const { sectionItems } = Astro.props;
               filterPhase={section.filterPhase}
               filterModality={section.filterModality}
               featuredOnly={section.featuredOnly}
+              hideImages={section.hideImages}
+              wide={section.wide}
             />
           );
         case 'feedGrid':
@@ -166,6 +170,22 @@ const { sectionItems } = Astro.props;
               namespace={section.namespace}
               origin={section.origin}
               minHeight={section.minHeight}
+            />
+          );
+        case 'applyForUxd':
+          return (
+            <ApplyForUxdSection
+              title={section.title}
+              description={section.description}
+            />
+          );
+        case 'uxdCta':
+          return (
+            <UxdCtaSection
+              title={section.title}
+              statement={section.statement}
+              description={section.description}
+              href={section.href}
             />
           );
         default:

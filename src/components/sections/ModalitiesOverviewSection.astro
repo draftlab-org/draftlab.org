@@ -20,38 +20,44 @@ const modalities = modalitiesRaw
 ---
 
 <div class="py-4">
-  {title && (
-    <div class="mb-8 flex max-w-2xl flex-col gap-3">
-      <SectionTitle title={title} />
-      {description && (
-        <Text size="lg" class="text-ink-soft">{description}</Text>
-      )}
-    </div>
-  )}
+	{
+		title && (
+			<div class="mb-8 flex max-w-2xl flex-col gap-3">
+				<SectionTitle title={title} />
+				{description && (
+					<Text size="lg" class="text-ink-soft">
+						{description}
+					</Text>
+				)}
+			</div>
+		)
+	}
 
-  <div class="grid gap-4 sm:grid-cols-3">
-    {modalities.map((modality) => (
-      <a
-        href={`/projects?modalities=${modality.data.slug}`}
-        class="flex flex-col bg-white p-6 no-underline shadow-sm transition-shadow duration-150 hover:shadow-md"
-        aria-label={`See ${modality.data.name} projects`}
-      >
-        <div class="flex items-center gap-4">
-          <ModalityIcon
-            slug={modality.data.slug as ModalitySlug}
-            size={56}
-            asMask
-            decorative
-            class="gradient-phase shrink-0"
-          />
-          <h3 class="font-serif text-xl font-medium text-ink">
-            {modality.data.name}
-          </h3>
-        </div>
-        <p class="mt-3 text-sm italic text-ink-muted">
-          {modality.data.tagline}
-        </p>
-      </a>
-    ))}
-  </div>
+	<div class="grid gap-4 sm:grid-cols-3">
+		{
+			modalities.map((modality) => (
+				<a
+					href={`/projects?modalities=${modality.data.slug}`}
+					class="group brackets-box flex flex-col bg-white p-6 no-underline"
+					aria-label={`See ${modality.data.name} projects`}
+				>
+					<div class="flex items-center gap-4">
+						<ModalityIcon
+							slug={modality.data.slug as ModalitySlug}
+							size={56}
+							asMask
+							decorative
+							class="shrink-0 gradient-phase transition group-hover:scale-110"
+						/>
+						<h3 class="font-serif text-xl font-medium text-ink">
+							{modality.data.name}
+						</h3>
+					</div>
+					<p class="mt-3 text-sm text-ink-muted italic">
+						{modality.data.tagline}
+					</p>
+				</a>
+			))
+		}
+	</div>
 </div>

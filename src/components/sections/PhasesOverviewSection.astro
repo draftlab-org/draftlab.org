@@ -47,13 +47,13 @@ for (const phase of phases) {
 		)
 	}
 
-	{/* Mobile: vertical timeline. A single continuous sand line runs from below
+	{/* Mobile: vertical timeline. A single continuous gradient line runs from below
 	    the first dot to the bottom of the sustain row; each phase row punches
 	    its phase-color dot through via z-10. Body description flows in the
 	    right column under the mono name + tagline. */}
 	<ol class="relative flex flex-col lg:hidden">
 		<span
-			class="pointer-events-none absolute top-[13px] bottom-0 left-[3px] w-px bg-sand"
+			class="pointer-events-none absolute top-[13px] bottom-0 left-[2px] gradient-rule-vertical"
 			aria-hidden="true"
 		></span>
 		{
@@ -90,7 +90,7 @@ for (const phase of phases) {
 	</ol>
 
 	{/* Desktop (lg+): 4-column grid. Each column tops with the homepage-style
-	    horizontal track marker — dot + mono name + flex-1 sand line that
+	    horizontal track marker — dot + mono name + flex-1 gradient line that
 	    bridges into the next column via a negative right margin (last column
 	    holds its line at the column edge). Tagline and body flow below. */}
 	<div class="hidden grid-cols-4 gap-x-10 lg:grid">
@@ -110,7 +110,7 @@ for (const phase of phases) {
 							{phase.data.name}
 						</span>
 						<span
-							class="block h-px flex-1 bg-sand"
+							class="block flex-1 gradient-rule"
 							style={
 								i < phases.length - 1
 									? 'margin-right: -2.5rem;'

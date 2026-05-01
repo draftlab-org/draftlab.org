@@ -66,7 +66,7 @@ const phaseBorderColor: Record<string, string> = {
   {/* ── Timeline label ── */}
   <div class="mb-0 flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.14em] text-ink-muted" aria-hidden="true">
     <span>Project timeline</span>
-    <span class="h-px flex-1 bg-sand"></span>
+    <span class="flex-1 gradient-rule"></span>
   </div>
 
   {/* ── Phase headers ── */}
@@ -84,20 +84,20 @@ const phaseBorderColor: Record<string, string> = {
           {phase.data.tagline}
         </div>
         {i < phases.length - 1 && (
-          <span class="absolute -right-2.5 top-1/2 z-10 -translate-y-1/2 text-sand">→</span>
+          <span class="absolute -right-2.5 top-1/2 z-10 -translate-y-1/2 text-ink-muted">→</span>
         )}
       </div>
     ))}
   </div>
 
   {/* ── Matrix grid (desktop) ── */}
-  <div class="hidden overflow-hidden rounded-md border border-sand lg:grid lg:grid-cols-[140px_repeat(4,1fr)]" role="grid" aria-label="Framework matrix">
+  <div class="hidden overflow-hidden gradient-frame lg:grid lg:grid-cols-[140px_repeat(4,1fr)]" role="grid" aria-label="Framework matrix">
     {modalities.map((modality, mIdx) => (
       <>
         {/* Modality header cell */}
         <div class:list={[
-          'flex flex-col justify-center border-r border-sand bg-cream-dark px-4 py-5',
-          mIdx < modalities.length - 1 && 'border-b border-sand',
+          'flex flex-col justify-center border-r border-ink-muted/20 bg-white px-4 py-5',
+          mIdx < modalities.length - 1 && 'border-b border-ink-muted/20',
         ]}>
           <ModalityIcon
             slug={modality.data.slug as ModalitySlug}
@@ -124,8 +124,8 @@ const phaseBorderColor: Record<string, string> = {
               aria-label={`${modality.data.name} × ${phase.data.name}`}
               class:list={[
                 'group relative min-h-[130px] overflow-hidden px-5 py-4 transition-colors duration-200 hover:bg-white/45',
-                !isLastCol && 'border-r border-sand',
-                !isLastRow && 'border-b border-sand',
+                !isLastCol && 'border-r border-ink-muted/20',
+                !isLastRow && 'border-b border-ink-muted/20',
               ]}
             >
               {/* Phase color accent bar */}
@@ -156,9 +156,9 @@ const phaseBorderColor: Record<string, string> = {
   {/* ── Mobile layout: stacked cards per modality ── */}
   <div class="flex flex-col gap-6 lg:hidden">
     {modalities.map((modality) => (
-      <div class="rounded-md border border-sand overflow-hidden">
+      <div class="gradient-frame overflow-hidden">
         {/* Modality header */}
-        <div class="bg-cream-dark px-4 py-4 border-b border-sand">
+        <div class="bg-white px-4 py-4 border-b border-ink-muted/20">
           <div class="flex items-center gap-2">
             <ModalityIcon
               slug={modality.data.slug as ModalitySlug}
@@ -179,7 +179,7 @@ const phaseBorderColor: Record<string, string> = {
           return (
             <div class:list={[
               'relative px-4 py-4',
-              pIdx < phases.length - 1 && 'border-b border-sand/60',
+              pIdx < phases.length - 1 && 'border-b border-ink-muted/15',
             ]}>
               {/* Phase color accent */}
               <div class:list={['absolute left-0 top-0 bottom-0 w-[3px] opacity-50', phaseBorderColor[phase.data.slug]]} />
@@ -216,7 +216,7 @@ const phaseBorderColor: Record<string, string> = {
   </div>
 
   {/* ── Legend ── */}
-  <div class="mt-6 flex flex-wrap gap-8 border-t border-sand pt-5 text-[0.78rem] italic text-ink-soft md:gap-12">
+  <div class="mt-6 flex flex-wrap gap-8 gradient-rule mt-0 pt-7 text-[0.78rem] italic text-ink-soft md:gap-12">
     <div>
       <h4 class="mb-2 font-serif text-[0.7rem] not-italic uppercase tracking-[0.1em] text-ink-muted">
         Timeline phases

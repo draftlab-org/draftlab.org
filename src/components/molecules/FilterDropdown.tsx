@@ -4,8 +4,8 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/react';
-import IconChevronDown from '~icons/heroicons/chevron-down-20-solid';
 import IconCheck from '~icons/heroicons/check-20-solid';
+import IconChevronDown from '~icons/heroicons/chevron-down-20-solid';
 
 export interface FilterOption {
   value: string;
@@ -59,9 +59,9 @@ export default function FilterDropdown({
 
   return (
     <div className={`relative ${className}`}>
-      <label className="mb-1 block text-sm font-medium text-gray-700">
+      <span className="mb-1 block text-sm font-medium text-gray-700">
         {label}
-      </label>
+      </span>
       <Listbox value={selected || ''} onChange={handleChange}>
         {({ open }) => (
           <>

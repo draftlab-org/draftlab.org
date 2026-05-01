@@ -20,40 +20,46 @@ const skills = skillsRaw
 ---
 
 <div class="py-4">
-  {title && (
-    <div class="mb-8 flex max-w-2xl flex-col gap-3">
-      <SectionTitle title={title} />
-      {description && (
-        <Text size="lg" class="text-ink-soft">{description}</Text>
-      )}
-    </div>
-  )}
+	{
+		title && (
+			<div class="mb-8 flex max-w-2xl flex-col gap-3">
+				<SectionTitle title={title} />
+				{description && (
+					<Text size="lg" class="text-ink-soft">
+						{description}
+					</Text>
+				)}
+			</div>
+		)
+	}
 
-  <div class="grid gap-x-10 gap-y-6 sm:grid-cols-2">
-    {skills.map((skill) => (
-      <a
-        href={`/projects?skills=${skill.slug}`}
-        class="group flex items-stretch gap-4 p-2 no-underline transition-shadow duration-150 hover:shadow-sm"
-        aria-label={`See projects using ${skill.name}`}
-      >
-        <div class="flex aspect-square w-12 shrink-0 items-center justify-center">
-          <SkillIcon
-            slug={skill.slug}
-            asMask
-            class="gradient-phase h-full w-full"
-          />
-        </div>
-        <div class="min-w-0 self-center">
-          <h3 class="font-serif text-sm font-normal leading-tight text-ink">
-            {skill.name}
-          </h3>
-          {skill.description && (
-            <p class="mt-1 line-clamp-2 text-xs leading-snug text-ink-soft">
-              {skill.description}
-            </p>
-          )}
-        </div>
-      </a>
-    ))}
-  </div>
+	<div class="grid gap-x-10 gap-y-6 sm:grid-cols-2">
+		{
+			skills.map((skill) => (
+				<a
+					href={`/projects?skills=${skill.slug}`}
+					class="group brackets-box flex items-stretch gap-4 p-2 no-underline"
+					aria-label={`See projects using ${skill.name}`}
+				>
+					<div class="flex aspect-square w-12 shrink-0 items-center justify-center">
+						<SkillIcon
+							slug={skill.slug}
+							asMask
+							class="h-full w-full gradient-phase"
+						/>
+					</div>
+					<div class="min-w-0 self-center">
+						<h3 class="font-serif text-sm leading-tight font-normal text-ink">
+							{skill.name}
+						</h3>
+						{skill.description && (
+							<p class="mt-1 line-clamp-2 text-xs leading-snug text-ink-soft">
+								{skill.description}
+							</p>
+						)}
+					</div>
+				</a>
+			))
+		}
+	</div>
 </div>

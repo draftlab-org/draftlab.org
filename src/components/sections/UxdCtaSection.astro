@@ -1,0 +1,51 @@
+---
+import Button from '@components/atoms/Button.astro';
+import SectionTitle from '@components/atoms/SectionTitle.astro';
+
+export interface Props {
+	title?: string;
+	statement?: string;
+	description?: string;
+	href?: string;
+}
+
+const {
+	title = 'Pro bono UX Support',
+	statement = 'Applications are open.',
+	description = "Through the Open Technology Fund's User Experience & Discovery Lab, Draftlab provides research, design, and post-release support to internet freedom projects. Free to the right teams; we read every application.",
+	href = '/get-in-touch#apply',
+} = Astro.props;
+---
+
+<div class="relative">
+	<div class="grid gap-10 md:gap-14 lg:grid-cols-[7fr_5fr] lg:items-end lg:gap-20">
+		{/* LEFT: title + statement + description */}
+		<div class="flex flex-col gap-6">
+			<SectionTitle as="h2" title={title} />
+			<p
+				class="font-serif text-3xl leading-[1.1] font-medium text-ink md:text-5xl lg:text-6xl"
+			>
+				{statement}
+			</p>
+			<p
+				class="max-w-prose font-sans text-base leading-relaxed text-ink-soft md:text-lg"
+			>
+				{description}
+			</p>
+		</div>
+
+		{/* RIGHT: CTA box */}
+		<div class="flex flex-col gap-5 pt-6">
+			<span class="block gradient-rule -mt-6 mb-1" aria-hidden="true"></span>
+			<p class="font-serif text-lg leading-snug text-ink md:text-xl">
+				Free pro bono UX work for internet freedom projects. Open on a rolling
+				basis.
+			</p>
+			<div>
+				<Button as="a" href={href} variant="outline" size="lg" class="w-full sm:w-auto">
+					Apply for support →
+				</Button>
+			</div>
+		</div>
+	</div>
+</div>

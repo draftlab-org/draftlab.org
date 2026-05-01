@@ -27,14 +27,10 @@ sections:
 
       Draftlab is a collective. We bring together independent practitioners with deep, complementary expertise across facilitation, research, technology, and humanitarian systems. On every project, we assemble the right team for the work at hand. Our clients get senior, experienced people who care about the outcome.
   - type: people
-  - type: richText
+  - type: uxdCta
     background:
       bgColor: phase-gradient-light
-    content: >-
-      ### Apply for pro bono support
-
-
-      Draftlab provides pro bono design and technical support to internet freedom projects through the Open Technology Fund. If you're an OTF-funded project that could use help with user research, product design, or technical architecture, [get in touch](/get-in-touch).
+      bgType: full
   # - type: button
   #   buttons:
   #     - variant: primary

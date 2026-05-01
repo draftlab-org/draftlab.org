@@ -2,8 +2,8 @@
 import SectionTitle from '@components/atoms/SectionTitle.astro';
 import Text from '@components/atoms/Text.astro';
 import ProjectCard from '@components/molecules/ProjectCard.astro';
-import { getProjects, getFeaturedProjects, getProjectsByPhase, getProjectsByModality } from '@utils/projects';
 import { getOrganisations } from '@utils/organisations';
+import { getFeaturedProjects, getProjects, getProjectsByModality, getProjectsByPhase } from '@utils/projects';
 
 export interface Props {
   title?: string;
@@ -12,6 +12,8 @@ export interface Props {
   filterPhase?: string;
   filterModality?: string;
   featuredOnly?: boolean;
+  hideImages?: boolean;
+  wide?: boolean;
 }
 
 const {
@@ -21,7 +23,14 @@ const {
   filterPhase,
   filterModality,
   featuredOnly = false,
+  hideImages = false,
+  wide = false,
 } = Astro.props;
+
+const gridCols = wide ? 'sm:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3';
+const cardAspect = wide
+  ? ' [&_h2]:text-3xl'
+  : '';
 
 let projects = featuredOnly
   ? await getFeaturedProjects()
@@ -40,34 +49,51 @@ const orgById = new Map(orgs.map((o) => [o.data.id, o.data]));
 ---
 
 <div class="py-4">
-  {title && (
-    <div class="mb-8 flex max-w-2xl flex-col gap-3">
-      <SectionTitle title={title} />
-      {description && (
-        <Text size="lg" class="text-ink-soft">{description}</Text>
-      )}
-    </div>
-  )}
+	{
+		title && (
+			<div class="mb-8 flex max-w-2xl flex-col gap-3">
+				<SectionTitle title={title} />
+				{description && (
+					<Text size="lg" class="text-ink-soft">
+						{description}
+					</Text>
+				)}
+			</div>
+		)
+	}
 
-  {projects.length > 0 ? (
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {projects.map((project) => (
-        <ProjectCard
-          name={project.data.name}
-          slug={project.data.slug}
-          description={project.data.description}
-          client={project.data.client ? orgById.get(project.data.client)?.name : undefined}
-          clientLogo={project.data.client ? orgById.get(project.data.client)?.image : undefined}
-          phases={project.data.phases}
-          skills={project.data.skills}
-          projectStatus={project.data.projectStatus}
-          featured={project.data.featured}
-          image={project.data.image}
-          class={project.data.image ? 'sm:col-span-2' : ''}
-        />
-      ))}
-    </div>
-  ) : (
-    <p class="text-ink-muted italic">No projects to show.</p>
-  )}
+	{
+		projects.length > 0 ? (
+			<div class:list={['grid gap-4', gridCols]}>
+				{projects.map((project) => (
+					<ProjectCard
+						name={project.data.name}
+						slug={project.data.slug}
+						description={project.data.description}
+						client={
+							project.data.client
+								? orgById.get(project.data.client)?.name
+								: undefined
+						}
+						clientLogo={
+							project.data.client
+								? orgById.get(project.data.client)?.image
+								: undefined
+						}
+						phases={project.data.phases}
+						skills={project.data.skills}
+						projectStatus={project.data.projectStatus}
+						featured={project.data.featured}
+						image={hideImages ? undefined : project.data.image}
+						class:list={[
+							!hideImages && project.data.image ? 'sm:col-span-2' : '',
+							cardAspect,
+						]}
+					/>
+				))}
+			</div>
+		) : (
+			<p class="text-ink-muted italic">No projects to show.</p>
+		)
+	}
 </div>

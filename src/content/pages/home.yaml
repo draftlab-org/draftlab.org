@@ -18,8 +18,21 @@ sections:
     background:
       bgColor: white
       bgType: full
+  - type: projectsRoll
+    title: Featured projects
+    featuredOnly: true
+    limit: 4
+    hideImages: true
+    wide: true
+    background:
+      bgColor: white
+      bgType: full
   - type: organisationsRoll
     title: Clients and partners
     background:
       bgColor: white
+      bgType: full
+  - type: uxdCta
+    background:
+      bgColor: phase-gradient-light
       bgType: full

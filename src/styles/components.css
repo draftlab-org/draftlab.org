@@ -10,8 +10,81 @@
   @apply bg-linear-to-r from-phase-understand-dark via-phase-define-dark via-phase-deliver-dark to-phase-sustain-dark;
 }
 
+/* Phase-gradient horizontal rule. 2px tall by default so the four-stop
+   gradient is actually visible at typical widths. Apply to a span/div with
+   explicit width (e.g. flex-1 or w-8). For a vertical rule, see below. */
+@utility gradient-rule {
+  height: 2px;
+  background-image:
+    linear-gradient(
+      to right,
+      var(--color-phase-understand),
+      var(--color-phase-define),
+      var(--color-phase-deliver),
+      var(--color-phase-sustain)
+    );
+}
+
+@utility gradient-rule-vertical {
+  width: 2px;
+  background-image:
+    linear-gradient(
+      to bottom,
+      var(--color-phase-understand),
+      var(--color-phase-define),
+      var(--color-phase-deliver),
+      var(--color-phase-sustain)
+    );
+}
+
+/* Phase-gradient underline on a form input: paints a 2px gradient line at the
+   bottom edge via background-image, thickens to 4px on focus. Pair with
+   `bg-transparent` for the input's surface, `border-0` to remove the native
+   border, and a `pb-*` that gives the line breathing room. */
+@utility gradient-underline {
+  background-image:
+    linear-gradient(
+      to right,
+      var(--color-phase-understand),
+      var(--color-phase-define),
+      var(--color-phase-deliver),
+      var(--color-phase-sustain)
+    );
+  background-position: bottom left;
+  background-size: 100% 2px;
+  background-repeat: no-repeat;
+  transition: background-size 0.15s ease;
+
+  &:focus,
+  &:focus-visible {
+    background-size: 100% 4px;
+    outline: none;
+  }
+}
+
+/* Phase-gradient pseudo-border for boxes. Renders the gradient as a 2px
+   border via background-clip layering — works without `border-image` quirks.
+   Pair with `bg-clip-padding-box` and an inner padding so content sits
+   inside the gradient frame. The element's own `background-color` needs
+   a non-gradient layer for the clip trick to work — use a solid surface
+   class (e.g. `bg-surface` or `bg-white`) on the element. */
+@utility gradient-frame {
+  border: 2px solid transparent;
+  background-image:
+    linear-gradient(var(--color-surface), var(--color-surface)),
+    linear-gradient(
+      to right,
+      var(--color-phase-understand),
+      var(--color-phase-define),
+      var(--color-phase-deliver),
+      var(--color-phase-sustain)
+    );
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
 /* Static L-shaped corner brackets drawn at each corner of a box.
-   Same 8-linear-gradient technique as the link-brackets utility
+   Same 8-linear-gradient technique as the brackets utility
    (src/styles/typography.css) but with fixed pixel dimensions, so
    brackets stay put regardless of text size and are always visible.
    Uses currentColor — set color via text-* utilities on the caller. */
@@ -55,7 +128,7 @@
 /* Button - Variants */
 
 .button-base {
-  @apply inline-flex items-center justify-center rounded border-2 border-black font-medium shadow-sharp transition duration-75 hover:translate-x-px hover:translate-y-px hover:shadow-sharp-pressed focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded-none border-2 border-black font-medium shadow-sharp transition duration-75 hover:translate-x-px hover:translate-y-px hover:shadow-sharp-pressed focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50;
 }
 .button-primary {
   @apply gradient-phase-light text-black transition hover:gradient-phase hover:text-white;
@@ -70,22 +143,22 @@
   @apply border-transparent text-gray-900 shadow-none hover:translate-0 hover:bg-gray-50 hover:shadow-none focus-visible:ring-gray-900;
 }
 
-/* Button - Sizes */
+/* Button - Sizes (square corners — no rounding) */
 .button-size-sm {
-  @apply h-6 rounded px-3 py-1.5 text-sm;
+  @apply h-6 px-3 py-1.5 text-sm;
 }
 .button-size-md {
-  @apply h-10 rounded-md px-4 py-2 text-base;
+  @apply h-10 px-4 py-2 text-base;
 }
 .button-size-lg {
-  @apply rounded-lg px-6 py-3 text-lg;
+  @apply px-6 py-3 text-lg;
 }
 .button-size-xl {
-  @apply rounded-xl px-8 py-4 text-xl;
+  @apply px-8 py-4 text-xl;
 }
 
 .button-size-square {
-  @apply rounded-md p-1.5 text-base;
+  @apply p-1.5 text-base;
 }
 
 /*
@@ -94,15 +167,17 @@
   -------------
 */
 
-/* Card - Variants */
+/* Card - Variants. Square corners; cards sit on the surface bg with a white
+   inner so they read as "lifted". `card-bordered` uses the gradient-frame
+   utility to carry the phase-gradient as a 2px border. */
 .card-default {
-  @apply rounded-lg bg-cream p-6 shadow-md;
+  @apply bg-white p-6 shadow-md;
 }
 .card-bordered {
-  @apply rounded-lg border-2 border-sand bg-cream p-6 transition-colors duration-100 hover:border-secondary-400;
+  @apply gradient-frame p-6 transition-shadow duration-100 hover:shadow-md;
 }
 .card-elevated {
-  @apply rounded-lg bg-cream p-6 shadow-lg;
+  @apply bg-white p-6 shadow-lg;
 }
 
 /*

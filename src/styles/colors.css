@@ -1,7 +1,7 @@
 @theme {
   --color-*: initial;
 
-  /* Primary: Cream/sand (backgrounds) — based on #F2EAD8 */
+  /* Primary: legacy palette — kept for button/tag tokens that reference it */
   --color-primary-50: oklch(98.5% 0.01 85);
   --color-primary-100: oklch(96.5% 0.02 85);
   --color-primary-200: oklch(94% 0.03 85);
@@ -74,13 +74,15 @@
   --color-phase-sustain: oklch(42% 0.1 300);
   --color-phase-sustain-dark: oklch(32% 0.08 300);
 
-  /* Semantic tokens */
-  --color-cream: #f2ead8;
-  --color-cream-dark: #e8dcca;
+  /* Semantic tokens. `surface` is the page-bg colour; body has no explicit
+     background, so this resolves visually to white. Kept as a token so
+     `gradient-frame` (which paints surface as the inner of its 2-layer bg)
+     can be themed in one place if a body bg is reintroduced. */
+  --color-surface: #ffffff;
+  --color-surface-dim: #f5f5f5;
   --color-ink: #1c1612;
   --color-ink-soft: #4a3f35;
   --color-ink-muted: #8a7a6e;
-  --color-sand: #c9b99a;
 
   --color-white: #ffffff;
   --color-black: #000000;

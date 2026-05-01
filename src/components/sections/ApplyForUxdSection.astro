@@ -1,0 +1,121 @@
+---
+import Eyebrow from '@components/atoms/Eyebrow';
+import SectionTitle from '@components/atoms/SectionTitle.astro';
+import UxdApplicationForm from '@components/molecules/UxdApplicationForm';
+
+export interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title = 'Apply for pro bono UX support' } = Astro.props;
+
+const PHASE_DOT = (phase: string) =>
+	`background: var(--color-phase-${phase}-dark);`;
+
+const PHASE_TEXT = (phase: string) =>
+	`color: var(--color-phase-${phase}-dark);`;
+
+const SUPPORT_LIST = [
+	{
+		phase: 'understand',
+		name: 'User discovery',
+		desc: 'Research, needs assessments, audience mapping.',
+	},
+	{
+		phase: 'define',
+		name: 'Design support',
+		desc: 'Wireframes, prototyping, visual identity, UX coaching.',
+	},
+	{
+		phase: 'sustain',
+		name: 'Post-release',
+		desc: 'Usability testing, audits, ongoing support after ship.',
+	},
+] as const;
+---
+
+<div id="apply" class="scroll-mt-28 py-4">
+	<div class="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+		{/* LEFT: editorial WHY column */}
+		<aside class="flex flex-col gap-10 lg:sticky lg:top-24 lg:self-start">
+			<header class="flex flex-col items-start gap-4">
+				<SectionTitle title={title} />
+				<!-- <h2>Applications are open</h2> -->
+				<p class="font-sans text-sm leading-relaxed text-ink-soft md:text-base">
+					Draftlab provides pro bono user experience research and design to
+					internet freedom projects and privacy-focused infrastructure,
+					sponsored by the Open Technology Fund's <a
+						href="https://www.opentech.fund/labs/uxd-lab/"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="underline decoration-dotted underline-offset-[0.32em] hover:text-ink"
+						>User Experience &amp; Discovery Lab</a
+					>.
+				</p>
+			</header>
+
+			{/* Lifecycle card list */}
+			<section class="flex flex-col gap-5">
+				<Eyebrow rule>What we offer</Eyebrow>
+				<ul class="flex flex-col gap-4">
+					{
+						SUPPORT_LIST.map((item) => (
+							<li class="flex items-baseline gap-3">
+								<span
+									class="relative top-0.5 block h-2 w-2 shrink-0 rounded-full"
+									style={PHASE_DOT(item.phase)}
+									aria-hidden="true"
+								/>
+								<span class="flex flex-1 flex-col gap-1">
+									<span
+										class="font-mono text-[0.7rem] tracking-[0.22em] uppercase"
+										style={PHASE_TEXT(item.phase)}
+									>
+										{item.name}
+									</span>
+									<span class="font-sans text-sm leading-snug text-ink-soft md:text-[0.95rem]">
+										{item.desc}
+									</span>
+								</span>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+
+			{/* Who can apply */}
+			<section class="flex flex-col gap-3">
+				<Eyebrow rule>Who can apply</Eyebrow>
+				<p class="font-sans text-sm leading-relaxed text-ink-soft md:text-base">
+					Any technology project that aligns with internet freedom — encrypted
+					messengers, anti-censorship tools, civic tech for at-risk communities,
+					infrastructure that helps people stay safe online. You don't need to
+					be OTF-funded. If you're not sure your work is in scope, apply anyway
+					and we'll figure it out.
+				</p>
+			</section>
+
+			{/* Partners */}
+			<section class="flex flex-col gap-3">
+				<Eyebrow rule>Who we work with</Eyebrow>
+				<p class="font-sans text-sm leading-relaxed text-ink-soft md:text-base">
+					Draftlab is one studio in the OTF UXD Lab cohort. Depending on your
+					needs, we may bring in partners to deliver a fuller service across
+					research, design, and post-release.
+				</p>
+			</section>
+		</aside>
+
+		{/* RIGHT: form column */}
+		<div class="flex flex-col gap-8">
+			<div class="flex flex-col gap-3 pt-6">
+				<h3 class="font-serif text-2xl font-medium text-ink md:text-3xl">
+					Tell us about your project
+				</h3>
+			</div>
+
+			<UxdApplicationForm client:load />
+		</div>
+	</div>
+</div>

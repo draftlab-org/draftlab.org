@@ -201,8 +201,9 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 		</header>
 
 		{/* Colophon — compressed metadata strip */}
+		<span class="block gradient-rule mb-5" aria-hidden="true"></span>
 		<dl
-			class="mb-12 grid grid-cols-1 items-start gap-x-6 gap-y-6 border-y border-sand py-5 sm:grid-cols-2"
+			class="grid grid-cols-1 items-start gap-x-6 gap-y-6 pb-5 sm:grid-cols-2"
 		>
 			<div class="flex flex-col sm:col-span-2">
 				<dt
@@ -222,7 +223,7 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 								return (
 									<>
 										{i > 0 && (
-											<span class="h-px flex-1 bg-sand" aria-hidden="true" />
+											<span class="flex-1 gradient-rule" aria-hidden="true" />
 										)}
 										<span
 											class="inline-flex shrink-0 items-center gap-2 font-mono text-[0.65rem] tracking-[0.2em] uppercase sm:text-sm sm:tracking-wider"
@@ -320,6 +321,7 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 				</dd>
 			</div>
 		</dl>
+		<span class="block gradient-rule mb-12" aria-hidden="true"></span>
 
 		{/* Narrative — lead + body */}
 		<section class="mb-12">
@@ -339,13 +341,13 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 		{/* Skills */}
 		{
 			resolvedSkills.length > 0 && (
-				<section class="mb-12 border-t border-sand pt-8">
+				<section class="mb-12 pt-8"><span class="block gradient-rule -mt-8 mb-8" aria-hidden="true"></span>
 					<h2 class="mb-4 font-serif text-sm font-medium tracking-widest text-ink-muted uppercase">
 						Skills applied
 					</h2>
 					<div class="flex flex-wrap gap-2.5">
 						{resolvedSkills.map((skill: any) => (
-							<span class="inline-flex items-center gap-2 rounded-md border border-sand bg-cream-dark/40 px-3 py-1.5 text-sm text-ink-soft">
+							<span class="inline-flex items-center gap-2 border border-ink-muted/30 bg-white px-3 py-1.5 text-sm text-ink-soft">
 								<SkillIcon
 									slug={skill.slug}
 									size={16}
@@ -360,14 +362,14 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 		}
 
 		{/* Updates */}
-		<div class="border-t border-sand pt-8">
+		<div class="pt-8"><span class="block gradient-rule -mt-8 mb-8" aria-hidden="true"></span>
 			<ProjectUpdatesTimeline projectSlug={project.slug} />
 		</div>
 
 		{/* External link */}
 		{
 			project.url && (
-				<div class="mt-12 border-t border-sand pt-8">
+				<div class="mt-12 pt-8"><span class="block gradient-rule -mt-8 mb-8" aria-hidden="true"></span>
 					<a
 						href={project.url}
 						target="_blank"
@@ -383,7 +385,7 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 		}
 
 		{/* Back to feed */}
-		<div class="mt-16 border-t border-sand pt-8">
+		<div class="mt-16 pt-8"><span class="block gradient-rule -mt-8 mb-8" aria-hidden="true"></span>
 			<a
 				href="/projects"
 				data-component

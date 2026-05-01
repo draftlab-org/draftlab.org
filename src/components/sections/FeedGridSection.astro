@@ -1,7 +1,5 @@
 ---
 import { getCollection } from 'astro:content';
-import hugeiconsPack from '@iconify/json/json/hugeicons.json';
-import { getIconData, iconToHTML, iconToSVG } from '@iconify/utils';
 import SectionTitle from '@components/atoms/SectionTitle.astro';
 import Text from '@components/atoms/Text.astro';
 import ProjectCard from '@components/molecules/ProjectCard.astro';
@@ -10,6 +8,8 @@ import FeedFilter, {
   type FeedItemTagData,
   type FilterOption,
 } from '@components/organisms/FeedFilter';
+import hugeiconsPack from '@iconify/json/json/hugeicons.json';
+import { getIconData, iconToHTML, iconToSVG } from '@iconify/utils';
 import { isVisible } from '@utils/content';
 import { getFeedItems } from '@utils/feed';
 import {

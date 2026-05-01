@@ -30,9 +30,9 @@ export default function SkillsCloud({ skills }: Props) {
     return skills.map((s, i) => {
       const phi = (i + 0.5) * Math.PI * (3 - Math.sqrt(5));
       const r = Math.sqrt((i + 0.5) / n);
-      const jitter = hash01(s.slug + ':j');
+      const jitter = hash01(`${s.slug}:j`);
       const x = 50 + Math.cos(phi) * r * 40 + (jitter - 0.5) * 6;
-      const y = 50 + Math.sin(phi) * r * 38 + (hash01(s.slug + ':k') - 0.5) * 6;
+      const y = 50 + Math.sin(phi) * r * 38 + (hash01(`${s.slug}:k`) - 0.5) * 6;
       const zRaw = hash01(s.slug);
       const z = (zRaw - 0.5) * 360;
       const depth = 0.4 + zRaw * 1.1;

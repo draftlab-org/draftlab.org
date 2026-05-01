@@ -143,6 +143,8 @@ const pagesCollection = defineCollection({
         filterPhase: phaseSlugSchema.optional(),
         filterModality: modalitySlugSchema.optional(),
         featuredOnly: z.boolean().optional().default(false),
+        hideImages: z.boolean().optional().default(false),
+        wide: z.boolean().optional().default(false),
       }),
       SectionCommonSchema.extend({
         type: z.literal('activeProjects'),
@@ -194,6 +196,18 @@ const pagesCollection = defineCollection({
         namespace: z.string().optional(),
         origin: z.string().optional(),
         minHeight: z.string().optional(),
+      }),
+      SectionCommonSchema.extend({
+        type: z.literal('applyForUxd'),
+        title: z.string().optional(),
+        description: z.string().optional(),
+      }),
+      SectionCommonSchema.extend({
+        type: z.literal('uxdCta'),
+        title: z.string().optional(),
+        statement: z.string().optional(),
+        description: z.string().optional(),
+        href: z.string().optional(),
       }),
     ]);
 

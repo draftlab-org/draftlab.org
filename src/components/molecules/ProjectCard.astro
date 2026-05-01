@@ -48,7 +48,7 @@ const phaseLightVar: Record<(typeof PHASE_ORDER)[number], string> = {
 const orderedActivePhases = PHASE_ORDER.filter((p) => phaseSet.has(p));
 const gradientStops =
   orderedActivePhases.length === 0
-    ? ['var(--color-cream)', 'var(--color-cream)']
+    ? ['var(--color-white)', 'var(--color-white)']
     : orderedActivePhases.length === 1
       ? [phaseLightVar[orderedActivePhases[0]], 'var(--color-white)']
       : orderedActivePhases.map((p) => phaseLightVar[p]);
@@ -59,7 +59,6 @@ const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
 	href={`/projects/${slug}`}
 	class:list={[
 		'group relative flex h-full no-underline shadow-sm transition-colors duration-150 **:no-underline hover:shadow-md',
-		featured && 'ring-1 ring-secondary-200',
 		className,
 	]}
 	style={`background: ${cardGradient};`}
@@ -67,10 +66,13 @@ const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
 	{
 		isActive && (
 			<span
-				class="absolute top-3 right-3 z-20 h-2.5 w-2.5 rounded-full bg-highlight-300 ring-2 ring-highlight-300/70"
+				class="absolute top-3 right-3 z-20 inline-flex h-2 w-2"
 				title="Active project"
 				aria-label="Active project"
-			/>
+			>
+				<span class="absolute inset-0 animate-ping rounded-full bg-phase-understand opacity-75" />
+				<span class="relative inline-flex h-2 w-2 rounded-full bg-phase-understand" />
+			</span>
 		)
 	}
 

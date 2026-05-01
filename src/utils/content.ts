@@ -6,8 +6,11 @@ import { isDev, isPreview } from '@utils/dev';
  * - `published` and `archived` items are always visible
  * - `draft` items are only visible in development or preview mode
  */
-export function isVisible(item: { data: { status?: string } }): boolean {
-  const status = item.data.status ?? 'published';
+export function isVisible(item: { data: object }): boolean {
+  const status =
+    'status' in item.data && typeof item.data.status === 'string'
+      ? item.data.status
+      : 'published';
   if (status === 'published' || status === 'archived') return true;
   if (status === 'draft') return isDev || isPreview;
   return false;
@@ -20,7 +23,7 @@ export async function getVisibleEntries<C extends CollectionKey>(
   collection: C
 ): Promise<CollectionEntry<C>[]> {
   const entries = await getCollection(collection);
-  return entries.filter((entry) => isVisible(entry as any)) as CollectionEntry<C>[];
+  return entries.filter((entry) => isVisible(entry)) as CollectionEntry<C>[];
 }
 
 /**

@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import Eyebrow from '@components/atoms/Eyebrow';
 import ModalityIcon from '@components/atoms/ModalityIcon.astro';
 import SectionTitle from '@components/atoms/SectionTitle.astro';
 import type { ModalitySlug } from '@utils/modalityIcons';
@@ -59,24 +60,23 @@ const modalities = modalityEntries
 	</header>
 
 	{/* Axis label — Phases */}
-	<p class="mb-6 font-mono text-[0.6rem] tracking-[0.32em] text-ink-muted/70 uppercase md:mb-8">
-		Across phases
-	</p>
+	<Eyebrow as="p" tone="subtle" className="mb-6 md:mb-8">Across phases</Eyebrow>
 
-	{/* Mobile: vertical timeline. A single continuous line behind the
+	{
+		/* Mobile: vertical timeline. A single continuous line behind the
 	    dot column runs from below the first dot to the bottom of the
 	    sustain row. Dots sit on top of the line via `relative z-10`, so
 	    they punch through. Phase name + tagline in the right column —
-	    different x position from the line, so no overlap. */}
+	    different x position from the line, so no overlap. */
+	}
 	<ol class="relative flex flex-col sm:hidden">
 		<span
-			class="pointer-events-none absolute top-[13px] bottom-0 left-[3px] w-px bg-sand"
-			aria-hidden="true"
-		/>
+			class="pointer-events-none absolute top-3.25 bottom-0 left-0.5 gradient-rule-vertical"
+			aria-hidden="true"></span>
 		{
 			phases.map((col) => (
 				<li class="flex gap-4 pb-10 last:pb-0">
-					<div class="w-2 shrink-0 pt-[5px]">
+					<div class="w-2 shrink-0 pt-1.25">
 						<span
 							class="relative z-10 block h-2 w-2 rounded-full"
 							style={`background: var(--color-phase-${col.slug}-dark);`}
@@ -102,13 +102,15 @@ const modalities = modalityEntries
 		}
 	</ol>
 
-	{/* Desktop: horizontal timeline. Dot + name in a flex row with a
+	{
+		/* Desktop: horizontal timeline. Dot + name in a flex row with a
 	    `flex-1` connector that auto-aligns to the dot's vertical centre.
 	    First three phases use a negative right margin to bridge into the
 	    next column; the last phase keeps natural flex-1, so the line
 	    ends at the column's right edge — i.e. the container's right
 	    edge — extending the track past sustain. Tagline lives in a
-	    separate row below, never crossed by the line. */}
+	    separate row below, never crossed by the line. */
+	}
 	<div class="hidden grid-cols-4 gap-x-10 sm:grid">
 		{
 			phases.map((col, i) => (
@@ -126,11 +128,9 @@ const modalities = modalityEntries
 							{col.name}
 						</span>
 						<span
-							class="block h-px flex-1 bg-sand"
+							class="block gradient-rule flex-1"
 							style={
-								i < phases.length - 1
-									? 'margin-right: -2.5rem;'
-									: undefined
+								i < phases.length - 1 ? 'margin-right: -2.5rem;' : undefined
 							}
 							aria-hidden="true"
 						/>
@@ -147,23 +147,25 @@ const modalities = modalityEntries
 	</div>
 
 	{/* Axis label — Modalities */}
-	<p class="mt-16 mb-6 font-mono text-[0.6rem] tracking-[0.32em] text-ink-muted/70 uppercase md:mt-20 md:mb-8">
+	<Eyebrow as="p" tone="subtle" className="mt-16 mb-6 md:mt-20 md:mb-8">
 		And across modalities
-	</p>
+	</Eyebrow>
 
-	{/* Modalities — 3-up grid on desktop, stacked on mobile. Each cell
+	{
+		/* Modalities — 3-up grid on desktop, stacked on mobile. Each cell
 	    pairs the modality icon (mark) with name and a short tagline.
 	    Mirrors the phases column structure: header row (icon + name) on
-	    top, tagline below. */}
+	    top, tagline below. */
+	}
 	<div class="grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-x-10 sm:gap-y-0">
 		{
 			modalities.map((m) => (
 				<div class="flex gap-4 sm:flex-col sm:gap-3">
 					<ModalityIcon
 						slug={m.slug}
-						size={32}
-						class="mt-[2px] shrink-0 text-ink sm:mt-0"
-						decorative
+						size={48}
+						class="mt-0.5 shrink-0 gradient-phase sm:mt-0"
+						asMask
 					/>
 					<div class="flex flex-col gap-1.5">
 						<span class="font-mono text-[0.78rem] tracking-[0.2em] text-ink uppercase">
@@ -180,17 +182,16 @@ const modalities = modalityEntries
 
 	{/* Closing — link to about */}
 	<div class="mt-14 flex justify-end md:mt-20">
-		<a
-			href="/about"
-			class="group inline-flex items-center gap-4 no-underline"
-		>
-			<span class="font-mono text-sm tracking-[0.22em] text-ink uppercase md:text-[0.95rem]">
+		<a href="/about" class="group inline-flex items-center gap-4 no-underline">
+			<span
+				class="font-mono text-sm tracking-[0.22em] text-ink uppercase md:text-[0.95rem]"
+			>
 				Read about our approach
 			</span>
 			<span
 				aria-hidden="true"
 				class="block h-px w-12 bg-ink-muted/60 transition-[width,background-color] duration-300 group-hover:w-20 group-hover:bg-ink"
-			/>
+			></span>
 			<span
 				aria-hidden="true"
 				class="font-mono text-base text-ink transition-transform duration-300 group-hover:translate-x-1 md:text-lg"

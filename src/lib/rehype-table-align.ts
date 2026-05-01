@@ -1,5 +1,5 @@
-import { visit } from 'unist-util-visit';
 import type { Element, Root } from 'hast';
+import { visit } from 'unist-util-visit';
 
 /**
  * Rehype plugin to apply text alignment classes to table cells.

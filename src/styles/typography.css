@@ -11,12 +11,12 @@
 
 /* src/styles/global.css (or wherever your global stylesheet lives) */
 
-@utility link-brackets {
-  @apply no-underline;
-
+/* Base bracket frame. Reads --bracket-stroke and --bracket-leg from variants
+   (or inline overrides). Brackets collapse to 0 at rest and expand on hover /
+   .is-active / [aria-current=page]. */
+@utility brackets {
   position: relative;
   display: inline-block;
-  padding: 0.1em 0.4em;
   background-image:
     linear-gradient(currentColor, currentColor),
     linear-gradient(currentColor, currentColor),
@@ -27,14 +27,14 @@
     linear-gradient(currentColor, currentColor),
     linear-gradient(currentColor, currentColor);
   background-size:
-    0 0.1em,
-    0.1em 0,
-    0 0.1em,
-    0.1em 0,
-    0 0.1em,
-    0.1em 0,
-    0 0.1em,
-    0.1em 0;
+    0 var(--bracket-stroke, 0.1em),
+    var(--bracket-stroke, 0.1em) 0,
+    0 var(--bracket-stroke, 0.1em),
+    var(--bracket-stroke, 0.1em) 0,
+    0 var(--bracket-stroke, 0.1em),
+    var(--bracket-stroke, 0.1em) 0,
+    0 var(--bracket-stroke, 0.1em),
+    var(--bracket-stroke, 0.1em) 0;
   background-position:
     top left,
     top left,
@@ -53,15 +53,31 @@
   &.is-active,
   &[aria-current='page'] {
     background-size:
-      0.3em 0.1em,
-      0.1em 0.3em,
-      0.3em 0.1em,
-      0.1em 0.3em,
-      0.3em 0.1em,
-      0.1em 0.3em,
-      0.3em 0.1em,
-      0.1em 0.3em;
+      var(--bracket-leg, 0.4em) var(--bracket-stroke, 0.1em),
+      var(--bracket-stroke, 0.1em) var(--bracket-leg, 0.4em),
+      var(--bracket-leg, 0.4em) var(--bracket-stroke, 0.1em),
+      var(--bracket-stroke, 0.1em) var(--bracket-leg, 0.4em),
+      var(--bracket-leg, 0.4em) var(--bracket-stroke, 0.1em),
+      var(--bracket-stroke, 0.1em) var(--bracket-leg, 0.4em),
+      var(--bracket-leg, 0.4em) var(--bracket-stroke, 0.1em),
+      var(--bracket-stroke, 0.1em) var(--bracket-leg, 0.4em);
   }
+}
+
+/* Text-scale brackets — em-based, hug inline text and headings. */
+@utility brackets-text {
+  @apply brackets no-underline;
+  padding: 0.1em 0.4em;
+  --bracket-stroke: 0.1em;
+  --bracket-leg: 0.4em;
+}
+
+/* Box-scale brackets — absolute units, for cards / tiles where the visual
+   box is much larger than its inline text. */
+@utility brackets-box {
+  @apply brackets no-underline;
+  --bracket-stroke: 2px;
+  --bracket-leg: 0.75rem;
 }
 
 .prose a {

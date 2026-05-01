@@ -96,7 +96,7 @@ export default function MobileMenu({
                             <li key={item.label}>
                               <Disclosure as="div">
                                 <DisclosureButton className="group flex w-full items-center gap-x-4 text-xl text-black">
-                                  <span className="link-brackets">
+                                  <span className="brackets-text">
                                     {item.label}
                                   </span>
                                   <IconChevronDown className="ml-auto h-5 w-5 shrink-0 transition-transform group-data-open:rotate-180" />
@@ -129,7 +129,7 @@ export default function MobileMenu({
                                           className="group flex items-center gap-x-2 text-lg text-gray-700"
                                         >
                                           <span
-                                            className={`link-brackets ${active ? 'is-active' : ''}`}
+                                            className={`brackets-text ${active ? 'is-active' : ''}`}
                                           >
                                             {child.label}
                                           </span>
@@ -159,7 +159,7 @@ export default function MobileMenu({
                               className="group flex items-center gap-x-4 text-xl text-black no-underline"
                             >
                               <span
-                                className={`link-brackets ${active ? 'is-active' : ''}`}
+                                className={`brackets-text ${active ? 'is-active' : ''}`}
                               >
                                 {item.label}
                               </span>
