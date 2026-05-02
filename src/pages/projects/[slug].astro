@@ -111,7 +111,7 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 					<div class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3">
 						{client && (
 							<span class="inline-flex items-center gap-3">
-								<span class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted/70 uppercase">
+								<span class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted uppercase">
 									For
 								</span>
 								{client.url ? (
@@ -150,14 +150,14 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 						)}
 						{resolvedPartners.length > 0 && (
 							<span class="inline-flex flex-wrap items-center gap-x-3 gap-y-2">
-								<span class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted/70 uppercase">
+								<span class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted uppercase">
 									With
 								</span>
 								{resolvedPartners.map((partner: any, idx: number) => (
 									<>
 										{idx > 0 && (
 											<span
-												class="font-mono text-xs text-ink-muted/40"
+												class="font-mono text-xs text-ink-muted"
 												aria-hidden="true"
 											>
 												·
@@ -207,7 +207,7 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 		>
 			<div class="flex flex-col sm:col-span-2">
 				<dt
-					class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted/70 uppercase"
+					class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted uppercase"
 				>
 					Phases
 				</dt>
@@ -242,7 +242,7 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 												/>
 											)}
 											<span
-												class:list={[!active && 'text-ink-muted/45']}
+												class:list={[!active && 'text-ink-muted']}
 												style={
 													active
 														? `color: var(--color-phase-${phase}-dark);`
@@ -261,7 +261,7 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 			</div>
 			<div class="flex flex-col">
 				<dt
-					class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted/70 uppercase"
+					class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted uppercase"
 				>
 					Modality
 				</dt>
@@ -273,7 +273,7 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 							resolvedModalities.map((modality: any, idx: number) => (
 								<>
 									{idx > 0 && (
-										<span class="text-ink-muted/40" aria-hidden="true">
+										<span class="text-ink-muted" aria-hidden="true">
 											·
 										</span>
 									)}
@@ -296,7 +296,7 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 			</div>
 			<div class="flex flex-col">
 				<dt
-					class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted/70 uppercase"
+					class="font-mono text-[0.6rem] tracking-[0.22em] text-ink-muted uppercase"
 				>
 					Status
 				</dt>

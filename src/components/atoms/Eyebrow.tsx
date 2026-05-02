@@ -13,7 +13,7 @@ interface Props {
 
 const TONE_CLASS: Record<Tone, string> = {
 	muted: 'text-ink-muted',
-	subtle: 'text-ink-muted/70',
+	subtle: 'text-ink-muted',
 	ink: 'text-ink',
 	white: 'text-white',
 };

@@ -38,7 +38,7 @@ const SUPPORT_OPTIONS: SupportOption[] = [
 const labelClass = 'block  font-mono text-sm text-ink-muted ';
 
 const inputClass =
-  'gradient-underline block w-full border-1 border-ink/5 bg-transparent px-2 pt-2.5 pb-3 font-sans text-base text-ink placeholder:text-ink-muted/50 disabled:opacity-60';
+  'gradient-underline block w-full border-1 border-ink/5 bg-transparent px-2 pt-2.5 pb-3 font-sans text-base text-ink placeholder:text-ink-muted disabled:opacity-60';
 
 const legendClass = 'mb-6';
 
@@ -174,7 +174,7 @@ export default function UxdApplicationForm({ formId = 'uxd-apply' }: Props) {
 
         <div>
           <label htmlFor={`${formId}-name`} className={labelClass}>
-            Name <span className="text-ink-muted/50">(optional)</span>
+            Name <span className="text-ink-muted">(optional)</span>
           </label>
           <input
             id={`${formId}-name`}
@@ -233,7 +233,7 @@ export default function UxdApplicationForm({ formId = 'uxd-apply' }: Props) {
 
         <div>
           <label htmlFor={`${formId}-link`} className={labelClass}>
-            Project link <span className="text-ink-muted/50">(optional)</span>
+            Project link <span className="text-ink-muted">(optional)</span>
           </label>
           <input
             id={`${formId}-link`}
@@ -377,7 +377,7 @@ export default function UxdApplicationForm({ formId = 'uxd-apply' }: Props) {
         <div>
           <label htmlFor={`${formId}-notes`} className={labelClass}>
             Anything else we should know?{' '}
-            <span className="text-ink-muted/50">(optional)</span>
+            <span className="text-ink-muted">(optional)</span>
           </label>
           <textarea
             id={`${formId}-notes`}
@@ -453,7 +453,7 @@ export default function UxdApplicationForm({ formId = 'uxd-apply' }: Props) {
             {submitting ? 'Sending…' : 'Send application'}
           </button>
         </div>
-        <p className="font-mono text-[0.6rem] tracking-[0.16em] text-ink-muted/70 uppercase">
+        <p className="font-mono text-[0.6rem] tracking-[0.16em] text-ink-muted uppercase">
           Submissions go to the Draftlab team via{' '}
           <a
             href="https://www.brevo.com/legal/privacypolicy/"
