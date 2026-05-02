@@ -21,7 +21,7 @@ const { person } = Astro.props;
 ---
 
 <PageLayout
-	title={`${person.name} — Draftlab`}
+	title={person.name}
 	description={person.bio || `${person.name}, ${person.title}`}
 	image={person.headshot}
 >
