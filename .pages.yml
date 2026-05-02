@@ -1393,6 +1393,12 @@ content:
       - name: defaultOgImage
         label: Default Open Graph Image
         type: image
+        description: Wide social-card image (1.91:1 or 2:1 — used by Twitter/LinkedIn/Facebook).
+
+      - name: defaultOgImageSquare
+        label: Default Square Social Image
+        type: image
+        description: Optional 1:1 thumbnail (1200×1200 recommended) used by Slack inline previews, iMessage, and some RSS readers.
 
       - name: defaultLogoLight
         label: Logo (Light Background)

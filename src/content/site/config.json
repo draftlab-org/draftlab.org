@@ -1,9 +1,10 @@
 {
   "title": "Draftlab",
-  "description": "Creative project design for social good champions through appropriate technology that strengthens human systems.",
+  "description": "Creative project design for social good champions. Appropriate tech strengthens human systems.",
   "url": "https://draftlab.org",
   "favicon": "/favicon.svg",
   "defaultOgImage": "/src/assets/draftlab-seo.png",
+  "defaultOgImageSquare": "/src/assets/draftlab-seo-square.png",
   "defaultLogoLight": "/src/assets/draftlab-logo.svg",
   "defaultLogoDark": "/src/assets/draftlab-logo-dark.svg",
   "social": {

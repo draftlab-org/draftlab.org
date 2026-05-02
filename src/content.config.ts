@@ -371,6 +371,7 @@ const siteCollection = defineCollection({
       url: z.url(),
       favicon: z.string().default('/favicon.svg'),
       defaultOgImage: image().optional(),
+      defaultOgImageSquare: image().optional(),
       defaultLogoLight: image().optional(),
       defaultLogoDark: image().optional(),
       social: z

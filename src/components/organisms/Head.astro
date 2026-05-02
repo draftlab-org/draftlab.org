@@ -32,8 +32,14 @@ const fullTitle =
   title === siteName || title.includes(siteName) ? title : `${title} — ${siteName}`;
 
 const ogImage = image || (siteConfig.defaultOgImage as ImageMetadata | undefined);
+const ogImageSquare = siteConfig.defaultOgImageSquare as ImageMetadata | undefined;
 const imageURL = ogImage ? new URL(ogImage.src, Astro.url).href : undefined;
+const imageSquareURL = ogImageSquare && !image
+  ? new URL(ogImageSquare.src, Astro.url).href
+  : undefined;
 const imageAlt = `${siteName} — ${siteConfig.description}`;
+const mimeFor = (img?: ImageMetadata) =>
+  img?.format ? `image/${img.format === 'jpg' ? 'jpeg' : img.format}` : 'image/png';
 
 // Derive `@user@instance` from a Mastodon profile URL (e.g. https://mastodon.social/@tingeber)
 const mastodonUrl = siteConfig.social?.mastodon;
@@ -71,8 +77,20 @@ const fediverseCreator = (() => {
 {imageURL && <meta property="og:image:secure_url" content={imageURL} />}
 {ogImage?.width && <meta property="og:image:width" content={String(ogImage.width)} />}
 {ogImage?.height && <meta property="og:image:height" content={String(ogImage.height)} />}
-{imageURL && <meta property="og:image:type" content="image/png" />}
+{imageURL && <meta property="og:image:type" content={mimeFor(ogImage)} />}
 {imageURL && <meta property="og:image:alt" content={imageAlt} />}
+
+{/* Optional square thumbnail variant — Slack inline previews, iMessage, RSS readers */}
+{imageSquareURL && <meta property="og:image" content={imageSquareURL} />}
+{imageSquareURL && <meta property="og:image:secure_url" content={imageSquareURL} />}
+{imageSquareURL && ogImageSquare?.width && (
+  <meta property="og:image:width" content={String(ogImageSquare.width)} />
+)}
+{imageSquareURL && ogImageSquare?.height && (
+  <meta property="og:image:height" content={String(ogImageSquare.height)} />
+)}
+{imageSquareURL && <meta property="og:image:type" content={mimeFor(ogImageSquare)} />}
+{imageSquareURL && <meta property="og:image:alt" content={imageAlt} />}
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />

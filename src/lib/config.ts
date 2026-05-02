@@ -9,6 +9,8 @@ export const siteConfig = {
   url: configData.url,
   favicon: configData.favicon,
   defaultOgImage: configData.defaultOgImage,
+  defaultOgImageSquare: (configData as { defaultOgImageSquare?: string })
+    .defaultOgImageSquare,
   social: configData.social,
 } as const;
 
