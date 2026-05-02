@@ -16,7 +16,6 @@ export interface Props {
   phases: Array<'understand' | 'define' | 'deliver' | 'sustain'>;
   skills?: string[];
   projectStatus?: 'active' | 'complete';
-  featured?: boolean;
   image?: ImageMetadata;
   class?: string;
 }
@@ -30,7 +29,6 @@ const {
   phases,
   skills = [],
   projectStatus = 'complete',
-  featured = false,
   image,
   class: className = '',
 } = Astro.props;

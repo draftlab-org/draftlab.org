@@ -327,20 +327,6 @@ components:
         type: string
         description: Optional intro text shown above the chronological feed of mixed projects + quotes.
 
-  active_projects_section:
-    type: object
-    fields:
-      - name: background
-        label: Section Background
-        component: background_select
-      - name: title
-        label: Title
-        type: string
-      - name: description
-        label: Description
-        type: string
-        description: Optional intro text shown above the list of active project titles.
-
   latest_updates_section:
     type: object
     fields:
@@ -633,10 +619,6 @@ content:
           - name: feedGrid
             label: Feed Grid
             component: feed_grid_section
-
-          - name: activeProjects
-            label: Active Projects (titles only)
-            component: active_projects_section
 
           - name: latestUpdates
             label: Latest Updates (gradient banner)

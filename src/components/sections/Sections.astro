@@ -1,5 +1,4 @@
 ---
-import ActiveProjectsSection from '@components/sections/ActiveProjectsSection.astro';
 import ApplyForUxdSection from '@components/sections/ApplyForUxdSection.astro';
 import ButtonSection from '@components/sections/ButtonSection.astro';
 import CalEmbedSection from '@components/sections/CalEmbedSection.astro';
@@ -99,13 +98,6 @@ const { sectionItems } = Astro.props;
         case 'feedGrid':
           return (
             <FeedGridSection
-              title={section.title}
-              description={section.description}
-            />
-          );
-        case 'activeProjects':
-          return (
-            <ActiveProjectsSection
               title={section.title}
               description={section.description}
             />

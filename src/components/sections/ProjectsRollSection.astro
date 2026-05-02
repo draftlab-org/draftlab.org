@@ -83,7 +83,6 @@ const orgById = new Map(orgs.map((o) => [o.data.id, o.data]));
 						phases={project.data.phases}
 						skills={project.data.skills}
 						projectStatus={project.data.projectStatus}
-						featured={project.data.featured}
 						image={hideImages ? undefined : project.data.image}
 						class:list={[
 							!hideImages && project.data.image ? 'sm:col-span-2' : '',
