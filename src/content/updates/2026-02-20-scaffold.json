@@ -1,0 +1,8 @@
+{
+  "date": "2026-02-20",
+  "project": "scaffold",
+  "update": "Replaced the dummy content with a public-interest-tech and digital-rights theme so the starter previews look like the kind of site it's actually meant to ship — and added a feature-showcase page so editors can see every section type before they touch a YAML file.",
+  "title": "A theme honest to its purpose",
+  "status": "published",
+  "body": "Until now, Scaffold's dummy content was generic — corporate stock language with stock people in stock departments. Replacing it with civil-society-flavoured content (digital rights, internet freedom, fictional public-interest projects) wasn't a vanity change. The defaults a starter ships with are an editorial signal: they tell adopters what kind of site this is for.\n\nIn the same push: a working cookie banner with a real consent flow (GA4 only loads after opt-in), a unified status field across every collection so drafts stay out of production builds, a CMS-editable homepage, and a Resources collection for reports and whitepapers."
+}

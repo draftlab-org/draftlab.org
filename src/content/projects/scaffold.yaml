@@ -1,0 +1,27 @@
+name: Accessible website starter for civil society
+slug: scaffold
+status: published
+description: Open-source Astro starter that gives civil-society teams a website foundation accessible, privacy-conscious, and editable through a visual CMS — by default, not as a checklist of someday-promises.
+phases:
+  - understand
+  - define
+  - deliver
+  - sustain
+modalities:
+  - community
+yearStart: 2025
+projectStatus: active
+featured: false
+skills:
+  - web-platform-development
+  - ux-interaction-design
+  - responsible-data-governance
+  - human-centered-design
+image: /src/assets/projects/scaffold-homepage.png
+url: https://scaffold.draftlab.org
+body: |
+  Most civil-society teams shouldn't have to choose between a website that meets their stated values — accessible, privacy-respecting, governable — and a website they can actually edit. Scaffold is Draftlab's attempt to close that gap: an open-source starter built on Astro, Tailwind, and React, wired through PagesCMS so non-technical editors can ship without touching code.
+
+  The defaults are the point. WCAG-friendly components, a working consent banner, a status workflow with draft / published / archived across every collection, and a content model that keeps editors and developers reading the same source of truth. Atomic design organises the components; type-safe schemas keep the surface honest.
+
+  Scaffold runs this site, and is the foundation we hand off to public-interest teams we work with — a way to leave a project better-equipped to maintain itself than when we arrived.
