@@ -34,6 +34,19 @@ const fullTitle =
 const ogImage = image || (siteConfig.defaultOgImage as ImageMetadata | undefined);
 const imageURL = ogImage ? new URL(ogImage.src, Astro.url).href : undefined;
 const imageAlt = `${siteName} — ${siteConfig.description}`;
+
+// Derive `@user@instance` from a Mastodon profile URL (e.g. https://mastodon.social/@tingeber)
+const mastodonUrl = siteConfig.social?.mastodon;
+const fediverseCreator = (() => {
+  if (!mastodonUrl) return undefined;
+  try {
+    const u = new URL(mastodonUrl);
+    const handle = u.pathname.replace(/^\/+/, '').replace(/^@/, '');
+    return handle ? `@${handle}@${u.hostname}` : undefined;
+  } catch {
+    return undefined;
+  }
+})();
 ---
 
 <meta charset="utf-8" />
@@ -68,6 +81,9 @@ const imageAlt = `${siteName} — ${siteConfig.description}`;
 <meta name="twitter:description" content={description} />
 {imageURL && <meta name="twitter:image" content={imageURL} />}
 {imageURL && <meta name="twitter:image:alt" content={imageAlt} />}
+
+<!-- Mastodon (Fediverse) author byline -->
+{fediverseCreator && <meta name="fediverse:creator" content={fediverseCreator} />}
 
 <!-- Local Font Declaration -->
 <Font cssVariable="--font-source-serif-4" preload />
