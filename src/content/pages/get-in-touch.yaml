@@ -14,3 +14,5 @@ sections:
     content: >-
       Prefer email? Write to [hello@draftlab.org](mailto:hello@draftlab.org) and we'll get back to you.
   - type: applyForUxd
+    background:
+      bgColor: phase-gradient-light
