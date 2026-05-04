@@ -13,7 +13,8 @@ import { siteConfig } from './src/lib/config.ts';
 // On Netlify, DEPLOY_PRIME_URL is the canonical URL for the current deploy
 // (custom domain on production, branch URL on previews). Fall back to siteConfig.url
 // for local dev so absolute URLs in built HTML always match where the site actually lives.
-const siteUrl = process.env.DEPLOY_PRIME_URL || process.env.URL || siteConfig.url;
+const siteUrl =
+  process.env.DEPLOY_PRIME_URL || process.env.URL || siteConfig.url;
 
 // https://astro.build/config
 export default defineConfig({
@@ -51,7 +52,6 @@ export default defineConfig({
   vite: {
     plugins: [
       tailwindcss(),
-      // React components (MobileMenu, RichSearch, etc.)
       Icons({
         compiler: 'jsx',
         jsx: 'react',

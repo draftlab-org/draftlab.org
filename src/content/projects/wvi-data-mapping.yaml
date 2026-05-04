@@ -1,0 +1,26 @@
+name: Mapping disaster-response data flows at World Vision International
+slug: wvi-data-mapping
+status: published
+contentStatus: polish
+description: A short consultancy mapping how data moves between WVI's field operations, headquarters, and the systems that drive disaster declarations and global fundraising appeals — and what it would take to make that data legible in real time.
+client: wvi
+phases:
+  - understand
+  - define
+modalities:
+  - clinic
+yearStart: 2024
+yearEnd: 2024
+projectStatus: complete
+featured: false
+skills:
+  - data-architecture
+  - organisational-diagnostics
+  - multi-stakeholder-coordination
+  - strategic-advising
+body: |
+  This was a short technical and process-design consultancy for World Vision International, focused on mapping data flows and surfacing recommendations across three connected areas: WVI's internal disaster-response information platform, the data needed to launch global fundraising appeals within tight time windows, and the analysis tools used by the team responsible for disaster declarations. The engagement coincided with a redesign of the internal platform — moving it off a legacy CMS and into WVI's wider tech ecosystem — and aimed to give decision-makers a clearer view of how data actually moves between field operations, headquarters, and the systems that inform donors and the public.
+
+  The core insight from the work was that institutional donor reporting and private-donor fundraising operate on fundamentally different time horizons. Months and years versus hours and days. WVI's existing data flows had been quietly optimised around the slower of the two: real-time data was being collected in the field, but a series of process and tooling firewalls between source data and reporting kept it effectively inaccessible to the teams who needed faster information for appeals and storytelling.
+
+  The methodology combined stakeholder interviews across disaster management, fundraising, regional offices, and information management with a desk review of internal documentation and direct exploration of existing data sources, surfacing both the structural reasons for the disconnect and concrete opportunities to close it. Deliverables included a written report, an annotated slide deck, visual data-flow and process maps, an actor-network mapping of who owns and holds what data across the organisation, and a set of recommendations covering integration between source systems and the redesigned platform, business-process changes to improve the speed and accuracy of disaster-response decisions, and pathways toward automating the analysis tooling. The work explicitly resisted framing standardised data collection and effective field delivery as a dichotomy, and instead recommended changes that could serve both.

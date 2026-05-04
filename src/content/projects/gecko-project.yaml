@@ -1,26 +1,26 @@
-name: "Long-form interactive storytelling platform "
+name: Long-form interactive storytelling platform
 slug: gecko-project
 status: published
-contentStatus: placeholder
-description: Investigative journalism platform tracking the global surveillance industry.
+contentStatus: polish
+description: A newsroom-grade publishing platform built for The Gecko Project — designed so a small investigative team can ship long-form, media-rich reports that hold their own against far better-funded outlets.
 client: gecko-project
 phases:
-  - deliver
   - define
+  - deliver
   - sustain
 modalities:
   - studio
-yearStart: 2021
-yearEnd: 2023
-projectStatus: complete
+yearStart: 2023
+yearEnd: 2026
+projectStatus: active
 featured: true
 skills:
-  - data-architecture
   - web-platform-development
   - ux-interaction-design
-image: /src/assets/Screenshot 2026-04-14 at 17.25.16.png
-url: https://thegeckoproject.org
+  - data-architecture
+  - human-centered-design
+url: https://thegeckoproject.org/
 body: |
-  Designed and built the editorial and data infrastructure for an investigative outlet focused on the global surveillance trade. The platform ties long-form reporting to a structured evidence store, so investigations can share sources and updates without leaking sensitive methods.
+  The Gecko Project produces global newsroom-level long-form investigative journalism, and they needed a publishing platform whose surface matched the quality of their reporting. Photography, video, data visualisations — the media isn't decoration in their stories, it carries part of the argument. The tooling also needed to match the speed and ease of use of platforms with much bigger budgets and engineering teams behind them.
 
-  A light editorial workflow keeps contributors across jurisdictions in sync, and a governance layer controls who can see what at each stage of a story.
+  We built a fully static site that runs on edge networks, with an editorial flow in DecapCMS that keeps the moving pieces small and the source of truth single. Editors work directly against the same content the public reads. The architecture is designed to keep the hosting bill flat as readership grows and to give the team something they can keep running without us — a long-term build whose maintenance shape is as much of the design as the front-end is.

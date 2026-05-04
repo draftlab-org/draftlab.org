@@ -19,63 +19,66 @@ let orgs = filterType
 if (limit) {
   orgs = orgs.slice(0, limit);
 }
-
-const orgsWithLogos = orgs.filter((o) => o.data.image);
 ---
 
 <div class="py-4">
-  {title && (
-    <div class="mb-10 flex max-w-2xl flex-col gap-3">
-      <SectionTitle title={title} />
-      {description && (
-        <Text size="lg" class="text-ink-soft">{description}</Text>
-      )}
-    </div>
-  )}
+	{
+		title && (
+			<div class="mb-10 flex max-w-2xl flex-col gap-3">
+				<SectionTitle title={title} />
+				{description && (
+					<Text size="lg" class="text-ink-soft">
+						{description}
+					</Text>
+				)}
+			</div>
+		)
+	}
 
-  {orgsWithLogos.length > 0 ? (
-    <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-      {orgsWithLogos.map((org) => {
-        const imgSrc = typeof org.data.image === 'string' ? org.data.image : org.data.image!.src;
-        const tile = (
-          <div class="org-tile relative aspect-video overflow-hidden">
-            <img
-              src={imgSrc}
-              alt={org.data.name}
-              title={org.data.name}
-              loading="lazy"
-              class="absolute inset-0 h-full w-full object-contain p-6 md:p-8"
-            />
-          </div>
-        );
+	{
+		orgs.length > 0 ? (
+			<div class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+				{orgs.map((org) => {
+					const imgSrc = org.data.image
+						? typeof org.data.image === 'string'
+							? org.data.image
+							: org.data.image.src
+						: null;
+					const tile = imgSrc ? (
+						<div class="relative aspect-video overflow-hidden">
+							<img
+								src={imgSrc}
+								alt={org.data.name}
+								title={org.data.name}
+								loading="lazy"
+								class="absolute inset-0 h-full w-full object-contain p-6 grayscale transition-[filter] duration-300 group-hover:grayscale-0 md:p-8"
+							/>
+						</div>
+					) : (
+						<div class="relative flex aspect-video items-center justify-center p-4">
+							<span class="is-active brackets-text p-2 text-center font-serif text-sm leading-tight text-ink-soft no-underline transition-colors duration-300 group-hover:text-ink md:text-base">
+								{org.data.name}
+							</span>
+						</div>
+					);
 
-        return org.data.url ? (
-          <a
-            href={org.data.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={org.data.name}
-            class="block"
-          >
-            {tile}
-          </a>
-        ) : (
-          tile
-        );
-      })}
-    </div>
-  ) : (
-    <p class="text-ink-muted italic">No organisations to show.</p>
-  )}
+					return org.data.url ? (
+						<a
+							href={org.data.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label={org.data.name}
+							class="group block no-underline"
+						>
+							{tile}
+						</a>
+					) : (
+						tile
+					);
+				})}
+			</div>
+		) : (
+			<p class="text-ink-muted italic">No organisations to show.</p>
+		)
+	}
 </div>
-
-<style>
-  .org-tile img {
-    filter: grayscale(100%);
-    transition: filter 0.3s ease;
-  }
-
-  a:hover .org-tile img {
-    filter: grayscale(0%);
-  }
-</style>

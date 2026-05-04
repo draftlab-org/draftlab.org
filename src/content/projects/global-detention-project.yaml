@@ -1,24 +1,30 @@
-name: Global Detention Project
+name: A federated, time-bound platform for tracking migrant detention worldwide
 slug: global-detention-project
 status: published
-contentStatus: placeholder
-description: Research centre tracking immigration-related detention worldwide, providing evidence for policy and advocacy.
+contentStatus: polish
+description: Overhauling how the Global Detention Project collects, traces, and presents the world's largest dataset on migrant detention — a redesigned database management system for the team and a public data explorer for everyone else.
 client: global-detention-project
 partners:
-  - ura-design
+  - dot-studio
 phases:
+  - understand
+  - define
   - deliver
 modalities:
   - studio
-yearStart: 2020
-yearEnd: 2022
-projectStatus: complete
+yearStart: 2025
+projectStatus: active
 featured: true
 skills:
-  - capacity-building
   - data-architecture
   - ux-interaction-design
+  - product-strategy
+  - user-research
+  - responsible-data-governance
+url: https://www.globaldetentionproject.org/
 body: |
-  Rebuilt the [Global Detention Project's](https://google.com) public research platform around a structured country dataset, so researchers, journalists, and policy advocates could move between narrative reports and raw indicators without friction.
+  The Global Detention Project holds the world's largest repository of data on migrant detention — detention centres, governance, legislation — and uses it to monitor practices and advocate against arbitrary and harmful detention. Their dataset is irreplaceable. The systems around it weren't keeping up: the team needed finer-grained tracking, the public needed access patterns the existing site couldn't support, and both groups needed confidence that any given data point was anchored to the law that was actually in force at the time.
 
-  Alongside the platform rebuild we ran a capacity-building track with the in-house team: documentation practices, editorial workflow, and a maintenance runbook to keep the data fresh after handover.
+  We're working with GDP, in partnership with Dot Studio, on a two-part overhaul. The first is a full redesign of the database management system, built around time-bound claims logic so that detention-centre activity, legislation changes, and cross-references are always compared against the laws and conditions valid at the moment they apply. The second is a public data explorer that lets GDP present trends and changes over time, support granular filtering, embed datasets in reports and partner sites, and add interactive data windows directly into online publications.
+
+  The work started in late 2025 with kickoff and the first implementation plan, and continued through a design workshop in Berlin in March 2026 with the GDP, Dot Studio, and Draftlab teams.

@@ -1,0 +1,30 @@
+name: Emergency-mode privacy for civil-society websites
+slug: responsive-privacy
+status: published
+contentStatus: polish
+description: Open-source framework that lets civil-society organisations shift their website between full transparency and emergency protection mode in minutes, using a single environment variable and a set of pre-mapped privacy levels.
+partners:
+  - superbloom
+phases:
+  - understand
+  - define
+  - deliver
+  - sustain
+modalities:
+  - studio
+yearStart: 2025
+projectStatus: active
+featured: true
+skills:
+  - cybersecurity
+  - web-platform-development
+  - user-research
+  - responsible-data-governance
+  - human-centered-design
+url: https://responsiveprivacy.org
+body: |
+  Civil-society organisations regularly face escalating threats — political pressure, doxxing campaigns, raids — and the staff named on their public websites are usually the first targets. The standard responses are bad: permanently delete the about page, scrub bios across the site by hand, or accept the exposure. Responsive Privacy is an open-source framework that gives organisations a fourth option: shift the entire website between full transparency and emergency protection mode in minutes, controlled by a single environment variable and a set of pre-mapped privacy levels.
+
+  The project began as a contained UXD Lab engagement between Draftlab and Superbloom, who provided their own site and their own research as the testbed. That work surfaced two things at once: there's a real, urgent need for this capability across the civil-society sector, and there's nothing else doing it. So we turned the prototype into Responsive Privacy and committed to developing it as a long-term programme — plug-and-play plugins for the most widely used website platforms, an interactive decision guide for organisations weighing what to expose, and a training-of-trainers programme for digital security specialists who can carry it into their own networks.
+
+  The project is actively seeking funding for the next two to five years of work.

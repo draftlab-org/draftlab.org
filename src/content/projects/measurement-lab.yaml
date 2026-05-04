@@ -1,0 +1,25 @@
+name: A new home for Measurement Lab on the open web
+slug: measurement-lab
+status: published
+contentStatus: polish
+description: Migration from a legacy stack to a static Astro site managed through PagesCMS — faster, easier to edit, and built on infrastructure the team can actually maintain.
+client: m-lab
+partners:
+  - superbloom
+phases:
+  - define
+  - deliver
+modalities:
+  - clinic
+yearStart: 2025
+projectStatus: active
+featured: false
+skills:
+  - web-platform-development
+  - ux-interaction-design
+  - human-centered-design
+url: https://www.measurementlab.net/
+body: |
+  Measurement Lab runs the largest open dataset on internet performance, and their public site is the front door to that work — for researchers, journalists, advocates, and the policy community. We're supporting the team in moving it onto a modern stack: a static Astro site with content managed through PagesCMS, so editors can ship without touching code and the engineering team can focus on the platform underneath.
+
+  The work is in the polish stage as we prepare for launch.

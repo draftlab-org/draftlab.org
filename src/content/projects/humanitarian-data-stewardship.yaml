@@ -1,0 +1,32 @@
+name: Shared ownership over humanitarian data
+slug: humanitarian-data-stewardship
+status: published
+contentStatus: polish
+description: Governance, design, and technical platforms that let humanitarian organisations share beneficiary data without giving up the rights and responsibilities that come with holding it.
+client: ccd
+partners:
+  - humanitarian-info
+  - humanitarian-data-solutions
+phases:
+  - understand
+  - define
+  - deliver
+  - sustain
+modalities:
+  - studio
+yearStart: 2024
+projectStatus: active
+featured: true
+skills:
+  - responsible-data-governance
+  - multi-stakeholder-coordination
+  - data-architecture
+  - human-centered-design
+  - capacity-building
+url: https://datastew.org/background/
+body: |
+  Humanitarian organisations collect overlapping data on the same beneficiaries, often dozens of times for the same household across the same crisis. The reasons are well-known: incompatible systems, conflicting mandates, and a deep, justified caution about handing data to anyone else. The cost is also well-known — slower response, duplicated effort, and people answering the same questionnaire over and over during the worst weeks of their lives.
+
+  Since 2024 we've been working with the Collaborative Cash Delivery Network on solutions and approaches to shared ownership and responsibility over beneficiary data, especially for the data-sharing problem between organisations. The Ukraine pilot, run with the Ukraine Response Consortium, is where most of this took shape: in-country workshops in Mikolayiv and Odessa with information managers and field workers, design and research alongside the people doing the work, and the governance systems and technical platforms that came out of those rooms. The platforms enable data stewardships to share data while respecting the stewardship governance and the rights of the people the data describes.
+
+  In 2025 we co-founded the Data Stewardship Collective with humanitarian.info and Humanitarian Data Solutions, supported by CCD — a group of humanitarian-data practitioners working to promote, strengthen, and support data stewardship across contexts and responses. The Ukraine Cash Working Group later voted to adopt data stewardship as their governance model for data sharing, which is the kind of outcome that's hard to engineer and is the entire point of the work.

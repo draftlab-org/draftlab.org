@@ -1,0 +1,7 @@
+{
+  "date": "2025-09-01",
+  "project": "wvi-digital-transformation",
+  "update": "Launched the first working prototype of an AI-assisted response-plan creator. It takes user input and produces a workable draft as a Word document, plus an Excel file with budget breakdown, delivered straight to the requester's inbox. The entire pipeline runs inside WVI infrastructure, safely and securely.",
+  "title": "AI-assisted response-plan creator",
+  "status": "published"
+}

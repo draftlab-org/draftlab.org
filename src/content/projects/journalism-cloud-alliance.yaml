@@ -1,0 +1,31 @@
+name: Shared cloud infrastructure for journalists and civil society
+slug: journalism-cloud-alliance
+status: published
+contentStatus: polish
+description: Strategy, business modelling, and partner audits for a journalist-owned cloud — built as a counterbalance to the corporate platforms most newsrooms currently depend on.
+client: gfmd
+partners:
+  - occrp
+  - abrimos
+phases:
+  - understand
+  - define
+  - deliver
+modalities:
+  - studio
+yearStart: 2024
+projectStatus: active
+featured: true
+skills:
+  - multi-stakeholder-coordination
+  - product-strategy
+  - strategic-advising
+  - responsible-data-governance
+  - data-architecture
+url: https://gfmd.info/cloud-alliance/
+body: |
+  Most newsrooms and civil-society groups run on cloud infrastructure they don't control, hosted by companies whose business models conflict with the journalism happening on top of them. The Journalism Cloud Alliance — led by the Global Forum for Media Development with the OCCRP — is an attempt to build a different layer underneath: cloud infrastructure that's mission-aligned, governed by the people who depend on it, and engineered around human-rights commitments rather than around them.
+
+  We've been supporting the Alliance since 2024, with our partners at Abrimos. The work started with an audit across all JCA partners to understand what they actually need from shared infrastructure, where their existing setups are fragile, and where collective ownership would make a real difference. From there we developed business models and rollout strategies for the infrastructure itself, and we've stayed on as ongoing strategic advisors as the Alliance moves from concept into implementation.
+
+  The harder questions are governance ones, not technical ones: how a cooperative cloud sets pricing, how it stays neutral across competing newsrooms, what happens when a partner is compromised, who decides what gets hosted. Those are the threads we keep pulling.

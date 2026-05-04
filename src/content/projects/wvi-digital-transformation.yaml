@@ -1,0 +1,29 @@
+name: Digital transformation for WVI's disaster-management ecosystem
+slug: wvi-digital-transformation
+status: published
+contentStatus: polish
+description: A longer-form advisory engagement helping World Vision International take stock of the systems, data, and processes behind disaster response — and design proofs of concept for an interoperable ecosystem that can answer operational and fundraising questions closer to real time.
+client: wvi
+phases:
+  - understand
+  - define
+  - deliver
+  - sustain
+modalities:
+  - studio
+yearStart: 2024
+projectStatus: active
+featured: true
+skills:
+  - data-architecture
+  - product-strategy
+  - ai-automation
+  - multi-stakeholder-coordination
+  - strategic-advising
+  - organisational-diagnostics
+body: |
+  This is a longer-form follow-on to our earlier data-mapping work with WVI, broadened into a wider digital-transformation effort with WVI's Disaster Management function. Working alongside another lead consultant, the engagement supports WVI in taking stock of its disaster-response digital ecosystem as a whole — the systems, data sources, and processes that underpin how disasters are declared, responses are planned and managed, supplies are tracked, funds are allocated, and information is communicated outward — and in identifying where investment in integration, automation, and new tooling has the most impact. A central goal is to move the organisation from a fragmented set of platforms, each holding part of the picture, toward an interoperable ecosystem capable of answering operational and fundraising questions in something closer to real time.
+
+  The work combines ecosystem mapping, stakeholder interviews across logistics, finance, operations, marketing, and IT, and the design of a holistic digital maturity model spanning governance, technology and data, processes, value, ways of working, and strategy. From that foundation we've produced a series of focused proofs of concept and integration designs — most notably a Response Firehose PoC for a near-real-time decision-making dashboard, pulling together internal logistics, financial, and response-planning data with external humanitarian context sources, and a parallel design for integrating WVI's response-plan data into an emerging organisation-wide data platform.
+
+  Deliverables to date include the ecosystem map and maturity model, an interoperability and data-source analysis across a dozen systems, written PoC documents and slide decks for internal stakeholders, an API specification for the logistics layer, and a roadmap covering short-term MVP integrations alongside a longer-term vision for treating response plans as structured, machine-readable artefacts rather than narrative documents. In September 2025 we launched a first working prototype of an AI-assisted response-plan creator, which takes user input and produces a workable draft as a Word document plus an Excel budget, delivered straight to the requester's inbox — built end-to-end inside WVI infrastructure.

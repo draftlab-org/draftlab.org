@@ -1,0 +1,24 @@
+name: Pragmatic cybersecurity policy for a human-rights team
+slug: cybersecurity-policy-gpd
+status: published
+contentStatus: polish
+description: Co-developed a cybersecurity policy with Global Partners Digital — built through team workshops and delivered as a usable online resource rather than a PDF nobody reads.
+client: global-partners-digital
+phases:
+  - define
+  - deliver
+modalities:
+  - clinic
+yearStart: 2024
+yearEnd: 2024
+projectStatus: complete
+featured: false
+skills:
+  - cybersecurity
+  - capacity-building
+  - responsible-data-governance
+  - organisational-diagnostics
+body: |
+  Most cybersecurity policies in civil society are written, filed, and ignored. We worked with Global Partners Digital to build one their team would actually use. The process leaned on workshops with the whole team, EFF's Diceware for credential hygiene, and SOAP as the policy-building scaffold — not because tools are the answer, but because the conversations they prompt surface the real risks and habits faster than a top-down draft does.
+
+  The final policy lives as a secure online resource, structured around practical and pragmatic tooling and advice. It tries to hold the line between security and usefulness honestly: where the threat model justifies friction, the friction stays; where it doesn't, we cut it. The work was a focused engagement, completed in 2024.

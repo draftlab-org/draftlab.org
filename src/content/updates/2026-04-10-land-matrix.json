@@ -1,7 +1,0 @@
-{
-  "date": "2026-04-10",
-  "project": "land-matrix",
-  "update": "Pushed a v2 of the Land Matrix data ingestion layer — duplicate detection across sources is finally automated, which removes the weekly manual reconciliation step that was eating four hours of analyst time.",
-  "title": "Ingestion layer v2",
-  "status": "published"
-}
