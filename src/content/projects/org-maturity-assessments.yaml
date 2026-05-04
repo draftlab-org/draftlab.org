@@ -1,6 +1,7 @@
 name: Org Maturity Assessments
 slug: org-maturity-assessments
 status: published
+contentStatus: placeholder
 description: Structured assessments helping organizations understand their digital maturity, identify gaps, and prioritize investments.
 partners:
   - open-technology-fund

@@ -1,6 +1,7 @@
 name: Accessible website starter for civil society
 slug: scaffold
 status: published
+contentStatus: polish
 description: Open-source Astro starter that gives civil-society teams a website foundation accessible, privacy-conscious, and editable through a visual CMS — by default, not as a checklist of someday-promises.
 phases:
   - understand

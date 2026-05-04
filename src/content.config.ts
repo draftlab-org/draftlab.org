@@ -310,6 +310,7 @@ const projectsCollection = defineCollection({
       yearStart: z.number().optional(),
       yearEnd: z.number().optional(),
       projectStatus: z.enum(['active', 'complete']).default('complete'),
+      contentStatus: z.enum(['placeholder', 'polish', 'ready']),
       featured: z.boolean().default(false),
       image: image().optional(),
       url: z.string().optional(),

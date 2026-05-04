@@ -1,6 +1,7 @@
 name: Stackspin
 slug: stackspin
 status: published
+contentStatus: placeholder
 description: Self-hosted, open-source collaboration platform giving organizations sovereignty over their digital tools.
 client: stackspin
 partners:

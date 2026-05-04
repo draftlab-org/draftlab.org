@@ -1,6 +1,7 @@
 name: "Long-form interactive storytelling platform "
 slug: gecko-project
 status: published
+contentStatus: placeholder
 description: Investigative journalism platform tracking the global surveillance industry.
 client: gecko-project
 phases:

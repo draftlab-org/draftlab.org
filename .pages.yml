@@ -691,6 +691,21 @@ content:
             - label: Archived
               name: archived
 
+      - name: contentStatus
+        label: Content readiness
+        type: select
+        required: true
+        default: placeholder
+        description: Internal review state. Placeholder = still dummy/auto-generated; Polish = generated, awaiting human review; Ready = signed off for users.
+        options:
+          values:
+            - label: Placeholder
+              name: placeholder
+            - label: Polish
+              name: polish
+            - label: Ready
+              name: ready
+
       - name: description
         label: Description
         type: text

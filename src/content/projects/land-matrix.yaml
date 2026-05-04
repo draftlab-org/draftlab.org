@@ -1,6 +1,7 @@
 name: Land Matrix
 slug: land-matrix
 status: published
+contentStatus: placeholder
 description: Global observatory monitoring large-scale land acquisitions and their impact on communities.
 client: land-matrix
 partners:
