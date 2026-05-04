@@ -5,11 +5,11 @@
 
 settings:
   content:
-    merge: true  # preserve keys not managed by CMS
+    merge: true # preserve keys not managed by CMS
   commit:
     templates:
-      create: "Create {path} (via Pages CMS)"
-      update: "Update {path} (via Pages CMS)"
+      create: 'Create {path} (via Pages CMS)'
+      update: 'Update {path} (via Pages CMS)'
 
 # ============================================================================
 # MEDIA
@@ -583,7 +583,7 @@ content:
         list:
           collapsible:
             collapsed: true
-            summary: "{type}"
+            summary: '{type}'
         required: true
         blockKey: type
         description: Add and arrange page sections in any order
@@ -659,7 +659,7 @@ content:
     filename: '{fields.slug}.yaml'
     subfolders: false
     view:
-      fields: [name, client, status]
+      fields: [name, client, status, contentStatus, slug]
       primary: name
       sort: [name]
     fields:
@@ -716,8 +716,8 @@ content:
         type: reference
         options:
           collection: organisations
-          value: "{id}"
-          label: "{fields.name}"
+          value: '{id}'
+          label: '{fields.name}'
 
       - name: partners
         label: Partners
@@ -725,8 +725,8 @@ content:
         options:
           collection: organisations
           multiple: true
-          value: "{id}"
-          label: "{fields.name}"
+          value: '{id}'
+          label: '{fields.name}'
         description: Other organisations involved in this project
 
       - name: phases
@@ -752,11 +752,11 @@ content:
         options:
           multiple: true
           values:
-            - label: "Clinic ◎"
+            - label: 'Clinic ◎'
               name: clinic
-            - label: "Studio ◈"
+            - label: 'Studio ◈'
               name: studio
-            - label: "Community ◉"
+            - label: 'Community ◉'
               name: community
 
       - name: skills
@@ -765,8 +765,8 @@ content:
         options:
           collection: skills
           multiple: true
-          value: "{slug}"
-          label: "{fields.name}"
+          value: '{slug}'
+          label: '{fields.name}'
         description: Types of work involved in this project
 
       - name: yearStart
@@ -968,8 +968,8 @@ content:
         options:
           collection: skills
           multiple: true
-          value: "{slug}"
-          label: "{fields.name}"
+          value: '{slug}'
+          label: '{fields.name}'
         description: Skills this person brings to the practice
 
       - name: sections
@@ -1076,11 +1076,11 @@ content:
         required: true
         options:
           values:
-            - label: "Clinic ◎"
+            - label: 'Clinic ◎'
               name: clinic
-            - label: "Studio ◈"
+            - label: 'Studio ◈'
               name: studio
-            - label: "Community ◉"
+            - label: 'Community ◉'
               name: community
 
       - name: symbol
@@ -1211,7 +1211,7 @@ content:
         label: Icon
         type: string
         required: true
-        description: "Iconify icon ID (e.g. hugeicons:test-tube-01)"
+        description: 'Iconify icon ID (e.g. hugeicons:test-tube-01)'
 
       - name: status
         label: Status
@@ -1267,16 +1267,16 @@ content:
         required: true
         options:
           collection: organisations
-          value: "{id}"
-          label: "{fields.name}"
+          value: '{id}'
+          label: '{fields.name}'
 
       - name: project
         label: Project
         type: reference
         options:
           collection: projects
-          value: "{slug}"
-          label: "{fields.name}"
+          value: '{slug}'
+          label: '{fields.name}'
         description: Optional — leave empty if the quote isn't tied to a specific project
 
   # --------------------------------------------------------------------------
@@ -1308,14 +1308,14 @@ content:
         required: true
         options:
           collection: projects
-          value: "{slug}"
-          label: "{fields.name}"
+          value: '{slug}'
+          label: '{fields.name}'
 
       - name: update
         label: Short update
         type: text
         required: true
-        description: "Short post (kept under ~300 chars for Bluesky compatibility) — what gets syndicated to social later."
+        description: 'Short post (kept under ~300 chars for Bluesky compatibility) — what gets syndicated to social later.'
 
       - name: status
         label: Status
@@ -1503,7 +1503,7 @@ content:
           - name: googleAnalyticsId
             label: Google Analytics Measurement ID
             type: string
-            description: "GA4 Measurement ID (e.g. G-XXXXXXXXXX). Leave empty to disable."
+            description: 'GA4 Measurement ID (e.g. G-XXXXXXXXXX). Leave empty to disable.'
 
   # --------------------------------------------------------------------------
   # Navigation Menus
@@ -1539,5 +1539,5 @@ content:
         list:
           collapsible:
             collapsed: false
-            summary: "{label}"
+            summary: '{label}'
         required: true
