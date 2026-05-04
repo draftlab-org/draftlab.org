@@ -2,7 +2,10 @@ name: Mapping disaster-response data flows at World Vision International
 slug: wvi-data-mapping
 status: published
 contentStatus: polish
-description: A short consultancy mapping how data moves between WVI's field operations, headquarters, and the systems that drive disaster declarations and global fundraising appeals — and what it would take to make that data legible in real time.
+description: A short consultancy mapping how data moves between WVI's field
+  operations, headquarters, and the systems that drive disaster declarations and
+  global fundraising appeals — and what it would take to make that data legible
+  in real time.
 client: wvi
 phases:
   - understand
@@ -24,3 +27,15 @@ body: |
   The core insight from the work was that institutional donor reporting and private-donor fundraising operate on fundamentally different time horizons. Months and years versus hours and days. WVI's existing data flows had been quietly optimised around the slower of the two: real-time data was being collected in the field, but a series of process and tooling firewalls between source data and reporting kept it effectively inaccessible to the teams who needed faster information for appeals and storytelling.
 
   The methodology combined stakeholder interviews across disaster management, fundraising, regional offices, and information management with a desk review of internal documentation and direct exploration of existing data sources, surfacing both the structural reasons for the disconnect and concrete opportunities to close it. Deliverables included a written report, an annotated slide deck, visual data-flow and process maps, an actor-network mapping of who owns and holds what data across the organisation, and a set of recommendations covering integration between source systems and the redesigned platform, business-process changes to improve the speed and accuracy of disaster-response decisions, and pathways toward automating the analysis tooling. The work explicitly resisted framing standardised data collection and effective field delivery as a dichotomy, and instead recommended changes that could serve both.
+updates:
+  - date: 2024-06-01
+    title: Final report delivered
+    update: Delivered the final report and recommendations — covering integration
+      between source systems and the redesigned platform, business-process
+      changes for faster disaster-response decisions, and pathways toward
+      automating the analysis tooling.
+  - date: 2024-04-01
+    title: Stakeholder interviews and data-flow mapping
+    update: Stakeholder interviews and a detailed analysis of how information moves
+      through WVI's disaster-response operation — across field teams,
+      headquarters, fundraising, and the systems behind disaster declarations.

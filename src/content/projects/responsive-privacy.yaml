@@ -2,7 +2,10 @@ name: Emergency-mode privacy for civil-society websites
 slug: responsive-privacy
 status: published
 contentStatus: polish
-description: Open-source framework that lets civil-society organisations shift their website between full transparency and emergency protection mode in minutes, using a single environment variable and a set of pre-mapped privacy levels.
+description: Open-source framework that lets civil-society organisations shift
+  their website between full transparency and emergency protection mode in
+  minutes, using a single environment variable and a set of pre-mapped privacy
+  levels.
 partners:
   - superbloom
 phases:
@@ -28,3 +31,31 @@ body: |
   The project began as a contained UXD Lab engagement between Draftlab and Superbloom, who provided their own site and their own research as the testbed. That work surfaced two things at once: there's a real, urgent need for this capability across the civil-society sector, and there's nothing else doing it. So we turned the prototype into Responsive Privacy and committed to developing it as a long-term programme — plug-and-play plugins for the most widely used website platforms, an interactive decision guide for organisations weighing what to expose, and a training-of-trainers programme for digital security specialists who can carry it into their own networks.
 
   The project is actively seeking funding for the next two to five years of work.
+updates:
+  - date: 2026-04-15
+    title: responsiveprivacy.org launches
+    update: responsiveprivacy.org is live. The framework, the decision guide, and
+      the first round of platform plugins are out in the open — and the project
+      is actively seeking funding to carry the next two to five years of work,
+      including a training-of-trainers programme for digital security
+      specialists.
+  - date: 2026-01-15
+    title: Unifying prototypes into a programme
+    update: Started unifying the technical prototypes and the user research into a
+      single brand and programme. The decision to develop this beyond a one-off
+      project came out of seeing both the demand and the absence of any
+      equivalent tooling for civil society.
+  - date: 2025-11-15
+    title: Research synthesis published
+    update: First version of the research is online. The synthesis covers what
+      civil-society organisations actually do when their staff are targeted,
+      what tooling exists, and where the gaps are.
+    body: The research is hosted at
+      https://research-superbloom.netlify.app/overview/synthesis/ — a
+      Superbloom-led writeup that grounded the next phase of the work.
+  - date: 2025-08-01
+    title: UXD Lab engagement begins
+    update: Started a UXD Lab engagement with Superbloom to test technical
+      implementation and run user research on what would become Responsive
+      Privacy. Their site, their staff, their threat surface — used as the live
+      testbed.

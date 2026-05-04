@@ -132,8 +132,13 @@ export default function RichSearch() {
           const category = SEARCH_CATEGORIES[index];
           const items = data
             // Filter out unpublished items
-            .filter((item: any) =>
-              item.status === 'published' || item.status === 'archived' || item.data?.status === 'published' || item.data?.status === 'archived' || !item.status
+            .filter(
+              (item: any) =>
+                item.status === 'published' ||
+                item.status === 'archived' ||
+                item.data?.status === 'published' ||
+                item.data?.status === 'archived' ||
+                !item.status
             )
             .map((item: any) => {
               const transformed = category.transform(item);
@@ -229,7 +234,7 @@ export default function RichSearch() {
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto p-4 sm:p-6 md:p-20">
         <DialogPanel
           transition
-          className="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-lg border-6 border-dotted border-primary-300 bg-white shadow-lg transition-all data-closed:scale-95 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
+          className="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden bg-white gradient-frame shadow-lg transition-all data-closed:scale-95 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
         >
           <Combobox
             onChange={(item: any) => {
@@ -241,13 +246,13 @@ export default function RichSearch() {
             <div className="grid grid-cols-1">
               <ComboboxInput
                 autoFocus
-                className="col-start-1 row-start-1 h-12 w-full bg-white pr-4 pl-11 text-base text-gray-900 outline-hidden placeholder:text-gray-400 sm:text-sm"
+                className="col-start-1 row-start-1 h-12 w-full bg-white pr-4 pl-11 font-mono text-base text-ink-soft outline-hidden placeholder:text-ink-muted sm:text-sm"
                 placeholder="Search..."
                 onChange={(event) => setRawQuery(event.target.value)}
                 onBlur={() => setRawQuery('')}
               />
               <MagnifyingGlassIcon
-                className="pointer-events-none col-start-1 row-start-1 ml-4 size-5 self-center text-gray-400"
+                className="pointer-events-none col-start-1 row-start-1 ml-4 size-5 self-center text-ink"
                 aria-hidden="true"
               />
             </div>
@@ -291,7 +296,7 @@ export default function RichSearch() {
 
                     return (
                       <li key={category.name}>
-                        <h2 className="text-xs font-semibold tracking-wide text-gray-900 uppercase">
+                        <h2 className="is-active brackets-text text-sm font-semibold tracking-wide text-ink">
                           {category.name}
                         </h2>
                         <ul className="-mx-4 mt-2 text-sm text-gray-700">
@@ -300,7 +305,7 @@ export default function RichSearch() {
                               as="li"
                               key={item.id}
                               value={item}
-                              className="group flex cursor-pointer items-center rounded px-4 py-2 transition-colors select-none hover:bg-primary-100 data-focus:bg-primary-300 data-focus:outline-hidden"
+                              className="group flex cursor-pointer items-center px-4 py-2 transition-colors select-none hover:gradient-phase-light data-focus:gradient-phase-light data-focus:outline-hidden"
                             >
                               {item.imageUrl ? (
                                 <img
@@ -367,16 +372,16 @@ export default function RichSearch() {
                 </div>
               )}
 
-            <div className="flex flex-wrap items-center border-t border-gray-100 bg-gray-50 px-4 py-2.5 text-xs">
+            <div className="flex flex-wrap items-center gradient-phase px-4 py-2.5 font-mono text-xs text-white">
               Type{' '}
               {SEARCH_CATEGORIES.map((category) => (
                 <span key={category.name} className="inline-flex items-center">
                   <kbd
                     className={classNames(
-                      'mx-1 flex size-5 items-center justify-center rounded-sm border-2 bg-white font-semibold sm:mx-2',
+                      'mx-1 flex size-5 items-center justify-center border bg-white font-semibold sm:mx-2',
                       rawQuery.startsWith(category.modifier)
-                        ? 'border-primary-400 bg-primary-50 text-primary-700'
-                        : 'border-gray-300 text-gray-700'
+                        ? 'border-ink-soft text-ink'
+                        : 'border-ink-muted text-ink-muted'
                     )}
                   >
                     {category.modifier}
@@ -388,10 +393,10 @@ export default function RichSearch() {
               ))}
               <kbd
                 className={classNames(
-                  'mx-1 flex size-5 items-center justify-center rounded-sm border-2 bg-white font-semibold sm:mx-2',
+                  'mx-1 flex size-5 items-center justify-center border bg-white font-semibold sm:mx-2',
                   rawQuery === '?'
-                    ? 'border-primary-400 bg-primary-50 text-primary-700'
-                    : 'border-gray-300 text-gray-700'
+                    ? 'border-ink-soft text-ink'
+                    : 'border-ink-muted text-ink-muted'
                 )}
               >
                 ?

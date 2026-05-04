@@ -2,7 +2,9 @@ name: Shared ownership over humanitarian data
 slug: humanitarian-data-stewardship
 status: published
 contentStatus: polish
-description: Governance, design, and technical platforms that let humanitarian organisations share beneficiary data without giving up the rights and responsibilities that come with holding it.
+description: Governance, design, and technical platforms that let humanitarian
+  organisations share beneficiary data without giving up the rights and
+  responsibilities that come with holding it.
 client: ccd
 partners:
   - humanitarian-info
@@ -30,3 +32,26 @@ body: |
   Since 2024 we've been working with the Collaborative Cash Delivery Network on solutions and approaches to shared ownership and responsibility over beneficiary data, especially for the data-sharing problem between organisations. The Ukraine pilot, run with the Ukraine Response Consortium, is where most of this took shape: in-country workshops in Mikolayiv and Odessa with information managers and field workers, design and research alongside the people doing the work, and the governance systems and technical platforms that came out of those rooms. The platforms enable data stewardships to share data while respecting the stewardship governance and the rights of the people the data describes.
 
   In 2025 we co-founded the Data Stewardship Collective with humanitarian.info and Humanitarian Data Solutions, supported by CCD — a group of humanitarian-data practitioners working to promote, strengthen, and support data stewardship across contexts and responses. The Ukraine Cash Working Group later voted to adopt data stewardship as their governance model for data sharing, which is the kind of outcome that's hard to engineer and is the entire point of the work.
+updates:
+  - date: 2025-09-01
+    title: Ukraine Cash Working Group adopts data stewardship
+    update: The Ukraine Cash Working Group voted to adopt data stewardship as their
+      governance model for data sharing — moving the approach out of pilot
+      territory and into the operational baseline for one of the largest
+      humanitarian responses currently running.
+  - date: 2025-03-01
+    title: Data Stewardship Collective formed
+    update: Co-founded the Data Stewardship Collective with humanitarian.info and
+      Humanitarian Data Solutions, with support from CCD. A group of
+      humanitarian-data practitioners working to promote, strengthen, and
+      support data stewardship across contexts and responses.
+  - date: 2024-07-01
+    title: Governance workshop in Odessa
+    update: Governance and implementation workshop in Odessa, testing the first
+      working implementation of the referrals and deduplication platform against
+      the actual constraints of in-country teams.
+  - date: 2024-03-01
+    title: Referrals workshop in Mikolayiv
+    update: Ran a referrals workshop in Mikolayiv with information managers and
+      field workers from the Ukraine Response Consortium — co-creating a shared
+      referrals process and timeline grounded in how the work actually happens.

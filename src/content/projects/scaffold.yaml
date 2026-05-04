@@ -2,7 +2,9 @@ name: Accessible website starter for civil society
 slug: scaffold
 status: published
 contentStatus: polish
-description: Open-source Astro starter that gives civil-society teams a website foundation accessible, privacy-conscious, and editable through a visual CMS — by default, not as a checklist of someday-promises.
+description: Open-source Astro starter that gives civil-society teams a website
+  foundation accessible, privacy-conscious, and editable through a visual CMS —
+  by default, not as a checklist of someday-promises.
 phases:
   - understand
   - define
@@ -26,3 +28,27 @@ body: |
   The defaults are the point. WCAG-friendly components, a working consent banner, a status workflow with draft / published / archived across every collection, and a content model that keeps editors and developers reading the same source of truth. Atomic design organises the components; type-safe schemas keep the surface honest.
 
   Scaffold runs this site, and is the foundation we hand off to public-interest teams we work with — a way to leave a project better-equipped to maintain itself than when we arrived.
+updates:
+  - date: 2026-04-10
+    title: Docs, search, and a clean entry for LLMs
+    update: "Added a multi-chapter docs section and an llms.txt at the root — site
+      search now spans articles, resources, and documentation. The point of
+      llms.txt is straightforward: if a model is going to read your site, give
+      it a clean entry point instead of letting it scrape your nav."
+  - date: 2026-02-20
+    title: A theme honest to its purpose
+    update: Replaced the dummy content with a public-interest-tech and
+      digital-rights theme so the starter previews look like the kind of site
+      it's actually meant to ship — and added a feature-showcase page so
+      editors can see every section type before they touch a YAML file.
+    body: |
+      Until now, Scaffold's dummy content was generic — corporate stock language with stock people in stock departments. Replacing it with civil-society-flavoured content (digital rights, internet freedom, fictional public-interest projects) wasn't a vanity change. The defaults a starter ships with are an editorial signal: they tell adopters what kind of site this is for.
+
+      In the same push: a working cookie banner with a real consent flow (GA4 only loads after opt-in), a unified status field across every collection so drafts stay out of production builds, a CMS-editable homepage, and a Resources collection for reports and whitepapers.
+  - date: 2026-01-23
+    title: First usable release
+    update: Pushed the first usable cut of Scaffold — accessible-by-default
+      components, dropdown navigation, a table-of-contents pattern, and entity
+      filtering across articles, people, and partners. The starter that came out
+      of years of repeated 'just build us a website' requests, finally extracted
+      into something we can hand off.

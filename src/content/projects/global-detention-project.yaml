@@ -2,7 +2,10 @@ name: A federated, time-bound platform for tracking migrant detention worldwide
 slug: global-detention-project
 status: published
 contentStatus: polish
-description: Overhauling how the Global Detention Project collects, traces, and presents the world's largest dataset on migrant detention — a redesigned database management system for the team and a public data explorer for everyone else.
+description: Overhauling how the Global Detention Project collects, traces, and
+  presents the world's largest dataset on migrant detention — a redesigned
+  database management system for the team and a public data explorer for
+  everyone else.
 client: global-detention-project
 partners:
   - dot-studio
@@ -28,3 +31,16 @@ body: |
   We're working with GDP, in partnership with Dot Studio, on a two-part overhaul. The first is a full redesign of the database management system, built around time-bound claims logic so that detention-centre activity, legislation changes, and cross-references are always compared against the laws and conditions valid at the moment they apply. The second is a public data explorer that lets GDP present trends and changes over time, support granular filtering, embed datasets in reports and partner sites, and add interactive data windows directly into online publications.
 
   The work started in late 2025 with kickoff and the first implementation plan, and continued through a design workshop in Berlin in March 2026 with the GDP, Dot Studio, and Draftlab teams.
+updates:
+  - date: 2026-03-15
+    title: Design workshop in Berlin
+    update: Spent a week in Berlin running a design workshop with Draftlab, Dot
+      Studio, and the Global Detention Project team — working through the DBMS
+      data model, the explorer's interaction patterns, and the governance
+      handoff between in-house editors and public users.
+  - date: 2025-12-01
+    title: Project kickoff and implementation plan
+    update: Kicked off the GDP overhaul with Dot Studio and built the first
+      implementation plan — a phased rollout across the database management
+      system and the public data explorer, anchored around time-bound claims
+      logic.

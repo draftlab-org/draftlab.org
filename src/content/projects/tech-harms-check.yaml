@@ -2,7 +2,10 @@ name: Human-rights screening for tech in development and humanitarian projects
 slug: tech-harms-check
 status: published
 contentStatus: polish
-description: A screening tool that lets program officers and civil-society staff upload a project proposal and get back a structured assessment of likely human-rights harms — with severity scores and tailored mitigations drawn from a curated indicator library.
+description: A screening tool that lets program officers and civil-society staff
+  upload a project proposal and get back a structured assessment of likely
+  human-rights harms — with severity scores and tailored mitigations drawn from
+  a curated indicator library.
 client: global-partners-digital
 partners:
   - dot-studio
@@ -29,3 +32,21 @@ body: |
   Under the hood the tool covers 54 human rights across multiple scoring dimensions, all sourced from a curated indicator library. AI is used narrowly: to extract relevant technological features and contextual factors from a proposal, and to connect them back to the library. A core design principle is the strict separation between database-driven content, which flows through verbatim from the curated library, and the limited use of generative AI, which is confined to narrative summaries and contextual mitigation suggestions and is clearly marked wherever it appears.
 
   Draftlab and Dot Studio partnered on the implementation of the MCP server that connects the curated library to the assessment workflow. The work spans translation between the human-rights framework and a working data model, UX for non-experts under time pressure, and a business strategy for keeping the tool sustainable past launch.
+updates:
+  - date: 2026-05-01
+    title: Launch of techharmscheck.org
+    update: techharmscheck.org is live. Program officers and civil-society staff can
+      upload a project proposal and get back a structured assessment of likely
+      human-rights harms, severity scores, and tailored mitigations — sourced
+      from a curated indicator library covering 54 human rights.
+  - date: 2026-04-01
+    title: Data model, UX, and business strategy
+    update: Translating between the human-rights framework and the tech build —
+      defining the data model, the UX for non-expert users, and the business
+      strategy that needs to sit underneath a tool people will only open under
+      pressure.
+  - date: 2026-02-15
+    title: Interviews and scoping
+    update: Interviews and scoping of existing solutions to support Global Partners
+      Digital with an implementation plan — surfacing what the Tech Harms Check
+      tool needs to do that nothing else currently covers.

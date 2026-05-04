@@ -1,30 +1,17 @@
 ---
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import { isVisible } from '@utils/content';
+import type { ProjectUpdate } from 'src/content.config';
 import { renderMarkdownWithImages } from '@utils/renderMarkdown';
 
 export interface Props {
-	projectSlug: string;
+	updates?: ProjectUpdate[];
 }
 
-const { projectSlug } = Astro.props;
+const { updates = [] } = Astro.props;
 
-const allUpdates = await getCollection('updates');
-
-const updates = allUpdates
-	.filter((entry) => {
-		if (!isVisible(entry)) return false;
-		const ref = entry.data.project as unknown;
-		const refSlug =
-			typeof ref === 'string'
-				? ref
-				: (ref as { id?: string; slug?: string })?.id ??
-					(ref as { slug?: string })?.slug ??
-					'';
-		return refSlug === projectSlug;
-	})
-	.sort((a, b) => Date.parse(b.data.date) - Date.parse(a.data.date));
+const sorted = [...updates].sort(
+	(a, b) => Date.parse(b.date) - Date.parse(a.date),
+);
 
 const dateFmt = new Intl.DateTimeFormat('en-GB', {
 	day: '2-digit',
@@ -32,29 +19,28 @@ const dateFmt = new Intl.DateTimeFormat('en-GB', {
 	year: 'numeric',
 });
 
-const renderedBodies = await Promise.all(
-	updates.map(async (entry) =>
-		entry.data.body ? (await renderMarkdownWithImages(entry.data.body)).html : ''
-	)
+const rendered = await Promise.all(
+	sorted.map(async (u) => ({
+		update: (await renderMarkdownWithImages(u.update)).html,
+		body: u.body ? (await renderMarkdownWithImages(u.body)).html : '',
+	})),
 );
 
-const total = updates.length;
+const total = sorted.length;
 ---
 
 {
-	updates.length > 0 && (
+	sorted.length > 0 && (
 		<section>
 			<h2 class="mb-10 font-serif text-sm font-medium tracking-widest text-ink-muted uppercase">
 				Updates
 			</h2>
 
 			<ol class="space-y-16">
-				{updates.map((entry, i) => {
-					const dateObj = new Date(entry.data.date);
-					const dateLabel = dateFmt.format(dateObj);
+				{sorted.map((entry, i) => {
+					const dateLabel = dateFmt.format(new Date(entry.date));
 					const number = String(total - i).padStart(3, '0');
-					const bodyHtml = renderedBodies[i];
-					const hasHeadingMatter = entry.data.title || entry.data.image;
+					const hasHeadingMatter = entry.title || entry.image;
 					return (
 						<li class="grid gap-x-8 gap-y-3 md:grid-cols-[6.5rem_1fr]">
 							{/* Gutter — number prominent, date subordinate */}
@@ -66,7 +52,7 @@ const total = updates.length;
 									№ {number}
 								</span>
 								<time
-									datetime={entry.data.date}
+									datetime={entry.date}
 									class="font-mono text-[0.65rem] tracking-[0.18em] text-ink-muted uppercase tabular-nums md:mt-2"
 								>
 									{dateLabel}
@@ -75,42 +61,41 @@ const total = updates.length;
 
 							{/* Content column */}
 							<div>
-								{entry.data.title && (
+								{entry.title && (
 									<h3 class="font-serif text-2xl leading-[1.15] font-medium text-ink md:text-[1.75rem]">
-										{entry.data.title}
+										{entry.title}
 									</h3>
 								)}
 
-								{entry.data.image && (
+								{entry.image && (
 									<figure
 										class:list={[
 											'corner-brackets aspect-16/10 w-full p-3 text-ink',
-											entry.data.title ? 'mt-6' : 'mt-0',
+											entry.title ? 'mt-6' : 'mt-0',
 										]}
 									>
 										<div class="h-full w-full overflow-hidden">
 											<Image
-												src={entry.data.image}
-												alt={entry.data.title ?? entry.data.update}
+												src={entry.image}
+												alt={entry.title ?? ''}
 												class="block h-full w-full object-cover"
 											/>
 										</div>
 									</figure>
 								)}
 
-								<p
+								<div
 									class:list={[
-										'font-serif text-[1.0625rem] leading-relaxed text-ink-soft',
+										'prose-ink prose max-w-none leading-relaxed text-ink-soft *:first:mt-0 [&>p]:font-serif [&>p]:text-[1.0625rem]',
 										hasHeadingMatter ? 'mt-6' : 'mt-0',
 									]}
-								>
-									{entry.data.update}
-								</p>
+									set:html={rendered[i].update}
+								/>
 
-								{bodyHtml && (
+								{rendered[i].body && (
 									<div
 										class="prose-ink prose relative mt-5 max-w-none pl-5 leading-relaxed text-ink-soft *:first:mt-0 [&>p]:font-serif [&>p]:text-base before:absolute before:inset-y-0 before:left-0 before:gradient-rule-vertical before:content-['']"
-										set:html={bodyHtml}
+										set:html={rendered[i].body}
 									/>
 								)}
 							</div>

@@ -1,7 +1,0 @@
-{
-  "date": "2026-01-23",
-  "project": "scaffold",
-  "update": "Pushed the first usable cut of Scaffold — accessible-by-default components, dropdown navigation, a table-of-contents pattern, and entity filtering across articles, people, and partners. The starter that came out of years of repeated 'just build us a website' requests, finally extracted into something we can hand off.",
-  "title": "First usable release",
-  "status": "published"
-}

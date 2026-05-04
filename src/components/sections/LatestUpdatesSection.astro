@@ -1,8 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
 import SectionTitle from '@components/atoms/SectionTitle.astro';
-import { isVisible } from '@utils/content';
 import { getOrganisations } from '@utils/organisations';
 import { getProjects } from '@utils/projects';
 import type { ImageMetadata } from 'astro';
@@ -15,13 +13,11 @@ export interface Props {
 
 const { title = 'Latest updates', limit = 4 } = Astro.props;
 
-const [allUpdates, projects, organisations] = await Promise.all([
-  getCollection('updates'),
+const [projects, organisations] = await Promise.all([
   getProjects(),
   getOrganisations(),
 ]);
 
-const projectBySlug = new Map(projects.map((p) => [p.data.slug, p]));
 const orgById = new Map(organisations.map((o) => [o.data.id, o.data]));
 
 const dateFmt = new Intl.DateTimeFormat('en-GB', {
@@ -41,33 +37,26 @@ interface Resolved {
   title?: string;
 }
 
-const resolved: Resolved[] = allUpdates
-  .filter(isVisible)
-  .map((entry): Resolved | null => {
-    const ref = entry.data.project as unknown;
-    const projectSlug =
-      typeof ref === 'string'
-        ? ref
-        : (ref as { id?: string; slug?: string })?.id ??
-          (ref as { slug?: string })?.slug ??
-          '';
-    const project = projectBySlug.get(projectSlug);
-    if (!project) return null;
+// Take first paragraph of (potentially rich-text) update for the card preview.
+const firstParagraph = (md: string) =>
+  md.split(/\n{2,}/, 1)[0]?.trim() ?? md;
+
+const resolved: Resolved[] = projects
+  .flatMap((project) => {
     const client = project.data.client
       ? orgById.get(project.data.client)
       : undefined;
-    return {
-      date: entry.data.date,
-      dateLabel: dateFmt.format(new Date(entry.data.date)),
-      update: entry.data.update,
+    return (project.data.updates ?? []).map((u) => ({
+      date: u.date,
+      dateLabel: dateFmt.format(new Date(u.date)),
+      update: firstParagraph(u.update),
       projectName: project.data.name,
-      projectSlug,
+      projectSlug: project.data.slug,
       clientName: client?.name,
-      image: entry.data.image,
-      title: entry.data.title,
-    };
+      image: u.image,
+      title: u.title,
+    }));
   })
-  .filter((x): x is Resolved => x !== null)
   .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
   .slice(0, limit);
 ---

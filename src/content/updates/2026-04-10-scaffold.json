@@ -1,7 +1,0 @@
-{
-  "date": "2026-04-10",
-  "project": "scaffold",
-  "update": "Added a multi-chapter docs section and an llms.txt at the root — site search now spans articles, resources, and documentation. The point of llms.txt is straightforward: if a model is going to read your site, give it a clean entry point instead of letting it scrape your nav.",
-  "title": "Docs, search, and a clean entry for LLMs",
-  "status": "published"
-}

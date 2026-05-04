@@ -294,6 +294,24 @@ const skillsCollection = defineCollection({
 
 // ── Projects collection ──
 
+// YAML auto-parses bare ISO dates (2026-04-10) into Date objects.
+// Coerce back to an ISO date string so downstream code can format consistently.
+const yamlDateString = z.preprocess(
+  (v) => (v instanceof Date ? v.toISOString().slice(0, 10) : v),
+  z.string()
+);
+
+const createProjectUpdateSchema = (image: ImageFunction) =>
+  z.object({
+    date: yamlDateString,
+    title: z.string().optional(),
+    update: z.string(),
+    image: image().optional(),
+    body: z.string().optional(),
+  });
+
+export type ProjectUpdate = z.infer<ReturnType<typeof createProjectUpdateSchema>>;
+
 const projectsCollection = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/projects' }),
   schema: ({ image }) =>
@@ -315,6 +333,7 @@ const projectsCollection = defineCollection({
       image: image().optional(),
       url: z.string().optional(),
       body: z.string().optional(),
+      updates: z.array(createProjectUpdateSchema(image)).optional(),
     }),
 });
 
@@ -343,22 +362,6 @@ const quotesCollection = defineCollection({
     project: reference('projects').optional(),
     organisation: reference('organisations'),
   }),
-});
-
-// ── Updates collection ──
-
-const updatesCollection = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: './src/content/updates' }),
-  schema: ({ image }) =>
-    z.object({
-      date: z.string(),
-      project: reference('projects'),
-      update: z.string(),
-      title: z.string().optional(),
-      image: image().optional(),
-      body: z.string().optional(),
-      status: statusSchema,
-    }),
 });
 
 // ── Site collection ──
@@ -477,5 +480,4 @@ export const collections = {
   projects: projectsCollection,
   organisations: organisationsCollection,
   quotes: quotesCollection,
-  updates: updatesCollection,
 };
