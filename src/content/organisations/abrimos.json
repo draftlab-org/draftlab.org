@@ -2,5 +2,6 @@
   "id": "abrimos",
   "name": "Abrimos",
   "type": "partner",
-  "url": "https://abrimos.info/"
+  "url": "https://abrimos.info/",
+  "image": "/src/assets/organisations/abrimos-logo.svg"
 }
