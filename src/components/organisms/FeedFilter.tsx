@@ -20,29 +20,26 @@ export interface FeedItemTagData {
   slug: string;          // unique within (kind, slug)
   kind: string;          // 'project' | 'quote'
   phases: string[];
-  modalities: string[];
   skills: string[];
 }
 
 export interface FeedFilterProps {
   gridId: string;
-  modalities: FilterOption[];
   phases: FilterOption[];
   skills: FilterOption[];
   items: FeedItemTagData[];
 }
 
-type FilterKey = 'modalities' | 'phases' | 'skills';
+type FilterKey = 'phases' | 'skills';
 
 type FilterState = Record<FilterKey, string[]>;
 
 const EMPTY_STATE: FilterState = {
-  modalities: [],
   phases: [],
   skills: [],
 };
 
-const FILTER_KEYS: FilterKey[] = ['modalities', 'phases', 'skills'];
+const FILTER_KEYS: FilterKey[] = ['phases', 'skills'];
 
 const readFromUrl = (): FilterState => {
   if (typeof window === 'undefined') return EMPTY_STATE;
@@ -53,7 +50,6 @@ const readFromUrl = (): FilterState => {
       .map((s) => s.trim())
       .filter(Boolean);
   return {
-    modalities: parse('modalities'),
     phases: parse('phases'),
     skills: parse('skills'),
   };
@@ -79,7 +75,7 @@ const matches = (item: FeedItemTagData, state: FilterState): boolean => {
     if (sel.length === 0) return true;
     return sel.some((s) => item[key].includes(s));
   };
-  return check('modalities') && check('phases') && check('skills');
+  return check('phases') && check('skills');
 };
 
 const joinWithAnd = (items: ReactNode[]): ReactNode[] => {
@@ -101,7 +97,6 @@ const wrap = (key: string, node: ReactNode): ReactNode => (
 
 export default function FeedFilter({
   gridId,
-  modalities,
   phases,
   skills,
   items,
@@ -117,10 +112,6 @@ export default function FeedFilter({
   const phaseBySlug = useMemo(
     () => new Map(phases.map((o) => [o.slug, o])),
     [phases]
-  );
-  const modalityBySlug = useMemo(
-    () => new Map(modalities.map((o) => [o.slug, o])),
-    [modalities]
   );
   const skillBySlug = useMemo(
     () => new Map(skills.map((o) => [o.slug, o])),
@@ -205,26 +196,6 @@ export default function FeedFilter({
   const placeholderClass =
     'italic text-ink-muted underline decoration-ink-muted/50 decoration-dotted underline-offset-4';
 
-  const renderModalityChip = useCallback(
-    (slug: string): ReactNode => {
-      const m = modalityBySlug.get(slug);
-      if (!m) return slug;
-      return (
-        <span className="font-medium text-ink">
-          {m.iconSvg && (
-            <span
-              aria-hidden="true"
-              className={`${chipIconClass} mr-1 text-ink`}
-              dangerouslySetInnerHTML={{ __html: m.iconSvg }}
-            />
-          )}
-          {m.name}
-        </span>
-      );
-    },
-    [modalityBySlug]
-  );
-
   const renderPhaseChip = useCallback(
     (slug: string): ReactNode => {
       const p = phaseBySlug.get(slug);
@@ -266,32 +237,29 @@ export default function FeedFilter({
       { id: 'showing', node: <>Showing</> },
     ];
 
-    if (state.modalities.length > 0) {
+    if (state.skills.length > 0) {
       parts.push({
-        id: 'modalities',
+        id: 'skills',
         node: (
           <>
             {' '}
             {joinWithAnd(
-              state.modalities.map((s) => wrap(`m-${s}`, renderModalityChip(s)))
+              state.skills.map((s) => wrap(`s-${s}`, renderSkillChip(s)))
             )}
           </>
         ),
       });
-    }
-
-    parts.push({
-      id: 'noun',
-      node:
-        state.modalities.length > 0 ? (
-          <> projects</>
-        ) : (
+    } else {
+      parts.push({
+        id: 'skills-default',
+        node: (
           <>
             {' '}
-            <span className={placeholderClass}>all projects</span>
+            <span className={placeholderClass}>all skills</span>
           </>
         ),
-    });
+      });
+    }
 
     if (state.phases.length > 0) {
       const isSingle = state.phases.length === 1;
@@ -300,7 +268,7 @@ export default function FeedFilter({
         node: (
           <>
             {' '}
-            from {isSingle ? 'the ' : ''}
+            across {isSingle ? 'the ' : ''}
             {joinWithAnd(
               state.phases.map((s) => wrap(`p-${s}`, renderPhaseChip(s)))
             )}{' '}
@@ -314,41 +282,14 @@ export default function FeedFilter({
         node: (
           <>
             {' '}
-            from <span className={placeholderClass}>all phases</span>
+            across <span className={placeholderClass}>all phases</span>
           </>
         ),
       });
     }
-
-    if (state.skills.length > 0) {
-      parts.push({
-        id: 'skills',
-        node: (
-          <>
-            {' '}
-            using{' '}
-            {joinWithAnd(
-              state.skills.map((s) => wrap(`s-${s}`, renderSkillChip(s)))
-            )}
-          </>
-        ),
-      });
-    } else {
-      parts.push({
-        id: 'skills-default',
-        node: (
-          <>
-            {' '}
-            using <span className={placeholderClass}>all skills</span>
-          </>
-        ),
-      });
-    }
-
-    parts.push({ id: 'period', node: <>.</> });
 
     return parts.map((p) => <Fragment key={p.id}>{p.node}</Fragment>);
-  }, [state, renderModalityChip, renderPhaseChip, renderSkillChip]);
+  }, [state, renderPhaseChip, renderSkillChip]);
 
   const renderRow = (
     label: string,
@@ -439,9 +380,8 @@ export default function FeedFilter({
           )}
         >
           <div className="space-y-4 p-4 sm:p-5">
-            {renderRow('Modalities', 'modalities', modalities)}
-            {renderRow('Phases', 'phases', phases)}
             {renderRow('Skills', 'skills', skills)}
+            {renderRow('Phases', 'phases', phases)}
           </div>
         </div>
       </div>

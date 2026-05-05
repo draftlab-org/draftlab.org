@@ -12,10 +12,6 @@ import hugeiconsPack from '@iconify/json/json/hugeicons.json';
 import { getIconData, iconToHTML, iconToSVG } from '@iconify/utils';
 import { isVisible } from '@utils/content';
 import { getFeedItems } from '@utils/feed';
-import {
-  type ModalitySlug,
-  modalityIconSvgs,
-} from '@utils/modalityIcons';
 
 export interface Props {
   title?: string;
@@ -32,9 +28,6 @@ const allSkills = (await getCollection('skills')).filter((s) => isVisible(s));
 
 const phaseEntries = (await getCollection('phases')).sort(
   (a, b) => a.data.number - b.data.number
-);
-const modalityEntries = (await getCollection('modalities')).sort(
-  (a, b) => a.data.order - b.data.order
 );
 
 // Pre-render icon SVGs server-side. Root width/height = 100% so the icon
@@ -62,17 +55,10 @@ const phaseOptions: FilterOption[] = phaseEntries.map((p) => ({
   swatchColor: `var(--color-phase-${p.data.slug})`,
 }));
 
-const modalityOptions: FilterOption[] = modalityEntries.map((m) => ({
-  slug: m.data.slug,
-  name: m.data.name,
-  iconSvg: modalityIconSvgs[m.data.slug as ModalitySlug],
-}));
-
 const itemTags: FeedItemTagData[] = items.map((it) => ({
   slug: it.slug,
   kind: it.kind,
   phases: it.phases,
-  modalities: it.modalities,
   skills: it.skills,
 }));
 ---
@@ -94,7 +80,6 @@ const itemTags: FeedItemTagData[] = items.map((it) => ({
 	<FeedFilter
 		client:load
 		gridId={gridId}
-		modalities={modalityOptions}
 		phases={phaseOptions}
 		skills={skillOptions}
 		items={itemTags}
