@@ -56,7 +56,7 @@ const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
 <a
 	href={`/projects/${slug}`}
 	class:list={[
-		'group relative flex h-full no-underline shadow-sm transition-colors duration-150 **:no-underline hover:shadow-md',
+		'group relative flex h-full no-underline shadow-sm transition-colors duration-150 **:no-underline hover:z-10 hover:shadow-md focus-within:z-10',
 		className,
 	]}
 >
