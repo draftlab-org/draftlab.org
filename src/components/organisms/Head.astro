@@ -29,7 +29,7 @@ const {
 
 const siteName = siteConfig.title;
 const fullTitle =
-  title === siteName || title.includes(siteName) ? title : `${title} — ${siteName}`;
+  title === siteName || title.includes(siteName) ? title : `${title} [${siteName}]`;
 
 const ogImage = image || (siteConfig.defaultOgImage as ImageMetadata | undefined);
 const ogImageSquare = siteConfig.defaultOgImageSquare as ImageMetadata | undefined;
