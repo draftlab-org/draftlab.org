@@ -46,43 +46,48 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 }));
 ---
 
-<div class="relative overflow-hidden">
-	<div class="grid items-center gap-10 md:grid-cols-2 md:gap-16">
-		<div class="skills-cloud-wrap hidden h-auto md:block">
-			<SkillsCloud client:visible skills={cloudSkills} />
-		</div>
-
-		<div
-			class="relative flex h-96 max-w-xl items-center md:col-start-2 md:h-auto"
-		>
-			{
-				eyebrow && (
-					<p class="mb-3 text-xs font-medium tracking-wide text-ink-muted uppercase">
-						{eyebrow}
-					</p>
-				)
-			}
-			<Heading
-				level={2}
-				class="gradient-phase bg-clip-text pb-2 text-balance text-transparent"
-			>
-				{heading}
-			</Heading>
-			{
-				body && (
-					<Text size="lg" class="mt-4 text-ink-soft">
-						{body}
-					</Text>
-				)
-			}
-		</div>
-	</div>
-
-	<div class="absolute top-0 -z-10 block h-96 w-lg opacity-15 md:hidden">
+<div
+	class="relative overflow-hidden md:grid md:grid-cols-2 md:items-center md:gap-16"
+>
+	{/* Single SkillsCloud island. On mobile: absolute backdrop behind the
+	    heading (decorative, opacity-15). On desktop: in-flow grid column 1
+	    alongside the heading. `md:relative md:z-10` is load-bearing — without
+	    a stacking context above siblings here, hover hit-tests don't reach the
+	    cloud on desktop and the mousemove-driven 3D effect dies. */}
+	<div
+		data-skills-cloud-root
+		class="pointer-events-none absolute top-0 -z-10 block h-96 w-lg opacity-15 md:pointer-events-auto md:relative md:z-10 md:col-start-1 md:h-auto md:w-auto md:opacity-100"
+	>
 		<div class="skills-cloud-wrap h-auto">
 			<SkillsCloud client:visible skills={cloudSkills} />
 		</div>
 	</div>
+
+	<div
+		class="relative flex h-96 max-w-xl items-center md:col-start-2 md:h-auto"
+	>
+		{
+			eyebrow && (
+				<p class="mb-3 text-xs font-medium tracking-wide text-ink-muted uppercase">
+					{eyebrow}
+				</p>
+			)
+		}
+		<Heading
+			level={2}
+			class="gradient-phase bg-clip-text pb-2 text-balance text-transparent"
+		>
+			{heading}
+		</Heading>
+		{
+			body && (
+				<Text size="lg" class="mt-4 text-ink-soft">
+					{body}
+				</Text>
+			)
+		}
+	</div>
+
 	<ul class="sr-only">
 		{skills.map((s) => <li>{s.name}</li>)}
 	</ul>
