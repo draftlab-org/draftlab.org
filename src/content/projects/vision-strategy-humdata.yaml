@@ -1,4 +1,4 @@
-name: Discoverability and federation for humanitarian data
+name: Discovery and federation for humanitarian data
 slug: vision-strategy-humdata
 status: published
 contentStatus: ready
@@ -38,7 +38,7 @@ body: >-
   source-agnostic, composable, and schema-governed, capable of generating
   outputs on demand, and of integrating multiple access patterns such as tabular
   APIs, cloud-native geospatial standards like STAC and GeoParquet, or MCP
-  servers for AI-assisted access. 
+  servers for AI-assisted access.
 
 
   The methodology blended architecture and product strategy with stakeholder

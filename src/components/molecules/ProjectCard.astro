@@ -59,7 +59,6 @@ const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
 		'group relative flex h-full no-underline shadow-sm transition-colors duration-150 **:no-underline hover:shadow-md',
 		className,
 	]}
-	style={`background: ${cardGradient};`}
 >
 	{
 		isActive && (
@@ -75,7 +74,31 @@ const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
 		)
 	}
 
-	<div class="relative z-10 flex flex-1 flex-col p-5">
+	{
+		image && (
+			<div class="relative w-1/3 overflow-hidden sm:w-1/2">
+				<Image
+					src={image}
+					alt=""
+					aria-hidden="true"
+					class="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl"
+				/>
+				<div class="relative h-full p-5">
+					<Image
+						src={image}
+						alt=""
+						aria-hidden="true"
+						class="h-full w-full object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+					/>
+				</div>
+			</div>
+		)
+	}
+
+	<div
+		class="relative z-10 flex flex-1 flex-col p-5"
+		style={`background: ${cardGradient};`}
+	>
 		<div class="mb-3 h-8 w-32">
 			<Image
 				src={clientLogo ?? draftlabLogo}
@@ -110,17 +133,4 @@ const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
 			)
 		}
 	</div>
-
-	{
-		image && (
-			<div class="relative w-1/2 shrink-0 p-5">
-				<Image
-					src={image}
-					alt=""
-					aria-hidden="true"
-					class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-				/>
-			</div>
-		)
-	}
 </a>
