@@ -1,8 +1,11 @@
-name: From data warehouse to discoverability layer for the humanitarian system
+name: Discoverability and federation for humanitarian data
 slug: vision-strategy-humdata
 status: published
-contentStatus: polish
-description: Architecture and strategic advisory for the Humanitarian Data Exchange — supporting its shift from a centralised hosting platform into a federated catalogue and entry point for data shared across the UN humanitarian system.
+contentStatus: ready
+description: Architecture and strategic advisory for the Humanitarian Data
+  Exchange, supporting its shift from a centralised hosting platform into a
+  federated catalogue and entry point for data shared across the UN humanitarian
+  system.
 client: humdata
 phases:
   - understand
@@ -10,7 +13,7 @@ phases:
 modalities:
   - clinic
 yearStart: 2025
-projectStatus: active
+projectStatus: complete
 featured: true
 skills:
   - strategic-advising
@@ -19,9 +22,27 @@ skills:
   - multi-stakeholder-coordination
   - user-research
 url: https://data.humdata.org/
-body: |
-  This is a technical advisory engagement with the Centre for Humanitarian Data, the team that runs the Humanitarian Data Exchange. The work supports a strategic transformation of HDX from a centralised data warehouse — where humanitarian datasets are uploaded, copied, and hosted — into a data discoverability layer serving as the main entry point for data shared across the UN humanitarian system. In that future state, authoritative data continues to live with the source organisations that produce it, while HDX provides the connective tissue: a unified catalogue, shared metadata standards, and routing to the right systems and APIs. A guiding principle throughout is that HDX must be positioned as a neutral service provider to all contributing agencies equally, including its own host organisation.
+body: >-
+  This is a technical advisory engagement with OCHA's Centre for Humanitarian
+  Data, the team that runs the Humanitarian Data Exchange. The work supported
+  envisioning a strategic transformation of HDX from a centralised archive into
+  a data discoverability layer, serving as the main entry point for data shared
+  across the UN humanitarian system. In that future state, authoritative data
+  would continue to live with  source organisations that produce it, while HDX
+  provides the connective tissue: a unified catalogue, shared metadata
+  standards, and routing to the right systems and APIs.
 
-  The advisory work spans architecture and strategy. On the technical side it explores what it means for HDX to become thinly cached, federated, source-agnostic, composable, and schema-governed — capable of generating outputs on demand rather than pre-storing files, and of integrating diverse access patterns: tabular APIs, cloud-native geospatial standards like STAC and GeoParquet, MCP servers for AI-assisted access. A central insight shaping the work is that earlier unified-access attempts struggled because HDX absorbed the burden of cleaning and aligning inconsistent upstream data. The current direction reverses that pattern: data quality becomes the responsibility of contributing agencies, and governance — shared standards, accountability at source, common metadata conventions — is treated as a precondition for the technical vision rather than something to retrofit later.
 
-  The methodology blends architecture work with stakeholder interviews, document synthesis, and diplomatic engagement around competing visions for what HDX should become. Deliverables to date include a structured vision document, presentation materials, architecture diagrams, and the design of an MVP prototype demonstrating the discoverability-layer model on a focused humanitarian-data domain with a small number of initial partner agencies.
+  The advisory work spanned architecture and strategy. On the technical side it
+  explored what it means for HDX to become thinly cached, federated,
+  source-agnostic, composable, and schema-governed, capable of generating
+  outputs on demand, and of integrating multiple access patterns such as tabular
+  APIs, cloud-native geospatial standards like STAC and GeoParquet, or MCP
+  servers for AI-assisted access. 
+
+
+  The methodology blended architecture and product strategy with stakeholder
+  interviews, document synthesis, and engagement around diverse visions for what
+  HDX could become. Deliverables to date include a structured vision document,
+  presentation materials, and architecture diagrams.
+yearEnd: 2026
