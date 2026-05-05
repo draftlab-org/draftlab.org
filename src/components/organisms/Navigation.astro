@@ -99,13 +99,13 @@ const isActive = (item: NavItemType) => {
 
 		<!-- Mobile Menu -->
 		<div class="md:hidden">
-			<MobileMenu client:load items={items} currentPath={currentPath} />
+			<MobileMenu client:idle items={items} currentPath={currentPath} />
 		</div>
 	</div>
 </nav>
 
 <!-- Rich Search Modal -->
-<RichSearch client:load />
+<RichSearch client:idle />
 
 <script>
 	function setupSearchButton() {

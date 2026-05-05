@@ -26,7 +26,7 @@ const hasTOC = withTOC && toc && toc.length > 0;
 					<Fragment set:html={html} />
 				</div>
 				<aside class="hidden lg:block">
-					<TOC client:load entries={toc!} />
+					<TOC client:idle entries={toc!} />
 				</aside>
 			</div>
 		</div>
