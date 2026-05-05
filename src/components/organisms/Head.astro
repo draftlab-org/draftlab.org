@@ -75,21 +75,43 @@ const fediverseCreator = (() => {
 <meta property="og:description" content={description} />
 {imageURL && <meta property="og:image" content={imageURL} />}
 {imageURL && <meta property="og:image:secure_url" content={imageURL} />}
-{ogImage?.width && <meta property="og:image:width" content={String(ogImage.width)} />}
-{ogImage?.height && <meta property="og:image:height" content={String(ogImage.height)} />}
+{
+	ogImage?.width && (
+		<meta property="og:image:width" content={String(ogImage.width)} />
+	)
+}
+{
+	ogImage?.height && (
+		<meta property="og:image:height" content={String(ogImage.height)} />
+	)
+}
 {imageURL && <meta property="og:image:type" content={mimeFor(ogImage)} />}
 {imageURL && <meta property="og:image:alt" content={imageAlt} />}
 
-{/* Optional square thumbnail variant — Slack inline previews, iMessage, RSS readers */}
+{
+	/* Optional square thumbnail variant — Slack inline previews, iMessage, RSS readers */
+}
 {imageSquareURL && <meta property="og:image" content={imageSquareURL} />}
-{imageSquareURL && <meta property="og:image:secure_url" content={imageSquareURL} />}
-{imageSquareURL && ogImageSquare?.width && (
-  <meta property="og:image:width" content={String(ogImageSquare.width)} />
-)}
-{imageSquareURL && ogImageSquare?.height && (
-  <meta property="og:image:height" content={String(ogImageSquare.height)} />
-)}
-{imageSquareURL && <meta property="og:image:type" content={mimeFor(ogImageSquare)} />}
+{
+	imageSquareURL && (
+		<meta property="og:image:secure_url" content={imageSquareURL} />
+	)
+}
+{
+	imageSquareURL && ogImageSquare?.width && (
+		<meta property="og:image:width" content={String(ogImageSquare.width)} />
+	)
+}
+{
+	imageSquareURL && ogImageSquare?.height && (
+		<meta property="og:image:height" content={String(ogImageSquare.height)} />
+	)
+}
+{
+	imageSquareURL && (
+		<meta property="og:image:type" content={mimeFor(ogImageSquare)} />
+	)
+}
 {imageSquareURL && <meta property="og:image:alt" content={imageAlt} />}
 
 <!-- Twitter -->
@@ -101,7 +123,19 @@ const fediverseCreator = (() => {
 {imageURL && <meta name="twitter:image:alt" content={imageAlt} />}
 
 <!-- Mastodon (Fediverse) author byline -->
-{fediverseCreator && <meta name="fediverse:creator" content={fediverseCreator} />}
+{
+	fediverseCreator && (
+		<meta name="fediverse:creator" content={fediverseCreator} />
+	)
+}
+
+<!-- Privacy-preserving analytics by self-hosted Umami -->
+<script
+	defer
+	src="https://umami.draftlab.dev/script.js"
+	data-performance="true"
+	data-do-not-track="true"
+	data-website-id="1e20487e-8c1d-4f9d-974b-d15a43c4ca66"></script>
 
 <!-- Local Font Declaration -->
 <Font cssVariable="--font-source-serif-4" preload />
