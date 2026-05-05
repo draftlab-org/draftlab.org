@@ -205,7 +205,7 @@ export default function RichSearch() {
                   className="mx-auto size-6 text-gray-400"
                   aria-hidden="true"
                 />
-                <p className="mt-4 font-semibold text-gray-900">
+                <p className="mt-4 font-bold text-gray-900">
                   No results found
                 </p>
                 <p className="mt-2">

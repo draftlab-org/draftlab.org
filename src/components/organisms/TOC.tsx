@@ -111,7 +111,7 @@ export default function TOC({ entries, title = 'On this page' }: TOCProps) {
 
   return (
     <nav className="sticky top-24 pt-6" aria-label="Table of contents">
-      <h4 className="mb-3 font-semibold tracking-wide text-gray-900 uppercase">
+      <h4 className="mb-3 font-bold tracking-wide text-gray-900 uppercase">
         {title}
       </h4>
       <TOCEntries

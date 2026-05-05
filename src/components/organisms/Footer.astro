@@ -77,7 +77,7 @@ const { html: footerBottomHtml } = await renderMarkdown(siteConfig.footer.bottom
 				{
 					footerNav1 && (
 						<div>
-							<h3 class="mb-4 font-semibold">{footerNav1.data.title}</h3>
+							<h3 class="mb-4 font-bold">{footerNav1.data.title}</h3>
 							<ul class="space-y-3">
 								{footerNav1.data.items.map((item) => {
 									// Only render link items in footer (no dropdowns)
@@ -101,7 +101,7 @@ const { html: footerBottomHtml } = await renderMarkdown(siteConfig.footer.bottom
 				{
 					footerNav2 && (
 						<div>
-							<h3 class="mb-4 font-semibold">{footerNav2.data.title}</h3>
+							<h3 class="mb-4 font-bold">{footerNav2.data.title}</h3>
 							<ul class="space-y-3">
 								{footerNav2.data.items.map((item) => {
 									// Only render link items in footer (no dropdowns)

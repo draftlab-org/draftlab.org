@@ -117,7 +117,7 @@ export default function PeopleFilteredGrid({
             loading="lazy"
           />
         </div>
-        <h4 className="mb-2 font-semibold">{person.name}</h4>
+        <h4 className="mb-2 font-bold">{person.name}</h4>
         <p className="">{person.title}</p>
       </div>
     </a>
@@ -144,7 +144,7 @@ export default function PeopleFilteredGrid({
         <div className="space-y-12">
           {Object.entries(groupedPeople).map(([section, sectionPeople]) => (
             <div key={section}>
-              <h3 className="mb-6 text-2xl font-semibold">{section}</h3>
+              <h3 className="mb-6 text-2xl font-bold">{section}</h3>
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {sectionPeople.map(renderPersonCard)}
               </div>
