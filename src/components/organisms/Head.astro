@@ -41,6 +41,8 @@ const imageAlt = `${siteName} — ${siteConfig.description}`;
 const mimeFor = (img?: ImageMetadata) =>
   img?.format ? `image/${img.format === 'jpg' ? 'jpeg' : img.format}` : 'image/png';
 
+const isProd = import.meta.env.PROD;
+
 // Derive `@user@instance` from a Mastodon profile URL (e.g. https://mastodon.social/@tingeber)
 const mastodonUrl = siteConfig.social?.mastodon;
 const fediverseCreator = (() => {
@@ -129,15 +131,22 @@ const fediverseCreator = (() => {
 	)
 }
 
-<!-- Privacy-preserving analytics by self-hosted Umami -->
-<script
-	is:inline
-	defer
-	src="https://umami.draftlab.dev/script.js"
-	data-performance="true"
-	data-do-not-track="true"
-	data-website-id="1e20487e-8c1d-4f9d-974b-d15a43c4ca66"
-	transition:persist></script>
+{
+	isProd && (
+		<>
+			{/* Privacy-preserving analytics by self-hosted Umami */}
+			<script
+				is:inline
+				defer
+				src="https://umami.draftlab.dev/script.js"
+				data-performance="true"
+				data-do-not-track="true"
+				data-website-id="1e20487e-8c1d-4f9d-974b-d15a43c4ca66"
+				transition:persist
+			/>
+		</>
+	)
+}
 
 <!-- Local Font Declaration -->
 <Font cssVariable="--font-source-serif-4" preload />
