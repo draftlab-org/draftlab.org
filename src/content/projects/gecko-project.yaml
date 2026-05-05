@@ -1,8 +1,10 @@
 name: Long-form interactive storytelling platform
 slug: gecko-project
 status: published
-contentStatus: polish
-description: A newsroom-grade publishing platform built for The Gecko Project — designed so a small investigative team can ship long-form, media-rich reports that hold their own against far better-funded outlets.
+contentStatus: ready
+description: An award-winning publishing platform built for The Gecko Project,
+  designed so a small investigative team can publish  newsroom-grade, long-form,
+  media-rich reports.
 client: gecko-project
 phases:
   - define
@@ -11,8 +13,8 @@ phases:
 modalities:
   - studio
 yearStart: 2023
-yearEnd: 2026
-projectStatus: active
+yearEnd: 2025
+projectStatus: complete
 featured: true
 skills:
   - web-platform-development
@@ -20,7 +22,18 @@ skills:
   - data-architecture
   - human-centered-design
 url: https://thegeckoproject.org/
-body: |
-  The Gecko Project produces global newsroom-level long-form investigative journalism, and they needed a publishing platform whose surface matched the quality of their reporting. Photography, video, data visualisations — the media isn't decoration in their stories, it carries part of the argument. The tooling also needed to match the speed and ease of use of platforms with much bigger budgets and engineering teams behind them.
+body: >-
+  The Gecko Project is a nonprofit newsroom that investigates the role of land
+  use in some of the most pressing global challenges: climate change,
+  deforestation, the collapse of biodiversity, food security, and the rights of
+  marginalised communities. Gecko needed a publishing platform that matched the
+  quality of their reporting. Photography, video, and data visualisations are
+  integral to their storytelling, and they needed to match the speed and ease of
+  use of platforms with much bigger budgets and engineering teams behind them.
 
-  We built a fully static site that runs on edge networks, with an editorial flow in DecapCMS that keeps the moving pieces small and the source of truth single. Editors work directly against the same content the public reads. The architecture is designed to keep the hosting bill flat as readership grows and to give the team something they can keep running without us — a long-term build whose maintenance shape is as much of the design as the front-end is.
+
+  We built a fully static site that runs on edge networks, with an editorial
+  flow in DecapCMS that keeps the moving pieces small and a single source of
+  truth. Over the years, we enhanced the platform with features such as
+  full-screen video slides, pre-story show reels, and modular full-site and
+  per-section color templates.
