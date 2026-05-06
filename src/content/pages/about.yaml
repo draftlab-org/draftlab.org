@@ -1,43 +1,60 @@
 title: About
 status: published
-description: Draftlab is a design and technology studio working with civil society, NGOs, and open tech projects to build tools that serve people.
+description: Draftlab is a design and technology studio working with civil
+  society, NGOs, and open tech projects to build tools that serve people.
 sections:
   - type: richText
+    background:
+      bgColor: white
+      bgType: full
+    withTOC: false
     content: >-
-      Draftlab is a design and technology studio that works with civil society organisations, NGOs, open tech projects, and multi-stakeholder initiatives. We build tools that serve people.
+      # About Draftlab
 
 
-      We believe technology should be appropriate to its context: secure where it needs to be, sovereign where it matters, simple where complexity would be a burden. Our clients are under-resourced, values-driven, and navigating problems that don't have neat technical solutions. We meet them where they are.
+      Draftlab is a design and technology studio that works with civil society
+      organisations, NGOs, open tech projects, and multi-stakeholder
+      initiatives. We build tools that serve people.
 
 
-      What makes us different is a disposition. We treat every engagement as a design problem, whether that means facilitating a workshop, writing a technical specification, building a platform, or helping a team govern the thing they've already built. We show up as partners.
+      We believe technology should be appropriate to its context: secure where
+      it needs to be, sovereign where it matters, simple where complexity would
+      be a burden. Our clients are under-resourced, values-driven, and
+      navigating problems that don't have neat technical solutions. We meet them
+      where they are.
+
+
+      What makes us different is a disposition. We treat every engagement as a
+      design problem, whether that means facilitating a workshop, writing a
+      technical specification, building a platform, or helping a team govern the
+      thing they've already built. We show up as partners.
   - type: modalitiesOverview
     title: Our work modes
   - type: phasesOverview
     title: Full lifecycle
-
   - type: skills
     title: Our toolbox
   - type: richText
     background:
       bgColor: phase-gradient-light
+      bgType: full
+    withTOC: false
     content: >-
       ### A collaborative practice
 
 
-      Draftlab is a collective. We bring together independent practitioners with deep, complementary expertise across facilitation, research, technology, and humanitarian systems. On every project, we assemble the right team for the work at hand. Our clients get senior, experienced people who care about the outcome.
+      Draftlab is a collective. We bring together independent practitioners with
+      deep, complementary expertise across facilitation, research, technology,
+      and humanitarian systems. On every project, we assemble the right team for
+      the work at hand. Our clients get senior, experienced people who care
+      about the outcome.
   - type: people
+    background:
+      bgColor: white
+      bgType: full
   - type: uxdCta
     background:
       bgColor: phase-gradient-light
       bgType: full
-  # - type: button
-  #   buttons:
-  #     - variant: primary
-  #       size: lg
-  #       href: /projects
-  #       text: See our projects
-  #     - variant: outline
-  #       size: lg
-  #       href: /get-in-touch
-  #       text: Get in touch
+permalink: about
+background: white
