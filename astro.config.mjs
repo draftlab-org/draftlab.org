@@ -25,11 +25,16 @@ export default defineConfig({
   experimental: {
     contentIntellisense: true,
   },
+  // No italic styles are used on the site, so we restrict each family to
+  // `normal` only — halves the @font-face count and the on-demand byte
+  // payload. If you ever introduce <em> or italic classes, add 'italic'
+  // back to the relevant family.
   fonts: [
     {
       provider: fontProviders.bunny(),
       name: 'Fraunces',
       weights: [300, 400, 500, 700],
+      styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
       cssVariable: '--font-fraunces',
     },
@@ -37,6 +42,7 @@ export default defineConfig({
       provider: fontProviders.bunny(),
       name: 'Source Serif 4',
       weights: [400, 500, 700],
+      styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
       cssVariable: '--font-source-serif-4',
     },
@@ -44,6 +50,7 @@ export default defineConfig({
       provider: fontProviders.bunny(),
       name: 'JetBrains Mono',
       weights: [400, 500],
+      styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
       cssVariable: '--font-jetbrains-mono',
     },

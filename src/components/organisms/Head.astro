@@ -148,9 +148,16 @@ const fediverseCreator = (() => {
 	)
 }
 
-<!-- Local Font Declaration -->
-<Font cssVariable="--font-source-serif-4" preload />
-<Font cssVariable="--font-fraunces" preload />
+<!-- Local Font Declaration.
+     `preload` is granular: preload only the variants needed to paint above-the-fold
+     (Fraunces 700 latin = the hero headline, the LCP element on `/`). The other
+     declared weights/subsets still load on demand via the injected @font-face rules.
+     Source Serif 4 (body) and JetBrains Mono load lazily — no preload. -->
+<Font
+	cssVariable="--font-fraunces"
+	preload={[{ weight: 700, style: 'normal', subset: 'latin' }]}
+/>
+<Font cssVariable="--font-source-serif-4" />
 <Font cssVariable="--font-jetbrains-mono" />
 
 <ClientRouter />
