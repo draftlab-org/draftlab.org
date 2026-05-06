@@ -448,6 +448,7 @@ export default function UxdApplicationForm({ formId = 'uxd-apply' }: Props) {
           <button
             type="submit"
             disabled={!canSubmit}
+            data-umami-event="uxd-application-submit"
             className="button-base button-primary button-size-lg cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
           >
             {submitting ? 'Sending…' : 'Send application'}

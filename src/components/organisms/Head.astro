@@ -144,6 +144,27 @@ const fediverseCreator = (() => {
 				data-website-id="1e20487e-8c1d-4f9d-974b-d15a43c4ca66"
 				transition:persist
 			/>
+			{/* Auto-tag outbound links for Umami. Runs on initial load and
+			    after each Astro view transition. */}
+			<script is:inline>
+				{`
+					(function () {
+						if (document.documentElement.dataset.outboundLinkTracker) return;
+						document.documentElement.dataset.outboundLinkTracker = 'true';
+						function tag() {
+							var host = window.location.host;
+							document.querySelectorAll('a[href]').forEach(function (a) {
+								if (!a.host || a.host === host) return;
+								if (a.dataset.umamiEvent) return;
+								a.dataset.umamiEvent = 'outbound-link-click';
+								a.dataset.umamiEventUrl = a.href;
+							});
+						}
+						tag();
+						document.addEventListener('astro:page-load', tag);
+					})();
+				`}
+			</script>
 		</>
 	)
 }
