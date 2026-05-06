@@ -8,6 +8,13 @@
   "social": {
     "personalSite": "https://facilitationmindset.com/"
   },
-  "sections": ["Collaborator"],
-  "status": "published"
+  "sections": [
+    "Collaborator"
+  ],
+  "status": "published",
+  "skills": [
+    "capacity-building",
+    "multi-stakeholder-coordination",
+    "strategic-advising"
+  ]
 }
