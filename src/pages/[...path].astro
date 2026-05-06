@@ -1,10 +1,8 @@
 ---
 import { getEntry } from 'astro:content';
 import Banner from '@components/atoms/Banner.astro';
-import PeopleLanding from '@components/landing/PeopleLanding.astro';
 import Sections from '@components/sections/Sections.astro';
 import PageLayout from '@layouts/PageLayout.astro';
-import SectionLayout from '@layouts/SectionLayout.astro';
 import { mapColorToVariant } from '@utils/content';
 import { getPages } from '@utils/pages';
 
@@ -26,13 +24,6 @@ const { page } = Astro.props;
 
 const siteConfig = await getEntry('site', 'config');
 const archivedBanner = siteConfig?.data.archivedBanner;
-
-// Landing components for collection index pages
-const permalink = page.data.permalink;
-const landingPages: Record<string, string> = {
-  people: 'people',
-};
-const landingType = landingPages[permalink];
 ---
 
 <PageLayout title={page.data.title} description={page.data.description} image={page.data.heroImage}>
@@ -43,11 +34,4 @@ const landingType = landingPages[permalink];
 	)}
 
 	<Sections sectionItems={page.data.sections} />
-
-	{/* Append landing content for collection index pages */}
-	{landingType === 'people' && (
-		<SectionLayout>
-			<PeopleLanding />
-		</SectionLayout>
-	)}
 </PageLayout>

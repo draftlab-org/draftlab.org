@@ -1,7 +1,6 @@
 import { defineCollection, type ImageFunction, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import peopleCategories from './content/categories/people.json';
 
 const statusSchema = z
   .enum(['draft', 'published', 'archived'])
@@ -67,9 +66,6 @@ const createSchemas = (image: ImageFunction) => {
       })
       .optional(),
     skills: z.array(z.string()).optional(),
-    sections: z.array(
-      z.enum(peopleCategories.categories as [string, ...string[]])
-    ),
     status: statusSchema,
   });
 
@@ -122,13 +118,6 @@ const pagesCollection = defineCollection({
       }),
       SectionCommonSchema.extend({
         type: z.literal('people'),
-        category: z.string().optional(),
-      }),
-      SectionCommonSchema.extend({
-        type: z.literal('framework'),
-        title: z.string().optional(),
-        description: z.string().optional(),
-        showProjects: z.boolean().optional().default(true),
       }),
       SectionCommonSchema.extend({
         type: z.literal('feedGrid'),
@@ -263,19 +252,6 @@ const modalitiesCollection = defineCollection({
     tagline: z.string(),
     description: z.string(),
     order: z.number(),
-  }),
-});
-
-// ── Framework cells collection (12 cells: 4 phases x 3 modalities) ──
-
-const frameworkCellsCollection = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: './src/content/frameworkCells' }),
-  schema: z.object({
-    phase: phaseSlugSchema,
-    modality: modalitySlugSchema,
-    description: z.string(),
-    order: z.number(),
-    status: statusSchema,
   }),
 });
 
@@ -456,26 +432,13 @@ const navigationCollection = defineCollection({
   }),
 });
 
-// ── Categories collection ──
-
-const categoriesCollection = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: './src/content/categories' }),
-  schema: z.object({
-    id: z.string(),
-    name: z.string(),
-    categories: z.array(z.string()),
-  }),
-});
-
 export const collections = {
   people: peopleCollection,
   pages: pagesCollection,
   site: siteCollection,
   navigation: navigationCollection,
-  categories: categoriesCollection,
   phases: phasesCollection,
   modalities: modalitiesCollection,
-  frameworkCells: frameworkCellsCollection,
   skills: skillsCollection,
   projects: projectsCollection,
   organisations: organisationsCollection,

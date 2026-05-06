@@ -294,27 +294,8 @@ components:
       - name: background
         label: Section Background
         component: background_select
-      - name: category
-        label: Category
-        type: string
-        description: Filter people by section (e.g. "Team"). Leave empty to show all.
 
   # --- Draftlab-specific section components ---
-
-  framework_section:
-    type: object
-    fields:
-      - name: title
-        label: Title
-        type: string
-      - name: description
-        label: Description
-        type: string
-      - name: showProjects
-        label: Show Project Tags
-        type: boolean
-        default: true
-        description: Display project name tags inside matrix cells
 
   feed_grid_section:
     type: object
@@ -500,6 +481,80 @@ components:
         type: rich-text
         description: Optional web-only enrichment shown below the main update.
 
+  skills_cloud_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: eyebrow
+        label: Eyebrow
+        type: string
+        description: Small mono-uppercase kicker above the heading.
+      - name: heading
+        label: Heading
+        type: string
+      - name: body
+        label: Body
+        type: string
+
+  uxd_cta_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: title
+        label: Title
+        type: string
+      - name: statement
+        label: Statement
+        type: string
+        description: Headline statement above the description.
+      - name: description
+        label: Description
+        type: string
+      - name: href
+        label: CTA Link URL
+        type: string
+        description: Where the CTA button links to.
+
+  apply_for_uxd_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: string
+
+  cal_embed_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: calLink
+        label: Cal.com link
+        type: string
+        description: e.g. 'tin-geber/intro' — the path after cal.com/.
+      - name: namespace
+        label: Namespace
+        type: string
+        description: Optional Cal.com embed namespace.
+      - name: origin
+        label: Origin
+        type: string
+        description: Optional Cal.com origin URL.
+      - name: minHeight
+        label: Minimum Height
+        type: string
+        description: CSS height value (e.g. '600px').
+
   flexi_section:
     type: object
     fields:
@@ -633,10 +688,6 @@ content:
             label: People Section
             component: people_section
 
-          - name: framework
-            label: Framework Matrix
-            component: framework_section
-
           - name: projectsRoll
             label: Projects Roll
             component: projects_roll_section
@@ -668,6 +719,22 @@ content:
           - name: skills
             label: Skills
             component: skills_section
+
+          - name: skillsCloud
+            label: Skills Cloud
+            component: skills_cloud_section
+
+          - name: uxdCta
+            label: UXD CTA
+            component: uxd_cta_section
+
+          - name: applyForUxd
+            label: Apply for UXD
+            component: apply_for_uxd_section
+
+          - name: calEmbed
+            label: Cal.com Embed
+            component: cal_embed_section
 
           - name: flexi
             label: Flexi Section
@@ -1006,20 +1073,6 @@ content:
           label: '{fields.name}'
         description: Skills this person brings to the practice
 
-      - name: sections
-        label: Sections/Departments
-        type: select
-        required: true
-        options:
-          multiple: true
-          values:
-            - label: Team
-              name: Team
-            - label: Collaborator
-              name: Collaborator
-            - label: Advisor
-              name: Advisor
-
   # --------------------------------------------------------------------------
   # Phases (framework data)
   # --------------------------------------------------------------------------
@@ -1139,75 +1192,6 @@ content:
         required: true
 
   # --------------------------------------------------------------------------
-  # Framework Cells (12 phase x modality intersections)
-  # --------------------------------------------------------------------------
-  - name: frameworkCells
-    label: Framework Cells
-    type: collection
-    path: src/content/frameworkCells
-    format: json
-    subfolders: false
-    view:
-      fields: [phase, modality, status]
-      primary: phase
-      sort: [order]
-      default:
-        sort: order
-        order: asc
-    fields:
-      - name: phase
-        label: Phase
-        type: select
-        required: true
-        options:
-          values:
-            - label: Understand
-              name: understand
-            - label: Define
-              name: define
-            - label: Deliver
-              name: deliver
-            - label: Sustain
-              name: sustain
-
-      - name: modality
-        label: Modality
-        type: select
-        required: true
-        options:
-          values:
-            - label: Clinic
-              name: clinic
-            - label: Studio
-              name: studio
-            - label: Community
-              name: community
-
-      - name: description
-        label: Description
-        type: text
-        required: true
-
-      - name: order
-        label: Display Order
-        type: number
-        required: true
-
-      - name: status
-        label: Status
-        type: select
-        required: true
-        default: published
-        options:
-          values:
-            - label: Draft
-              name: draft
-            - label: Published
-              name: published
-            - label: Archived
-              name: archived
-
-  # --------------------------------------------------------------------------
   # Skills
   # --------------------------------------------------------------------------
   - name: skills
@@ -1312,36 +1296,6 @@ content:
           value: '{slug}'
           label: '{fields.name}'
         description: Optional — leave empty if the quote isn't tied to a specific project
-
-  # --------------------------------------------------------------------------
-  # Categories
-  # --------------------------------------------------------------------------
-  - name: categories
-    label: Categories
-    type: collection
-    path: src/content/categories
-    format: json
-    filename: '{fields.id}.json'
-    subfolders: false
-    view:
-      fields: [name, id]
-      primary: name
-    fields:
-      - name: id
-        label: ID
-        type: string
-        required: true
-
-      - name: name
-        label: Name
-        type: string
-        required: true
-
-      - name: categories
-        label: Categories
-        type: string
-        list: true
-        required: true
 
   # --------------------------------------------------------------------------
   # Site Settings (singleton)

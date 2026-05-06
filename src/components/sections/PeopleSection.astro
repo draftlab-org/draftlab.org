@@ -5,20 +5,10 @@ import SkillIcon from '@components/atoms/SkillIcon.astro';
 import SocialLinks from '@components/molecules/SocialLinks.astro';
 import { isVisible } from '@utils/content';
 
-export interface Props {
-  category?: string;
-}
-
-const { category } = Astro.props;
-
 const peopleEntries = await getCollection('people');
-const allPeople = peopleEntries
+const people = peopleEntries
   .filter((entry) => isVisible(entry))
   .map((entry) => entry.data);
-
-const people = category
-  ? allPeople.filter((person) => person.sections.includes(category))
-  : allPeople;
 ---
 
 <div class="grid gap-x-12 gap-y-20 md:grid-cols-2 lg:grid-cols-3">

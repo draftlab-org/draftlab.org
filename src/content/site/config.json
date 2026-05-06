@@ -9,9 +9,9 @@
   "defaultLogoDark": "/src/assets/draftlab-logo-dark.svg",
   "social": {
     "bluesky": "https://bsky.app/profile/draftlab.org",
-    "mastodon": "https://mastodon.social/@tingeber",
+    "mastodon": "https://mastodon.social/@draftlab",
     "github": "https://github.com/draftlab-org",
-    "linkedin": "https://linkedin.com/company/draftlab"
+    "linkedin": "https://linkedin.com/company/draftlab-org"
   },
   "footer": {
     "bottom": "Some rights reserved. Unless specified differently, all original creative content on this website is [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/). <br /> Privacy-preserving analytics provided by self-hosted [Umami](https://umami.is/). People images by [OpenPeeps](https://openpeeps.com/). Powered by [Scaffold](https://github.com/draftlab-org/scaffold)."

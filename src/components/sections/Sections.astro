@@ -5,7 +5,6 @@ import CalEmbedSection from '@components/sections/CalEmbedSection.astro';
 import CardSection from '@components/sections/CardSection.astro';
 import FeedGridSection from '@components/sections/FeedGridSection.astro';
 import FlexiSection from '@components/sections/FlexiSection.astro';
-import FrameworkSection from '@components/sections/FrameworkSection.astro';
 import HeroSection from '@components/sections/HeroSection.astro';
 import HowWeWorkSection from '@components/sections/HowWeWorkSection.astro';
 import LatestUpdatesSection from '@components/sections/LatestUpdatesSection.astro';
@@ -69,19 +68,7 @@ const { sectionItems } = Astro.props;
             />
           );
         case 'people':
-          return (
-            <PeopleSection
-              category={section.category}
-            />
-          );
-        case 'framework':
-          return (
-            <FrameworkSection
-              title={section.title}
-              description={section.description}
-              showProjects={section.showProjects}
-            />
-          );
+          return <PeopleSection />;
         case 'projectsRoll':
           return (
             <ProjectsRollSection

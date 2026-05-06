@@ -59,47 +59,6 @@ export async function resolvePeople(
 }
 
 /**
- * Get people filtered by section
- */
-export async function getPeopleBySection(section: string): Promise<Person[]> {
-  const people = await getAllPeople();
-  return people.filter((person) => person.sections.includes(section as any));
-}
-
-/**
- * Get all unique sections from people
- */
-export async function getAllSections(): Promise<string[]> {
-  const people = await getAllPeople();
-  const sections = new Set<string>();
-  for (const person of people) {
-    for (const section of person.sections) {
-      sections.add(section);
-    }
-  }
-  return Array.from(sections).sort();
-}
-
-/**
- * Group people by section
- * Note: A person can appear in multiple sections
- */
-export function groupPeopleBySection(
-  people: Person[]
-): Record<string, Person[]> {
-  const grouped: Record<string, Person[]> = {};
-  people.forEach((person) => {
-    person.sections.forEach((section) => {
-      if (!grouped[section]) {
-        grouped[section] = [];
-      }
-      grouped[section].push(person);
-    });
-  });
-  return grouped;
-}
-
-/**
  * Get the URL for a person's profile
  */
 export function getPersonUrl(person: Person): string {
