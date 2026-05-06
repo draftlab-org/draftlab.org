@@ -77,22 +77,46 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 		<a
 			href="/projects"
 			data-component
-			class="group mb-10 inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600"
+			data-projects-back
+			class="group mb-10 inline-flex items-center gap-4 no-underline"
 		>
-			<span class="transition-transform group-hover:-translate-x-0.5">&larr;</span>
-			All projects
+			<span
+				aria-hidden="true"
+				class="font-mono text-sm text-ink-soft transition-transform duration-300 group-hover:-translate-x-1"
+			>
+				&larr;
+			</span>
+			<span
+				aria-hidden="true"
+				class="block h-px w-12 bg-ink-muted/60 transition-[width,background-color] duration-200 group-hover:w-14 group-hover:bg-ink"
+			></span>
+			<span
+				data-projects-back-label
+				data-alt-label="Back to project selection"
+				class="font-mono text-sm tracking-wide text-ink-soft uppercase"
+			>
+				All projects
+			</span>
 		</a>
 
 		{/* Hero image — only when present, framed in corner-brackets */}
 		{
 			project.image && (
-				<figure class="corner-brackets mb-10 aspect-3/2 w-full p-3 text-ink">
-					<div class="h-full w-full overflow-hidden">
+				<figure class="mb-10 aspect-3/2 w-full corner-brackets p-3 text-ink">
+					<div class="relative h-full w-full overflow-hidden">
 						<Image
 							src={project.image}
-							alt={project.name}
-							class="block h-full w-full object-cover"
+							alt=""
+							aria-hidden="true"
+							class="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl"
 						/>
+						<div class="relative h-full p-5">
+							<Image
+								src={project.image}
+								alt={project.name}
+								class="h-full w-full object-contain"
+							/>
+						</div>
 					</div>
 				</figure>
 			)
@@ -179,7 +203,9 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 														class="h-7 w-auto"
 													/>
 												) : (
-													<span class="text-sm text-ink-muted">{partner.name}</span>
+													<span class="text-sm text-ink-muted">
+														{partner.name}
+													</span>
 												)}
 											</a>
 										) : partner.image ? (
@@ -202,7 +228,7 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 		</header>
 
 		{/* Colophon — compressed metadata strip */}
-		<span class="block gradient-rule mb-5" aria-hidden="true"></span>
+		<span class="mb-5 block gradient-rule" aria-hidden="true"></span>
 		<dl
 			class="grid grid-cols-1 items-start gap-x-6 gap-y-6 pb-5 sm:grid-cols-2"
 		>
@@ -224,7 +250,7 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 								return (
 									<>
 										{i > 0 && (
-											<span class="flex-1 gradient-rule" aria-hidden="true" />
+											<span class="gradient-rule flex-1" aria-hidden="true" />
 										)}
 										<span
 											class="inline-flex shrink-0 items-center gap-2 font-mono text-[0.65rem] tracking-[0.2em] uppercase sm:text-sm sm:tracking-wider"
@@ -322,11 +348,13 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 				</dd>
 			</div>
 		</dl>
-		<span class="block gradient-rule mb-12" aria-hidden="true"></span>
+		<span class="mb-12 block gradient-rule" aria-hidden="true"></span>
 
 		{/* Narrative — lead + body */}
 		<section class="mb-12">
-			<p class="font-serif text-xl leading-relaxed text-ink-soft md:text-[1.4rem]">
+			<p
+				class="font-serif text-xl leading-relaxed text-ink-soft md:text-[1.4rem]"
+			>
 				{project.description}
 			</p>
 			{
@@ -342,7 +370,8 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 		{/* Skills */}
 		{
 			resolvedSkills.length > 0 && (
-				<section class="mb-12 pt-8"><span class="block gradient-rule -mt-8 mb-8" aria-hidden="true"></span>
+				<section class="mb-12 pt-8">
+					<span class="-mt-8 mb-8 block gradient-rule" aria-hidden="true" />
 					<h2 class="mb-4 font-serif text-sm font-medium tracking-widest text-ink-muted uppercase">
 						Skills applied
 					</h2>
@@ -363,14 +392,20 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 		}
 
 		{/* Updates */}
-		<div class="pt-8"><span class="block gradient-rule -mt-8 mb-8" aria-hidden="true"></span>
-			<ProjectUpdatesTimeline updates={project.updates} />
-		</div>
-
-		{/* External link */}
 		{
+			(project.updates?.length ?? 0) > 0 && (
+				<div class="pt-8">
+					<span class="-mt-8 mb-8 block gradient-rule" aria-hidden="true" />
+					<ProjectUpdatesTimeline updates={project.updates} />
+				</div>
+			)
+		}
+
+		{/* External link - currently removed */}
+		<!-- {
 			project.url && (
-				<div class="mt-12 pt-8"><span class="block gradient-rule -mt-8 mb-8" aria-hidden="true"></span>
+				<div class="mt-12 pt-8">
+					<span class="-mt-8 mb-8 block gradient-rule" aria-hidden="true" />
 					<a
 						href={project.url}
 						target="_blank"
@@ -383,18 +418,30 @@ const statusLabel = isActive ? 'Active' : 'Complete';
 					</a>
 				</div>
 			)
-		}
-
-		{/* Back to feed */}
-		<div class="mt-16 pt-8"><span class="block gradient-rule -mt-8 mb-8" aria-hidden="true"></span>
-			<a
-				href="/projects"
-				data-component
-				class="group inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-secondary-600"
-			>
-				<span class="transition-transform group-hover:-translate-x-0.5">&larr;</span>
-				Back to all projects
-			</a>
-		</div>
+		} -->
 	</article>
 </PageLayout>
+
+<script>
+	const updateProjectsBackLinks = () => {
+		const params = new URLSearchParams(window.location.search);
+		const phases = params.get('phases');
+		const skills = params.get('skills');
+		if (!phases && !skills) return;
+		const filtered = new URLSearchParams();
+		if (phases) filtered.set('phases', phases);
+		if (skills) filtered.set('skills', skills);
+		const href = `/projects?${filtered.toString()}`;
+		document
+			.querySelectorAll<HTMLAnchorElement>('[data-projects-back]')
+			.forEach((el) => {
+				el.setAttribute('href', href);
+				const label = el.querySelector<HTMLElement>(
+					'[data-projects-back-label]'
+				);
+				if (label?.dataset.altLabel) label.textContent = label.dataset.altLabel;
+			});
+		history.replaceState(history.state, '', window.location.pathname);
+	};
+	document.addEventListener('astro:page-load', updateProjectsBackLinks);
+</script>

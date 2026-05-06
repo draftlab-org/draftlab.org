@@ -137,6 +137,11 @@ export default function FeedFilter({
     });
     const empty = document.getElementById(`${gridId}-empty`);
     if (empty) empty.toggleAttribute('hidden', visibleSlugs.size !== 0);
+    const search = window.location.search;
+    grid.querySelectorAll<HTMLAnchorElement>('a[data-base-href]').forEach((a) => {
+      const base = a.dataset.baseHref ?? '';
+      a.setAttribute('href', search ? `${base}${search}` : base);
+    });
   }, [state, gridId, hydrated, visibleSlugs]);
 
   useEffect(() => {
