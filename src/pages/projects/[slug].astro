@@ -14,14 +14,12 @@ export const getStaticPaths = (async () => {
 	const projects = await getCollection('projects');
 	const orgs = await getCollection('organisations');
 	const skills = await getCollection('skills');
-	const phases = await getCollection('phases');
 	const modalities = await getCollection('modalities');
 
 	const orgMap = new Map(orgs.map((o) => [o.data.id, o.data]));
 	const skillMap = new Map(
 		skills.filter((s) => isVisible(s)).map((s) => [s.data.slug, s.data])
 	);
-	const phaseMap = new Map(phases.map((p) => [p.data.slug, p.data]));
 	const modalityMap = new Map(modalities.map((m) => [m.data.slug, m.data]));
 
 	return projects
@@ -32,16 +30,13 @@ export const getStaticPaths = (async () => {
 				project: entry.data,
 				client: entry.data.client ? orgMap.get(entry.data.client) : undefined,
 				resolvedPartners: (entry.data.partners ?? [])
-					.map((p: string) => orgMap.get(p))
+					.map((p) => orgMap.get(p))
 					.filter(Boolean),
 				resolvedSkills: (entry.data.skills ?? [])
-					.map((s: string) => skillMap.get(s))
-					.filter(Boolean),
-				resolvedPhases: entry.data.phases
-					.map((p: string) => phaseMap.get(p))
+					.map((s) => skillMap.get(s))
 					.filter(Boolean),
 				resolvedModalities: entry.data.modalities
-					.map((m: string) => modalityMap.get(m))
+					.map((m) => modalityMap.get(m))
 					.filter(Boolean),
 			},
 		}));
@@ -52,7 +47,6 @@ const {
 	client,
 	resolvedPartners,
 	resolvedSkills,
-	resolvedPhases,
 	resolvedModalities,
 } = Astro.props;
 const bodyHtml = project.body
