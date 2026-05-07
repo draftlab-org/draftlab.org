@@ -12,7 +12,7 @@ phases:
   - deliver
 modalities:
   - clinic
-yearStart: 2026
+dateStart: 2026-01-01
 projectStatus: active
 featured: false
 skills:
@@ -28,5 +28,4 @@ body: >-
 
 
   The work is in the polish stage as we prepare for launch.
-yearEnd: 2026
 image: /src/assets/Screenshot 2026-05-05 at 15.35.57.png

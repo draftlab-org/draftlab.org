@@ -1,5 +1,5 @@
 @theme {
-  --font-sans: var(--font-source-serif-4);
+  --font-sans: var(--font-fraunces);
   --font-serif: var(--font-fraunces);
   --font-mono: var(--font-jetbrains-mono);
 }

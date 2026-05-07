@@ -14,7 +14,7 @@ phases:
   - sustain
 modalities:
   - studio
-yearStart: 2024
+dateStart: 2024-01-01
 projectStatus: complete
 featured: true
 skills:
@@ -81,4 +81,4 @@ updates:
       data-mapping work, broadened across WVI's disaster-management ecosystem.
 partners:
   - humanitarian-info
-yearEnd: 2025
+dateEnd: 2025-12-31

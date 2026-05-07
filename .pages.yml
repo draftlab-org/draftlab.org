@@ -251,6 +251,18 @@ components:
         required: true
         description: Markdown content for this section
 
+  callout_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: content
+        label: Content
+        type: rich-text
+        required: true
+        description: Markdown content rendered inside a corner-bracket frame.
+
   button_section:
     type: object
     fields:
@@ -581,6 +593,9 @@ components:
       - name: richText
         label: Rich Text Section
         component: richtext_section
+      - name: callout
+        label: Callout Section
+        component: callout_section
       - name: button
         label: Button Section
         component: button_section
@@ -675,6 +690,10 @@ content:
           - name: richText
             label: Rich Text Section
             component: richtext_section
+
+          - name: callout
+            label: Callout Section
+            component: callout_section
 
           - name: button
             label: Button Section
@@ -861,13 +880,13 @@ content:
           label: '{fields.name}'
         description: Types of work involved in this project
 
-      - name: yearStart
-        label: Start Year
-        type: number
+      - name: dateStart
+        label: Start Date
+        type: date
 
-      - name: yearEnd
-        label: End Year
-        type: number
+      - name: dateEnd
+        label: End Date
+        type: date
 
       - name: projectStatus
         label: Project Status

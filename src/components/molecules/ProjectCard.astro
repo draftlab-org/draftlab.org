@@ -50,14 +50,14 @@ const gradientStops =
     : orderedActivePhases.length === 1
       ? [phaseLightVar[orderedActivePhases[0]], 'var(--color-white)']
       : orderedActivePhases.map((p) => phaseLightVar[p]);
-const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
+const cardGradient = `linear-gradient(var(--phase-gradient-method) var(--phase-gradient-angle), ${gradientStops.join(', ')})`;
 ---
 
 <a
 	href={`/projects/${slug}`}
 	data-base-href={`/projects/${slug}`}
 	class:list={[
-		'group relative flex h-full no-underline shadow-sm transition-colors duration-150 **:no-underline hover:z-10 hover:shadow-md focus-within:z-10',
+		'group relative flex h-full no-underline shadow-sm transition-colors duration-150 **:no-underline focus-within:z-10 hover:z-10 hover:shadow-md',
 		className,
 	]}
 >
@@ -69,8 +69,8 @@ const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
 				title="Active project"
 				aria-label="Active project"
 			>
-				<span class="absolute inset-0 animate-ping rounded-full bg-phase-understand opacity-75" />
-				<span class="relative inline-flex h-2 w-2 rounded-full bg-phase-understand" />
+				<span class="absolute inset-0 animate-ping rounded-full bg-phase-define opacity-75" />
+				<span class="relative inline-flex h-2 w-2 rounded-full bg-phase-define" />
 			</span>
 		)
 	}

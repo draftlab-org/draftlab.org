@@ -2,6 +2,7 @@
 import ApplyForUxdSection from '@components/sections/ApplyForUxdSection.astro';
 import ButtonSection from '@components/sections/ButtonSection.astro';
 import CalEmbedSection from '@components/sections/CalEmbedSection.astro';
+import CalloutSection from '@components/sections/CalloutSection.astro';
 import CardSection from '@components/sections/CardSection.astro';
 import FeedGridSection from '@components/sections/FeedGridSection.astro';
 import FlexiSection from '@components/sections/FlexiSection.astro';
@@ -17,171 +18,181 @@ import RichTextSection from '@components/sections/RichTextSection.astro';
 import SkillsCloudSection from '@components/sections/SkillsCloudSection.astro';
 import SkillsSection from '@components/sections/SkillsSection.astro';
 import UxdCtaSection from '@components/sections/UxdCtaSection.astro';
-import SectionLayout from '@layouts/SectionLayout.astro';
+import SectionLayout, { type VerticalSpace } from '@layouts/SectionLayout.astro';
 
 const { sectionItems } = Astro.props;
 
+// Per-section-type vertical-rhythm assignments. Sections inherit `normal`
+// unless explicitly overridden here. Tier definitions live in SectionLayout.
+const verticalSpaceByType: Record<string, VerticalSpace> = {
+  howWeWork: 'narrow',
+  featuredProjects: 'narrow',
+  uxdCta: 'wide',
+  latestUpdates: 'wide',
+  calEmbed: 'narrow',
+  richText: 'narrow',
+  applyForUxd: 'wide'
+  // example: skillsCloud: 'wide',
+};
 ---
 
 {
-  sectionItems.map((section: any) => {
-    const sectionLabel = `section > ${section.type}`;
+	sectionItems.map((section: any) => {
+		const sectionLabel = `section > ${section.type}`;
 
-    const content = (() => {
-      switch (section.type) {
-        case 'button':
-          return (
-            <ButtonSection
-              title={section.title}
-              buttons={section.buttons}
-            />
-          );
-        case 'flexi':
-          return (
-            <FlexiSection
-              title={section.title}
-              description={section.description}
-              sections={section.sections}
-            />
-          );
-        case 'hero':
-          return (
-            <HeroSection
-              title={section.title}
-              subtitle={section.subtitle}
-            />
-          );
-        case 'richText':
-          return (
-            <RichTextSection
-              content={section.content}
-              withTOC={section.withTOC}
-            />
-          );
-        case 'card':
-          return (
-            <CardSection
-              title={section.title}
-              description={section.description}
-              cards={section.cards}
-              buttons={section.buttons}
-            />
-          );
-        case 'people':
-          return <PeopleSection />;
-        case 'projectsRoll':
-          return (
-            <ProjectsRollSection
-              title={section.title}
-              description={section.description}
-              limit={section.limit}
-              filterPhase={section.filterPhase}
-              filterModality={section.filterModality}
-              featuredOnly={section.featuredOnly}
-              hideImages={section.hideImages}
-              wide={section.wide}
-            />
-          );
-        case 'feedGrid':
-          return (
-            <FeedGridSection
-              title={section.title}
-              description={section.description}
-            />
-          );
-        case 'latestUpdates':
-          return (
-            <LatestUpdatesSection
-              title={section.title}
-              description={section.description}
-              limit={section.limit}
-            />
-          );
-        case 'howWeWork':
-          return (
-            <HowWeWorkSection
-              title={section.title}
-              description={section.description}
-            />
-          );
-        case 'phasesOverview':
-          return (
-            <PhasesOverviewSection
-              title={section.title}
-              description={section.description}
-            />
-          );
-        case 'modalitiesOverview':
-          return (
-            <ModalitiesOverviewSection
-              title={section.title}
-              description={section.description}
-            />
-          );
-        case 'skills':
-          return (
-            <SkillsSection
-              title={section.title}
-              description={section.description}
-            />
-          );
-        case 'skillsCloud':
-          return (
-            <SkillsCloudSection
-              eyebrow={section.eyebrow}
-              heading={section.heading}
-              body={section.body}
-            />
-          );
-        case 'organisationsRoll':
-          return (
-            <OrganisationsRollSection
-              title={section.title}
-              description={section.description}
-              filterType={section.filterType}
-              limit={section.limit}
-            />
-          );
-        case 'calEmbed':
-          return (
-            <CalEmbedSection
-              calLink={section.calLink}
-              namespace={section.namespace}
-              origin={section.origin}
-              minHeight={section.minHeight}
-            />
-          );
-        case 'applyForUxd':
-          return (
-            <ApplyForUxdSection
-              title={section.title}
-              description={section.description}
-            />
-          );
-        case 'uxdCta':
-          return (
-            <UxdCtaSection
-              title={section.title}
-              statement={section.statement}
-              description={section.description}
-              href={section.href}
-            />
-          );
-        default:
-          return null;
-      }
-    })();
+		const content = (() => {
+			switch (section.type) {
+				case 'button':
+					return (
+						<ButtonSection title={section.title} buttons={section.buttons} />
+					);
+				case 'flexi':
+					return (
+						<FlexiSection
+							title={section.title}
+							description={section.description}
+							sections={section.sections}
+						/>
+					);
+				case 'hero':
+					return (
+						<HeroSection title={section.title} subtitle={section.subtitle} />
+					);
+				case 'richText':
+					return (
+						<RichTextSection
+							content={section.content}
+							withTOC={section.withTOC}
+						/>
+					);
+				case 'callout':
+					return <CalloutSection content={section.content} />;
+				case 'card':
+					return (
+						<CardSection
+							title={section.title}
+							description={section.description}
+							cards={section.cards}
+							buttons={section.buttons}
+						/>
+					);
+				case 'people':
+					return <PeopleSection />;
+				case 'projectsRoll':
+					return (
+						<ProjectsRollSection
+							title={section.title}
+							description={section.description}
+							limit={section.limit}
+							filterPhase={section.filterPhase}
+							filterModality={section.filterModality}
+							featuredOnly={section.featuredOnly}
+							hideImages={section.hideImages}
+							wide={section.wide}
+						/>
+					);
+				case 'feedGrid':
+					return (
+						<FeedGridSection
+							title={section.title}
+							description={section.description}
+						/>
+					);
+				case 'latestUpdates':
+					return (
+						<LatestUpdatesSection
+							title={section.title}
+							description={section.description}
+							limit={section.limit}
+						/>
+					);
+				case 'howWeWork':
+					return (
+						<HowWeWorkSection
+							title={section.title}
+							description={section.description}
+						/>
+					);
+				case 'phasesOverview':
+					return (
+						<PhasesOverviewSection
+							title={section.title}
+							description={section.description}
+						/>
+					);
+				case 'modalitiesOverview':
+					return (
+						<ModalitiesOverviewSection
+							title={section.title}
+							description={section.description}
+						/>
+					);
+				case 'skills':
+					return (
+						<SkillsSection
+							title={section.title}
+							description={section.description}
+						/>
+					);
+				case 'skillsCloud':
+					return (
+						<SkillsCloudSection
+							eyebrow={section.eyebrow}
+							heading={section.heading}
+							body={section.body}
+							bgColor={section.background?.bgColor}
+						/>
+					);
+				case 'organisationsRoll':
+					return (
+						<OrganisationsRollSection
+							title={section.title}
+							description={section.description}
+							filterType={section.filterType}
+							limit={section.limit}
+						/>
+					);
+				case 'calEmbed':
+					return (
+						<CalEmbedSection
+							calLink={section.calLink}
+							namespace={section.namespace}
+							origin={section.origin}
+							minHeight={section.minHeight}
+						/>
+					);
+				case 'applyForUxd':
+					return (
+						<ApplyForUxdSection
+							title={section.title}
+							description={section.description}
+						/>
+					);
+				case 'uxdCta':
+					return (
+						<UxdCtaSection
+							title={section.title}
+							statement={section.statement}
+							description={section.description}
+							href={section.href}
+						/>
+					);
+				default:
+					return null;
+			}
+		})();
 
-    return (
-      <SectionLayout
-        bgColor={section.background?.bgColor}
-        bgType={section.background?.bgType}
-        bgImage={section.backgroundImage}
-        class={section.class}
-        sectionLabel={sectionLabel}
-      >
-        {content}
-      </SectionLayout>
-    );
-  })
+		return (
+			<SectionLayout
+				bgColor={section.background?.bgColor}
+				bgType={section.background?.bgType}
+				bgImage={section.backgroundImage}
+				verticalSpace={verticalSpaceByType[section.type] ?? 'normal'}
+				class={section.class}
+				sectionLabel={sectionLabel}
+			>
+				{content}
+			</SectionLayout>
+		);
+	})
 }

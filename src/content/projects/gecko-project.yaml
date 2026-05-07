@@ -12,8 +12,8 @@ phases:
   - sustain
 modalities:
   - studio
-yearStart: 2023
-yearEnd: 2025
+dateStart: 2023-01-01
+dateEnd: 2025-12-31
 projectStatus: complete
 featured: true
 skills:

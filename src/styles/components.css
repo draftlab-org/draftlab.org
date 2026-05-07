@@ -1,13 +1,18 @@
+/* All phase-gradient utilities pull their colour stops + interpolation
+   method from `:root` custom properties defined in colors.css
+   (`--phase-gradient-stops*`, `--phase-gradient-method`). Change those
+   once and every gradient in the system follows. */
+
 @utility gradient-phase {
-  @apply bg-linear-to-r from-phase-understand via-phase-define via-phase-deliver to-phase-sustain;
+  background-image: linear-gradient(var(--phase-gradient-method) var(--phase-gradient-angle), var(--phase-gradient-stops));
 }
 
 @utility gradient-phase-light {
-  @apply bg-linear-to-r from-phase-understand-light via-phase-define-light via-phase-deliver-light to-phase-sustain-light;
+  background-image: linear-gradient(var(--phase-gradient-method) var(--phase-gradient-angle), var(--phase-gradient-stops-light));
 }
 
 @utility gradient-phase-dark {
-  @apply bg-linear-to-r from-phase-understand-dark via-phase-define-dark via-phase-deliver-dark to-phase-sustain-dark;
+  background-image: linear-gradient(var(--phase-gradient-method) var(--phase-gradient-angle), var(--phase-gradient-stops-dark));
 }
 
 /* Phase-gradient horizontal rule. 2px tall by default so the four-stop
@@ -15,26 +20,12 @@
    explicit width (e.g. flex-1 or w-8). For a vertical rule, see below. */
 @utility gradient-rule {
   height: 2px;
-  background-image:
-    linear-gradient(
-      to right,
-      var(--color-phase-understand),
-      var(--color-phase-define),
-      var(--color-phase-deliver),
-      var(--color-phase-sustain)
-    );
+  background-image: linear-gradient(var(--phase-gradient-method) var(--phase-gradient-angle), var(--phase-gradient-stops));
 }
 
 @utility gradient-rule-vertical {
   width: 2px;
-  background-image:
-    linear-gradient(
-      to bottom,
-      var(--color-phase-understand),
-      var(--color-phase-define),
-      var(--color-phase-deliver),
-      var(--color-phase-sustain)
-    );
+  background-image: linear-gradient(var(--phase-gradient-method) to bottom, var(--phase-gradient-stops));
 }
 
 /* Phase-gradient underline on a form input: paints a 2px gradient line at the
@@ -42,14 +33,7 @@
    `bg-transparent` for the input's surface, `border-0` to remove the native
    border, and a `pb-*` that gives the line breathing room. */
 @utility gradient-underline {
-  background-image:
-    linear-gradient(
-      to right,
-      var(--color-phase-understand),
-      var(--color-phase-define),
-      var(--color-phase-deliver),
-      var(--color-phase-sustain)
-    );
+  background-image: linear-gradient(var(--phase-gradient-method) var(--phase-gradient-angle), var(--phase-gradient-stops));
   background-position: bottom left;
   background-size: 100% 2px;
   background-repeat: no-repeat;
@@ -72,13 +56,7 @@
   border: 2px solid transparent;
   background-image:
     linear-gradient(var(--color-surface), var(--color-surface)),
-    linear-gradient(
-      to right,
-      var(--color-phase-understand),
-      var(--color-phase-define),
-      var(--color-phase-deliver),
-      var(--color-phase-sustain)
-    );
+    linear-gradient(var(--phase-gradient-method) var(--phase-gradient-angle), var(--phase-gradient-stops));
   background-origin: border-box;
   background-clip: padding-box, border-box;
 }

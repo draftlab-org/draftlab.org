@@ -12,7 +12,8 @@ phases:
   - define
 modalities:
   - clinic
-yearStart: 2025
+dateStart: 2025-10-01
+dateEnd: 2026-3-01
 projectStatus: complete
 featured: true
 skills:
@@ -45,4 +46,3 @@ body: >-
   interviews, document synthesis, and engagement around diverse visions for what
   HDX could become. Deliverables to date include a structured vision document,
   presentation materials, and architecture diagrams.
-yearEnd: 2026

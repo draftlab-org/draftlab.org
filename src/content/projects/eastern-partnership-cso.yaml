@@ -9,8 +9,8 @@ phases:
   - deliver
 modalities:
   - community
-yearStart: 2020
-yearEnd: 2021
+dateStart: 2020-01-01
+dateEnd: 2021-12-31
 projectStatus: complete
 featured: false
 skills:

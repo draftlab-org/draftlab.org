@@ -15,7 +15,7 @@ phases:
   - deliver
 modalities:
   - studio
-yearStart: 2026
+dateStart: 2026-01-01
 projectStatus: active
 featured: true
 skills:

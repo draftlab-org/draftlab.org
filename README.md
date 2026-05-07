@@ -1,306 +1,260 @@
-# Draftlab Scaffold
+# draftlab.org
 
-A modern, content-focused web template built with Astro v5, Tailwind CSS v4, and React v19. This scaffold provides a flexible page-building system with reusable components, type-safe content collections, and an integrated headless CMS.
+The website for **Draftlab** — a creative project design studio for social good. Built on the [Scaffold](https://github.com/draftlab-org/scaffold) template (Astro 6 + Tailwind CSS v4 + React 19), deployed to Netlify.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9a10e2af-511b-48c6-8ed2-e450ae007148/deploy-status)](https://app.netlify.com/projects/draftlab-scaffold/deploys)
 
-## Installation
+This README is the onboarding doc — it explains what's where and why so a new contributor can get productive quickly. Deeper notes for AI-assisted work live in `.localconfig/CLAUDE.md`.
 
-Create a new project using this template:
+## Getting started
 
 ```sh
-npx create-astro --template draftlab-org/scaffold
-cd your-project-name
+git clone https://github.com/draftlab-org/draftlab.org.git
+cd draftlab.org
 npm install
 npm run dev
 ```
 
-Or clone and install manually:
+Dev server at `http://localhost:4321`. Drafts (status `draft`) are visible in dev and in any preview build with `PUBLIC_PREVIEW=true`; production hides them.
 
 ```sh
-git clone https://github.com/draftlab-org/scaffold.git
-cd scaffold
-npm install
-npm run dev
+npm run dev       # Dev server (drafts visible)
+npm run build     # Production build (drafts hidden)
+npm run preview   # Preview the production build locally
 ```
+
+There's no test runner. Biome is configured (`biome.json`) but isn't wired to an npm script — run `npx biome check .` if you want lint/import-organisation feedback.
+
+## The framework
+
+Almost everything on the site is organised around a two-axis framework. Internalising it makes the content schemas and component names obvious.
+
+- **Phases** (project timeline): `understand` → `define` → `deliver` → `sustain`
+- **Modalities** (engagement style): `clinic` ◎, `studio` ◈, `community` ◉
+
+These slugs are load-bearing. They appear as Zod enums in `src/content.config.ts`, as CSS custom properties (`--color-phase-{slug}-{light|dark}`), and as Tailwind classes (`tag-{slug}`). If you rename one, search the whole codebase. There's a historical rename worth knowing about: `build` → `deliver` and `council` → `community` (April 2026) — old branches and notes may still reference the old names.
 
 ## Stack
 
-The template combines Astro v5 for static site generation with Tailwind CSS v4 for styling and React v19 for interactive components. Content is managed through Astro's type-safe content collections with Pages CMS providing a visual editing interface. The build includes automatic image optimization and is preconfigured for Netlify deployment.
+| Concern | Choice |
+| --- | --- |
+| SSG / framework | [Astro 6](https://docs.astro.build) with the Netlify adapter |
+| UI framework (interactive islands) | React 19 |
+| Styling | Tailwind CSS v4 (`@theme` block in CSS, no `tailwind.config.*`) |
+| Content | Astro content collections + Zod schemas |
+| CMS | [Pages CMS](https://pagescms.org) (config in `.pages.yml`) |
+| Forms | Brevo (transactional email) + [Altcha](https://altcha.org) (proof-of-work captcha) |
+| Search | [Fuse.js](https://fusejs.io) (in-browser fuzzy search) |
+| Markdown | MDX, expressive-code, remark-gfm, rehype-slug, custom rehype plugins |
+| Icons | [unplugin-icons](https://github.com/unplugin/unplugin-icons) + [Iconify](https://iconify.design) |
 
-## Screenshots
+## Content collections
 
-### Homepage
-The homepage showcases the component architecture with a clean hero section and visual representation of atomic design principles.
+All content lives in `src/content/` and is validated by Zod schemas in `src/content.config.ts`. Adding a new collection means defining it there, then optionally filtering by status with `isVisible()` from `@utils/content`.
 
-![Homepage](./src/assets/readme/homepage.png)
+| Collection | Format | What it is |
+| --- | --- | --- |
+| `pages` | YAML | One file per route. Carries a `sections` array — see "Page building". `home`, `about`, `projects`, `get-in-touch` live here today. |
+| `projects` | YAML + markdown body | Case studies. Reference `phases[]`, `modalities[]`, `skills[]` (by slug). Optional `updates[]` array for the per-project timeline. |
+| `people` | JSON | Team profiles. Carry headshot, social links, optional `skills[]`. |
+| `phases` | JSON | The four timeline phases. |
+| `modalities` | JSON | The three engagement modalities. |
+| `skills` | JSON | Skill cards with name, description, and an Iconify icon id (e.g. `"hugeicons:test-tube-01"`). Projects and people reference these by slug. |
+| `organisations` | JSON | Clients, partners, and funders. `type` is one of `client | partner | funder`. |
+| `quotes` | JSON | Testimonial pull-quotes. References `organisations` and (optionally) `projects`. |
+| `navigation` | JSON | Header / footer / mobile menus. Items can be internal (`pageRef`) or external (`url`), and can nest into dropdowns. |
+| `site` | JSON | Single `config.json` with global title, description, social links, OG images, optional cookie-consent + archived-banner config. |
 
-### Articles
-The articles page displays blog posts in a card grid layout with hero images, tags, author information, and publication dates.
+### Status workflow
 
-![Articles Page](./src/assets/readme/articles.png)
+Most collections share a unified `status` field with three values:
 
-### People Directory
-The people page features team members in a responsive grid with avatars, names, and titles.
+- `draft` — only visible in dev (`npm run dev`) or `PUBLIC_PREVIEW=true` previews
+- `published` — visible everywhere
+- `archived` — visible everywhere; pages with this status surface the archived banner if configured
 
-![People Page](./src/assets/readme/people.png)
+Use `isVisible(entry)` from `@utils/content` to filter, or the per-collection helpers in `@utils/{pages,projects,people,...}` which already apply it.
 
-### Rich Search
-The rich search module provides fuzzy search across all content types with keyboard shortcuts and category filters.
+`projects` carries a second, orthogonal `contentStatus` field (`placeholder | polish | ready`) tracking internal editorial readiness. It's informational — no rendering logic gates on it today.
 
-![Rich Search](./src/assets/readme/search.png)
+### Images in content
 
-## Architecture
+Images are referenced by absolute path from the project root (e.g. `/src/assets/projects/foo.png`). The `image()` helper in collection schemas resolves and optimises them at build time.
 
-### Component System
+## Page building
 
-We are following atomic design principles described by Brad Frost (https://atomicdesign.bradfrost.com/chapter-2/) to make it easier to manage our components:
+Pages are assembled from a typed list of section blocks. The dynamic route `src/pages/[...path].astro` matches every page entry except `home`, which has its own `src/pages/index.astro`. There are also two hand-rolled detail routes: `src/pages/projects/[slug].astro` and `src/pages/people/[id].astro`.
 
-![](https://atomicdesign.bradfrost.com/images/content/atomic-design-process.png)
+Each page YAML looks like:
 
-Components are organized from simple to complex in `src/components/`. Atoms like Button and Image are basic building blocks. Molecules combine atoms into simple patterns like Card. Organisms such as Hero and Navigation are complex, standalone components. Sections are full-width page blocks that combine organisms and molecules into complete interface sections.
-
-### Development Utilities
-
-The `DevOnly` component and `devClass` utility help manage development-only UI elements. Wrap any content in `<DevOnly>` to remove it from production builds. Use `devClass('classes')` to apply Tailwind classes only in development.
-
-```astro
-import DevOnly from '@components/atoms/DevOnly.astro'; import {devClass} from '@utils/dev';
-
-<DevOnly><span>Debug info</span></DevOnly>
-<div class={`base ${devClass('border-2 border-red-500')}`}></div>
+```yaml
+title: Home
+status: published
+sections:
+  - type: skillsCloud
+    background:
+      bgColor: phase-gradient
+      bgType: full
+  - type: callout
+    content: Draftlab is a design and technology studio…
+  - type: projectsRoll
+    title: Featured projects
+    featuredOnly: true
+    limit: 4
 ```
 
-### Content Collections
+Section types are a discriminated union in `src/content.config.ts`. Adding a new one is a three-step change:
 
-Content lives in `src/content/` with schemas defined in `config.ts`. The scaffold includes seven content collections:
+1. Add a `z.literal('newType')` branch to the `sectionsSchema` discriminated union.
+2. Create `src/components/sections/NewTypeSection.astro` (or `.tsx`).
+3. Add a `case 'newType'` to the switch in `src/components/sections/Sections.astro`.
 
-**Site Configuration** (`src/content/site/config.json`) - Global site settings including title, description, default SEO images, social media links, favicon, cookie consent configuration, and archived banner settings. This serves as the single source of truth for site-wide metadata and is fully editable through Pages CMS.
+If it should also be editable in Pages CMS, add a matching block under `components:` in `.pages.yml`.
 
-**Pages** (`src/content/pages/`) - YAML files where each file becomes a route. Pages contain a sections array that you can populate with any combination of Hero, RichText, Card, People, Partners, FeaturedPartners, ArticlesRoll, ResourcesRoll, FlexiSection, Button, or CallToAction sections.
+### Existing section types
 
-**Navigation** (`src/content/navigation/`) - JSON files defining menu structures. Includes main navigation and footer menus. Add new menus by creating additional JSON files.
+`hero`, `richText`, `callout`, `button`, `card`, `flexi` (nested sections), `people`, `feedGrid`, `projectsRoll`, `latestUpdates`, `howWeWork`, `phasesOverview`, `modalitiesOverview`, `skills`, `skillsCloud`, `organisationsRoll`, `calEmbed`, `applyForUxd`, `uxdCta`.
 
-**People** (`src/content/people/`) - Team member information as individual JSON files with headshots, titles, and department tags.
+Vertical rhythm is centralised in `src/layouts/SectionLayout.astro` via three tiers (`narrow`, `normal`, `wide`); `Sections.astro` maps each section type to a tier. Don't sprinkle `py-*` utilities on individual section components — tune the tier instead.
 
-**Articles** (`src/content/articles/`) - Markdown blog posts with frontmatter including permalink, authors, tags, status, and hero images.
+## Component hierarchy (atomic design)
 
-**Resources** (`src/content/resources/`) - Data collection for publications like reports, whitepapers, case studies, and guides. Each resource has a title, category, year, optional contributors (linked to people), external links, and tags. Resources have individual detail pages at `/resources/[id]` with cross-links to contributor profiles.
+`src/components/` follows atoms → molecules → organisms → sections.
 
-**Categories** (`src/content/categories/`) - Category definitions for articles, people, partners, and resources. Used by filter components across the site.
+- **atoms** — primitives like `Button`, `Heading`, `Text`, `Tag`, `Eyebrow`, `SectionTitle`, `SkillIcon`, `ModalityIcon`, `GradientLink`, `DevOnly`.
+- **molecules** — small compositions: `Card`, `ProjectCard`, `QuoteCard`, `NavItem`, `NavItemDropdown`, `FormField`, `FilterBar`, `FilterDropdown`, `SocialLinks`, `PhaseTag`, `Accordion`, `UxdApplicationForm`.
+- **organisms** — standalone complex components: `Head`, `Header` (in `sections/`), `Footer`, `Navigation`, `MobileMenu`, `Hero`, `RichSearch`, `SkillsCloud`, `FeedFilter`, `FilterableContent`, `CookieBanner`, `Person`, `TOC`.
+- **sections** — full-width page blocks (see list above). These are what page YAML composes.
 
-All collections support a unified **status field** (`draft`, `published`, `archived`). Drafts are only visible in development and preview modes. Published and archived items are always visible.
+`DevOnly` and `devClass()` (from `@utils/dev`) hide UI in production — useful for scaffolding labels and debug borders. `Sections.astro` already labels every section in dev so you can see structure at a glance.
 
-Images use absolute paths from the project root (`/src/assets/...`) for consistency. The image() helper in content collections automatically resolves and optimizes these at build time.
+## Styling
 
-### Page Building
+### Tokens and gradients
 
-The dynamic route at `src/pages/[...slug].astro` renders pages from the Pages collection. Each page is assembled from sections in the order they appear in the YAML file. To create a new page, add a YAML file to `src/content/pages/` and the route appears automatically.
+Tailwind v4's `@theme` block lives in `src/styles/colors.css`. The site identity centres on a four-stop **phase gradient** (`understand → define → deliver → sustain`). Every gradient utility on the site — nav bottom bar, hero band, full-bleed section backgrounds, dividers (`gradient-rule`), input underlines (`gradient-underline`), card frames (`gradient-frame`), and per-project card backgrounds — pulls from a single source of truth:
 
-Section types are defined as a discriminated union in the content schema. Each section has its own structure and corresponding component in `src/components/sections/`. Available section types include Hero, RichText, Card, People, Partners, FeaturedPartners, ArticlesRoll, ResourcesRoll, FlexiSection (nested sections), Button, and CallToAction.
-
-### API Endpoints
-
-Dynamic API endpoints automatically expose all content collections as JSON:
-
-- `/api/pages.json` - All page data
-- `/api/people.json` - All team members
-- `/api/articles.json` - All articles with metadata and content
-- `/api/navigation.json` - All navigation menus
-- `/api/resources.json` - All resources
-- `/api/categories.json` - All category definitions
-- `/api/site.json` - Site configuration
-
-The endpoint implementation at `src/pages/api/[collection].json.ts` automatically generates these routes from your content collections. Add a new collection to `config.ts` and it becomes available as an API endpoint with no additional configuration.
-
-### Navigation & SEO
-
-Navigation menus are managed through the Navigation collection and automatically populate the header and footer. The PageLayout component fetches menu data at build time, so changes to navigation files immediately reflect across all pages.
-
-SEO defaults are defined in the Site Configuration collection. The Head component uses these as fallbacks when pages don't specify their own metadata. This includes default Open Graph images, site description, favicon, and social media links.
-
-## Content Management
-
-### Pages CMS
-
-The template includes a complete configuration for Pages CMS in `.pages.yml`. This provides a visual interface for editing content without code.
-
-Access the CMS by logging into https://app.pagescms.org with your Github profile (the project repository must be hosted on Github).
-
-**Available in Pages CMS:**
-
-- **Site Settings** - Global configuration, SEO defaults, social links, cookie consent, and archived banners
-- **Pages** - Page builder with drag-and-drop sections
-- **Navigation Menus** - Header and footer menu management
-- **Articles** - Blog post editor with markdown support
-- **People** - Team member profiles
-- **Resources** - Publications, reports, whitepapers, and guides
-
-The interface lets you add, edit, and reorder page sections with a drag-and-drop builder. All components include validation and helpful descriptions.
-
-### Automatic Permalink Synchronization
-
-The repository includes GitHub Actions automation that keeps page filenames and permalinks synchronized. When changes are pushed or submitted via pull request:
-
-- **Renaming a page file** automatically updates its `permalink` field to match the new filename
-- **Changing a `permalink` field** automatically renames the file to match the new permalink value
-
-This bidirectional sync runs via `.github/workflows/auto-fix-permalinks.yml` using the Python script at `.github/scripts/auto_fix_permalinks.py`. The automation commits any changes back to the repository, ensuring filenames and permalinks always stay in sync without manual intervention.
-
-### Content Status Workflow
-
-All collections use a unified `status` field with three values:
-
-- **`draft`** - Only visible in development (`npm run dev`) and preview environments (`PUBLIC_PREVIEW=true`)
-- **`published`** - Visible everywhere
-- **`archived`** - Visible everywhere (useful for marking outdated content while keeping it accessible)
-
-Use the `isVisible()` utility from `@utils/content` to filter collections by status. The collection-specific utilities (`getPages()`, `getResources()`, etc.) already handle this.
-
-### Cookie Consent
-
-Configure cookie consent and Google Analytics in `src/content/site/config.json`:
-
-```json
-{
-  "cookieConsent": {
-    "message": "We use cookies to improve your experience.",
-    "googleAnalyticsId": "G-XXXXXXXXXX"
-  }
-}
+```css
+--phase-gradient-method: in oklch longer hue;
+--phase-gradient-angle: 100deg;
+--phase-gradient-stops:        var(--color-phase-understand), …, var(--color-phase-sustain);
+--phase-gradient-stops-light:  /* light tints */
+--phase-gradient-stops-dark:   /* dark tints */
 ```
 
-The `CookieBanner` component renders automatically when configured. It stores consent in localStorage and conditionally loads the GA script. Works with Astro View Transitions.
+Change the method or angle once and every gradient updates. The vertical-rule utility (`gradient-rule-vertical`) keeps `to bottom` since tilting a 2px-wide line doesn't read.
 
-### Extending
+Useful interpolation methods: `in oklch longer hue` (vibrant rainbow), `in oklch shorter hue` (perceptually uniform, no grey midpoints), `in oklab` (CSS Color 4 default — passes through grey on complements). Edit the value in `src/styles/colors.css` and hard-refresh to preview.
 
-To add new section types, update the schema in `src/content/config.ts`, create a component in `src/components/sections/`, and add the configuration to `.pages.yml`. The dynamic page route supports new sections automatically.
+### Type
 
-## Commands
+- `--font-serif` and `--font-sans` both map to **Fraunces** (variable; weights 300/400/500/700)
+- `--font-mono` maps to **JetBrains Mono**
 
-```sh
-npm run dev          # Development server
-npm run build        # Production build
-npm run preview      # Preview production build
-```
+Fonts are configured in `astro.config.mjs` via Astro's font integration (Bunny Fonts provider) and declared in `src/components/organisms/Head.astro`. Fraunces 400 + 700 (latin) are preloaded for above-the-fold paint; everything else loads on demand.
 
-## Project Structure
+### Other style entry points
 
-```
-src/
-├── assets/          # Images and media
-├── components/
-│   ├── atoms/       # Basic elements (Button, Image, Link, DevOnly, Banner)
-│   ├── molecules/   # Simple combinations (Card, NavItem, FormField)
-│   ├── organisms/   # Complex components (Hero, Person, Head, CookieBanner, PageSection)
-│   │   └── Resource/  # Resource card components (ResourceItem, ResourceItems)
-│   ├── sections/    # Page sections (Hero, Card, RichText, ArticlesRoll, ResourcesRoll, etc.)
-│   └── landing/     # Landing page components (ArticlesLanding, PeopleLanding, ResourcesLanding)
-├── content/
-│   ├── articles/    # Blog posts (Markdown)
-│   ├── categories/  # Category definitions (JSON)
-│   ├── navigation/  # Menu definitions (JSON)
-│   ├── pages/       # Page definitions (YAML)
-│   ├── partners/    # Partner organizations (JSON)
-│   ├── people/      # Team members (JSON)
-│   ├── resources/   # Publications and guides (JSON)
-│   ├── site/        # Global configuration (JSON)
-│   └── config.ts    # Content schemas with Zod validation
-├── layouts/
-│   ├── BaseLayout.astro     # Document wrapper
-│   ├── PageLayout.astro     # Page structure with header/footer
-│   └── SectionLayout.astro  # Section wrapper with dev labels
-├── lib/
-│   └── config.ts          # Site configuration helper
-├── pages/
-│   ├── api/
-│   │   └── [collection].json.ts  # Dynamic API endpoints
-│   ├── articles/
-│   │   ├── index.astro    # Articles list with filtering
-│   │   └── [id].astro     # Individual articles
-│   ├── people/
-│   │   ├── index.astro    # People directory
-│   │   └── [id].astro     # Individual profiles
-│   ├── resources/
-│   │   ├── index.astro    # Resources list with filtering
-│   │   └── [id].astro     # Individual resource pages
-│   ├── [...slug].astro    # Dynamic page renderer
-│   └── index.astro
-├── utils/
-│   ├── dev.ts             # Development & preview utilities
-│   ├── content.ts         # Content visibility (status filtering)
-│   ├── slugify.ts         # URL slug generation
-│   ├── pages.ts           # Pages collection utilities
-│   ├── articles.ts        # Articles collection utilities
-│   ├── people.ts          # People collection utilities
-│   └── resources.ts       # Resources collection utilities
-└── styles/
-    ├── global.css         # Base imports
-    ├── typography.css     # Text utilities
-    ├── colors.css         # Color definitions
-    └── breakpoints.css    # Responsive breakpoints
-```
+- `src/styles/global.css` — base imports
+- `src/styles/typography.css` — heading/body/link defaults
+- `src/styles/components.css` — button, card, tag variants
+- `src/styles/utilities.css` — site-specific utilities (brackets, corner brackets, gradient utilities)
+- `src/styles/breakpoints.css` — responsive breakpoint overrides
 
 ## Icons
 
-The scaffold uses [unplugin-icons](https://github.com/unplugin/unplugin-icons) with [@iconify/json](https://github.com/iconify/icon-sets) for access to thousands of icons. Icons work in both Astro and React/TSX components.
-
-### Usage in React/TSX Components
+unplugin-icons is configured in `astro.config.mjs` for **JSX/React** output (compiler: `'jsx'`). Use `class` (not `className`) in both Astro and React components.
 
 ```tsx
 import IconGithub from '~icons/simple-icons/github';
-import MagnifyingGlassIcon from '~icons/heroicons/magnifying-glass-20-solid';
 
-export default function MyComponent() {
-  return (
-    <div>
-      <IconGithub class="w-6 h-6" />
-      <MagnifyingGlassIcon class="w-5 h-5 text-gray-500" />
-    </div>
-  );
-}
+<IconGithub class="h-5 w-5 text-primary-500" />
 ```
 
-**Note:** Icons use `class` (not `className`) in both Astro and React components.
+Browse icons at [Icônes](https://icones.js.org) or [icon-sets.iconify.design](https://icon-sets.iconify.design).
 
-### Usage in Astro Components
+For **dynamic icons** driven by content data (e.g. a skill JSON storing `"icon": "hugeicons:test-tube-01"`), unplugin-icons can't resolve a runtime path. Use the helpers instead:
 
-```astro
----
-import IconGithub from '~icons/simple-icons/github';
-import MagnifyingGlassIcon from '~icons/heroicons/magnifying-glass-20-solid';
----
+- `SkillIcon.astro` — pass a skill `slug`; resolves the iconify id via `@utils/skills` and renders SVG at build time using `@iconify/utils`.
+- `ModalityIcon.astro` — for `clinic | studio | community`. Source SVGs in `src/assets/icons/` use `currentColor` and are imported as `?raw` strings via `@utils/modalityIcons`.
 
-<div>
-  <IconGithub class="w-6 h-6" />
-  <MagnifyingGlassIcon class="w-5 h-5 text-gray-500" />
-</div>
+## API endpoints
+
+`src/pages/api/[collection].json.ts` exposes every content collection as JSON automatically — `/api/pages.json`, `/api/projects.json`, `/api/people.json`, `/api/skills.json`, etc. Add a new collection to `src/content.config.ts` and the endpoint appears with no extra wiring. CORS is open (`Access-Control-Allow-Origin: *`) per `netlify.toml`.
+
+There are also two hand-built endpoints:
+
+- `src/pages/api/altcha/challenge.ts` — issues Altcha challenges for the UXD application form
+- `src/pages/api/apply.ts` — verifies the Altcha solution and sends the application via Brevo. Requires server env vars (Brevo API key + recipient address); see the file for the exact names.
+
+`src/pages/rss.xml.ts` generates an RSS feed of project updates.
+
+## Pages CMS
+
+The site is wired up to [Pages CMS](https://pagescms.org). Configuration lives in `.pages.yml` and lets editors manage pages, projects, people, organisations, skills, navigation, quotes, and site settings without touching code. Log in at https://app.pagescms.org with the GitHub account that has repo access.
+
+### Auto-fix permalinks
+
+`.github/workflows/auto-fix-permalinks.yml` keeps page filenames and `permalink` fields in sync bidirectionally. Renaming `src/content/pages/foo.yaml` → `bar.yaml` rewrites the permalink; changing the permalink renames the file. The Python script lives at `.github/scripts/auto_fix_permalinks.py` and the workflow commits any fixes back to the branch.
+
+## Project structure
+
+```
+src/
+├── assets/                # Images and SVGs (referenced by absolute path)
+├── components/
+│   ├── atoms/             # Button, Heading, Text, Tag, SkillIcon, ModalityIcon, …
+│   ├── molecules/         # Card, ProjectCard, QuoteCard, FilterBar, NavItem, …
+│   ├── organisms/         # Head, Footer, Navigation, MobileMenu, RichSearch, SkillsCloud, …
+│   └── sections/          # Page section blocks composed in YAML (and Sections.astro switch)
+├── content/
+│   ├── pages/             # YAML pages (one file = one route)
+│   ├── projects/          # YAML case studies
+│   ├── people/            # JSON team profiles
+│   ├── phases/            # JSON phase definitions
+│   ├── modalities/        # JSON modality definitions
+│   ├── skills/            # JSON skill definitions
+│   ├── organisations/     # JSON clients / partners / funders
+│   ├── quotes/            # JSON testimonials
+│   ├── navigation/        # JSON menu structures
+│   └── site/config.json   # Global site config
+├── content.config.ts      # Collection schemas (Zod)
+├── layouts/
+│   ├── BaseLayout.astro     # Document shell (<html>, <Head>)
+│   ├── PageLayout.astro     # Header + footer wrapper
+│   └── SectionLayout.astro  # Section wrapper with vertical-rhythm tiers
+├── lib/
+│   ├── config.ts                # Re-exports site config as a typed const
+│   └── rehype-table-align.ts    # Custom rehype plugin
+├── pages/
+│   ├── index.astro              # Homepage (renders home.yaml)
+│   ├── [...path].astro          # All other YAML pages
+│   ├── projects/[slug].astro    # Project detail pages
+│   ├── people/[id].astro        # Person detail pages
+│   ├── 404.astro
+│   ├── rss.xml.ts               # Project-updates RSS
+│   └── api/
+│       ├── [collection].json.ts # Auto-generated JSON for every collection
+│       ├── altcha/challenge.ts  # Altcha challenge issuer
+│       └── apply.ts             # UXD application submission (Brevo)
+├── styles/
+│   ├── global.css           # Base imports
+│   ├── colors.css           # @theme tokens, phase gradient SoT
+│   ├── typography.css       # Heading/body/link defaults
+│   ├── components.css       # Button/card/tag variants
+│   ├── utilities.css        # Site-specific utilities
+│   └── breakpoints.css
+└── utils/                   # content.ts, dev.ts, projects.ts, people.ts, skills.ts, …
 ```
 
-### Finding Icons
+## Deployment
 
-Browse available icons at [Icônes](https://icones.js.org/) or [Iconify](https://icon-sets.iconify.design/).
+`@astrojs/netlify` adapter; build runs on push to `main` via Netlify's GitHub integration. The site URL is set from `DEPLOY_PRIME_URL` / `URL` (Netlify-provided) at build time and falls back to `siteConfig.url` for local dev — see `astro.config.mjs`.
 
-**Popular icon sets:**
-- **Heroicons**: `~icons/heroicons/[icon-name]`
-- **Simple Icons** (brands): `~icons/simple-icons/[brand-name]`
-- **Material Design Icons**: `~icons/mdi/[icon-name]`
-- **Lucide**: `~icons/lucide/[icon-name]`
-- **Tabler Icons**: `~icons/tabler/[icon-name]`
+## Further reading
 
-Import pattern: `~icons/[collection]/[icon-name]`
-
-Icons inherit text color and can be styled with Tailwind classes or standard CSS.
-
-## Customization
-
-Tailwind CSS v4 uses @theme definitions in the style files. Update `src/styles/colors.css` for color schemes and `src/styles/typography.css` for text sizing. Components follow atomic design hierarchy, so start with atoms and compose upward when building new features.
-
-BaseLayout handles document-level concerns while PageLayout adds header, footer, and content structure. Create specialized layouts by extending these base layouts.
-
-## Learn More
-
-- [Astro Documentation](https://docs.astro.build)
-- [Tailwind CSS v4 Docs](https://tailwindcss.com)
+- [Astro Docs](https://docs.astro.build) — content collections, image optimisation, view transitions
+- [Tailwind CSS v4](https://tailwindcss.com) — the `@theme` block model
 - [Pages CMS Docs](https://pagescms.org/docs)
-- [Atomic Design Principles](https://atomicdesign.bradfrost.com/chapter-2/)
+- [Atomic Design](https://atomicdesign.bradfrost.com/chapter-2/) — the component-hierarchy rationale
+- `.localconfig/CLAUDE.md` — extended notes on conventions and gotchas (also consumed by AI tooling)

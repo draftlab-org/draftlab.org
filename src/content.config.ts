@@ -105,6 +105,10 @@ const pagesCollection = defineCollection({
         withTOC: z.boolean().optional().default(false),
       }),
       SectionCommonSchema.extend({
+        type: z.literal('callout'),
+        content: z.string(),
+      }),
+      SectionCommonSchema.extend({
         type: z.literal('button'),
         title: z.string().optional(),
         buttons: z.array(buttonSchema).optional(),
@@ -301,8 +305,8 @@ const projectsCollection = defineCollection({
       phases: z.array(phaseSlugSchema),
       modalities: z.array(modalitySlugSchema),
       skills: z.array(z.string()).optional(),
-      yearStart: z.number().optional(),
-      yearEnd: z.number().optional(),
+      dateStart: yamlDateString.optional(),
+      dateEnd: yamlDateString.optional(),
       projectStatus: z.enum(['active', 'complete']).default('complete'),
       contentStatus: z.enum(['placeholder', 'polish', 'ready']),
       featured: z.boolean().default(false),

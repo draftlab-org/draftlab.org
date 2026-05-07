@@ -48,7 +48,7 @@ const orgs = await getOrganisations();
 const orgById = new Map(orgs.map((o) => [o.data.id, o.data]));
 ---
 
-<div class="py-4">
+<div>
 	{
 		title && (
 			<div class="mb-8 flex max-w-2xl flex-col gap-3">
@@ -64,33 +64,56 @@ const orgById = new Map(orgs.map((o) => [o.data.id, o.data]));
 
 	{
 		projects.length > 0 ? (
-			<div class:list={['grid gap-4', gridCols]}>
-				{projects.map((project) => (
-					<ProjectCard
-						name={project.data.name}
-						slug={project.data.slug}
-						description={project.data.description}
-						client={
-							project.data.client
-								? orgById.get(project.data.client)?.name
-								: undefined
-						}
-						clientLogo={
-							project.data.client
-								? orgById.get(project.data.client)?.image
-								: undefined
-						}
-						phases={project.data.phases}
-						skills={project.data.skills}
-						projectStatus={project.data.projectStatus}
-						image={hideImages ? undefined : project.data.image}
-						class:list={[
-							!hideImages && project.data.image ? 'sm:col-span-2' : '',
-							cardAspect,
-						]}
-					/>
-				))}
-			</div>
+			<>
+				<div class:list={['grid gap-4', gridCols]}>
+					{projects.map((project) => (
+						<ProjectCard
+							name={project.data.name}
+							slug={project.data.slug}
+							description={project.data.description}
+							client={
+								project.data.client
+									? orgById.get(project.data.client)?.name
+									: undefined
+							}
+							clientLogo={
+								project.data.client
+									? orgById.get(project.data.client)?.image
+									: undefined
+							}
+							phases={project.data.phases}
+							skills={project.data.skills}
+							projectStatus={project.data.projectStatus}
+							image={hideImages ? undefined : project.data.image}
+							class:list={[
+								!hideImages && project.data.image ? 'sm:col-span-2' : '',
+								cardAspect,
+							]}
+						/>
+					))}
+				</div>
+
+				<div class="mt-14 flex justify-end pt-4 md:mt-16">
+					<a
+						href="/projects"
+						class="group inline-flex items-center gap-4 no-underline"
+					>
+						<span class="font-mono text-sm tracking-[0.22em] text-ink uppercase md:text-[0.95rem]">
+							See all projects
+						</span>
+						<span
+							aria-hidden="true"
+							class="block h-px w-12 bg-ink-muted/60 transition-[width,background-color] duration-300 group-hover:w-20 group-hover:bg-ink"
+						/>
+						<span
+							aria-hidden="true"
+							class="font-mono text-base text-ink transition-transform duration-300 group-hover:translate-x-1 md:text-lg"
+						>
+							→
+						</span>
+					</a>
+				</div>
+			</>
 		) : (
 			<p class="text-ink-muted italic">No projects to show.</p>
 		)
