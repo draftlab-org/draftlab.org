@@ -53,26 +53,48 @@
   --color-highlight-900: oklch(35% 0.08 32);
   --color-highlight-950: oklch(25% 0.06 30);
 
-  /* Phase colors */
-  /* Understand: sage green — #4A7A50 dark / #D4E8D4 light */
-  --color-phase-understand-light: oklch(91% 0.05 145);
-  --color-phase-understand: oklch(52% 0.1 145);
-  --color-phase-understand-dark: oklch(42% 0.08 145);
+  /* Phase colors. Hues are deliberately ordered to walk monotonically around
+     the OKLCH wheel (45° → 145° → 240° → 300°) across the lifecycle, so the
+     four-stop gradient flows in one direction without wrapping — important
+     when interpolating with `in oklch shorter/longer hue`. */
 
-  /* Define: slate blue — #3A5A7A dark / #D4DDE8 light */
-  --color-phase-define-light: oklch(90% 0.03 240);
-  --color-phase-define: oklch(48% 0.08 240);
-  --color-phase-define-dark: oklch(38% 0.06 240);
+  /* Understand: terracotta — warm, grounded entry point */
+  --color-phase-understand-light: oklch(90% 0.04 55);
+  --color-phase-understand: oklch(48% 0.1 45);
+  --color-phase-understand-dark: oklch(38% 0.08 40);
 
-  /* Deliver: terracotta — #8A4A30 dark / #E8D4C8 light */
-  --color-phase-deliver-light: oklch(90% 0.04 55);
-  --color-phase-deliver: oklch(48% 0.1 45);
-  --color-phase-deliver-dark: oklch(38% 0.08 40);
+  /* Define: sage green — calm, observant */
+  --color-phase-define-light: oklch(91% 0.05 145);
+  --color-phase-define: oklch(52% 0.1 145);
+  --color-phase-define-dark: oklch(42% 0.08 145);
 
-  /* Sustain: muted purple — #5A3A7A dark / #E0D8E8 light */
+  /* Deliver: slate blue — analytical, methodical */
+  --color-phase-deliver-light: oklch(90% 0.03 240);
+  --color-phase-deliver: oklch(48% 0.08 240);
+  --color-phase-deliver-dark: oklch(38% 0.06 240);
+
+  /* Sustain: muted purple — mature, reflective */
   --color-phase-sustain-light: oklch(90% 0.04 300);
   --color-phase-sustain: oklch(42% 0.1 300);
   --color-phase-sustain-dark: oklch(32% 0.08 300);
+
+  /* Phase-gradient single source of truth. Every gradient utility in
+     components.css reads `--phase-gradient-stops*` for colour and
+     `--phase-gradient-method` for the interpolation behaviour. Change here
+     once and the hero band, nav bar, rules, frames, and underlines all
+     follow. Set `--phase-gradient-method:` (empty) to fall back to the
+     CSS default (oklab) interpolation. */
+  --phase-gradient-method: ;
+  --phase-gradient-angle: 100deg;
+  --phase-gradient-stops:
+    var(--color-phase-understand), var(--color-phase-define),
+    var(--color-phase-deliver), var(--color-phase-sustain);
+  --phase-gradient-stops-light:
+    var(--color-phase-understand-light), var(--color-phase-define-light),
+    var(--color-phase-deliver-light), var(--color-phase-sustain-light);
+  --phase-gradient-stops-dark:
+    var(--color-phase-understand-dark), var(--color-phase-define-dark),
+    var(--color-phase-deliver-dark), var(--color-phase-sustain-dark);
 
   /* Semantic tokens. `surface` is the page-bg colour; body has no explicit
      background, so this resolves visually to white. Kept as a token so

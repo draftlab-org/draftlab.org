@@ -50,7 +50,7 @@ const gradientStops =
     : orderedActivePhases.length === 1
       ? [phaseLightVar[orderedActivePhases[0]], 'var(--color-white)']
       : orderedActivePhases.map((p) => phaseLightVar[p]);
-const cardGradient = `linear-gradient(to right, ${gradientStops.join(', ')})`;
+const cardGradient = `linear-gradient(var(--phase-gradient-method) var(--phase-gradient-angle), ${gradientStops.join(', ')})`;
 ---
 
 <a

@@ -56,7 +56,7 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 	    cloud on desktop and the mousemove-driven 3D effect dies. */}
 	<div
 		data-skills-cloud-root
-		class="pointer-events-none absolute top-0 -z-10 block h-96 w-lg opacity-15 md:pointer-events-auto md:relative md:z-10 md:col-start-1 md:h-auto md:w-auto md:opacity-100"
+		class="skills-cloud-inverted pointer-events-none absolute top-0 -z-10 block h-96 w-lg opacity-15 md:pointer-events-auto md:relative md:z-10 md:col-start-1 md:h-auto md:w-auto md:opacity-100"
 	>
 		<div class="skills-cloud-wrap h-auto">
 			<SkillsCloud client:visible skills={cloudSkills} />
@@ -68,20 +68,20 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 	>
 		{
 			eyebrow && (
-				<p class="mb-3 text-xs font-medium tracking-wide text-ink-muted uppercase">
+				<p class="mb-3 text-xs font-medium tracking-wide text-white/85 uppercase">
 					{eyebrow}
 				</p>
 			)
 		}
 		<Heading
 			level={2}
-			class="gradient-phase bg-clip-text pb-2 text-balance text-transparent"
+			class="pb-2 text-balance text-white"
 		>
 			{heading}
 		</Heading>
 		{
 			body && (
-				<Text size="lg" class="mt-4 text-ink-soft">
+				<Text size="lg" class="mt-4 text-white/85">
 					{body}
 				</Text>
 			)
@@ -94,6 +94,10 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 </div>
 
 <style is:global>
+	.skills-cloud-inverted .skills-cloud__icon {
+		color: var(--color-cream, #fff);
+	}
+
 	.skills-cloud-wrap {
 		position: relative;
 		width: 100%;

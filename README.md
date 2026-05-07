@@ -298,6 +298,38 @@ Tailwind CSS v4 uses @theme definitions in the style files. Update `src/styles/c
 
 BaseLayout handles document-level concerns while PageLayout adds header, footer, and content structure. Create specialized layouts by extending these base layouts.
 
+### Phase gradient system
+
+The site identity uses a four-stop gradient across the four phase colours (`understand`, `define`, `deliver`, `sustain`). The gradient appears in many places — the nav bottom bar, the hero band, full-bleed section backgrounds, dividers (`gradient-rule`), input underlines (`gradient-underline`), card frames (`gradient-frame`), and per-project card backgrounds.
+
+All of those utilities read from a single source of truth in `src/styles/colors.css`:
+
+```css
+--phase-gradient-method: in oklch longer hue;  /* interpolation; (empty) = default oklab */
+--phase-gradient-angle: 100deg;                /* 90deg = "to right"; +10° clockwise tilt */
+--phase-gradient-stops:        var(--color-phase-understand), …, var(--color-phase-sustain);
+--phase-gradient-stops-light:  /* light tints */
+--phase-gradient-stops-dark:   /* dark tints */
+```
+
+Change any of these once and every gradient in the system updates — including the dynamic per-project card gradient in `ProjectCard.astro` (which has its own per-card stop list but routes through the shared method + angle). The vertical-rule utility (`gradient-rule-vertical`) keeps `to bottom` since tilting a 2px-wide line doesn't read.
+
+**Available interpolation methods:**
+
+| Value | Effect |
+|---|---|
+| *(empty)* | CSS Color 4 default — `oklab`. Perceptually uniform, no hue rotation. Crossing distant hues passes through desaturated midpoints. |
+| `in oklab` / `in lab` | Explicit perceptually-uniform rectangular spaces. |
+| `in srgb` / `in srgb-linear` / `in display-p3` | RGB-family. `srgb` muddies hard through grey on complements; `display-p3` is punchier on wide-gamut displays. |
+| `in oklch shorter hue` | Short way around the OKLCH hue wheel. Avoids grey midpoints, stays perceptually uniform. |
+| `in oklch longer hue` | Long way around. Vibrant rainbow paths through whatever hues lie on the far arc. |
+| `in oklch increasing hue` / `decreasing hue` | Always rotates one direction (clockwise / counter-clockwise). |
+| `in lch <method> hue` | CIE LCH variant — slightly less perceptually uniform than OKLCH, often a touch more saturated. |
+| `in hsl <method> hue` | Old-school HSL. Lightness peaks/dips at primaries — mids can spike unexpectedly. |
+| `in hwb <method> hue` | Hue + whiteness + blackness. Tends to produce flatter, paler transitions. |
+
+To preview a method, edit the value in `src/styles/colors.css` and hard-refresh — every gradient updates simultaneously.
+
 ## Learn More
 
 - [Astro Documentation](https://docs.astro.build)
