@@ -6,10 +6,13 @@ import { devClass } from '@utils/dev';
 import type { ImageMetadata } from 'astro';
 
 
+export type VerticalSpace = 'narrow' | 'normal' | 'wide';
+
 export interface Props {
   containerized?: boolean;
   maxWidth?: 'full' | '7xl' | '6xl' | '5xl' | '4xl';
   padding?: boolean;
+  verticalSpace?: VerticalSpace;
   class?: string;
   bgColor?: string;
   bgType?: string;
@@ -21,6 +24,7 @@ const {
   containerized = true,
   maxWidth = '7xl',
   padding = true,
+  verticalSpace = 'normal',
   class: className = '',
   bgImage,
   bgColor,
@@ -36,8 +40,20 @@ const maxWidths = {
   '4xl': 'max-w-4xl',
 };
 
+// Vertical-space tiers. Single source of truth for section breathing room —
+// individual section components no longer carry their own py-* utilities.
+// Tune the rhythm here once and every section that flows through SectionLayout
+// follows. `padding` still controls horizontal padding only.
+const verticalSpaces: Record<VerticalSpace, string> = {
+  narrow: 'py-4 md:py-8 lg:py-12',
+  normal: 'py-8 md:py-12 lg:py-16',
+  wide: 'py-10 md:py-16 lg:py-28',
+};
+
 const containerClass = containerized ? `mx-auto ${maxWidths[maxWidth]}` : '';
-const paddingClass = padding ? 'px-4 sm:px-6 lg:px-8 py-8' : '';
+const horizontalPaddingClass = padding ? 'px-4 sm:px-6 lg:px-8' : '';
+const verticalPaddingClass = verticalSpaces[verticalSpace];
+const paddingClass = `${horizontalPaddingClass} ${verticalPaddingClass}`.trim();
 
 const backgrounds = {
   white: 'bg-white',
