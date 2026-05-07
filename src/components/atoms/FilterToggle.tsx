@@ -28,7 +28,7 @@ export default function FilterToggle({
       onClick={onToggle}
       title={title ?? label}
       className={cx(
-        'group relative inline-flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 text-sm transition-all duration-150 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+        'group relative inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs transition-all duration-150 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none sm:gap-2 sm:px-3 sm:py-1.5 sm:text-sm',
         active
           ? 'border-transparent gradient-phase-light text-ink shadow-sm'
           : 'border-gray-200 bg-white text-ink-muted grayscale hover:border-gray-300 hover:text-ink hover:grayscale-0'

@@ -301,11 +301,11 @@ export default function FeedFilter({
     key: FilterKey,
     options: FilterOption[]
   ) => (
-    <div className="space-y-2">
-      <div className="text-xs font-medium tracking-wide text-ink-muted uppercase">
+    <div className="space-y-1.5 sm:space-y-2">
+      <div className="text-[0.65rem] font-medium tracking-wide text-ink-muted uppercase sm:text-xs">
         {label}
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5 sm:gap-2">
         {options.map((opt) => (
           <FilterToggle
             key={opt.slug}
@@ -384,7 +384,7 @@ export default function FeedFilter({
             open ? 'opacity-100' : 'pointer-events-none opacity-0'
           )}
         >
-          <div className="space-y-4 p-4 sm:p-5">
+          <div className="space-y-3 p-3 sm:space-y-4 sm:p-5">
             {renderRow('Skills', 'skills', skills)}
             {renderRow('Phases', 'phases', phases)}
           </div>
