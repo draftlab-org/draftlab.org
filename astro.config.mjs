@@ -40,14 +40,6 @@ export default defineConfig({
     },
     {
       provider: fontProviders.bunny(),
-      name: 'Source Serif 4',
-      weights: [400, 500, 700],
-      styles: ['normal'],
-      subsets: ['latin', 'latin-ext'],
-      cssVariable: '--font-source-serif-4',
-    },
-    {
-      provider: fontProviders.bunny(),
       name: 'JetBrains Mono',
       weights: [400, 500],
       styles: ['normal'],

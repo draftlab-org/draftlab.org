@@ -182,17 +182,16 @@ const fediverseCreator = (() => {
 
 <!-- Local Font Declaration.
      `preload` is granular: preload only the variants needed to paint above-the-fold
-     content. Fraunces 700 latin = the hero headline (LCP on `/`) and the logo.
-     Source Serif 4 400 latin = the nav menu items and body text. The other
-     declared weights/subsets still load on demand via the injected @font-face rules.
+     content. Fraunces 700 latin = the hero headline (LCP on `/`) and the logo;
+     Fraunces 400 latin = nav menu items and body text. The other declared
+     weights/subsets still load on demand via the injected @font-face rules.
      JetBrains Mono is below the fold everywhere — no preload. -->
 <Font
 	cssVariable="--font-fraunces"
-	preload={[{ weight: 700, style: 'normal', subset: 'latin' }]}
-/>
-<Font
-	cssVariable="--font-source-serif-4"
-	preload={[{ weight: 400, style: 'normal', subset: 'latin' }]}
+	preload={[
+		{ weight: 400, style: 'normal', subset: 'latin' },
+		{ weight: 700, style: 'normal', subset: 'latin' },
+	]}
 />
 <Font cssVariable="--font-jetbrains-mono" />
 

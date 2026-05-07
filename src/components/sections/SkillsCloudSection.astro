@@ -56,7 +56,7 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 	    cloud on desktop and the mousemove-driven 3D effect dies. */}
 	<div
 		data-skills-cloud-root
-		class="skills-cloud-inverted pointer-events-none absolute top-0 -z-10 block h-96 w-lg opacity-15 md:pointer-events-auto md:relative md:z-10 md:col-start-1 md:h-auto md:w-auto md:opacity-100"
+		class="skills-cloud-inverted pointer-events-none absolute top-0 block h-96 w-lg opacity-15 md:pointer-events-auto md:relative md:z-10 md:col-start-1 md:h-auto md:w-auto md:opacity-100"
 	>
 		<div class="skills-cloud-wrap h-auto">
 			<SkillsCloud client:visible skills={cloudSkills} />
