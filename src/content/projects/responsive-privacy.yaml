@@ -15,7 +15,7 @@ phases:
   - sustain
 modalities:
   - community
-yearStart: 2025
+dateStart: 2025-01-01
 projectStatus: active
 featured: true
 skills:

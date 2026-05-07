@@ -12,7 +12,7 @@ phases:
   - sustain
 modalities:
   - community
-yearStart: 2025
+dateStart: 2025-01-01
 projectStatus: active
 featured: false
 skills:
@@ -39,7 +39,7 @@ body: >-
   Scaffold powers this site, and is the foundation we hand off to teams we work
   with.
 updates:
-  - date: 2026-04-10
+  - date: 2026-03-10
     title: Docs, search, and a clean entry for LLMs
     update: Added a multi-chapter docs section and an llms.txt at the root. Site
       search now spans articles, resources, and documentation.

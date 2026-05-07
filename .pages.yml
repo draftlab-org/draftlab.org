@@ -880,13 +880,13 @@ content:
           label: '{fields.name}'
         description: Types of work involved in this project
 
-      - name: yearStart
-        label: Start Year
-        type: number
+      - name: dateStart
+        label: Start Date
+        type: date
 
-      - name: yearEnd
-        label: End Year
-        type: number
+      - name: dateEnd
+        label: End Date
+        type: date
 
       - name: projectStatus
         label: Project Status

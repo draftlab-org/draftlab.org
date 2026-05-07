@@ -10,8 +10,8 @@ phases:
   - deliver
 modalities:
   - clinic
-yearStart: 2024
-yearEnd: 2024
+dateStart: 2024-01-01
+dateEnd: 2024-12-31
 projectStatus: complete
 featured: false
 skills:

@@ -59,7 +59,8 @@ export type FeedItem =
       data: QuoteFeedData;
     };
 
-const yearToMs = (year: number) => Date.UTC(year, 11, 31);
+// Insert one quote after every Nth project in the feed.
+const QUOTE_INTERVAL = 4;
 
 // Quotes inherit phases/modalities/skills from their linked project. If no
 // project is set, derive from the union of all projects where the quote's
@@ -128,14 +129,26 @@ export async function getFeedItems(): Promise<FeedItem[]> {
     });
   });
 
-  const currentYear = new Date().getUTCFullYear();
-
   const projectItems: FeedItem[] = projects.map((p) => {
-    const year = p.data.yearEnd ?? p.data.yearStart ?? currentYear;
-    const sortMs =
-      p.data.projectStatus === 'active' && !p.data.yearEnd
-        ? yearToMs(currentYear)
-        : yearToMs(year);
+    const updateMs = (p.data.updates ?? [])
+      .map((u) => Date.parse(u.date))
+      .filter((n) => Number.isFinite(n));
+    const endMs = p.data.dateEnd ? Date.parse(p.data.dateEnd) : NaN;
+    const startMs = p.data.dateStart ? Date.parse(p.data.dateStart) : NaN;
+    let sortMs: number;
+    if (updateMs.length) {
+      sortMs = Math.max(...updateMs);
+    } else if (p.data.projectStatus === 'active' && !p.data.dateEnd) {
+      // No updates and no end date — least signal of recent activity.
+      // Use the start date so it sits below same-year updates.
+      sortMs = Number.isFinite(startMs) ? startMs : Date.now();
+    } else {
+      sortMs = Number.isFinite(endMs)
+        ? endMs
+        : Number.isFinite(startMs)
+          ? startMs
+          : Date.now();
+    }
     return {
       kind: 'project',
       slug: p.data.slug,
@@ -197,5 +210,22 @@ export async function getFeedItems(): Promise<FeedItem[]> {
     };
   });
 
-  return [...projectItems, ...quoteItems].sort((a, b) => b.sortMs - a.sortMs);
+  const sortedProjects = projectItems.sort((a, b) => b.sortMs - a.sortMs);
+  const sortedQuotes = quoteItems.sort((a, b) => b.sortMs - a.sortMs);
+
+  const merged: FeedItem[] = [];
+  let quoteIdx = 0;
+  sortedProjects.forEach((p, i) => {
+    merged.push(p);
+    if (
+      (i + 1) % QUOTE_INTERVAL === 0 &&
+      quoteIdx < sortedQuotes.length
+    ) {
+      merged.push(sortedQuotes[quoteIdx++]);
+    }
+  });
+  while (quoteIdx < sortedQuotes.length) {
+    merged.push(sortedQuotes[quoteIdx++]);
+  }
+  return merged;
 }

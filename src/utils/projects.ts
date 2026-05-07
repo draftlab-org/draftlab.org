@@ -8,12 +8,12 @@ export async function getProjects() {
     const bActive = b.data.projectStatus === 'active' ? 0 : 1;
     if (aActive !== bActive) return aActive - bActive;
 
-    const aEnd = a.data.yearEnd ?? -Infinity;
-    const bEnd = b.data.yearEnd ?? -Infinity;
+    const aEnd = a.data.dateEnd ? Date.parse(a.data.dateEnd) : -Infinity;
+    const bEnd = b.data.dateEnd ? Date.parse(b.data.dateEnd) : -Infinity;
     if (aEnd !== bEnd) return bEnd - aEnd;
 
-    const aStart = a.data.yearStart ?? -Infinity;
-    const bStart = b.data.yearStart ?? -Infinity;
+    const aStart = a.data.dateStart ? Date.parse(a.data.dateStart) : -Infinity;
+    const bStart = b.data.dateStart ? Date.parse(b.data.dateStart) : -Infinity;
     if (aStart !== bStart) return bStart - aStart;
 
     return a.data.name.localeCompare(b.data.name);
