@@ -6,6 +6,12 @@ sections:
     background:
       bgColor: phase-gradient
       bgType: full
+  - type: callout
+    content: >-
+      Draftlab is a design and technology studio that works with civil society organisations, humanitarians, open tech projects, and multi-stakeholder initiatives. We believe technology should be appropriate to its context: secure where it needs to be, sovereign where it matters, simple where complexity would be a burden.
+    background:
+      bgColor: phase-gradient-light
+      bgType: full
   # - type: framework
   #   title: How we work
   #   description: 'The framework below maps what we do across two dimensions: the phase of your project, and the way we show up.'
@@ -16,11 +22,7 @@ sections:
     background:
       bgColor: white
       bgType: full
-  - type: latestUpdates
-    limit: 4
-    background:
-      bgColor: phase-gradient
-      bgType: full
+
   - type: projectsRoll
     title: Featured projects
     featuredOnly: true
@@ -29,6 +31,11 @@ sections:
     wide: true
     background:
       bgColor: white
+      bgType: full
+  - type: latestUpdates
+    limit: 4
+    background:
+      bgColor: phase-gradient
       bgType: full
   - type: organisationsRoll
     title: Clients and partners

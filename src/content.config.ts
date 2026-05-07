@@ -105,6 +105,10 @@ const pagesCollection = defineCollection({
         withTOC: z.boolean().optional().default(false),
       }),
       SectionCommonSchema.extend({
+        type: z.literal('callout'),
+        content: z.string(),
+      }),
+      SectionCommonSchema.extend({
         type: z.literal('button'),
         title: z.string().optional(),
         buttons: z.array(buttonSchema).optional(),

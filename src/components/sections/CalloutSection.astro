@@ -1,0 +1,20 @@
+---
+import renderMarkdownWithImages from '@utils/renderMarkdown';
+
+export interface Props {
+  content: string;
+}
+
+const { content } = Astro.props;
+const { html } = await renderMarkdownWithImages(content, false);
+---
+
+<div class="mx-auto max-w-3xl">
+	<div class="corner-brackets p-8 text-ink md:p-12 lg:p-16">
+		<div
+			class="prose max-w-none text-ink prose-p:my-0 prose-p:font-serif prose-p:text-lg prose-p:leading-relaxed md:prose-p:leading-normal"
+		>
+			<Fragment set:html={html} />
+		</div>
+	</div>
+</div>

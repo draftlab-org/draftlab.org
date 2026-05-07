@@ -47,7 +47,7 @@ const modalities = modalityEntries
   }));
 ---
 
-<section class="text-ink">
+<section class="py-8 text-ink md:py-14 lg:py-20">
 	<header class="mb-10 flex flex-col items-start gap-4 md:mb-14">
 		<SectionTitle title={title} class="text-ink" />
 		{
@@ -92,7 +92,7 @@ const modalities = modalityEntries
 							{col.name}
 						</span>
 						{col.tagline && (
-							<p class="font-mono text-[0.65rem] tracking-[0.18em] text-ink-muted uppercase">
+							<p class="font-serif text-sm leading-relaxed text-ink-soft">
 								{col.tagline}
 							</p>
 						)}
@@ -137,7 +137,7 @@ const modalities = modalityEntries
 					</div>
 
 					{col.tagline && (
-						<p class="mt-3 font-mono text-[0.65rem] tracking-[0.18em] text-ink-muted uppercase">
+						<p class="mt-3 font-serif text-sm leading-relaxed text-ink-soft md:text-base">
 							{col.tagline}
 						</p>
 					)}

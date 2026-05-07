@@ -2,6 +2,7 @@
 import ApplyForUxdSection from '@components/sections/ApplyForUxdSection.astro';
 import ButtonSection from '@components/sections/ButtonSection.astro';
 import CalEmbedSection from '@components/sections/CalEmbedSection.astro';
+import CalloutSection from '@components/sections/CalloutSection.astro';
 import CardSection from '@components/sections/CardSection.astro';
 import FeedGridSection from '@components/sections/FeedGridSection.astro';
 import FlexiSection from '@components/sections/FlexiSection.astro';
@@ -58,6 +59,8 @@ const { sectionItems } = Astro.props;
               withTOC={section.withTOC}
             />
           );
+        case 'callout':
+          return <CalloutSection content={section.content} />;
         case 'card':
           return (
             <CardSection
