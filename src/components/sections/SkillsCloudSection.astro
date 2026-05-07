@@ -13,13 +13,20 @@ export interface Props {
   eyebrow?: string;
   heading?: string;
   body?: string;
+  bgColor?: string;
 }
 
 const {
   eyebrow,
   heading = 'Creative project design for social good champions.',
   body,
+  bgColor,
 } = Astro.props;
+
+// On the phase-gradient backdrop, text and icons sit on a coloured band so
+// they go solid white. On any lighter background (default `white`) they pick
+// up the phase-gradient themselves so the section keeps its visual identity.
+const onGradientBg = bgColor === 'phase-gradient';
 
 const skillsRaw = await getCollection('skills');
 const skills = skillsRaw
@@ -47,8 +54,51 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 ---
 
 <div
-	class="relative overflow-hidden md:grid md:grid-cols-2 md:items-center md:gap-16"
+	class:list={[
+		'relative overflow-hidden md:grid md:grid-cols-2 md:items-center md:gap-16',
+		onGradientBg ? 'skills-cloud-section-dark' : 'skills-cloud-section-light',
+	]}
 >
+	{
+		!onGradientBg && (
+			<svg
+				aria-hidden="true"
+				focusable="false"
+				width="0"
+				height="0"
+				class="pointer-events-none absolute"
+				style="position:absolute;width:0;height:0"
+			>
+				<defs>
+					<linearGradient
+						id="skills-cloud-phase-gradient"
+						x1="0"
+						y1="0"
+						x2="1"
+						y2="0"
+					>
+						<stop
+							offset="0%"
+							style="stop-color: var(--color-phase-understand)"
+						/>
+						<stop
+							offset="33%"
+							style="stop-color: var(--color-phase-define)"
+						/>
+						<stop
+							offset="66%"
+							style="stop-color: var(--color-phase-deliver)"
+						/>
+						<stop
+							offset="100%"
+							style="stop-color: var(--color-phase-sustain)"
+						/>
+					</linearGradient>
+				</defs>
+			</svg>
+		)
+	}
+
 	{/* Single SkillsCloud island. On mobile: absolute backdrop behind the
 	    heading (decorative, opacity-15). On desktop: in-flow grid column 1
 	    alongside the heading. `md:relative md:z-10` is load-bearing — without
@@ -56,7 +106,7 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 	    cloud on desktop and the mousemove-driven 3D effect dies. */}
 	<div
 		data-skills-cloud-root
-		class="skills-cloud-inverted pointer-events-none absolute top-0 block h-96 w-lg opacity-15 md:pointer-events-auto md:relative md:z-10 md:col-start-1 md:h-auto md:w-auto md:opacity-100"
+		class="pointer-events-none absolute top-0 block h-96 w-lg opacity-15 md:pointer-events-auto md:relative md:z-10 md:col-start-1 md:h-auto md:w-auto md:opacity-100"
 	>
 		<div class="skills-cloud-wrap h-auto">
 			<SkillsCloud client:visible skills={cloudSkills} />
@@ -68,20 +118,36 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 	>
 		{
 			eyebrow && (
-				<p class="mb-3 text-xs font-medium tracking-wide text-white/85 uppercase">
+				<p
+					class:list={[
+						'mb-3 text-xs font-medium tracking-wide uppercase',
+						onGradientBg ? 'text-white/85' : 'text-ink-soft',
+					]}
+				>
 					{eyebrow}
 				</p>
 			)
 		}
 		<Heading
 			level={2}
-			class="pb-2 text-balance text-white"
+			class:list={[
+				'pb-2 text-balance',
+				onGradientBg
+					? 'text-white'
+					: 'gradient-phase bg-clip-text text-transparent',
+			]}
 		>
 			{heading}
 		</Heading>
 		{
 			body && (
-				<Text size="lg" class="mt-4 text-white/85">
+				<Text
+					size="lg"
+					class:list={[
+						'mt-4',
+						onGradientBg ? 'text-white/85' : 'text-ink-soft',
+					]}
+				>
 					{body}
 				</Text>
 			)
@@ -94,8 +160,24 @@ const cloudSkills: SkillsCloudSkill[] = skills.map((s) => ({
 </div>
 
 <style is:global>
-	.skills-cloud-inverted .skills-cloud__icon {
+	.skills-cloud-section-dark .skills-cloud__icon {
 		color: var(--color-cream, #fff);
+	}
+
+	/* Light backdrop: paint icons with the phase-gradient via the SVG
+	   <defs> emitted above. Hugeicons are stroke-based with `currentColor`,
+	   so we point both stroke and fill at the gradient and zero out
+	   currentColor as a safety net. */
+	.skills-cloud-section-light .skills-cloud__icon {
+		color: transparent;
+	}
+	.skills-cloud-section-light .skills-cloud__icon svg,
+	.skills-cloud-section-light .skills-cloud__icon svg * {
+		stroke: url(#skills-cloud-phase-gradient);
+	}
+	.skills-cloud-section-light .skills-cloud__icon svg [fill]:not([fill='none']),
+	.skills-cloud-section-light .skills-cloud__icon svg :not([fill])[stroke='none'] {
+		fill: url(#skills-cloud-phase-gradient);
 	}
 
 	.skills-cloud-wrap {
