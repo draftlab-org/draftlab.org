@@ -3,9 +3,12 @@ import { Image } from 'astro:assets';
 import draftlabLogo from '@assets/draftlab-logo.svg';
 import GradientLink from '@components/atoms/GradientLink.astro';
 import SkillIcon from '@components/atoms/SkillIcon.astro';
+import {
+  getOrderedActivePhases,
+  getRadialMeshGradient,
+  type Phase,
+} from '@utils/phaseGradient';
 import type { ImageMetadata } from 'astro';
-
-const PHASE_ORDER = ['understand', 'define', 'deliver', 'sustain'] as const;
 
 export interface Props {
   name: string;
@@ -13,7 +16,7 @@ export interface Props {
   description: string;
   client?: string;
   clientLogo?: ImageMetadata;
-  phases: Array<'understand' | 'define' | 'deliver' | 'sustain'>;
+  phases: Phase[];
   skills?: string[];
   projectStatus?: 'active' | 'complete';
   image?: ImageMetadata;
@@ -34,23 +37,9 @@ const {
 } = Astro.props;
 
 const isActive = projectStatus === 'active';
-const phaseSet = new Set(phases);
 
-const phaseLightVar: Record<(typeof PHASE_ORDER)[number], string> = {
-  understand: 'var(--color-phase-understand-light)',
-  define: 'var(--color-phase-define-light)',
-  deliver: 'var(--color-phase-deliver-light)',
-  sustain: 'var(--color-phase-sustain-light)',
-};
-
-const orderedActivePhases = PHASE_ORDER.filter((p) => phaseSet.has(p));
-const gradientStops =
-  orderedActivePhases.length === 0
-    ? ['var(--color-white)', 'var(--color-white)']
-    : orderedActivePhases.length === 1
-      ? [phaseLightVar[orderedActivePhases[0]], 'var(--color-white)']
-      : orderedActivePhases.map((p) => phaseLightVar[p]);
-const cardGradient = `linear-gradient(var(--phase-gradient-method) var(--phase-gradient-angle), ${gradientStops.join(', ')})`;
+const orderedActivePhases = getOrderedActivePhases(phases);
+const cardGradient = getRadialMeshGradient(slug, orderedActivePhases, 'light');
 ---
 
 <a

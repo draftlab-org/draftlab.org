@@ -15,6 +15,40 @@
   background-image: linear-gradient(var(--phase-gradient-method) var(--phase-gradient-angle), var(--phase-gradient-stops-dark));
 }
 
+/* Mesh-phase backgrounds: four radial blobs (one per phase) over a solid
+   floor, driven by the `--mesh-*` knobs in colors.css. Positions and
+   fade radii are tweakable globally there or per-element via inline
+   style / a parent rule. The floor fills any region the blobs don't
+   reach. Use these on full-area backgrounds (footer, full-bleed
+   sections); for thin lines and bg-clip-text, keep the linear
+   gradient utilities above. */
+@utility mesh-phase {
+  background:
+    radial-gradient(at var(--mesh-understand-x) var(--mesh-understand-y), var(--color-phase-understand), transparent var(--mesh-understand-fade)),
+    radial-gradient(at var(--mesh-define-x) var(--mesh-define-y), var(--color-phase-define), transparent var(--mesh-define-fade)),
+    radial-gradient(at var(--mesh-deliver-x) var(--mesh-deliver-y), var(--color-phase-deliver), transparent var(--mesh-deliver-fade)),
+    radial-gradient(at var(--mesh-sustain-x) var(--mesh-sustain-y), var(--color-phase-sustain), transparent var(--mesh-sustain-fade)),
+    var(--color-phase-deliver);
+}
+
+@utility mesh-phase-light {
+  background:
+    radial-gradient(at var(--mesh-understand-x) var(--mesh-understand-y), var(--color-phase-understand-light), transparent var(--mesh-understand-fade)),
+    radial-gradient(at var(--mesh-define-x) var(--mesh-define-y), var(--color-phase-define-light), transparent var(--mesh-define-fade)),
+    radial-gradient(at var(--mesh-deliver-x) var(--mesh-deliver-y), var(--color-phase-deliver-light), transparent var(--mesh-deliver-fade)),
+    radial-gradient(at var(--mesh-sustain-x) var(--mesh-sustain-y), var(--color-phase-sustain-light), transparent var(--mesh-sustain-fade)),
+    var(--color-white);
+}
+
+@utility mesh-phase-dark {
+  background:
+    radial-gradient(at var(--mesh-understand-x) var(--mesh-understand-y), var(--color-phase-understand-dark), transparent var(--mesh-understand-fade)),
+    radial-gradient(at var(--mesh-define-x) var(--mesh-define-y), var(--color-phase-define-dark), transparent var(--mesh-define-fade)),
+    radial-gradient(at var(--mesh-deliver-x) var(--mesh-deliver-y), var(--color-phase-deliver-dark), transparent var(--mesh-deliver-fade)),
+    radial-gradient(at var(--mesh-sustain-x) var(--mesh-sustain-y), var(--color-phase-sustain-dark), transparent var(--mesh-sustain-fade)),
+    var(--color-phase-deliver-dark);
+}
+
 /* Phase-gradient horizontal rule. 2px tall by default so the four-stop
    gradient is actually visible at typical widths. Apply to a span/div with
    explicit width (e.g. flex-1 or w-8). For a vertical rule, see below. */
