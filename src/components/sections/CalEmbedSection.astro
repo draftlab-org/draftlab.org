@@ -16,55 +16,65 @@ const {
 const containerId = `cal-inline-${namespace}`;
 ---
 
-<div class="mx-auto -my-6 w-full max-w-5xl sm:-my-8">
-  <div
-    id={containerId}
-    class="w-full overflow-scroll"
-    style={`min-height:${minHeight}`}
-  ></div>
+<div class="mx-auto w-full sm:-my-8">
+	<div
+		id={containerId}
+		class="w-full overflow-scroll"
+		style={`min-height:${minHeight}`}
+	>
+	</div>
 </div>
 
 <script
-  is:inline
-  type="text/javascript"
-  define:vars={{ containerId, calLink, namespace, origin }}
+	is:inline
+	type="text/javascript"
+	define:vars={{ containerId, calLink, namespace, origin }}
 >
-  (function (C, A, L) {
-    let p = function (a, ar) { a.q.push(ar); };
-    let d = C.document;
-    C.Cal = C.Cal || function () {
-      let cal = C.Cal;
-      let ar = arguments;
-      if (!cal.loaded) {
-        cal.ns = {};
-        cal.q = cal.q || [];
-        d.head.appendChild(d.createElement("script")).src = A;
-        cal.loaded = true;
-      }
-      if (ar[0] === L) {
-        const api = function () { p(api, arguments); };
-        const ns = ar[1];
-        api.q = api.q || [];
-        if (typeof ns === "string") {
-          cal.ns[ns] = cal.ns[ns] || api;
-          p(cal.ns[ns], ar);
-          p(cal, ["initNamespace", ns]);
-        } else {
-          p(cal, ar);
-        }
-        return;
-      }
-      p(cal, ar);
-    };
-  })(window, origin + "/embed/embed.js", "init");
+	(function (C, A, L) {
+		let p = function (a, ar) {
+			a.q.push(ar);
+		};
+		let d = C.document;
+		C.Cal =
+			C.Cal ||
+			function () {
+				let cal = C.Cal;
+				let ar = arguments;
+				if (!cal.loaded) {
+					cal.ns = {};
+					cal.q = cal.q || [];
+					d.head.appendChild(d.createElement('script')).src = A;
+					cal.loaded = true;
+				}
+				if (ar[0] === L) {
+					const api = function () {
+						p(api, arguments);
+					};
+					const ns = ar[1];
+					api.q = api.q || [];
+					if (typeof ns === 'string') {
+						cal.ns[ns] = cal.ns[ns] || api;
+						p(cal.ns[ns], ar);
+						p(cal, ['initNamespace', ns]);
+					} else {
+						p(cal, ar);
+					}
+					return;
+				}
+				p(cal, ar);
+			};
+	})(window, origin + '/embed/embed.js', 'init');
 
-  Cal("init", namespace, { origin: origin });
+	Cal('init', namespace, { origin: origin });
 
-  Cal.ns[namespace]("inline", {
-    elementOrSelector: "#" + containerId,
-    config: { layout: "month_view", useSlotsViewOnSmallScreen: "true" },
-    calLink: calLink,
-  });
+	Cal.ns[namespace]('inline', {
+		elementOrSelector: '#' + containerId,
+		config: { layout: 'month_view', useSlotsViewOnSmallScreen: 'true' },
+		calLink: calLink,
+	});
 
-  Cal.ns[namespace]("ui", { hideEventTypeDetails: false, layout: "month_view" });
+	Cal.ns[namespace]('ui', {
+		hideEventTypeDetails: false,
+		layout: 'month_view',
+	});
 </script>

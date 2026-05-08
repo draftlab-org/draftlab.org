@@ -96,6 +96,24 @@
     var(--color-phase-understand-dark), var(--color-phase-define-dark),
     var(--color-phase-deliver-dark), var(--color-phase-sustain-dark);
 
+  /* Mesh-gradient knobs. Drive the `mesh-phase{,-light,-dark}` utilities
+     in components.css. Position is the blob centre in % of the box;
+     fade is the radial stop where the blob reaches transparent.
+     Override at any scope (e.g. inside a section) to retune that
+     element's mesh without touching the global look. */
+  --mesh-understand-x: 15%;
+  --mesh-understand-y: 25%;
+  --mesh-understand-fade: 60%;
+  --mesh-define-x: 78%;
+  --mesh-define-y: 18%;
+  --mesh-define-fade: 58%;
+  --mesh-deliver-x: 22%;
+  --mesh-deliver-y: 82%;
+  --mesh-deliver-fade: 62%;
+  --mesh-sustain-x: 85%;
+  --mesh-sustain-y: 78%;
+  --mesh-sustain-fade: 60%;
+
   /* Semantic tokens. `surface` is the page-bg colour; body has no explicit
      background, so this resolves visually to white. Kept as a token so
      `gradient-frame` (which paints surface as the inner of its 2-layer bg)
