@@ -1,0 +1,71 @@
+name: Improving Internet Accessibility
+slug: weblate
+status: published
+contentStatus: ready
+description: User research and design strategy for Weblate, the open source
+  localization platform powering much of the world's free software. Threading
+  the needle between feature-rich and focused.
+client: weblate
+partners:
+  - ura-design
+phases:
+  - understand
+  - define
+modalities:
+  - clinic
+skills:
+  - human-centered-design
+  - ux-interaction-design
+  - user-research
+dateStart: 2025-12-11
+dateEnd: 2026-02-11
+projectStatus: complete
+featured: false
+body: >-
+  [Weblate](https://weblate.org) is the open source localization platform behind
+  thousands of software projects. Its capabilities have consistently grown over
+  the years, and this wealth of features started to impact user experience, with
+  users struggling with feature discovery, reporting, and onboarding of new
+  contributors. Draftlab partnered with [Ura Design](https://ura.design) on a
+  [UXD Lab](https://www.opentech.fund/labs/uxd-lab/) engagement to understand
+  and surface these pain points, and propose a sequenced path forward.
+
+
+  Between December 2025 and February 2026, we conducted 15 in-depth interviews
+  with translators, reviewers and managers, alongside 68 survey responses
+  gathered at [FOSDEM](https://fosdem.org) and through translation communities.
+  The core finding: Weblate already has most of the features its users need,
+  they just can't easily find or use them. 
+
+
+  We identified four interconnected pain points (feature discoverability,
+  reporting and data extraction, onboarding, and translator appreciation), and
+  proposed four solutions: a streamlined translation view, revised user roles, a
+  visual dashboard for managers, and an improved onboarding experience. To help
+  with planning and prioritization, we sequenced three implementation stages,
+  starting from lowest-effort, highest-impact changes. Ura Design translated
+  these into working prototype mockups that provided a clear visual and UX
+  direction, focused mainly on the translation view and an exploratory manager
+  dashboard.
+updates:
+  - date: 2025-12-30
+    title: Project kickoff and research scoping
+    update: Aligned with Ura Design on tasks, timelines and responsibilities.
+      Interviewed Localization Lab and Weblate to gain historical context and
+      define user personas. Established shared research infrastructure. Started
+      scheduling interviews
+  - date: 2026-02-10
+    title: Four pain points, four solutions
+    update: "15 interviews and 68 survey responses analysed. The headline finding:
+      Weblate has most of the features its users need, but interface complexity
+      is preventing people from finding or using them. We proposed four
+      solutions sequenced across three implementation stages, prioritising the
+      lowest-effort highest-impact changes first."
+    image: /src/assets/Screenshot 2026-05-11 at 14.39.50.png
+  - date: 2026-02-28
+    title: Research delivered, findings handed to Weblate
+    update: Final report shared with the Weblate team to inform their product
+      roadmap, and with Ura Design to support prototype work. We provided
+      detailed feedback on Ura's translation view mockups and proposed an
+      exploratory dashboard concept drawn from the manager interviews, both
+      reflected in Ura's iterated designs.
