@@ -1,0 +1,7 @@
+{
+  "id": "weblate",
+  "name": "Weblate",
+  "type": "client",
+  "url": "https://weblate.org",
+  "image": "/src/assets/weblate-logo.svg"
+}
