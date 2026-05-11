@@ -46,9 +46,10 @@ const cardGradient = getRadialMeshGradient(slug, orderedActivePhases, 'light');
 	href={`/projects/${slug}`}
 	data-base-href={`/projects/${slug}`}
 	class:list={[
-		'group relative flex h-full no-underline shadow-sm transition-colors duration-150 **:no-underline focus-within:z-10 hover:z-10 hover:shadow-md',
+		'group relative flex h-full flex-col no-underline shadow-sm transition-colors duration-150 **:no-underline focus-within:z-10 hover:z-10 hover:shadow-md sm:flex-row',
 		className,
 	]}
+	style={`background: ${cardGradient};`}
 >
 	{
 		isActive && (
@@ -66,7 +67,7 @@ const cardGradient = getRadialMeshGradient(slug, orderedActivePhases, 'light');
 
 	{
 		image && (
-			<div class="relative w-1/3 overflow-hidden sm:w-1/2">
+			<div class="relative mx-5 mt-8 aspect-video overflow-hidden sm:mx-0 sm:mt-0 sm:aspect-auto sm:w-1/2">
 				<Image
 					src={image}
 					alt=""
@@ -85,10 +86,7 @@ const cardGradient = getRadialMeshGradient(slug, orderedActivePhases, 'light');
 		)
 	}
 
-	<div
-		class="relative z-10 flex flex-1 flex-col p-5"
-		style={`background: ${cardGradient};`}
-	>
+	<div class="relative z-10 flex flex-1 flex-col p-5">
 		<div class="mb-3 h-8 w-32">
 			<Image
 				src={clientLogo ?? draftlabLogo}

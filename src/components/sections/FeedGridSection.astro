@@ -85,7 +85,7 @@ const itemTags: FeedItemTagData[] = items.map((it) => ({
 		items={itemTags}
 	/>
 
-	<div id={gridId} class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+	<div id={gridId} class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 		{
 			items.map((item) => (
 				<div
@@ -95,9 +95,7 @@ const itemTags: FeedItemTagData[] = items.map((it) => ({
 					data-modalities={item.modalities.join(',')}
 					data-skills={item.skills.join(',')}
 					class:list={[
-						item.kind === 'project' &&
-							item.data.image &&
-							'sm:col-span-2',
+						item.kind === 'project' && item.data.image && 'sm:col-span-2',
 					]}
 				>
 					{item.kind === 'project' && (
@@ -107,9 +105,11 @@ const itemTags: FeedItemTagData[] = items.map((it) => ({
 							description={item.data.description}
 							client={item.data.client}
 							clientLogo={item.data.clientLogo}
-							phases={item.phases as Array<
-								'understand' | 'define' | 'deliver' | 'sustain'
-							>}
+							phases={
+								item.phases as Array<
+									'understand' | 'define' | 'deliver' | 'sustain'
+								>
+							}
 							skills={item.skills}
 							projectStatus={item.data.projectStatus}
 							image={item.data.image}
