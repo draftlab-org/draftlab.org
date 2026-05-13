@@ -1,0 +1,29 @@
+name: Tech for Expanding Civic Space
+slug: ddi-hackathon
+status: published
+contentStatus: ready
+description: >-
+  Draftlab supported proposal evaluation for a regional hackathon programme
+  developing civic tech across Eastern Europe and the Caucasus. Working with
+  CLi, we assessed applications across four thematic scenarios: community
+  fact-checking, secure organising, digital security, and youth-led campaigning.
+  We selected five teams for an in-person hackathon in Bangkok and follow-on
+  mentorship.
+
+
+  The selected grantees came from Armenia, North Macedonia, Ukraine, Georgia,
+  and Kosovo.
+client: civicus
+partners:
+  - cli
+phases:
+  - define
+modalities:
+  - clinic
+skills:
+  - product-strategy
+  - strategic-advising
+dateStart: 2025-09-01
+dateEnd: 2025-09-30
+projectStatus: complete
+featured: false
