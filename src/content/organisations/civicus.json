@@ -1,0 +1,7 @@
+{
+  "id": "civicus",
+  "name": "CIVICUS",
+  "type": "client",
+  "url": "https://civicus.org/",
+  "image": "/src/assets/civicus-logo.png"
+}
