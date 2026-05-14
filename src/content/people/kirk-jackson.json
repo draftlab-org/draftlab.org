@@ -1,0 +1,19 @@
+{
+  "id": "kirk-jackson",
+  "name": "Kirk Jackson",
+  "status": "published",
+  "headshot": "/src/assets/kirk-pfp.jpeg",
+  "title": "Web Developer",
+  "bio": "Kirk works with journalists, researchers, educators, and public policy experts to create data exploration tools and visualizations, often guiding projects from the ideation phase through design and development.",
+  "social": {
+    "github": "https://github.com/kjacks",
+    "linkedin": "www.linkedin.com/in/kirk-jackson-b5152297"
+  },
+  "skills": [
+    "data-architecture",
+    "human-centered-design",
+    "user-research",
+    "ux-interaction-design",
+    "web-platform-development"
+  ]
+}
