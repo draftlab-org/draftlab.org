@@ -9,6 +9,7 @@ description: Overhauling how the Global Detention Project collects, traces, and
 client: global-detention-project
 partners:
   - dot-studio
+  - lvl73
 phases:
   - understand
   - define
@@ -54,6 +55,7 @@ updates:
       interaction patterns for the data explorer.
   - date: 2025-12-01
     title: Project kickoff and implementation plan
-    update: "Kicked off the GDP overhaul and built the first implementation plan: a
+    update:
+      'Kicked off the GDP overhaul and built the first implementation plan: a
       phased rollout across the database management system and the public data
-      explorer."
+      explorer.'

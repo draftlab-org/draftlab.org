@@ -67,14 +67,14 @@ const cardGradient = getRadialMeshGradient(slug, orderedActivePhases, 'light');
 
 	{
 		image && (
-			<div class="relative mx-5 mt-8 aspect-video overflow-hidden sm:mx-0 sm:mt-0 sm:aspect-auto sm:w-1/2">
+			<div class="relative isolate mx-5 mt-8 aspect-video overflow-hidden [transform:translateZ(0)] sm:mx-0 sm:mt-0 sm:aspect-auto sm:w-1/2">
 				<Image
 					src={image}
 					alt=""
 					aria-hidden="true"
 					class="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl"
 				/>
-				<div class="relative h-full p-5">
+				<div class="absolute inset-0 p-5">
 					<Image
 						src={image}
 						alt=""
