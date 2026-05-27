@@ -251,6 +251,12 @@ src/
 
 `@astrojs/netlify` adapter; build runs on push to `main` via Netlify's GitHub integration. The site URL is set from `DEPLOY_PRIME_URL` / `URL` (Netlify-provided) at build time and falls back to `siteConfig.url` for local dev — see `astro.config.mjs`.
 
+## License and contributing
+
+The code in this repository is released under the [MIT License](LICENSE).
+
+This project follows the [Contributor Covenant](CODE_OF_CONDUCT.md) code of conduct. To report unacceptable behaviour, email **conduct@draftlab.org**.
+
 ## Further reading
 
 - [Astro Docs](https://docs.astro.build) — content collections, image optimisation, view transitions
