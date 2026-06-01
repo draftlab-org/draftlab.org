@@ -41,68 +41,67 @@ const isActive = (item: NavItemType) => {
 };
 ---
 
-<nav
-	class={`px-4 py-4 w-full bg-white ${className}`}
->
+<nav class={`px-4 py-4 w-full bg-white ${className}`}>
 	<div class="mx-auto flex max-w-7xl items-center justify-between">
-	<!-- Left side: Logo -->
-	<div class="shrink-0">
-		<Link
-			href="/"
-			variant="unstyled"
-			class="group font-serif text-2xl font-bold text-gray-900 underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8"
-		>
-			{
-				logo ? (
-					<span class="relative inline-block">
-						<Image src={logo} alt={siteName} class="w-45" />
-						<span
-							aria-hidden="true"
-							class="absolute inset-0 gradient-phase opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-							style={`mask-image: url(${logo.src}); -webkit-mask-image: url(${logo.src}); mask-size: contain; -webkit-mask-size: contain; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: left center; -webkit-mask-position: left center;`}
+		<!-- Left side: Logo -->
+		<div class="shrink-0">
+			<Link
+				href="/"
+				variant="unstyled"
+				class="group font-serif text-2xl font-bold text-gray-900 underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8"
+			>
+				{
+					logo ? (
+						<span class="relative inline-block">
+							<Image src={logo} alt={siteName} class="w-45" />
+							<span
+								aria-hidden="true"
+								class="absolute inset-0 gradient-phase opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+								style={`mask-image: url(${logo.src}); -webkit-mask-image: url(${logo.src}); mask-size: contain; -webkit-mask-size: contain; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: left center; -webkit-mask-position: left center;`}
+							/>
+						</span>
+					) : (
+						<GradientLink text={siteName} as="span" trigger="group-hover" />
+					)
+				}
+			</Link>
+		</div>
+
+		<!-- Right side: Nav Links + Search + Mobile Menu -->
+		<div class="flex items-center gap-6">
+			<!-- Navigation Links -->
+			<div class="hidden items-center gap-x-6 md:flex lg:gap-x-8">
+				{
+					items.map((item) => (
+						<NavItem
+							item={item}
+							active={isActive(item)}
+							currentPath={currentPath}
+							class="font-serif text-lg"
 						/>
-					</span>
-				) : (
-					<GradientLink text={siteName} as="span" trigger="group-hover" />
-				)
-			}
-		</Link>
-	</div>
+					))
+				}
+			</div>
 
-	<!-- Right side: Nav Links + Search + Mobile Menu -->
-	<div class="flex items-center gap-6">
-		<!-- Navigation Links -->
-		<div class="hidden items-center gap-x-6 md:flex lg:gap-x-8">
-			{
-				items.map((item) => (
-					<NavItem
-						item={item}
-						active={isActive(item)}
-						currentPath={currentPath}
-					/>
-				))
-			}
+			<!-- Search Button -->
+			<Button
+				variant="ghost"
+				size="square"
+				type="button"
+				id="search-button"
+				aria-label="Search"
+			>
+				<MagnifyingGlassIcon />
+			</Button>
+
+			<!-- CTA or Actions Slot -->
+			<slot name="actions" />
+
+			<!-- Mobile Menu -->
+			<div class="md:hidden">
+				<MobileMenu client:idle items={items} currentPath={currentPath} />
+			</div>
 		</div>
-
-		<!-- Search Button -->
-		<Button
-			variant="ghost"
-			size="square"
-			type="button"
-			id="search-button"
-			aria-label="Search"
-		>
-			<MagnifyingGlassIcon />
-		</Button>
-
-		<!-- CTA or Actions Slot -->
-		<slot name="actions" />
-
-		<!-- Mobile Menu -->
-		<div class="md:hidden">
-			<MobileMenu client:idle items={items} currentPath={currentPath} />
-		</div>
-	</div>
 	</div>
 </nav>
 

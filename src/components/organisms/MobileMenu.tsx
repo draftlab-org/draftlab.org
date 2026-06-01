@@ -126,7 +126,7 @@ export default function MobileMenu({
                                           aria-current={
                                             active ? 'page' : undefined
                                           }
-                                          className="group flex items-center gap-x-2 text-lg text-gray-700"
+                                          className="group flex items-center gap-x-2 font-serif text-lg text-gray-700"
                                         >
                                           <span
                                             className={`brackets-text ${active ? 'is-active' : ''}`}
@@ -156,7 +156,7 @@ export default function MobileMenu({
                               target={external ? '_blank' : undefined}
                               rel={external ? 'noopener noreferrer' : undefined}
                               aria-current={active ? 'page' : undefined}
-                              className="group flex items-center gap-x-4 text-xl text-black no-underline"
+                              className="group flex items-center gap-x-4 font-serif text-xl text-black no-underline"
                             >
                               <span
                                 className={`brackets-text ${active ? 'is-active' : ''}`}

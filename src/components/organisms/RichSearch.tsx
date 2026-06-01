@@ -73,9 +73,7 @@ export default function RichSearch() {
         const projects: SearchResult[] = projectsData
           .filter(
             (p) =>
-              !p.status ||
-              p.status === 'published' ||
-              p.status === 'archived'
+              !p.status || p.status === 'published' || p.status === 'archived'
           )
           .map((p) => ({
             id: p.id,
@@ -154,10 +152,7 @@ export default function RichSearch() {
             {loading && (
               <div className="space-y-2 p-4">
                 {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-3 px-4 py-2"
-                  >
+                  <div key={i} className="flex items-center gap-3 px-4 py-2">
                     <div className="h-4 flex-1 animate-pulse rounded bg-gray-100" />
                   </div>
                 ))}
@@ -182,7 +177,9 @@ export default function RichSearch() {
                       className="group flex cursor-pointer items-center px-4 py-2 transition-colors select-none hover:gradient-phase-light data-focus:gradient-phase-light data-focus:outline-hidden"
                     >
                       <span className="flex min-w-0 flex-auto flex-col">
-                        <span className="truncate text-ink">{item.name}</span>
+                        <span className="truncate font-serif text-ink">
+                          {item.name}
+                        </span>
                         {hasCredits && (
                           <span className="truncate text-xs text-ink-muted">
                             {item.clientName && <>for {item.clientName}</>}
@@ -205,9 +202,7 @@ export default function RichSearch() {
                   className="mx-auto size-6 text-gray-400"
                   aria-hidden="true"
                 />
-                <p className="mt-4 font-bold text-gray-900">
-                  No results found
-                </p>
+                <p className="mt-4 font-bold text-gray-900">No results found</p>
                 <p className="mt-2">
                   We couldn't find anything with that term. Please try again.
                 </p>

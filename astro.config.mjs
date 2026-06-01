@@ -36,7 +36,7 @@ export default defineConfig({
       weights: [300, 400, 500, 700],
       styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
-      cssVariable: '--font-fraunces',
+      cssVariable: '--font-serif-family',
     },
     {
       provider: fontProviders.bunny(),
@@ -44,7 +44,15 @@ export default defineConfig({
       weights: [400, 500],
       styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
-      cssVariable: '--font-jetbrains-mono',
+      cssVariable: '--font-mono-family',
+    },
+    {
+      provider: fontProviders.bunny(),
+      name: 'Nunito',
+      weights: [300, 400],
+      styles: ['normal', 'italic'],
+      subsets: ['latin', 'latin-ext'],
+      cssVariable: '--font-sans-family',
     },
   ],
 
