@@ -8,9 +8,9 @@ sections:
       bgColor: phase-gradient-light
     subtitle: Book a 30-minute conversation. We'll listen to where you are, what you're working on, and figure out together whether we're the right fit.
   - type: calEmbed
-    calLink: book/30min
-    namespace: 30min
-    origin: https://cal.draftlab.org
+    calLink: team/draftlab/get-in-touch
+    namespace: get-in-touch
+    origin: https://app.cal.com
     minHeight: 720px
   - type: richText
     content: >-

@@ -7,9 +7,9 @@ export interface Props {
 }
 
 const {
-  calLink = 'book/30min',
-  namespace = '30min',
-  origin = 'https://cal.draftlab.org',
+  calLink = 'team/draftlab/get-in-touch',
+  namespace = 'get-in-touch',
+  origin = 'https://app.cal.com',
   minHeight = '720px',
 } = Astro.props;
 
@@ -69,7 +69,11 @@ const containerId = `cal-inline-${namespace}`;
 
 	Cal.ns[namespace]('inline', {
 		elementOrSelector: '#' + containerId,
-		config: { layout: 'month_view', useSlotsViewOnSmallScreen: 'true' },
+		config: {
+			layout: 'month_view',
+			useSlotsViewOnSmallScreen: 'true',
+			theme: 'light',
+		},
 		calLink: calLink,
 	});
 
