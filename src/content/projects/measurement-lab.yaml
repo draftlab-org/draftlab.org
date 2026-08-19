@@ -2,8 +2,8 @@ name: A new home for Measurement Lab
 slug: measurement-lab
 status: published
 contentStatus: ready
-description: Migration from a legacy stack to a static Astro site managed
-  through PagesCMS — faster, easier to edit, and built on modern infrastructure.
+description: Migration from a legacy stack to a static site managed through
+  PagesCMS. Faster, easier to edit, and built on modern infrastructure.
 client: m-lab
 partners:
   - superbloom
@@ -29,3 +29,4 @@ body: >-
 
   The work is in the polish stage as we prepare for launch.
 image: /src/assets/Screenshot 2026-05-05 at 15.35.57.png
+dateEnd: 2026-08-19
