@@ -1,0 +1,19 @@
+{
+  "id": "lejla-sarcevic",
+  "name": "Lejla Sarcevic",
+  "status": "published",
+  "headshot": "/src/assets/IMG_1022.jpg",
+  "title": "Project Management and Design",
+  "bio": "Lejla is a project manager and communications expert who loves interrogating problems and turning complexity into clarity. Working across both for profit and non profit organizations she has seen them through growth, transformation, and high-stakes environments by building the systems, partnerships, and teams that make strategy real. Her background spans journalism, technology, and the financial regulatory departments.",
+  "social": {
+    "linkedin": "https://www.linkedin.com/in/lejla-sarcevic-81713b37/"
+  },
+  "skills": [
+    "multi-stakeholder-coordination",
+    "product-strategy",
+    "strategic-advising",
+    "capacity-building",
+    "human-centered-design",
+    "user-research"
+  ]
+}
