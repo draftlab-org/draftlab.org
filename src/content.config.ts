@@ -353,6 +353,8 @@ const siteCollection = defineCollection({
       title: z.string(),
       description: z.string(),
       url: z.url(),
+      /** Public contact address; surfaced in structured data and llms.txt. */
+      email: z.string().optional(),
       favicon: z.string().default('/favicon.svg'),
       defaultOgImage: image().optional(),
       defaultOgImageSquare: image().optional(),

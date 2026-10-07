@@ -1,0 +1,15 @@
+---
+/**
+ * Emits a schema.org JSON-LD block. Pass the full object including
+ * `@context`. Rendered inline so the view-transitions router swaps it per route.
+ */
+export interface Props {
+  data: Record<string, unknown>;
+}
+
+const { data } = Astro.props;
+// `<` escaped so content can never close the script tag.
+const json = JSON.stringify(data).replace(/</g, '\\u003c');
+---
+
+<script is:inline type="application/ld+json" set:html={json} />

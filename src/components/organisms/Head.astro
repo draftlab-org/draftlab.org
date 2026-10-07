@@ -1,7 +1,10 @@
 ---
 import { Font } from 'astro:assets';
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import { ClientRouter } from "astro:transitions";
+import JsonLd from '@components/atoms/JsonLd.astro';
+import { isVisible } from '@utils/content';
+import { buildSiteGraph } from '@utils/structuredData';
 
 // Fetch site config from content collection
 const siteConfigEntry = await getEntry('site', 'config');
@@ -16,8 +19,14 @@ const siteConfig = siteConfigEntry.data;
 export interface Props {
   title: string;
   description?: string;
+  /** Page-specific OG image; falls back to `siteConfig.defaultOgImage`. */
   image?: ImageMetadata;
   canonicalURL?: URL;
+  /** `article` for dated, authored pages (projects); `website` otherwise. */
+  type?: 'website' | 'article';
+  /** ISO dates, only emitted when `type` is `article`. */
+  publishedTime?: string;
+  modifiedTime?: string;
 }
 
 const {
@@ -25,21 +34,51 @@ const {
   description = siteConfig.description,
   image,
   canonicalURL,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
 } = Astro.props;
 
 const siteName = siteConfig.title;
 const fullTitle =
   title === siteName || title.includes(siteName) ? title : `${title} [${siteName}]`;
 
-const ogImage = image || (siteConfig.defaultOgImage as ImageMetadata | undefined);
-const ogImageSquare = siteConfig.defaultOgImageSquare as ImageMetadata | undefined;
-const imageURL = ogImage ? new URL(ogImage.src, Astro.url).href : undefined;
-const imageSquareURL = ogImageSquare && !image
-  ? new URL(ogImageSquare.src, Astro.url).href
-  : undefined;
-const imageAlt = `${siteName} — ${siteConfig.description}`;
+const base = Astro.site ?? Astro.url;
+const absolute = (path: string) => new URL(path, base).href;
+
 const mimeFor = (img?: ImageMetadata) =>
   img?.format ? `image/${img.format === 'jpg' ? 'jpeg' : img.format}` : 'image/png';
+
+// Primary OG image: page image, else the site-wide default.
+const ogImage = image || (siteConfig.defaultOgImage as ImageMetadata | undefined);
+type OgImage = { url: string; width?: number; height?: number; type: string };
+const og: OgImage | undefined = ogImage
+  ? { url: absolute(ogImage.src), width: ogImage.width, height: ogImage.height, type: mimeFor(ogImage) }
+  : undefined;
+
+// Square variant only accompanies the generic default; per-page heroes
+// shouldn't get a generic square thumbnail tacked on.
+const ogImageSquare = siteConfig.defaultOgImageSquare as ImageMetadata | undefined;
+const imageSquareURL =
+  ogImageSquare && !image ? absolute(ogImageSquare.src) : undefined;
+const imageAlt = `${siteName} — ${siteConfig.description}`;
+
+// Site-wide structured data: Organization + WebSite. Pages add their own
+// entity (Person, CreativeWork) through the <slot />.
+const logo = siteConfig.defaultLogoLight as ImageMetadata | undefined;
+const skillNames = (await getCollection('skills'))
+  .filter((s) => isVisible(s))
+  .map((s) => s.data.name)
+  .sort();
+const siteGraph = buildSiteGraph({
+  siteUrl: base.href,
+  name: siteName,
+  description: siteConfig.description,
+  logoUrl: logo ? absolute(logo.src) : undefined,
+  email: siteConfig.email,
+  sameAs: Object.values(siteConfig.social ?? {}),
+  knowsAbout: skillNames,
+});
 
 const isProd = import.meta.env.PROD;
 
@@ -75,26 +114,18 @@ const fediverseCreator = (() => {
 />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={type} />
 <meta property="og:site_name" content={siteName} />
 <meta property="og:locale" content="en_US" />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
-{imageURL && <meta property="og:image" content={imageURL} />}
-{imageURL && <meta property="og:image:secure_url" content={imageURL} />}
-{
-	ogImage?.width && (
-		<meta property="og:image:width" content={String(ogImage.width)} />
-	)
-}
-{
-	ogImage?.height && (
-		<meta property="og:image:height" content={String(ogImage.height)} />
-	)
-}
-{imageURL && <meta property="og:image:type" content={mimeFor(ogImage)} />}
-{imageURL && <meta property="og:image:alt" content={imageAlt} />}
+{og && <meta property="og:image" content={og.url} />}
+{og && <meta property="og:image:secure_url" content={og.url} />}
+{og?.width && <meta property="og:image:width" content={String(og.width)} />}
+{og?.height && <meta property="og:image:height" content={String(og.height)} />}
+{og && <meta property="og:image:type" content={og.type} />}
+{og && <meta property="og:image:alt" content={imageAlt} />}
 
 {
 	/* Optional square thumbnail variant — Slack inline previews, iMessage, RSS readers */
@@ -122,14 +153,29 @@ const fediverseCreator = (() => {
 }
 {imageSquareURL && <meta property="og:image:alt" content={imageAlt} />}
 
+<!-- Article dates (projects) -->
+{
+	type === 'article' && publishedTime && (
+		<meta property="article:published_time" content={publishedTime} />
+	)
+}
+{
+	type === 'article' && modifiedTime && (
+		<meta property="article:modified_time" content={modifiedTime} />
+	)
+}
+{type === 'article' && <meta property="article:publisher" content={absolute('/')} />}
+
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content={canonicalURL} />
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
-{imageURL && <meta name="twitter:image" content={imageURL} />}
-{imageURL && <meta name="twitter:image:alt" content={imageAlt} />}
+{og && <meta name="twitter:image" content={og.url} />}
+{og && <meta name="twitter:image:alt" content={imageAlt} />}
 
+<!-- Structured data (site-wide); pages append their own via the head slot -->
+<JsonLd data={siteGraph} />
 
 <!-- Mastodon verification -->
 <link rel="me" href="https://mastodon.social/@draftlab"/>

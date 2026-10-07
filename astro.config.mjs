@@ -5,10 +5,14 @@ import netlify from '@astrojs/netlify';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import fs from 'node:fs';
+import path from 'node:path';
 import { defineConfig, fontProviders } from 'astro/config';
 import expressiveCode from 'astro-expressive-code';
 import Icons from 'unplugin-icons/vite';
+import YAML from 'yaml';
 import { siteConfig } from './src/lib/config.ts';
+import { getProjectModified, latestOf } from './src/utils/projectDates.ts';
 
 // Absolute-URL base for canonical, og:*, sitemap and RSS links.
 //
@@ -24,6 +28,22 @@ const siteUrl =
   process.env.CONTEXT === 'production'
     ? siteConfig.url
     : process.env.DEPLOY_PRIME_URL || siteConfig.url;
+
+// Sitemap <lastmod>: projects carry real dates (start/end/updates), so expose
+// them per project page; the home and projects listing take the newest of all.
+// Read straight from the YAML because the content layer isn't available here.
+const projectLastmod = (() => {
+  const dir = path.resolve('src/content/projects');
+  const bySlug = new Map();
+  for (const file of fs.readdirSync(dir)) {
+    if (!file.endsWith('.yaml')) continue;
+    const data = YAML.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
+    if (!data || data.status !== 'published') continue;
+    const modified = getProjectModified(data);
+    if (modified) bySlug.set(data.slug, modified);
+  }
+  return { bySlug, latest: latestOf([...bySlug.values()]) };
+})();
 
 // https://astro.build/config
 export default defineConfig({
@@ -77,7 +97,19 @@ export default defineConfig({
 
   integrations: [
     react(),
-    sitemap(),
+    sitemap({
+      serialize(item) {
+        const { pathname } = new URL(item.url);
+        const match = pathname.match(/^\/projects\/([^/]+)\/?$/);
+        const lastmod = match
+          ? projectLastmod.bySlug.get(match[1])
+          : pathname === '/' || pathname === '/projects/'
+            ? projectLastmod.latest
+            : undefined;
+        if (lastmod) item.lastmod = lastmod;
+        return item;
+      },
+    }),
     expressiveCode({
       themes: ['catppuccin-frappe'],
       defaultProps: {

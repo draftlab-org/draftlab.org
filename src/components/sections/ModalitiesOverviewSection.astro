@@ -36,7 +36,10 @@ const modalities = modalitiesRaw
 	<div class="grid gap-4 sm:grid-cols-3">
 		{
 			modalities.map((modality) => (
-				<div class="flex flex-col bg-white p-6">
+				<div
+					id={`modality-${modality.data.slug}`}
+					class="flex scroll-mt-28 flex-col bg-white p-6"
+				>
 					<div class="flex items-center gap-4">
 						<ModalityIcon
 							slug={modality.data.slug as ModalitySlug}

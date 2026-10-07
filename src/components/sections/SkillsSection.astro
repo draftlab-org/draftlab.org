@@ -37,8 +37,9 @@ const skills = skillsRaw
 		{
 			skills.map((skill) => (
 				<a
+					id={`skill-${skill.slug}`}
 					href={`/projects?skills=${skill.slug}`}
-					class="group brackets-box flex items-stretch gap-4 p-2 no-underline"
+					class="group brackets-box flex scroll-mt-28 items-stretch gap-4 p-2 no-underline"
 					aria-label={`See projects using ${skill.name}`}
 				>
 					<div class="flex aspect-square w-12 shrink-0 items-center justify-center">

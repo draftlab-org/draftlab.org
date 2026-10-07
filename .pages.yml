@@ -1345,6 +1345,11 @@ content:
         type: string
         default: /favicon.svg
 
+      - name: email
+        label: Contact email
+        type: string
+        description: Public contact address. Surfaced in structured data (schema.org Organization) and llms.txt.
+
       - name: defaultOgImage
         label: Default Open Graph Image
         type: image

@@ -33,7 +33,7 @@ for (const phase of phases) {
 }
 ---
 
-<section class="text-ink">
+<section id="phases" class="scroll-mt-28 text-ink">
 	{
 		title && (
 			<header class="mb-10 flex flex-col items-start gap-4 md:mb-14">
@@ -68,12 +68,14 @@ for (const phase of phases) {
 					</div>
 
 					<div class="flex min-w-0 flex-1 flex-col">
-						<span
-							class="font-mono text-[0.78rem] tracking-[0.2em] uppercase"
+						<a
+							href={`/projects?phases=${phase.data.slug}`}
+							class="font-mono text-[0.78rem] tracking-[0.2em] uppercase no-underline hover:underline"
 							style={`color: var(--color-phase-${phase.data.slug}-dark);`}
+							aria-label={`See ${phase.data.name} phase projects`}
 						>
 							{phase.data.name}
-						</span>
+						</a>
 						{phase.data.tagline && (
 							<p class="mt-2 font-mono text-[0.65rem] tracking-[0.18em] text-ink-muted uppercase">
 								{phase.data.tagline}
@@ -103,12 +105,14 @@ for (const phase of phases) {
 							style={`background: var(--color-phase-${phase.data.slug}-dark);`}
 							aria-hidden="true"
 						/>
-						<span
-							class="font-mono text-[0.78rem] tracking-[0.2em] uppercase whitespace-nowrap"
+						<a
+							href={`/projects?phases=${phase.data.slug}`}
+							class="font-mono text-[0.78rem] tracking-[0.2em] whitespace-nowrap uppercase no-underline hover:underline"
 							style={`color: var(--color-phase-${phase.data.slug}-dark);`}
+							aria-label={`See ${phase.data.name} phase projects`}
 						>
 							{phase.data.name}
-						</span>
+						</a>
 						<span
 							class="block flex-1 gradient-rule"
 							style={

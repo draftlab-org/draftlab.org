@@ -6,6 +6,9 @@ export interface Props {
   title: string;
   description?: string;
   image?: ImageMetadata;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
   lang?: string;
   class?: string;
 }
@@ -14,6 +17,9 @@ const {
   title,
   description,
   image,
+  type,
+  publishedTime,
+  modifiedTime,
   lang = 'en',
   class: className = '',
 } = Astro.props;
@@ -31,6 +37,9 @@ const canonicalURL = Astro.site
 			description={description}
 			canonicalURL={canonicalURL}
 			image={image}
+			type={type}
+			publishedTime={publishedTime}
+			modifiedTime={modifiedTime}
 		>
 			<slot name="head" />
 		</Head>
