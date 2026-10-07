@@ -13,7 +13,10 @@ const {
   ...props
 } = Astro.props;
 
+// `level` drives the visual style; `as` overrides the rendered tag so a
+// section can carry the page's <h1> without changing how it looks.
 const Tag = as || `h${level}`;
+const styleKey = `h${level}` as keyof typeof styles;
 
 const styles = {
   h1: 'text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight',
@@ -24,7 +27,7 @@ const styles = {
   h6: 'text-base md:text-lg lg:text-xl font-medium',
 };
 
-const classes = `${styles[Tag]} ${className}`;
+const classes = `${styles[styleKey]} ${className}`;
 ---
 
 <Tag class={classes} {...props}>

@@ -2,3 +2,18 @@
   for = "/api/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
+
+# Collapse duplicate hosts onto the canonical domain. Netlify serves the site on
+# its default subdomain and on branch subdomains too; without these rules Google
+# sees three copies of every page.
+[[redirects]]
+  from = "https://dlnext.netlify.app/*"
+  to = "https://draftlab.org/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://main--dlnext.netlify.app/*"
+  to = "https://draftlab.org/:splat"
+  status = 301
+  force = true

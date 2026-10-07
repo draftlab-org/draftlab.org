@@ -67,7 +67,7 @@ const itemTags: FeedItemTagData[] = items.map((it) => ({
 	{
 		(title || description) && (
 			<div class="mb-8 flex max-w-2xl flex-col gap-3">
-				{title && <SectionTitle title={title} />}
+				{title && <SectionTitle as="h1" title={title} />}
 				{description && (
 					<Text size="lg" class="text-ink-soft">
 						{description}

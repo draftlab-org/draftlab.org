@@ -10,11 +10,20 @@ import expressiveCode from 'astro-expressive-code';
 import Icons from 'unplugin-icons/vite';
 import { siteConfig } from './src/lib/config.ts';
 
-// On Netlify, DEPLOY_PRIME_URL is the canonical URL for the current deploy
-// (custom domain on production, branch URL on previews). Fall back to siteConfig.url
-// for local dev so absolute URLs in built HTML always match where the site actually lives.
+// Absolute-URL base for canonical, og:*, sitemap and RSS links.
+//
+// Production (Netlify CONTEXT=production) must always use the real domain from
+// siteConfig.url. Do NOT use DEPLOY_PRIME_URL here: on Netlify it is the branch
+// subdomain (https://main--<site>.netlify.app) even for production builds, which
+// made every live page declare a canonical on the wrong host and deindexed the
+// site from Google (fixed 2026-10-07).
+//
+// Branch deploys / Deploy Previews use DEPLOY_PRIME_URL so OG images and other
+// absolute URLs resolve on the preview host. Local dev falls back to siteConfig.url.
 const siteUrl =
-  process.env.DEPLOY_PRIME_URL || process.env.URL || siteConfig.url;
+  process.env.CONTEXT === 'production'
+    ? siteConfig.url
+    : process.env.DEPLOY_PRIME_URL || siteConfig.url;
 
 // https://astro.build/config
 export default defineConfig({
