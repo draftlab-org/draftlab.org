@@ -1406,7 +1406,8 @@ content:
         fields:
           - name: description
             label: Footer Description
-            type: string
+            type: text
+            description: Organisation details shown in the footer. Line breaks are preserved. Falls back to the site description when empty.
           - name: bottom
             label: Bottom Text
             type: string

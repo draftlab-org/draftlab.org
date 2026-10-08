@@ -62,10 +62,8 @@ const { html: footerBottomHtml } = await renderMarkdown(siteConfig.footer.bottom
 					}
 				</div>
 
-				<!-- Description -->
-				<p class="max-w-md text-white/80">
-					{description}
-				</p>
+				<!-- Organisation details -->
+				<address class="max-w-md text-sm not-italic whitespace-pre-line text-white/80">{description}</address>
 
 				<!-- Social Links -->
 				<SocialLinks class="justify-start gap-4" iconClass="w-5 h-5 bg-white" />
