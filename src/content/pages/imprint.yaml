@@ -1,0 +1,54 @@
+title: Imprint
+permalink: imprint
+status: published
+background: white
+sections:
+  - type: richText
+    background:
+      bgColor: white
+      bgType: full
+    withTOC: false
+    content: >-
+      Draftlab B.V.  
+
+      c/o The Humanity Hub  
+
+      Fluwelen Burgwal 58  
+
+      2511 CJ The Hague  
+
+      Netherlands
+
+
+      Email: [hello@draftlab.org](mailto:hello@draftlab.org)
+
+
+      Managing director: Tin Geber
+
+
+      Chamber of Commerce (KVK): 42097011  
+
+      VAT: NL869703511B01
+
+
+      ### Responsible for content
+
+
+      Tin Geber, at the address above.
+
+
+      ### Content and images
+
+
+      Unless marked otherwise, original content on this site is licensed [CC
+      BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). People
+      illustrations by [OpenPeeps](https://openpeeps.com/). The site runs on
+      [Scaffold](https://github.com/draftlab-org/scaffold), our open-source
+      starter.
+
+
+      ### Hosting
+
+
+      This site is hosted by [Netlify](https://www.netlify.com/). See our
+      [privacy statement](/privacy) for what that means for your data.
