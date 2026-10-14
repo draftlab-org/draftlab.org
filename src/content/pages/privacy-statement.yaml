@@ -58,8 +58,8 @@ sections:
       ## **Our website**
 
 
-      ++[draftlab.org](http://draftlab.org)++ is a static site hosted on
-      ++[Netlify](https://www.netlify.com/)++. Netlify processes standard server
+      [draftlab.org](http://draftlab.org) is a static site hosted on
+      [Netlify](https://www.netlify.com/). Netlify processes standard server
       logs (IP address, user agent, requested page) to serve the site; see
       ++[Netlify's privacy policy](https://www.netlify.com/privacy/)++. The
       site's source code lives on ++[GitHub](https://github.com/draftlab-org)++.
