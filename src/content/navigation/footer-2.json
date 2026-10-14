@@ -4,26 +4,18 @@
   "items": [
     {
       "type": "link",
+      "label": "Privacy Statement",
+      "link": {
+        "type": "internal",
+        "pageRef": "/privacy-statement"
+      }
+    },
+    {
+      "type": "link",
       "label": "Generative AI Use",
       "link": {
         "type": "internal",
         "pageRef": "/gen-ai-use"
-      }
-    },
-    {
-      "type": "link",
-      "label": "Bluesky",
-      "link": {
-        "type": "external",
-        "url": "https://bsky.app/profile/draftlab.org"
-      }
-    },
-    {
-      "type": "link",
-      "label": "Get in touch",
-      "link": {
-        "type": "internal",
-        "pageRef": "/get-in-touch"
       }
     }
   ]
