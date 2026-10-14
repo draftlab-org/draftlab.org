@@ -17,6 +17,14 @@
         "type": "internal",
         "pageRef": "/gen-ai-use"
       }
+    },
+    {
+      "type": "link",
+      "label": "Imprint",
+      "link": {
+        "type": "internal",
+        "pageRef": "/imprint"
+      }
     }
   ]
 }
