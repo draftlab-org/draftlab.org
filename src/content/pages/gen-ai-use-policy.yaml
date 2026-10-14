@@ -1,0 +1,108 @@
+title: "Generative AI Use: Manifesto and Policy"
+permalink: gen-ai-use-policy
+status: published
+description: This is Draftlab's AI Use Manifesto and Policy. It describes our
+  perspective on GenAI, the ethical constraints that guide us, and the practical
+  decisions around AI use we commit to in everyday work.
+background: white
+sections:
+  - type: richText
+    background:
+      bgColor: white
+      bgType: full
+    withTOC: true
+    content: >-
+      *This page describes Draftlab’s on GenAI, the ethical constraints that
+      guide us, and the practical decisions around AI use we commit to in
+      everyday work.*
+
+
+      - Revision: October 2024.
+
+
+      ## **If I didn’t care to write it, you shouldn’t bother reading it**
+
+
+      We take pride in our ability to express complex information to other
+      humans. We believe that it must be harder for us to create the content,
+      than for you to consume it. Generative AI over-explains; its essays lack
+      complex structures and lose themselves in circular logic; it says little
+      using too many words. We expect the opposite of ourselves.
+
+
+      ## **Human first, human last**
+
+
+      Generative Artificial intelligence is an assistive tool in service of
+      human creativity. Humans define projects, goals, strategies and
+      implementation pathways. GenAI can assist in tasks that it is particularly
+      well suited for, such as parsing large quantities of information or
+      executing rote tasks. 
+
+
+      Any content that our organisation produces will always have a human
+      responsible for it, verified, edited, and re-written with humans in mind. 
+
+
+      When it comes to computer code, we only publish and use code that we can
+      comfortably and confidently explain, line by line, to a peer.
+
+
+      ## **Generative AI always hallucinates and can never be trusted**
+
+
+      GenAI has no understanding of things, actions, intentions, shapes or
+      relations. It can generate content that can be plausible, correct, or
+      insightful to humans. This is due to the ability that humans have to
+      understand things; differentiate between truth and hallucination: genAI
+      cannot tell the difference between the two. 
+
+
+      For this reason we will never trust GenAI output and will always verify
+      and review any output it creates. 
+
+
+      ## **Aggressive de-biasing of model output**
+
+
+      Generative AI is built on top of massive corpora of information that
+      statistically over-index the global minority, perspectives of people in
+      power, and historical inequalities in access to content creation. 
+
+
+      Whenever we engage with Generative AI, we question and de-bias its outputs
+      from an inclusive, rights-based perspective.
+
+
+      ## **Only enterprise models or local private LLMs**
+
+
+      We do not let AI train their models with our input. To achieve that, we
+      either use enterprise versions of common AI tools (if legal protection is
+      deemed enough for the threat model of our partners and beneficiaries), or
+      private, locally hosted LLMs.
+
+
+      Our enterprise AI of choice is Claude. We have enterprise access to Gemini
+      and use it sporadically, when relevant. We explicitly do not use ChatGPT
+      or Grok.
+
+
+      ## **No PII except in local, private LLMs**
+
+
+      We do not share Personally Identifiable Information (PII) with any GenAI
+      except locally hosted private LLMs that have no access to the internet.
+
+
+      ## **No generated multimedia content**
+
+
+      We believe GenAI multimedia outputs (sound, images, animations) hold
+      negative value and do not use them. If we can hire a human artist or
+      content creator, we will.
+
+
+      We are not opposed to supporting basic scaffolding of designs, diagramming
+      and information architectures with AI: we draw the line at creative
+      expression. We appreciate that it is a blurry line.
