@@ -1,13 +1,13 @@
 {
   "slug": "footer-2",
-  "title": "Connect",
+  "title": "Transparency",
   "items": [
     {
       "type": "link",
-      "label": "GitHub",
+      "label": "Generative AI Use",
       "link": {
-        "type": "external",
-        "url": "https://github.com/draftlab-org"
+        "type": "internal",
+        "pageRef": "/gen-ai-use"
       }
     },
     {
