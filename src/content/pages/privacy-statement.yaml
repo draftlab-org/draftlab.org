@@ -1,0 +1,201 @@
+title: Privacy Statement
+permalink: privacy-statement
+status: published
+description: Information Draftlab collects about the people we work with, how
+  it’s stored and managed, and how we protect it.
+background: white
+sections:
+  - type: richText
+    background:
+      bgColor: white
+      bgType: full
+    withTOC: true
+    content: >-
+      *This page describes what information Draftlab collects about the people
+      we work with, how it’s stored and managed, and how we protect it. We
+      commit to keeping this statement readable and accessible to humans.*
+
+
+      *Draftlab B.V. is based in The Hague, the Netherlands, and is the
+      controller of the data described here. Questions, requests and complaints
+      go to [hello@draftlab.org](mailto:hello@draftlab.org).*
+
+
+      - Revision: October 2026
+
+
+      ## **We collect as little as possible**
+
+
+      We work with civil society organisations, humanitarian actors and
+      activists, many of whom are at-risk and operate under threat. This means
+      that any information we hold about them can put them at risk if accessed
+      by third parties without their consent. For that reason, we only collect
+      and store information that is absolutely necessary for the work we are
+      doing, and advise our partners on data minimization approaches.
+
+
+      ## **We do not sell, trade, rent or give away your data**
+
+
+      Nobody outside Draftlab and project-scoped contractors gets access to
+      information about our partners, collaborators, research participants or
+      website visitors. We do not buy or sell lists; we do not sign data-sharing
+      agreements with other organisations; and we do not send newsletters or
+      marketing of any kind.
+
+
+      ## **We follow your threat model**
+
+
+      Our choice of trusted providers might not be yours. We are happy to adapt
+      to your security and privacy requirements. Please go over the list of
+      providers we use and let us know which ones do not work with your threat
+      model. We will find the appropriate solution together, like secure comms
+      via Signal or PGP, self-hosted infrastructure for documents, etc.
+
+
+      ## **Our website**
+
+
+      ++[draftlab.org](http://draftlab.org)++ is a static site hosted on
+      ++[Netlify](https://www.netlify.com/)++. Netlify processes standard server
+      logs (IP address, user agent, requested page) to serve the site; see
+      ++[Netlify's privacy policy](https://www.netlify.com/privacy/)++. The
+      site's source code lives on ++[GitHub](https://github.com/draftlab-org)++.
+
+
+      **Analytics.** We run our own instance of ++[Umami](https://umami.is/)++
+      for site analytics. Umami does not use cookies, does not store IP
+      addresses, and does not identify individual visitors. The data stays on
+      our own server.
+
+
+      **Contact forms.** Forms on the site are delivered through
+      ++[Brevo](https://www.brevo.com/)++, which we use for delivery only. What
+      you type into a form, along with your name and email address, passes
+      through Brevo and lands in our inbox. Brevo is a French company; see
+      ++[Brevo's privacy policy](https://www.brevo.com/legal/privacypolicy/)++.
+
+
+      **Scheduling.** If you book a call with us you do so through
+      ++[cal.com](http://cal.com)++, which stores your name, email address and
+      the booking details, and writes the event to our Google Calendar. See
+      ++[cal.com's privacy policy](https://cal.com/privacy)++. If you prefer,
+      you can contact us directly at
+      ++[hello@draftlab.org](mailto:hello@draftlab.org)++.
+
+
+      ## **The tools we work with every day**
+
+
+      We keep this list current so you are aware of our stack, and can choose
+      your level of comfort and acceptance.
+
+
+      **Google Workspace (enterprise).** Email, calendar, documents and file
+      storage. We have set data storage to EU regions.
+
+
+      **Claude (enterprise).** Our AI assistant of choice, under an enterprise
+      agreement that excludes our input from model training. How we use it is
+      defined by our ++[AI policy](https://draftlab.org/gen-ai-use)++.
+
+
+      **GitHub.** Code, issues and documentation for our projects.
+
+
+      **Self-hosted services.** We run the following ourselves on EU-based
+      servers at ++[Greenhost](https://greenhost.net/)++ and
+      ++[Hetzner](https://www.hetzner.com/)++. We manage our servers ourselves.
+
+
+      - ++[Umami](https://umami.is/)++ for website analytics
+
+      - ++[Formbricks](https://formbricks.com/)++ for surveys and feedback forms
+
+      - ++[HedgeDoc](https://hedgedoc.org/)++ for collaborative note-taking
+
+      - ++[Metabase](https://www.metabase.com/)++ for dashboards and analysis in
+      partner projects
+
+
+      ## **Working with and for Draftlab**
+
+
+      Applications, CVs and correspondence from candidates are seen only by the
+      people involved in hiring. We do not ask for background checks or special
+      category data. When someone joins, we collect what is needed for Dutch tax
+      and contracting purposes and nothing more.
+
+
+      ## **Keeping data secure**
+
+
+      Draftlab has trained civil society organisations on digital security for
+      over a decade. We hold ourselves to the same standard we teach. We have
+      read the privacy policies and security documentation of the platforms we
+      use, and we do our best to revisit this list periodically.
+
+
+      ## **Data breaches**
+
+
+      If we discover a breach involving personal data, we notify the Dutch Data
+      Protection Authority (++[Autoriteit
+      Persoonsgegevens](https://www.autoriteitpersoonsgegevens.nl/)++) within 72
+      hours as required by the GDPR, and we inform the people affected directly.
+
+
+      ## **Data outside the EEA**
+
+
+      Our own infrastructure is in the EU. Some of the providers above (Google,
+      Anthropic, GitHub, Netlify, [cal.com](http://cal.com)) are American
+      companies. Where we use them we rely on their data processing agreements
+      and the EU-US Data Privacy Framework or standard contractual clauses.
+      Where that is not good enough for your situation, see "We follow your
+      threat model" above.
+
+
+      ## **Your rights and getting in touch**
+
+
+      Under the GDPR you have the right to:
+
+
+      - ++[be told what we collect about you and
+      why](https://gdpr-info.eu/art-13-gdpr/)++
+
+      - ++[access the data we hold about
+      you](https://gdpr-info.eu/art-15-gdpr/)++
+
+      - ++[correct it when it is wrong](https://gdpr-info.eu/art-16-gdpr/)++
+
+      - ++[have it deleted](https://gdpr-info.eu/art-17-gdpr/)++
+
+      - ++[restrict how we use it](https://gdpr-info.eu/art-18-gdpr/)++
+
+      - ++[take it with you in a portable
+      format](https://gdpr-info.eu/art-20-gdpr/)++
+
+      - ++[object to how we use it](https://gdpr-info.eu/art-21-gdpr/)++
+
+      - ++[not be subject to automated decision-making or
+      profiling](https://gdpr-info.eu/art-22-gdpr/)++
+
+
+      To exercise any of these rights, email
+      ++[hello@draftlab.org](mailto:hello@draftlab.org)++.  If you are not
+      satisfied with our response you can file a complaint with the
+      ++[Autoriteit
+      Persoonsgegevens](https://www.autoriteitpersoonsgegevens.nl/en)++, the
+      Dutch data protection authority.
+
+
+      ## **Acknowledgements**
+
+
+      We thank ++[Ura Design](https://ura.design/en/privacy)++ and
+      ++[Superbloom](https://superbloom.design/legal/)++ for their policies,
+      which this statement borrows from freely.
