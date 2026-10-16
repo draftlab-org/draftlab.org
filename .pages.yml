@@ -10,6 +10,7 @@ settings:
     templates:
       create: 'Create {path} (via Pages CMS)'
       update: 'Update {path} (via Pages CMS)'
+      delete: 'Delete {path} (via Pages CMS)'
 
 # ============================================================================
 # MEDIA
@@ -567,42 +568,6 @@ components:
         type: string
         description: CSS height value (e.g. '600px').
 
-  flexi_section:
-    type: object
-    fields:
-      - name: background
-        label: Section Background
-        component: background_select
-      - name: title
-        label: Title
-        type: string
-        required: true
-      - name: description
-        label: Description
-        type: rich-text
-      - name: sections
-        label: Nested Sections
-        component: section
-        list: true
-
-  # Subset of section types allowed inside flexi sections
-  section:
-    type: block
-    blockKey: type
-    blocks:
-      - name: richText
-        label: Rich Text Section
-        component: richtext_section
-      - name: callout
-        label: Callout Section
-        component: callout_section
-      - name: button
-        label: Button Section
-        component: button_section
-      - name: card
-        label: Card Section
-        component: card_section
-
 # ============================================================================
 # CONTENT COLLECTIONS
 # ============================================================================
@@ -754,10 +719,6 @@ content:
           - name: calEmbed
             label: Cal.com Embed
             component: cal_embed_section
-
-          - name: flexi
-            label: Flexi Section
-            component: flexi_section
 
   # --------------------------------------------------------------------------
   # Projects
@@ -1349,6 +1310,24 @@ content:
         label: Contact email
         type: string
         description: Public contact address. Surfaced in structured data (schema.org Organization) and llms.txt.
+
+      - name: analytics
+        label: Analytics
+        type: object
+        description: Cookieless, privacy-preserving analytics. Only loaded on production builds (not in dev or preview). Leave empty to disable.
+        fields:
+          - name: umami
+            label: Umami
+            type: object
+            fields:
+              - name: src
+                label: Script URL
+                type: string
+                description: "URL of your Umami tracker script (e.g. https://umami.example.org/script.js)"
+              - name: websiteId
+                label: Website ID
+                type: string
+                description: The website ID from your Umami dashboard
 
       - name: defaultOgImage
         label: Default Open Graph Image

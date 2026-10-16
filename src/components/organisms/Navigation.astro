@@ -1,12 +1,12 @@
 ---
-import Button from '@components/atoms/Button.astro';
 import GradientLink from '@components/atoms/GradientLink.astro';
-import Link from '@components/atoms/Link.astro';
+import Link from '@components/atoms/Link';
 import NavItem from '@components/molecules/NavItem.astro';
 import MobileMenu from '@components/organisms/MobileMenu';
 import RichSearch from '@components/organisms/RichSearch';
+import { siteConfig } from '@lib/config';
 import type { NavItem as NavItemType } from '@utils/navigation';
-import { resolveFlexibleLink } from '@utils/navigation';
+import { isItemActive } from '@utils/navigation';
 import Image from 'astro/components/Image.astro';
 import MagnifyingGlassIcon from '~icons/heroicons/magnifying-glass-20-solid';
 
@@ -21,24 +21,12 @@ export interface Props {
 const {
   items,
   currentPath = Astro.url.pathname,
-  siteName = 'Draftlab',
+  siteName = siteConfig.title,
   class: className = '',
 	logo,
 } = Astro.props;
 
-const isActive = (item: NavItemType) => {
-  if (item.type === 'dropdown') {
-    // Check if any child is active
-    return item.children.some((child) => {
-      const href = resolveFlexibleLink(child.link);
-      if (href === '/') return currentPath === '/';
-      return currentPath.startsWith(href);
-    });
-  }
-  const href = resolveFlexibleLink(item.link);
-  if (href === '/') return currentPath === '/';
-  return currentPath.startsWith(href);
-};
+const isActive = (item: NavItemType) => isItemActive(item, currentPath);
 ---
 
 <nav class={`px-4 py-4 w-full bg-white ${className}`}>
@@ -48,12 +36,12 @@ const isActive = (item: NavItemType) => {
 			<Link
 				href="/"
 				variant="unstyled"
-				class="group font-serif text-2xl font-bold text-gray-900 underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8"
+				className="group font-serif text-2xl font-bold text-gray-900 underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8"
 			>
 				{
 					logo ? (
 						<span class="relative inline-block">
-							<Image src={logo} alt={siteName} class="w-45" />
+							<Image src={logo} alt={siteName} class="w-45" loading="eager" />
 							<span
 								aria-hidden="true"
 								class="absolute inset-0 gradient-phase opacity-0 transition-opacity duration-200 group-hover:opacity-100"
@@ -83,40 +71,65 @@ const isActive = (item: NavItemType) => {
 				}
 			</div>
 
-			<!-- Search Button -->
-			<Button
-				variant="ghost"
-				size="square"
+			<!-- Search Button. The shortcut hint shows from md up and is rewritten
+			     to ⌘ K on Apple devices by the script below. Plain button so it gets
+			     the same bracket hover as the nav links (no ghost background). -->
+			<button
 				type="button"
 				id="search-button"
 				aria-label="Search"
+				class="brackets-text inline-flex min-h-[1lh] cursor-pointer items-center gap-2 font-serif text-lg text-gray-900"
 			>
-				<MagnifyingGlassIcon />
-			</Button>
+				<MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
+				<kbd
+					id="search-shortcut"
+					class="hidden font-mono text-xs text-ink-muted md:inline-block"
+					aria-hidden="true"
+				>
+					Ctrl K
+				</kbd>
+			</button>
 
 			<!-- CTA or Actions Slot -->
 			<slot name="actions" />
 
 			<!-- Mobile Menu -->
+			<!-- Only hydrated below the md breakpoint (48rem), where it's visible -->
 			<div class="md:hidden">
-				<MobileMenu client:idle items={items} currentPath={currentPath} />
+				<MobileMenu
+					client:media="(max-width: 47.99rem)"
+					items={items}
+					currentPath={currentPath}
+					siteName={siteName}
+				/>
 			</div>
 		</div>
 	</div>
 </nav>
 
-<!-- Rich Search Modal -->
+<!-- Rich Search Modal. Hydrated when the browser is idle; an open request made
+     before then is queued via data-search-pending and picked up on mount. -->
 <RichSearch client:idle />
 
 <script>
+	function openSearch() {
+		// Queue the request in case RichSearch hasn't hydrated yet
+		document.documentElement.dataset.searchPending = 'true';
+		window.dispatchEvent(new CustomEvent('open-search'));
+	}
+
+	const isApple = /Mac|iPhone|iPad/.test(navigator.platform);
+
 	function setupSearchButton() {
 		const searchButton = document.getElementById('search-button');
 
 		if (searchButton) {
-			searchButton.addEventListener('click', () => {
-				window.dispatchEvent(new CustomEvent('open-search'));
-			});
+			searchButton.addEventListener('click', openSearch);
 		}
+
+		// Elements are re-created on each View Transition, so re-apply the hint
+		const hint = document.getElementById('search-shortcut');
+		if (hint && isApple) hint.textContent = '⌘\u2009K';
 	}
 
 	// Run on initial load and after each View Transition navigation
@@ -129,7 +142,7 @@ const isActive = (item: NavItemType) => {
 		document.addEventListener('keydown', (e) => {
 			if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
 				e.preventDefault();
-				window.dispatchEvent(new CustomEvent('open-search'));
+				openSearch();
 			}
 		});
 	}

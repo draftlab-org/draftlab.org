@@ -61,6 +61,6 @@ export async function resolvePeople(
 /**
  * Get the URL for a person's profile
  */
-export function getPersonUrl(person: Person): string {
+export function getPersonUrl(person: Pick<Person, 'id'>): string {
   return `/people/${person.id}`;
 }

@@ -1,5 +1,5 @@
 ---
-import Button from '@components/atoms/Button.astro';
+import Button from '@components/atoms/Button';
 import SectionTitle from '@components/atoms/SectionTitle.astro';
 
 export interface Props {
@@ -42,7 +42,7 @@ const {
 				basis.
 			</p>
 			<div>
-				<Button as="a" href={href} variant="outline" size="lg" class="w-full sm:w-auto">
+				<Button as="a" href={href} variant="outline" size="lg" className="w-full sm:w-auto">
 					Apply for support →
 				</Button>
 			</div>

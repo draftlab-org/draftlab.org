@@ -1,6 +1,7 @@
 import { defineCollection, type ImageFunction, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { BUTTON_ICONS, BUTTON_SIZES, BUTTON_VARIANTS } from '@utils/buttons';
 
 const statusSchema = z
   .enum(['draft', 'published', 'archived'])
@@ -26,12 +27,21 @@ const modalitySlugSchema = z.enum([
   'community',
 ]);
 
+// Pages CMS writes empty strings / nulls for cleared optional fields
+const emptyToUndefined = (value: unknown) =>
+  value === '' || value === null ? undefined : value;
+
 const createSchemas = (image: ImageFunction) => {
+  // Scaffold 0.6+ button: typed variant/size, CMS link picker or free href,
+  // optional icon. Content written as `{ variant, size, href, text }` still
+  // validates.
   const buttonSchema = z.object({
-    variant: z.string(),
-    size: z.string(),
-    href: z.string(),
+    variant: z.enum(BUTTON_VARIANTS).default('primary'),
+    size: z.enum(BUTTON_SIZES).default('md'),
     text: z.string(),
+    link: z.preprocess(emptyToUndefined, flexibleLinkSchema.optional()),
+    href: z.preprocess(emptyToUndefined, z.string().optional()),
+    icon: z.preprocess(emptyToUndefined, z.enum(BUTTON_ICONS).optional()),
   });
 
   const cardSchema = z.object({
@@ -75,6 +85,9 @@ const createSchemas = (image: ImageFunction) => {
     personSchema,
   };
 };
+
+/** Button shape used by ButtonSection / CardSection (matches Scaffold's export). */
+export type ButtonData = z.infer<ReturnType<typeof createSchemas>['buttonSchema']>;
 
 // ── Pages collection ──
 
@@ -199,13 +212,6 @@ const pagesCollection = defineCollection({
       }),
     ]);
 
-    const flexiSectionSchema = SectionCommonSchema.extend({
-      type: z.literal('flexi'),
-      title: z.string(),
-      description: z.string().optional(),
-      sections: z.array(sectionsSchema),
-    });
-
     return z.object({
       title: z.string(),
       description: z.string().optional(),
@@ -216,10 +222,12 @@ const pagesCollection = defineCollection({
         .optional(),
       permalink: z.string().optional(),
       status: statusSchema,
-      sections: z
-        .union([...sectionsSchema.options, flexiSectionSchema])
-        .array()
-        .optional(),
+      /** Override the browser-tab title / meta description (Scaffold 0.7). */
+      seoTitle: z.string().optional(),
+      seoDescription: z.string().optional(),
+      /** 'auto' shows breadcrumbs on nested pages; 'show'/'hide' force it. */
+      breadcrumbs: z.enum(['auto', 'show', 'hide']).optional(),
+      sections: sectionsSchema.array().optional(),
     });
   },
 });
@@ -387,6 +395,19 @@ const siteCollection = defineCollection({
         .object({
           message: z.string(),
           googleAnalyticsId: z.string().optional(),
+        })
+        .optional(),
+      /** Site-wide breadcrumb toggle (Scaffold 0.6+); per-page `breadcrumbs` can override. */
+      showBreadcrumbs: z.boolean().optional(),
+      /** Cookieless analytics; only loaded on production builds (Scaffold 0.6+). */
+      analytics: z
+        .object({
+          umami: z
+            .object({
+              src: z.string().optional(),
+              websiteId: z.string().optional(),
+            })
+            .optional(),
         })
         .optional(),
     }),

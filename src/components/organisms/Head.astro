@@ -4,10 +4,14 @@ import { getCollection, getEntry } from 'astro:content';
 import { ClientRouter } from "astro:transitions";
 import JsonLd from '@components/atoms/JsonLd.astro';
 import { isVisible } from '@utils/content';
+import { isPreview, isProduction } from '@utils/dev';
+import type { JsonLd as JsonLdNode } from '@utils/jsonld';
+import { metaDescription, ogCardUrl, ogLocale } from '@utils/seo';
 import { buildSiteGraph } from '@utils/structuredData';
 
 // Fetch site config from content collection
 const siteConfigEntry = await getEntry('site', 'config');
+
 
 if (!siteConfigEntry) {
   throw new Error('Site configuration not found');
@@ -15,63 +19,98 @@ if (!siteConfigEntry) {
 
 const siteConfig = siteConfigEntry.data;
 
+// Umami is opt-in: only emitted on production builds when both fields are set
+const umami = siteConfig.analytics?.umami;
+const umamiEnabled = isProduction && !!umami?.src && !!umami?.websiteId;
+
+export interface ArticleMeta {
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  /** Absolute URLs of the authors' profile pages. */
+  authors?: string[];
+  section?: string;
+  tags?: string[];
+}
 
 export interface Props {
   title: string;
   description?: string;
-  /** Page-specific OG image; falls back to `siteConfig.defaultOgImage`. */
   image?: ImageMetadata;
   canonicalURL?: URL;
-  /** `article` for dated, authored pages (projects); `website` otherwise. */
-  type?: 'website' | 'article';
-  /** ISO dates, only emitted when `type` is `article`. */
-  publishedTime?: string;
-  modifiedTime?: string;
+  lang?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  /** Keep the page out of search indexes (also forced on preview builds). */
+  noindex?: boolean;
+  /** Page-specific schema.org nodes, merged into the site graph. */
+  jsonLd?: JsonLdNode | JsonLdNode[];
+  article?: ArticleMeta;
 }
 
 const {
   title,
-  description = siteConfig.description,
+  description,
   image,
   canonicalURL,
-  type = 'website',
-  publishedTime,
-  modifiedTime,
+  lang = 'en',
+  ogType = 'website',
+  noindex = false,
+  jsonLd = [],
+  article,
 } = Astro.props;
 
+// Draftlab title format: "Page [Draftlab]" (Scaffold's default is "Page | Site").
 const siteName = siteConfig.title;
 const fullTitle =
   title === siteName || title.includes(siteName) ? title : `${title} [${siteName}]`;
-
-const base = Astro.site ?? Astro.url;
-const absolute = (path: string) => new URL(path, base).href;
+const metaDesc = metaDescription(description, siteConfig.description);
+const locale = ogLocale(lang);
+const siteBase = Astro.site ?? Astro.url;
+const absolute = (path: string) => new URL(path, siteBase).href;
 
 const mimeFor = (img?: ImageMetadata) =>
-  img?.format ? `image/${img.format === 'jpg' ? 'jpeg' : img.format}` : 'image/png';
+  img?.format ? `image/${img.format === 'jpg' ? 'jpeg' : img.format}` : undefined;
 
-// Primary OG image: page image, else the site-wide default.
-const ogImage = image || (siteConfig.defaultOgImage as ImageMetadata | undefined);
-type OgImage = { url: string; width?: number; height?: number; type: string };
-const og: OgImage | undefined = ogImage
-  ? { url: absolute(ogImage.src), width: ogImage.width, height: ogImage.height, type: mimeFor(ogImage) }
-  : undefined;
+// og:image — the generated OG card when the page has a hero image and the
+// site can build cards (square logo set); otherwise the hero image itself,
+// otherwise the default site OG image. Always absolute on the site URL.
+let imageURL: string | undefined;
+let imageType: string | undefined;
+let imageWidth: number | undefined;
+let imageHeight: number | undefined;
+const card = image ? ogCardUrl(Astro.url.pathname) : undefined;
+if (card) {
+  imageURL = card;
+  imageType = 'image/png';
+  imageWidth = 1200;
+  imageHeight = 630;
+} else {
+  const fallback = image ?? (siteConfig.defaultOgImage as ImageMetadata | undefined);
+  if (fallback) {
+    imageURL = absolute(fallback.src);
+    imageType = mimeFor(fallback);
+    imageWidth = fallback.width;
+    imageHeight = fallback.height;
+  }
+}
+const imageAlt = `${siteName} — ${siteConfig.description}`;
 
 // Square variant only accompanies the generic default; per-page heroes
 // shouldn't get a generic square thumbnail tacked on.
 const ogImageSquare = siteConfig.defaultOgImageSquare as ImageMetadata | undefined;
 const imageSquareURL =
   ogImageSquare && !image ? absolute(ogImageSquare.src) : undefined;
-const imageAlt = `${siteName} — ${siteConfig.description}`;
 
-// Site-wide structured data: Organization + WebSite. Pages add their own
-// entity (Person, CreativeWork) through the <slot />.
+const robots = noindex || isPreview ? 'noindex, nofollow' : undefined;
+
+// Site-wide structured data: Organization (+ knowsAbout = skills) + WebSite.
+// Pages add their own nodes (Person, CreativeWork) through the `jsonLd` prop.
 const logo = siteConfig.defaultLogoLight as ImageMetadata | undefined;
 const skillNames = (await getCollection('skills'))
   .filter((s) => isVisible(s))
   .map((s) => s.data.name)
   .sort();
 const siteGraph = buildSiteGraph({
-  siteUrl: base.href,
+  siteUrl: siteBase.href,
   name: siteName,
   description: siteConfig.description,
   logoUrl: logo ? absolute(logo.src) : undefined,
@@ -79,8 +118,10 @@ const siteGraph = buildSiteGraph({
   sameAs: Object.values(siteConfig.social ?? {}),
   knowsAbout: skillNames,
 });
-
-const isProd = import.meta.env.PROD;
+const graph: JsonLdNode[] = [
+  ...siteGraph['@graph'],
+  ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd]),
+];
 
 // Derive `@user@instance` from a Mastodon profile URL (e.g. https://mastodon.social/@tingeber)
 const mastodonUrl = siteConfig.social?.mastodon;
@@ -104,38 +145,31 @@ const fediverseCreator = (() => {
 <!-- Primary Meta Tags -->
 <title>{fullTitle}</title>
 <meta name="title" content={fullTitle} />
-<meta name="description" content={description} />
+<meta name="description" content={metaDesc} />
+{robots && <meta name="robots" content={robots} />}
 <link rel="canonical" href={canonicalURL} />
-<link
-	rel="alternate"
-	type="application/rss+xml"
-	title={siteName}
-	href={new URL('rss.xml', Astro.site)}
-/>
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content={type} />
+<meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={siteName} />
-<meta property="og:locale" content="en_US" />
+{locale && <meta property="og:locale" content={locale} />}
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={fullTitle} />
-<meta property="og:description" content={description} />
-{og && <meta property="og:image" content={og.url} />}
-{og && <meta property="og:image:secure_url" content={og.url} />}
-{og?.width && <meta property="og:image:width" content={String(og.width)} />}
-{og?.height && <meta property="og:image:height" content={String(og.height)} />}
-{og && <meta property="og:image:type" content={og.type} />}
-{og && <meta property="og:image:alt" content={imageAlt} />}
+<meta property="og:description" content={metaDesc} />
+{imageURL && <meta property="og:image" content={imageURL} />}
+{imageURL && <meta property="og:image:secure_url" content={imageURL} />}
+{imageURL && imageType && <meta property="og:image:type" content={imageType} />}
+{imageURL && imageWidth && <meta property="og:image:width" content={String(imageWidth)} />}
+{imageURL && imageHeight && <meta property="og:image:height" content={String(imageHeight)} />}
+{imageURL && <meta property="og:image:alt" content={imageAlt} />}
 
 {
 	/* Optional square thumbnail variant — Slack inline previews, iMessage, RSS readers */
 }
 {imageSquareURL && <meta property="og:image" content={imageSquareURL} />}
-{
-	imageSquareURL && (
-		<meta property="og:image:secure_url" content={imageSquareURL} />
-	)
-}
+{imageSquareURL && <meta property="og:image:secure_url" content={imageSquareURL} />}
 {
 	imageSquareURL && ogImageSquare?.width && (
 		<meta property="og:image:width" content={String(ogImageSquare.width)} />
@@ -147,35 +181,30 @@ const fediverseCreator = (() => {
 	)
 }
 {
-	imageSquareURL && (
+	imageSquareURL && mimeFor(ogImageSquare) && (
 		<meta property="og:image:type" content={mimeFor(ogImageSquare)} />
 	)
 }
 {imageSquareURL && <meta property="og:image:alt" content={imageAlt} />}
 
-<!-- Article dates (projects) -->
-{
-	type === 'article' && publishedTime && (
-		<meta property="article:published_time" content={publishedTime} />
-	)
-}
-{
-	type === 'article' && modifiedTime && (
-		<meta property="article:modified_time" content={modifiedTime} />
-	)
-}
-{type === 'article' && <meta property="article:publisher" content={absolute('/')} />}
+<!-- Article meta (projects) -->
+{article?.publishedTime && <meta property="article:published_time" content={article.publishedTime.toISOString()} />}
+{article?.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime.toISOString()} />}
+{ogType === 'article' && <meta property="article:publisher" content={absolute('/')} />}
+{article?.authors?.map((url) => <meta property="article:author" content={url} />)}
+{article?.section && <meta property="article:section" content={article.section} />}
+{article?.tags?.map((tag) => <meta property="article:tag" content={tag} />)}
 
-<!-- Twitter -->
+<!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:url" content={canonicalURL} />
 <meta name="twitter:title" content={fullTitle} />
-<meta name="twitter:description" content={description} />
-{og && <meta name="twitter:image" content={og.url} />}
-{og && <meta name="twitter:image:alt" content={imageAlt} />}
+<meta name="twitter:description" content={metaDesc} />
+{imageURL && <meta name="twitter:image" content={imageURL} />}
+{imageURL && <meta name="twitter:image:alt" content={imageAlt} />}
 
-<!-- Structured data (site-wide); pages append their own via the head slot -->
-<JsonLd data={siteGraph} />
+<!-- Structured data: Organization + WebSite, plus any page nodes -->
+<JsonLd data={graph} />
 
 <!-- Mastodon verification -->
 <link rel="me" href="https://mastodon.social/@draftlab"/>
@@ -187,16 +216,16 @@ const fediverseCreator = (() => {
 }
 
 {
-	isProd && (
+	umamiEnabled && (
 		<>
-			{/* Privacy-preserving analytics by self-hosted Umami */}
+			{/* Privacy-preserving analytics by Umami (configured in site config) */}
 			<script
 				is:inline
 				defer
-				src="https://umami.draftlab.dev/script.js"
+				src={umami?.src}
 				data-performance="true"
 				data-do-not-track="true"
-				data-website-id="1e20487e-8c1d-4f9d-974b-d15a43c4ca66"
+				data-website-id={umami?.websiteId}
 				transition:persist
 			/>
 			{/* Auto-tag outbound links for Umami. Sweep on DOM ready + each
@@ -226,7 +255,7 @@ const fediverseCreator = (() => {
 	)
 }
 
-<!-- Local Font Declaration.
+<!-- Local Font Declaration (variables defined in fonts.config.mjs).
      `preload` is granular: preload only the variants needed to paint above-the-fold
      content. Fraunces 700 latin = the hero headline (LCP on `/`) and the logo;
      Fraunces 400 latin = nav menu items and body text. The other declared

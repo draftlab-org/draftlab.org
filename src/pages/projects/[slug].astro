@@ -91,9 +91,11 @@ const projectLd = buildProject({
 	title={project.name}
 	description={project.description}
 	image={project.image}
-	type="article"
-	publishedTime={publishedTime}
-	modifiedTime={modifiedTime}
+	ogType="article"
+	article={{
+		publishedTime: publishedTime ? new Date(publishedTime) : undefined,
+		modifiedTime: modifiedTime ? new Date(modifiedTime) : undefined,
+	}}
 >
 	<JsonLd slot="head" data={projectLd} />
 	<article class="mx-auto max-w-3xl px-4 pt-10 pb-20 sm:px-6 lg:px-8">

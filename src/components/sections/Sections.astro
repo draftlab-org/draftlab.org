@@ -5,7 +5,6 @@ import CalEmbedSection from '@components/sections/CalEmbedSection.astro';
 import CalloutSection from '@components/sections/CalloutSection.astro';
 import CardSection from '@components/sections/CardSection.astro';
 import FeedGridSection from '@components/sections/FeedGridSection.astro';
-import FlexiSection from '@components/sections/FlexiSection.astro';
 import HeroSection from '@components/sections/HeroSection.astro';
 import HowWeWorkSection from '@components/sections/HowWeWorkSection.astro';
 import LatestUpdatesSection from '@components/sections/LatestUpdatesSection.astro';
@@ -20,7 +19,12 @@ import SkillsSection from '@components/sections/SkillsSection.astro';
 import UxdCtaSection from '@components/sections/UxdCtaSection.astro';
 import SectionLayout, { type VerticalSpace } from '@layouts/SectionLayout.astro';
 
-const { sectionItems } = Astro.props;
+export interface Props {
+  sectionItems?: any[] | null;
+}
+
+// A page saved with no sections has `sections: null`
+const sectionItems = Astro.props.sectionItems ?? [];
 
 // Per-section-type vertical-rhythm assignments. Sections inherit `normal`
 // unless explicitly overridden here. Tier definitions live in SectionLayout.
@@ -45,14 +49,6 @@ const verticalSpaceByType: Record<string, VerticalSpace> = {
 				case 'button':
 					return (
 						<ButtonSection title={section.title} buttons={section.buttons} />
-					);
-				case 'flexi':
-					return (
-						<FlexiSection
-							title={section.title}
-							description={section.description}
-							sections={section.sections}
-						/>
 					);
 				case 'hero':
 					return (
