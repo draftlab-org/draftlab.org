@@ -2,9 +2,9 @@ name: Accessible website starter for civil society
 slug: scaffold
 status: published
 contentStatus: ready
-description: Open-source Astro starter that gives civil society organisations a
-  website foundation. Accessible, privacy-conscious, and editable through a
-  visual CMS. It probably has what you are looking for.
+description: Scaffold is an open source Astro starter that gives civil society
+  organisations a website foundation. Accessible, privacy-conscious, and
+  editable through a visual CMS. It probably has what you are looking for.
 phases:
   - understand
   - define
