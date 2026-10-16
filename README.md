@@ -1,6 +1,6 @@
 # draftlab.org
 
-The website for **Draftlab** — a creative project design studio for social good. Built on the [Scaffold](https://github.com/draftlab-org/scaffold) template (Astro 6 + Tailwind CSS v4 + React 19), deployed to Netlify.
+The website for **Draftlab** — a creative project design studio for social good. Built on the [Scaffold](https://github.com/draftlab-org/scaffold) template (Astro 7 + Tailwind CSS v4 + React 19), deployed to Netlify.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9a10e2af-511b-48c6-8ed2-e450ae007148/deploy-status)](https://app.netlify.com/projects/draftlab-scaffold/deploys)
 
@@ -38,7 +38,7 @@ These slugs are load-bearing. They appear as Zod enums in `src/content.config.ts
 
 | Concern | Choice |
 | --- | --- |
-| SSG / framework | [Astro 6](https://docs.astro.build) with the Netlify adapter |
+| SSG / framework | [Astro 7](https://docs.astro.build) with the Netlify adapter |
 | UI framework (interactive islands) | React 19 |
 | Styling | Tailwind CSS v4 (`@theme` block in CSS, no `tailwind.config.*`) |
 | Content | Astro content collections + Zod schemas |
@@ -250,6 +250,17 @@ src/
 ## Deployment
 
 `@astrojs/netlify` adapter; build runs on push to `main` via Netlify's GitHub integration. The site URL is set from `DEPLOY_PRIME_URL` / `URL` (Netlify-provided) at build time and falls back to `siteConfig.url` for local dev — see `astro.config.mjs`.
+
+## Updating from Scaffold
+
+Draftlab.org is a downstream of the Scaffold template and pulls template improvements with the upstream-merge workflow (adopted at Scaffold v0.7.0, October 2026):
+
+```sh
+npm run update-from-scaffold        # merges scaffold/main; content, assets, styles, public/ and fonts.config.mjs are protected
+npm install && npm run build && npm run typecheck
+```
+
+Expect modify/delete conflicts for upstream components that depend on collections this site removed (articles, docs, resources, partners) — keep them deleted. After a lockfile merge, check the resolved versions of this site's own dependencies. Node 24+ is required. One Astro 7 gotcha: pass `className`, not `class`, to React (`.tsx`) atoms from `.astro` files; the React renderer drops `class`.
 
 ## License and contributing
 
