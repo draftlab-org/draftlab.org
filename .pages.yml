@@ -568,42 +568,6 @@ components:
         type: string
         description: CSS height value (e.g. '600px').
 
-  flexi_section:
-    type: object
-    fields:
-      - name: background
-        label: Section Background
-        component: background_select
-      - name: title
-        label: Title
-        type: string
-        required: true
-      - name: description
-        label: Description
-        type: rich-text
-      - name: sections
-        label: Nested Sections
-        component: section
-        list: true
-
-  # Subset of section types allowed inside flexi sections
-  section:
-    type: block
-    blockKey: type
-    blocks:
-      - name: richText
-        label: Rich Text Section
-        component: richtext_section
-      - name: callout
-        label: Callout Section
-        component: callout_section
-      - name: button
-        label: Button Section
-        component: button_section
-      - name: card
-        label: Card Section
-        component: card_section
-
 # ============================================================================
 # CONTENT COLLECTIONS
 # ============================================================================
@@ -755,10 +719,6 @@ content:
           - name: calEmbed
             label: Cal.com Embed
             component: cal_embed_section
-
-          - name: flexi
-            label: Flexi Section
-            component: flexi_section
 
   # --------------------------------------------------------------------------
   # Projects

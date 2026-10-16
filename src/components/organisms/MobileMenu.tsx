@@ -43,6 +43,29 @@ export default function MobileMenu({
     const external = isExternalLink(child.link);
     const active = !external && isActive(href);
     return (
+      <li key={`${child.label}-${href}`}>
+        <a
+          href={href}
+          target={external ? '_blank' : undefined}
+          rel={external ? 'noopener noreferrer' : undefined}
+          aria-current={active ? 'page' : undefined}
+          className="group flex items-center gap-x-2 font-serif text-lg text-gray-700"
+        >
+          <span className={`brackets-text ${active ? 'is-active' : ''}`}>
+            {child.label}
+          </span>
+          {external && (
+            <>
+              <IconExternalLink className="h-4 w-4 opacity-70" aria-hidden="true" />
+              <span className="sr-only">(opens in a new tab)</span>
+            </>
+          )}
+        </a>
+      </li>
+    );
+  };
+
+  return (
     <>
       {/* Mobile menu button */}
       <button
