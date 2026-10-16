@@ -2,6 +2,44 @@
 
 Notes for sites built from Scaffold when pulling a new version with `npm run update-from-scaffold`.
 
+## 0.6 → 0.7
+
+A second round of improvements brought back from sites built on Scaffold (draftlab.org, superbloom.design, measurementlab.net, gdpnext). Nothing changes the shape of your content; the items marked **action needed** are small clean-ups on your side.
+
+### Before you merge
+
+- **Node 24 required.** `engines.node` is now `>=24.0.0` and `netlify.toml` pins `NODE_VERSION = "24"`. Node 22 reached end of active support; Netlify builds switch over with the pin. Update your local Node (`nvm install 24`) before running `npm install`.
+- **Dependencies bumped** to current minors: Astro 7.4, the Netlify adapter 8.2, React 19.3, Tailwind 4.3, plus `@astrojs/rss` as a new dependency. Run `npm install` after merging. If the first build fails with `Cannot find package '@netlify/blobs'`, run `npm dedupe` — npm occasionally nests that package under the adapter where Astro's session storage can't resolve it.
+- **`.pages.yml` conflicts are likely** if you customised it. New in this version: a `settings:` block (content merge + commit message templates), `seoTitle`/`seoDescription` on every content collection, a `email` field in Site Settings, a stricter slug pattern, and the `extraInfo` person field is gone. Take Scaffold's version as the base and re-apply yours; the update script re-syncs your category lists afterwards.
+
+### Action needed
+
+- **Delete `public/robots.txt` and `public/llms.txt` if you have them.** Both are now generated routes (`src/pages/robots.txt.ts`, `src/pages/llms.txt.ts`). A static file in `public/` shadows the route, so you'd keep serving the old content. `public/**` is protected, so the update script does not remove them for you.
+- **Slugs must be lowercase and non-empty in the CMS.** The permalink/ID pattern changed from `^[a-zA-Z0-9_-]*$` to `^[a-z0-9_-]+$`. Existing content with uppercase permalinks still builds, but Pages CMS will refuse to save that entry until the permalink is lowercased (and the auto-permalink workflow then renames the file). Grep your content for `permalink: .*[A-Z]` to find them.
+- **`FormField.astro` and `PageSection.astro` are removed** (they were unused in Scaffold). If you imported either in your own components, copy the old file from your git history into your site — they were never wired to anything in the template.
+- **People `extraInfo` is gone** from the schema and the CMS. It was never rendered anywhere. Values left in your JSON are ignored (not an error); move anything you want to keep into `affiliation` or `title`.
+- **Card images in `CardSection` now have `alt=""`** because the card title follows as a heading (screen readers were reading the title twice). If you put meaningful, non-title imagery in cards, override in your own CardSection.
+
+### Behaviour changes (no edits required, but check your site)
+
+- **Page titles get the site name appended** (`About | Your Site`) unless the title already ends with it. If you were adding the site name yourself in a page component, drop it to avoid `About - Your Site | Your Site`.
+- **Preview builds (`PUBLIC_PREVIEW=true`)** now render `noindex,nofollow`, `robots.txt` disallows everything, draft content gets a DRAFT label, and an orange frame with a "Preview" badge is drawn around the page. Set the variable only on your preview Netlify site — see the comment in `netlify.toml`.
+- **Whole cards are clickable** (Card, ArticleCard, article index): the title link stretches over the card. Nested links inside a card need `relative z-10` to stay clickable; Scaffold's own cards already have it. `Card.astro` is now `position: relative`, and CardSection's grid uses `.cards-grid` from `scaffold.css` (equal row heights; a lone card or pair is centred — `center={false}` to opt out).
+- **Logo wall** centres a short last row (flex-wrap instead of an auto-fill grid).
+- **Table of contents** picks the active heading from scroll position instead of an intersection band, and a long TOC scrolls inside the sticky sidebar. TOCs are capped at two levels (h2 + h3); rich-text section TOCs that showed h4+ before lose those entries.
+- **Rich search** caps results at 10 per category, no longer flashes its skeleton when opened, and the nav search button shows a ⌘ K / Ctrl K hint from `md` up.
+- **Sitemap** excludes `/api/*`, `/og/*` and non-HTML endpoints, and article URLs carry `<lastmod>` from `publishedDate`.
+
+### New, nothing to do
+
+- **SEO pass.** `Head.astro` emits `og:type` (`website` / `article` / `profile`), `og:site_name`, `og:locale`, image type/width/height/alt, `article:published_time` / `article:author` / `article:section` / `article:tag` on articles, and correct `name="twitter:*"` tags. Every page carries a schema.org JSON-LD graph (Organization + WebSite) and detail pages add Article, Person or CreativeWork nodes (`@utils/jsonld`, `atoms/JsonLd.astro`). Layouts accept `ogType`, `noindex`, `jsonLd` and `article` props.
+- **`seoTitle` / `seoDescription`** on pages, articles, docs, people, partners and resources override the browser-tab title and meta description; `email` in Site Settings feeds structured data and `llms.txt`.
+- **Fixes:** `Heading` styles follow `level` even when `as` renders a different tag; the fallback OG image URL is absolute on the site URL (not the request URL); auto-excerpts skip a leading `[EmbedLink](…)`; docs prev/next and sidebar use `getDocUrl`; the search index uses `getArticleUrl` / `getDocUrl`; the search legend punctuation.
+- **Feeds:** `/rss.xml` (published articles), `/robots.txt`, `/llms.txt` generated from your content; `<link rel="alternate">` and `<link rel="sitemap">` in Head.
+- **Navigation:** dropdown chevron rotates when open; top-level active links carry `aria-current="page"`.
+- **`SectionHeader` `compact` prop**; `CallToActionSection` accepts a default slot (rendered only when used).
+- **Pages CMS:** `settings.content.merge` keeps keys the CMS doesn't manage; commits are stamped "(via Pages CMS)"; the pages list shows the permalink column.
+
 ## 0.5 → 0.6
 
 This release brings back features and fixes developed on sites built from Scaffold. Most schema changes still accept the old content shape, so an existing site keeps building. The items marked **action needed** need a change on your side.

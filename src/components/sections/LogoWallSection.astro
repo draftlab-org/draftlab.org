@@ -35,6 +35,8 @@ const partners: Partner[] =
     : allPartners.filter((partner) => partner.featured);
 
 const isScroll = layout === 'scroll';
+// The grid layout is flex-wrap with fixed-width items (w-32/sm:w-40), not an
+// auto-fill grid, so a short last row centres instead of leaving empty tracks
 // Keep the scroll speed steady however many logos there are
 const duration = `${Math.max(20, partners.length * 4)}s`;
 const logoBox = { width: 320, height: 160 };
@@ -92,9 +94,9 @@ const gutter = fullBleed ? 'px-4 sm:px-6 lg:px-8' : '';
 				</button>
 			</div>
 		) : (
-			<ul class={`mx-auto m-0 grid max-w-7xl list-none grid-cols-[repeat(auto-fill,8rem)] justify-center gap-x-10 gap-y-8 p-0 sm:grid-cols-[repeat(auto-fill,10rem)] sm:gap-x-14 ${gutter}`}>
+			<ul class={`mx-auto m-0 flex max-w-7xl list-none flex-wrap justify-center gap-x-10 gap-y-8 p-0 sm:gap-x-14 ${gutter}`}>
 				{partners.map((partner) => (
-					<li class="logo-wall-item m-0 flex h-16 items-center justify-center sm:h-20">
+					<li class="logo-wall-item m-0 flex h-16 w-32 items-center justify-center sm:h-20 sm:w-40">
 						<a
 							href={getPartnerUrl(partner)}
 							class="flex h-full w-full items-center justify-center"

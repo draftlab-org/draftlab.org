@@ -3,7 +3,7 @@ import { stripMarkdown } from '@utils/search';
 /**
  * Plain-text excerpt from a markdown body, for cards and meta descriptions
  * when no excerpt was written. Uses the first real paragraph (skipping
- * headings, blockquotes, lists, code and images) and cuts at a word boundary.
+ * headings, blockquotes, lists, code, images and `[EmbedLink](url)` embeds) and cuts at a word boundary.
  */
 export function getExcerpt(
   markdown: string | undefined,
@@ -18,7 +18,7 @@ export function getExcerpt(
     .find(
       (block) =>
         block !== '' &&
-        !/^(#{1,6}\s|>|[-*+]\s|\d+\.\s|!\[|<|\||import\s|export\s)/.test(block)
+        !/^(#{1,6}\s|>|[-*+]\s|\d+\.\s|!\[|\[EmbedLink\]|<|\||import\s|export\s)/.test(block)
     );
 
   const text = stripMarkdown(paragraph ?? '');

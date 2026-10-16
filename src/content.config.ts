@@ -34,6 +34,12 @@ const optionalCategory = (categories: string[]) =>
 const emptyToUndefined = (value: unknown) =>
   value === '' || value === null ? undefined : value;
 
+// Optional search/social overrides; Pages CMS writes '' for empty fields
+const seoFields = {
+  seoTitle: z.preprocess(emptyToUndefined, z.string().optional()),
+  seoDescription: z.preprocess(emptyToUndefined, z.string().optional()),
+};
+
 // Optional reference list: '' / null / [] all mean "nothing picked"
 const optionalIdList = z.preprocess(
   (value) =>
@@ -150,7 +156,6 @@ const createSchemas = (image: ImageFunction) => {
     headshot: image(),
     title: z.string().optional(),
     affiliation: z.string().optional(),
-    extraInfo: z.string().optional(),
     url: z.string().optional(),
     socialLinks: z.preprocess(
       emptyToUndefined,
@@ -160,6 +165,7 @@ const createSchemas = (image: ImageFunction) => {
       z.enum(peopleCategories.categories as [string, ...string[]])
     ),
     status: statusSchema,
+    ...seoFields,
   });
 
   const partnerSchema = z.object({
@@ -175,6 +181,7 @@ const createSchemas = (image: ImageFunction) => {
         .min(1)
     ),
     image: image().optional(),
+    ...seoFields,
   });
 
   return {
@@ -337,6 +344,7 @@ const pagesCollection = defineCollection({
         .array()
         // A page saved with no sections writes a bare `sections:` (null)
         .nullish(),
+      ...seoFields,
     });
   },
 });
@@ -376,6 +384,7 @@ const articlesCollection = defineCollection({
       relatedArticles: optionalIdList,
       // Resource IDs
       relatedResources: optionalIdList,
+      ...seoFields,
     }),
 });
 
@@ -387,6 +396,8 @@ const siteCollection = defineCollection({
       title: z.string(),
       description: z.string(),
       url: z.url(),
+      // Public contact address, used in structured data and llms.txt
+      email: z.preprocess(emptyToUndefined, z.string().optional()),
       favicon: z.string().default('/favicon.svg'),
       defaultOgImage: image().optional(),
       defaultLogoLight: image().optional(),
@@ -514,6 +525,7 @@ const resourcesCollection = defineCollection({
     tags: z.array(z.string()).optional(),
     // Resource IDs
     relatedResources: z.array(z.string()).nullish(),
+    ...seoFields,
   }),
 });
 
@@ -527,6 +539,7 @@ const docsCollection = defineCollection({
     order: z.number(),
     status: statusSchema,
     description: z.string().optional(),
+    ...seoFields,
   }),
 });
 

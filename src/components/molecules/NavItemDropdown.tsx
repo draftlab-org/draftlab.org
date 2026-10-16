@@ -68,9 +68,13 @@ export default function NavItemDropdown({
 
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <MenuButton className={buttonClasses}>
+      {/* `group` lets the chevron follow the button's data-open state */}
+      <MenuButton className={`group ${buttonClasses}`}>
         {item.label}
-        <IconChevronDown className="ml-1 h-5 w-5" aria-hidden="true" />
+        <IconChevronDown
+          className="ml-1 h-5 w-5 transition-transform duration-150 group-data-open:rotate-180"
+          aria-hidden="true"
+        />
       </MenuButton>
 
       <MenuItems

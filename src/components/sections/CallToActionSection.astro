@@ -62,6 +62,15 @@ const align = image ? 'left' : 'center';
 					</div>
 				)
 			}
+			{
+				/* Additional content; the wrapper is skipped when nothing is slotted
+				   so there is no empty margin */
+				Astro.slots.has('default') && (
+					<div class="mt-12">
+						<slot />
+					</div>
+				)
+			}
 		</div>
 		{
 			image && (

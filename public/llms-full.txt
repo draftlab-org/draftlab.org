@@ -12,7 +12,7 @@ placeholder content meant to be replaced.
 
 ## Quick start
 
-Requires Node.js v22.12+ and Git.
+Requires Node.js v24+ and Git.
 
     npx create-astro --template draftlab-org/scaffold
     cd your-project-name
@@ -71,7 +71,7 @@ always wins on conflict):
 - `src/content/**` — content collections
 - `src/assets/**` — uploaded images, logos, artwork
 - `src/styles/**` — theme tokens, typography, component utilities
-- `public/**` — favicons, OG images, robots.txt, branding
+- `public/**` — favicons, OG images, branding (`robots.txt` and `llms.txt` are generated routes, not static files)
 - `fonts.config.mjs` — font choices (see Architecture)
 
 Everything else (components, layouts, utils, `astro.config.mjs`, `package.json`)
@@ -179,11 +179,29 @@ Scaffold ships with a complete `.pages.yml` configuration for
 - **Components**: Atomic design — `atoms` → `molecules` → `organisms` → `sections`
 - **TypeScript**: Strict mode with path aliases (`@components/*`, `@utils/*`, `@lib/*`, `@content/*`, `@content-config`, `@styles/*`, `@layouts/*`, `@assets/*`, `@pages/*`)
 - **Atoms**: `Button`, `Link`, `Tag` are single `.tsx` components used from both Astro and React
-- **Tooling**: `npm run typecheck` (astro check), `npm run lint` (Biome), Node >= 22.12
+- **Tooling**: `npm run typecheck` (astro check), `npm run lint` (Biome), Node >= 24
 - **CI**: GitHub Actions for permalink sync, category sync, and link checking (lychee; `[linkcheck]` / `[linkcheck-full]` in a commit message)
 - **Icons**: [unplugin-icons](https://github.com/unplugin/unplugin-icons) + [@iconify/json](https://icon-sets.iconify.design/) — import as `~icons/[collection]/[icon-name]`
 - **Styling**: Tailwind v4 with `@theme` tokens in `src/styles/colors.css`, `typography.css`, `breakpoints.css`
 - **Fonts**: Declared in `fonts.config.mjs` at repo root (split out from `astro.config.mjs` so consumers can swap fonts without conflicting with template updates). Three slots — `--font-sans`, `--font-serif`, `--font-mono` — loaded from [Bunny Fonts](https://fonts.bunny.net) by default. Change a font by editing `name` and `weights` in `fonts.config.mjs`; the CSS variable names should not be renamed.
+
+## SEO, structured data and feeds
+
+- `Head.astro` emits title + site name, trimmed meta description, canonical, Open
+  Graph (`og:type` website/article/profile, site name, locale, image with type and
+  dimensions, `article:*` meta on articles) and Twitter cards, plus a schema.org
+  JSON-LD `@graph`: Organization + WebSite on every page, Article / Person /
+  CreativeWork on detail pages (`src/utils/jsonld.ts`, `atoms/JsonLd.astro`).
+  Layouts take `ogType`, `noindex`, `jsonLd`, `article` props.
+- Every collection has optional `seoTitle` / `seoDescription` fields (CMS: "SEO
+  Title", "SEO Description"); Site Settings has `email` for structured data.
+- Generated routes: `/rss.xml` (published articles), `/robots.txt` (disallow-all
+  on preview builds), `/llms.txt` (index of the site's own content; this file,
+  `/llms-full.txt`, is the template documentation and only ships with the demo),
+  `/sitemap-index.xml` (article `lastmod`, non-HTML routes excluded).
+- Preview builds (`PUBLIC_PREVIEW=true` on a second Netlify site) render drafts
+  with a DRAFT label, send `noindex,nofollow`, load no analytics and draw a
+  "Preview" frame.
 
 ## API endpoints
 

@@ -2,7 +2,10 @@
 import { Font } from 'astro:assets';
 import { getEntry } from 'astro:content';
 import { ClientRouter } from "astro:transitions";
-import { isProduction } from '@utils/dev';
+import JsonLd from '@components/atoms/JsonLd.astro';
+import { isPreview, isProduction } from '@utils/dev';
+import { type JsonLd as JsonLdNode, organizationNode, websiteNode } from '@utils/jsonld';
+import { metaDescription, ogCardUrl, ogLocale, pageTitle } from '@utils/seo';
 
 // Fetch site config from content collection
 const siteConfigEntry = await getEntry('site', 'config');
@@ -18,33 +21,76 @@ const siteConfig = siteConfigEntry.data;
 const umami = siteConfig.analytics?.umami;
 const umamiEnabled = isProduction && !!umami?.src && !!umami?.websiteId;
 
+export interface ArticleMeta {
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  /** Absolute URLs of the authors' profile pages. */
+  authors?: string[];
+  section?: string;
+  tags?: string[];
+}
 
 export interface Props {
   title: string;
   description?: string;
   image?: ImageMetadata;
   canonicalURL?: URL;
+  lang?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  /** Keep the page out of search indexes (also forced on preview builds). */
+  noindex?: boolean;
+  /** Page-specific schema.org nodes, merged into the site graph. */
+  jsonLd?: JsonLdNode | JsonLdNode[];
+  article?: ArticleMeta;
 }
 
 const {
   title,
-  description = siteConfig.description,
+  description,
   image,
   canonicalURL,
+  lang = 'en',
+  ogType = 'website',
+  noindex = false,
+  jsonLd = [],
+  article,
 } = Astro.props;
 
-// Build og:image URL — use generated OG PNG when page has a hero image,
-// otherwise fall back to the default site OG image
+const fullTitle = pageTitle(title, siteConfig.title);
+const metaDesc = metaDescription(description, siteConfig.description);
+const locale = ogLocale(lang);
+const siteBase = Astro.site ?? Astro.url;
+
+// og:image — the generated OG card when the page has a hero image and the
+// site can build cards (square logo set); otherwise the hero image itself,
+// otherwise the default site OG image. Always absolute on the site URL.
 let imageURL: string | undefined;
-if (image) {
-  const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
-  const ogPath = pathname === '/' ? '/og/index.png' : `/og${pathname}.png`;
-  imageURL = new URL(ogPath, Astro.site || Astro.url).href;
+let imageType: string | undefined;
+let imageWidth: number | undefined;
+let imageHeight: number | undefined;
+const card = image ? ogCardUrl(Astro.url.pathname) : undefined;
+if (card) {
+  imageURL = card;
+  imageType = 'image/png';
+  imageWidth = 1200;
+  imageHeight = 630;
 } else {
-  const fallback = siteConfig.defaultOgImage as ImageMetadata;
-  imageURL = fallback ? new URL(fallback.src, Astro.url).href : undefined;
+  const fallback = image ?? (siteConfig.defaultOgImage as ImageMetadata | undefined);
+  if (fallback) {
+    imageURL = new URL(fallback.src, siteBase).href;
+    imageType = fallback.format ? `image/${fallback.format === 'jpg' ? 'jpeg' : fallback.format}` : undefined;
+    imageWidth = fallback.width;
+    imageHeight = fallback.height;
+  }
 }
 
+const robots = noindex || isPreview ? 'noindex, nofollow' : undefined;
+
+const graph: JsonLdNode[] = [
+  organizationNode(siteConfig),
+  websiteNode(siteConfig),
+  ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd]),
+];
 ---
 
 <meta charset="utf-8" />
@@ -53,24 +99,41 @@ if (image) {
 <meta name="generator" content={Astro.generator} />
 
 <!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="title" content={title} />
-<meta name="description" content={description} />
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={metaDesc} />
+{robots && <meta name="robots" content={robots} />}
 <link rel="canonical" href={canonicalURL} />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="alternate" type="application/rss+xml" title={siteConfig.title} href="/rss.xml" />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={siteConfig.title} />
+{locale && <meta property="og:locale" content={locale} />}
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={imageURL} />
+<meta property="og:description" content={metaDesc} />
+{imageURL && <meta property="og:image" content={imageURL} />}
+{imageURL && imageType && <meta property="og:image:type" content={imageType} />}
+{imageURL && imageWidth && <meta property="og:image:width" content={String(imageWidth)} />}
+{imageURL && imageHeight && <meta property="og:image:height" content={String(imageHeight)} />}
+{imageURL && <meta property="og:image:alt" content={title} />}
+{article?.publishedTime && <meta property="article:published_time" content={article.publishedTime.toISOString()} />}
+{article?.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime.toISOString()} />}
+{article?.authors?.map((url) => <meta property="article:author" content={url} />)}
+{article?.section && <meta property="article:section" content={article.section} />}
+{article?.tags?.map((tag) => <meta property="article:tag" content={tag} />)}
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalURL} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={imageURL} />
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={metaDesc} />
+{imageURL && <meta name="twitter:image" content={imageURL} />}
+{imageURL && <meta name="twitter:image:alt" content={title} />}
+
+<!-- Structured data: Organization + WebSite, plus any page nodes -->
+<JsonLd data={graph} />
 
 {
 	umamiEnabled && (

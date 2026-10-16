@@ -1,0 +1,19 @@
+---
+/**
+ * Emits a schema.org JSON-LD block. Pass either a full document (with
+ * `@context`) or a list of nodes, which are wrapped in a `@graph`.
+ * Rendered inline so the view-transitions router swaps it per route.
+ */
+import { type JsonLd, serializeGraph } from '@utils/jsonld';
+
+export interface Props {
+  data: JsonLd | JsonLd[];
+}
+
+const { data } = Astro.props;
+const json = Array.isArray(data)
+  ? serializeGraph(data)
+  : JSON.stringify(data).replace(/</g, '\\u003c');
+---
+
+<script is:inline type="application/ld+json" set:html={json} />

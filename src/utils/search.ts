@@ -1,6 +1,8 @@
 import { getImage } from 'astro:assets';
 import { getEntry } from 'astro:content';
+import { getArticleUrl } from '@utils/articles';
 import { getVisibleEntries } from '@utils/content';
+import { getDocUrl } from '@utils/docs';
 
 /** One entry in the client-side search index (`/api/search.json`). */
 export interface SearchIndexItem {
@@ -105,7 +107,7 @@ export async function buildSearchIndex(): Promise<SearchIndexItem[]> {
       async (article): Promise<SearchIndexItem> => ({
         id: `article-${article.id}`,
         name: article.data.title,
-        url: `/articles/${article.id}`,
+        url: getArticleUrl(article),
         category: 'Articles',
         imageUrl:
           (await thumbnail(article.data.heroImage)) ?? defaultImageUrl,
@@ -116,7 +118,7 @@ export async function buildSearchIndex(): Promise<SearchIndexItem[]> {
       async (doc): Promise<SearchIndexItem> => ({
         id: `doc-${doc.id}`,
         name: doc.data.title,
-        url: `/docs/${doc.data.permalink}`,
+        url: getDocUrl(doc),
         category: 'Docs',
         content: toContent([doc.data.description, doc.body]),
       })

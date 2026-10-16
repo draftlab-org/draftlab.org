@@ -58,15 +58,24 @@ const isActive = (item: NavItemType) => isItemActive(item, currentPath);
 
 	<!-- Right side: Actions + Mobile Menu -->
 	<div class="flex items-center gap-4">
-		<!-- Search Button -->
+		<!-- Search Button. The shortcut hint shows from md up and is rewritten
+		     to ⌘ K on Apple devices by the script below -->
 		<Button
 			variant="outline"
 			size="square"
 			type="button"
 			id="search-button"
 			aria-label="Search"
+			class="gap-2 md:px-2"
 		>
 			<MagnifyingGlassIcon />
+			<kbd
+				id="search-shortcut"
+				class="hidden rounded-sm border border-current/40 px-1.5 py-0.5 font-sans text-xs font-semibold md:inline-block"
+				aria-hidden="true"
+			>
+				Ctrl K
+			</kbd>
 		</Button>
 
 		<!-- CTA or Actions Slot -->
@@ -96,12 +105,18 @@ const isActive = (item: NavItemType) => isItemActive(item, currentPath);
 		window.dispatchEvent(new CustomEvent('open-search'));
 	}
 
+	const isApple = /Mac|iPhone|iPad/.test(navigator.platform);
+
 	function setupSearchButton() {
 		const searchButton = document.getElementById('search-button');
 
 		if (searchButton) {
 			searchButton.addEventListener('click', openSearch);
 		}
+
+		// Elements are re-created on each View Transition, so re-apply the hint
+		const hint = document.getElementById('search-shortcut');
+		if (hint && isApple) hint.textContent = '⌘ K';
 	}
 
 	// Run on initial load and after each View Transition navigation

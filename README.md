@@ -51,7 +51,7 @@ Scaffold ships a `.gitattributes` file that marks these paths as **downstream-wi
 - `src/content/**` — all content collections (pages, articles, people, etc.)
 - `src/assets/**` — uploaded images, logos, artwork
 - `src/styles/**` — your theme tokens, typography, component utilities
-- `public/**` — favicons, OG images, robots.txt, and anything else you've added there
+- `public/**` — favicons, OG images, and anything else you've added there (`robots.txt` and `llms.txt` are generated routes — don't add static ones, they'd shadow the generated files)
 - `fonts.config.mjs` — your font choices (see "Changing fonts" below)
 
 Everything else merges normally. Real code conflicts get flagged like any merge, and the script stops so you can resolve them by hand.
@@ -105,7 +105,7 @@ The `merge.ours.driver` line is required — `.gitattributes` references `merge=
 
 ## Stack
 
-The template combines Astro v7 for static site generation with Tailwind CSS v4 for styling and React v19 for interactive components. Content is managed through Astro's type-safe content collections (Content Layer API) with Pages CMS providing a visual editing interface. The build includes automatic image optimization and is preconfigured for Netlify deployment. Requires Node.js v22.12+.
+The template combines Astro v7 for static site generation with Tailwind CSS v4 for styling and React v19 for interactive components. Content is managed through Astro's type-safe content collections (Content Layer API) with Pages CMS providing a visual editing interface. The build includes automatic image optimization and is preconfigured for Netlify deployment. Requires Node.js v24+.
 
 ## Screenshots
 
@@ -228,6 +228,21 @@ Social links are a list of `{ platform, url }` entries (`src/utils/social.ts` li
 
 SEO defaults are defined in the Site Configuration collection. The Head component uses these as fallbacks when pages don't specify their own metadata. This includes default Open Graph images, site description, favicon, and social media links.
 
+### SEO, structured data and feeds
+
+Every page gets a full set of social and search meta tags from `Head.astro`: the title with the site name appended (`About | Your Site`), a description trimmed to 160 characters, canonical URL, `og:type` / `og:site_name` / `og:locale`, the Open Graph image with type and dimensions (the generated 1200×630 card when the page has a hero image, the site default otherwise), `article:published_time` / `article:author` / `article:section` / `article:tag` on articles, and `twitter:*` cards.
+
+Each page also carries a schema.org JSON-LD graph: an **Organization** (name, logo, description, `email`, `sameAs` from the social links) and a **WebSite** node on every page, plus an **Article** node on articles, a **Person** node on people and a **CreativeWork** node on resources. The builders live in `src/utils/jsonld.ts`; pass extra nodes to a layout with the `jsonLd` prop, and set `ogType`, `noindex` or `article` the same way.
+
+Every collection has optional **SEO Title** and **SEO Description** fields in the CMS (`seoTitle`, `seoDescription`) that override what search engines and social cards see without changing the visible title.
+
+Generated at build time, from your content:
+
+- `/rss.xml` — published articles (title, link, date, excerpt, categories)
+- `/robots.txt` — allow all plus the sitemap URL (preview builds disallow everything)
+- `/llms.txt` — a Markdown index of pages, articles, docs, people, partners, resources and links for AI assistants ([llmstxt.org](https://llmstxt.org)). Scaffold's own demo site also serves `/llms-full.txt`, the template documentation; it lives in `public/`, so the update script leaves it out of your site
+- `/sitemap-index.xml` — articles carry `<lastmod>` from `publishedDate`; API, OG-image and other non-HTML routes are excluded
+
 ## Content Management
 
 ### Pages CMS
@@ -287,11 +302,15 @@ Redirects live in `src/content/site/_redirects.json` (edit them in Pages CMS und
 
 All collections use a unified `status` field with three values:
 
-- **`draft`** - Only visible in development (`npm run dev`) and preview environments (`PUBLIC_PREVIEW=true`)
+- **`draft`** - Only visible in development (`npm run dev`) and preview environments (`PUBLIC_PREVIEW=true`), where it carries a DRAFT label
 - **`published`** - Visible everywhere
 - **`archived`** - Visible everywhere (useful for marking outdated content while keeping it accessible)
 
 Use the `isVisible()` utility from `@utils/content` to filter collections by status. The collection-specific utilities (`getPages()`, `getResources()`, etc.) already handle this.
+
+### Preview builds
+
+Set `PUBLIC_PREVIEW=true` in the environment of a second Netlify site built from the same repo (see the comment in `netlify.toml`) to get a staging site for editors. A preview build renders drafts (labelled DRAFT), sends `noindex, nofollow` and a disallow-all `robots.txt`, loads no analytics, and draws an orange frame with a "Preview" badge so nobody mistakes it for the live site. Keep the variable off the production site.
 
 ### Analytics
 
@@ -358,7 +377,7 @@ npm run sync:pages-categories  # Sync CMS category dropdowns from src/content/ca
 npm run update-from-scaffold   # Pull template updates
 ```
 
-Node.js 22.12 or newer is required (`engines` in `package.json`; Netlify builds pin `NODE_VERSION = "22"`).
+Node.js 24 or newer is required (`engines` in `package.json`; Netlify builds pin `NODE_VERSION = "24"`).
 
 ### GitHub Actions
 
@@ -402,6 +421,10 @@ src/
 │   ├── api/
 │   │   ├── [collection].json.ts  # Dynamic API endpoints
 │   │   └── search.json.ts        # Search index
+│   ├── og/[...path].png.ts   # Generated Open Graph cards
+│   ├── rss.xml.ts         # Articles feed
+│   ├── robots.txt.ts      # robots.txt (disallow-all on preview builds)
+│   ├── llms.txt.ts        # llms.txt index of the site's content
 │   ├── articles/
 │   │   ├── index.astro    # Articles list with filtering
 │   │   └── [id].astro     # Individual articles
@@ -426,6 +449,8 @@ src/
 │   ├── slugify.ts         # URL slug generation
 │   ├── renderMarkdown.ts  # Markdown rendering pipeline
 │   ├── og.ts              # Open Graph image generation
+│   ├── seo.ts             # Titles, meta descriptions, absolute URLs
+│   ├── jsonld.ts          # schema.org node builders
 │   ├── navigation.ts      # Navigation menu utilities
 │   ├── pages.ts           # Pages collection utilities
 │   ├── articles.ts        # Articles collection utilities

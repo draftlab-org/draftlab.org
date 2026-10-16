@@ -11,12 +11,14 @@ import RelatedContentItems from '@components/organisms/RelatedContentItems.astro
 import PageLayout from '@layouts/PageLayout.astro';
 import SectionLayout from '@layouts/SectionLayout.astro';
 import { mapColorToVariant } from '@utils/content';
+import { creativeWorkNode } from '@utils/jsonld';
 import { getPeopleMap, resolvePeople } from '@utils/people';
 import {
 	formatCategory,
 	getResources,
 	getResourcesByIds,
 } from '@utils/resources';
+import { absoluteUrl } from '@utils/seo';
 import type { GetStaticPaths } from 'astro';
 import IconExternalLink from '~icons/heroicons/arrow-top-right-on-square-20-solid';
 
@@ -56,12 +58,32 @@ const formatDate = (date: Date) => {
 // Archived banner
 const siteConfig = await getEntry('site', 'config');
 const archivedBanner = siteConfig?.data.archivedBanner;
+
+// SEO: schema.org CreativeWork node
+const resourceUrl = absoluteUrl(`/resources/${resource.data.id}`);
+const resourceJsonLd = creativeWorkNode({
+	url: resourceUrl,
+	title,
+	description,
+	datePublished: publishedDate,
+	year,
+	authors: [
+		...(authors ? [{ name: authors }] : []),
+		...resolvedContributors.map((p) => ({
+			name: p.name,
+			url: absoluteUrl(`/people/${p.id}`),
+		})),
+	],
+	keywords: tags,
+	genre: formatCategory(category),
+});
 ---
 
 <PageLayout
-	title={`${title} - Resource`}
-	description={description}
+	title={resource.data.seoTitle ?? title}
+	description={resource.data.seoDescription ?? description}
 	breadcrumbTitle={title}
+	jsonLd={resourceJsonLd}
 >
 	{
 		status === 'archived' && archivedBanner && (

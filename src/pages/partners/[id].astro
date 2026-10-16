@@ -23,8 +23,9 @@ const { partner } = Astro.props;
 ---
 
 <PageLayout
-	title={`${partner.name}`}
-	description={partner.affiliation || `Partner: ${partner.name}`}
+	title={partner.seoTitle ?? partner.name}
+	breadcrumbTitle={partner.name}
+	description={partner.seoDescription ?? partner.affiliation ?? `Partner: ${partner.name}`}
 	image={partner.image}
 >
 	<!-- Hero -->

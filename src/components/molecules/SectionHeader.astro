@@ -7,20 +7,35 @@ export interface Props {
   // Markdown
   subtitle?: string;
   align?: 'left' | 'center';
+  // Tighter bottom margin and a smaller title, for headers that sit directly
+  // against their content (e.g. inside a grid column)
+  compact?: boolean;
   class?: string;
 }
 
-const { title, subtitle, align = 'center', class: className = '' } = Astro.props;
+const {
+  title,
+  subtitle,
+  align = 'center',
+  compact = false,
+  class: className = '',
+} = Astro.props;
 
 const subtitleHtml = subtitle ? (await renderMarkdown(subtitle)).html : '';
 const alignClass = align === 'center' ? 'mx-auto text-center' : 'text-left';
-const titleClass = title?.style === 'highlight' ? 'heading-highlight' : '';
+const titleClass = [
+  compact ? 'mb-3 text-3xl md:text-4xl' : 'mb-4',
+  title?.style === 'highlight' ? 'heading-highlight' : '',
+]
+  .filter(Boolean)
+  .join(' ');
+const spacingClass = compact ? 'mb-6' : 'mb-10';
 ---
 
 {
 	(title?.text || subtitleHtml) && (
-		<div class={`mb-10 max-w-3xl ${alignClass} ${className}`}>
-			{title?.text && <h2 class={`mb-4 ${titleClass}`}>{title.text}</h2>}
+		<div class={`${spacingClass} max-w-3xl ${alignClass} ${className}`}>
+			{title?.text && <h2 class={titleClass}>{title.text}</h2>}
 			{subtitleHtml && (
 				<div
 					class={`section-subtitle text-lg text-muted md:text-xl ${align === 'center' ? 'mx-auto' : ''}`}

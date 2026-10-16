@@ -103,7 +103,7 @@ export default function ArticlesFilteredGrid({
           {filteredArticles.map((article) => (
             <div
               key={article.slug}
-              className="card-bordered flex h-full flex-col overflow-hidden rounded-lg"
+              className="card-bordered group relative flex h-full flex-col overflow-hidden rounded-lg"
             >
               {article.heroImage && (
                 // Decorative: the title below is the card's link
@@ -113,7 +113,7 @@ export default function ArticlesFilteredGrid({
                     width={article.heroImage.width}
                     height={article.heroImage.height}
                     alt=""
-                    className="h-48 w-full object-cover transition-transform duration-300 hover:scale-105"
+                    className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                   />
                 </div>
@@ -144,9 +144,12 @@ export default function ArticlesFilteredGrid({
 
                 {/* Title */}
                 <h3 className="text-xl font-bold md:text-2xl">
+                  {/* The ::after overlay stretches this link over the whole (relative)
+                      card so all of it is clickable; anything else that must stay
+                      clickable needs `relative z-10`. */}
                   <a
                     href={`/articles/${article.slug}`}
-                    className="text-inherit no-underline transition-colors hover:text-secondary-600"
+                    className="text-inherit no-underline transition-colors after:absolute after:inset-0 hover:text-secondary-600"
                   >
                     {article.title}
                   </a>

@@ -32,6 +32,8 @@ type CategoryConfig = {
   name: SearchIndexItem['category'];
   icon: IconComponent;
   modifier: string;
+  /** Match the query as written within the name, not fuzzily */
+  exact?: boolean;
 };
 
 // Display order, icons and query modifiers for each result category. The
@@ -42,6 +44,9 @@ const SEARCH_CATEGORIES: CategoryConfig[] = [
   { name: 'Articles', icon: DocumentIcon, modifier: '@' },
   { name: 'Docs', icon: BookOpenIcon, modifier: '!' },
 ];
+
+// Per category, so a large collection can't bury the others below it
+const RESULT_LIMIT = 10;
 
 const MODIFIER_PATTERN = new RegExp(
   `^[${SEARCH_CATEGORIES.map((c) => `\\${c.modifier}`).join('')}]`
@@ -166,7 +171,8 @@ export default function RichSearch() {
     for (const category of SEARCH_CATEGORIES) {
       instances[category.name] = new Fuse(
         results.filter((r) => r.category === category.name),
-        FUSE_OPTIONS
+        // Threshold 0 with ignoreLocation: the query must appear in the name
+        category.exact ? { ...FUSE_OPTIONS, threshold: 0 } : FUSE_OPTIONS
       );
     }
     return instances;
@@ -199,7 +205,10 @@ export default function RichSearch() {
         return;
       }
 
-      const matches = fuseByCategory[category.name]?.search(query) ?? [];
+      const matches =
+        fuseByCategory[category.name]?.search(query, {
+          limit: RESULT_LIMIT,
+        }) ?? [];
       filtered[category.name] = matches.map((match) => match.item);
       for (const match of matches) {
         const snippet = getMatchSnippet(match, query);
@@ -251,7 +260,7 @@ export default function RichSearch() {
               />
             </div>
 
-            {loading && query === '' && (
+            {loading && rawQuery !== '' && rawQuery !== '?' && (
               <div className="space-y-4 p-4">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="space-y-2">
@@ -344,7 +353,7 @@ export default function RichSearch() {
                 </ComboboxOptions>
               )}
 
-            {!loading && rawQuery === '?' && (
+            {rawQuery === '?' && (
               <div className="px-6 py-14 text-center text-sm sm:px-14">
                 <LifebuoyIcon
                   className="mx-auto size-6 text-gray-400"
@@ -383,7 +392,7 @@ export default function RichSearch() {
 
             <div className="flex flex-wrap items-center border-t border-gray-100 bg-gray-50 px-4 py-2.5 text-xs">
               Type{' '}
-              {SEARCH_CATEGORIES.map((category) => (
+              {SEARCH_CATEGORIES.map((category, i) => (
                 <span key={category.name} className="inline-flex items-center">
                   <kbd
                     className={classNames(
@@ -395,8 +404,8 @@ export default function RichSearch() {
                   >
                     {category.modifier}
                   </kbd>{' '}
-                  <span className="">
-                    {`for ${category.name.toLowerCase()}, `}
+                  <span>
+                    {`for ${category.name.toLowerCase()}${i < SEARCH_CATEGORIES.length - 1 ? ', ' : ', or'}`}
                   </span>
                 </span>
               ))}
