@@ -67,3 +67,21 @@ updates:
     update: Pushed the first usable cut of Scaffold with accessible-by-default
       components with drop-down navigation, a table-of-contents pattern, and
       entity filtering across articles, people, and partners.
+  - date: 2026-10-16
+    title: "Release 0.7.0: SEO, feeds, and a backport from sites running Scaffold"
+    update: >-
+      [Scaffold
+      0.7.0](https://github.com/draftlab-org/scaffold/releases/tag/v0.7.0) folds
+      back the generic improvements we built for Scaffold-based sites over the
+      past months. The big one is a proper SEO pass: Open Graph and Twitter tags
+      on every page, [schema.org](http://schema.org) JSON-LD for the site and
+      for articles, people and resources, and editor-controlled SEO titles and
+      descriptions in the CMS. Sites now generate their own RSS feed, robots.txt
+      and llms.txt from content instead of static files.
+
+
+      Smaller improvements: whole cards are clickable; the table of contents
+      follows scroll position and scrolls inside the sidebar on long docs;
+      search caps results per category and shows a keyboard hint; and preview
+      builds are visibly marked as previews and kept out of search engines.
+dateEnd: 2026-10-16
