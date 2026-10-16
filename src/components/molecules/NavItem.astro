@@ -34,6 +34,7 @@ const classes = `underline underline-offset-8 decoration-dotted decoration-4 inl
 			variant="nav"
 			class={classes}
 			external={isExternalLink(item.link)}
+			aria-current={active ? 'page' : undefined}
 		>
 			{item.label}
 			<slot />

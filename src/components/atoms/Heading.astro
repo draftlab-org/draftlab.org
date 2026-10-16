@@ -24,7 +24,8 @@ const styles = {
   h6: 'text-base md:text-lg lg:text-xl font-medium',
 };
 
-const classes = `${styles[Tag]} ${className}`;
+// Styles follow the visual `level`; `as` only changes the rendered element
+const classes = `${styles[`h${level}` as keyof typeof styles]} ${className}`;
 ---
 
 <Tag class={classes} {...props}>

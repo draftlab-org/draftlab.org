@@ -9,6 +9,8 @@ import type { TocEntry } from '@utils/renderMarkdown';
 interface Props {
   title: string;
   description?: string;
+  // Plain title for the breadcrumb when `title` is an SEO override
+  breadcrumbTitle?: string;
   chapters: DocChapter[];
   currentPermalink: string;
   toc?: TocEntry[];
@@ -16,11 +18,24 @@ interface Props {
   next: DocEntry | null;
 }
 
-const { title, description, chapters, currentPermalink, toc, prev, next } =
-  Astro.props;
+const {
+  title,
+  description,
+  breadcrumbTitle,
+  chapters,
+  currentPermalink,
+  toc,
+  prev,
+  next,
+} = Astro.props;
 ---
 
-<PageLayout title={title} description={description} containerized={false}>
+<PageLayout
+	title={title}
+	description={description}
+	breadcrumbTitle={breadcrumbTitle}
+	containerized={false}
+>
 	<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 		{/* Mobile sidebar toggle */}
 		<details class="mb-6 rounded-lg border border-primary-600 p-4 lg:hidden">

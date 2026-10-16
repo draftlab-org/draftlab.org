@@ -7,9 +7,11 @@ import SocialLinks from '@components/molecules/SocialLinks.astro';
 import Hero from '@components/organisms/Hero.astro';
 import PageLayout from '@layouts/PageLayout.astro';
 import SectionLayout from '@layouts/SectionLayout.astro';
-import { siteConfig } from '@lib/config';
 import { isVisible } from '@utils/content';
+import { personNode, socialSameAs } from '@utils/jsonld';
+import { getPersonUrl } from '@utils/people';
 import { formatCategory, getResources } from '@utils/resources';
+import { absoluteUrl, ogCardUrl } from '@utils/seo';
 import type { GetStaticPaths } from 'astro';
 
 // Generate static paths for visible people only
@@ -45,13 +47,29 @@ const formatDate = (date: Date) => {
 		day: 'numeric',
 	}).format(date);
 };
+
+// SEO: schema.org Person node; Head appends the site name to the title
+const personUrl = absoluteUrl(getPersonUrl(person));
+const personDescription =
+	person.seoDescription ??
+	[person.name, person.title, person.affiliation].filter(Boolean).join(', ');
+const personJsonLd = personNode({
+	url: personUrl,
+	name: person.name,
+	jobTitle: person.title,
+	affiliation: person.affiliation,
+	image: ogCardUrl(getPersonUrl(person)) ?? absoluteUrl(person.headshot.src),
+	sameAs: socialSameAs(person.socialLinks),
+});
 ---
 
 <PageLayout
-	title={`${person.name} - ${siteConfig.title}`}
+	title={person.seoTitle ?? person.name}
 	breadcrumbTitle={person.name}
-	description={`${person.name}, ${person.title}`}
+	description={personDescription}
 	image={person.headshot}
+	ogType="profile"
+	jsonLd={personJsonLd}
 >
 	<!-- Hero Section -->
 	<Hero

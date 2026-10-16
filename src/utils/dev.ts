@@ -16,6 +16,12 @@ export const isPreview = !!import.meta.env.PUBLIC_PREVIEW;
 export const isProduction = !isDev && !isPreview;
 
 /**
+ * Draft content is rendered in dev and on preview builds; label it in both
+ * so editors can tell drafts apart from published content.
+ */
+export const showDraftLabels = isDev || isPreview;
+
+/**
  * True in local dev only — NOT in preview builds.
  * Use for dev tooling (section labels, debug borders) that shouldn't
  * appear on the preview site.

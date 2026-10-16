@@ -6,7 +6,7 @@ import {
   getPublishedArticles,
   sortArticlesByDate,
 } from '@utils/articles';
-import { isDev } from '@utils/dev';
+import { showDraftLabels } from '@utils/dev';
 import { getCardImage } from '@utils/images';
 import { getPeopleMap } from '@utils/people';
 
@@ -44,6 +44,6 @@ const serializedArticles = await Promise.all(articles.map(async (article) => ({
     articles={serializedArticles}
     categories={categories}
     authorMap={authorMap}
-    isDev={isDev}
+    isDev={showDraftLabels}
   />
 </div>

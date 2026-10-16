@@ -34,7 +34,7 @@ const paddings = {
 const colorStyles: Record<string, string> = {
   primary: 'bg-primary-50 border-2 border-primary-300 border-solid',
   secondary: 'bg-secondary-50 border-2 border-secondary-300 border-solid',
-  highlight: 'relative overflow-hidden',
+  highlight: 'overflow-hidden',
   neutral: 'bg-gray-100 border-2 border-gray-300 border-solid',
 };
 
@@ -42,7 +42,9 @@ const hasColor = color && color in colorStyles;
 const variantClass = hasColor ? '' : variants[variant];
 const colorClass = hasColor ? colorStyles[color] : '';
 
-const classes = `rounded-lg ${variantClass} ${colorClass} ${paddings[padding]} ${className}`.trim();
+// `relative` anchors the stretched title link (`after:absolute after:inset-0`)
+// that makes a whole card clickable, see ArticleCard
+const classes = `relative rounded-lg ${variantClass} ${colorClass} ${paddings[padding]} ${className}`.trim();
 ---
 
 <div class={classes} {...props}>

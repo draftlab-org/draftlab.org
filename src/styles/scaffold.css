@@ -162,7 +162,7 @@
 }
 
 .section-dark .toc-link[aria-current='location'] {
-  @apply text-white underline decoration-2 underline-offset-4;
+  @apply border-white text-white;
 }
 
 /* Heading `#` anchors (rehype-autolink-headings, see @lib/markdown-plugins).
@@ -206,6 +206,63 @@
   @apply mt-6;
 }
 
+/* --- Cards --- */
+/*
+  -------------
+  Cards grid (sections/CardSection.astro)
+  -------------
+
+  Flex-wrap rather than CSS grid, so an incomplete last row can centre
+  itself. Columns follow the sm/lg breakpoints from breakpoints.css and the
+  gap is gap-6, as the grid had. `min-width: 0` lets cards with images
+  shrink to their column, and `height: auto` undoes any `h-full` so the
+  flex default `align-items: stretch` equalises heights across a row.
+
+  `.cards-grid-center` (CardSection's `center` prop, on by default) centres
+  a lone card, or a pair, only when there are fewer cards than the current
+  column count; a leftover card after a full row stays left-aligned as in a
+  grid. Leave it off (`center={false}`) where results must stay
+  left-aligned, e.g. filtered index pages.
+*/
+.cards-grid {
+  --cards-cols: 1;
+  --cards-gap: calc(var(--spacing) * 6);
+  @apply flex flex-wrap;
+  gap: var(--cards-gap);
+}
+
+.cards-grid > * {
+  min-width: 0;
+  height: auto;
+  width: calc(
+    (100% - (var(--cards-cols) - 1) * var(--cards-gap)) / var(--cards-cols)
+  );
+}
+
+@media (width >= 40rem) {
+  /* --breakpoint-sm, see breakpoints.css */
+  .cards-grid {
+    --cards-cols: 2;
+  }
+  .cards-grid-center:has(> :only-child) {
+    @apply justify-center;
+  }
+}
+
+@media (width >= 64rem) {
+  /* --breakpoint-lg */
+  .cards-grid {
+    --cards-cols: 3;
+  }
+  .cards-grid-cols-4 {
+    --cards-cols: 4;
+  }
+  .cards-grid-center:has(> :last-child:nth-child(-n + 2)) {
+    @apply justify-center;
+  }
+}
+/* --- /Cards --- */
+
 @layer base {
   /* `.section-dark` is added by SectionLayout for any background marked dark
      in @utils/backgrounds, lifting links and inline code to readable contrast
@@ -223,4 +280,20 @@
   .section-dark :not(pre) > code {
     @apply border-white/20 bg-white/10 text-white;
   }
+}
+
+/*
+  -------------
+  Preview frame
+  -------------
+  Drawn by BaseLayout on preview builds (PUBLIC_PREVIEW=true). Fixed colour on
+  purpose: it must stand out whatever the site's palette is.
+*/
+.preview-frame {
+  @apply pointer-events-none fixed inset-0 z-[9999] border-4;
+  border-color: oklch(0.72 0.19 45);
+}
+.preview-frame-badge {
+  @apply absolute top-0 left-1/2 -translate-x-1/2 rounded-b px-3 py-0.5 font-mono text-xs font-semibold tracking-wider text-white uppercase;
+  background-color: oklch(0.72 0.19 45);
 }

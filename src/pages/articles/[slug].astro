@@ -11,12 +11,14 @@ import TOC from '@components/organisms/TOC';
 import HeroSection from '@components/sections/HeroSection.astro';
 import PageLayout from '@layouts/PageLayout.astro';
 import SectionLayout from '@layouts/SectionLayout.astro';
-import { getArticleExcerpt, getRelatedArticles } from '@utils/articles';
+import { getArticleExcerpt, getArticleUrl, getRelatedArticles } from '@utils/articles';
 import { isVisible, mapColorToVariant } from '@utils/content';
-import { isDev } from '@utils/dev';
-import { resolvePeople } from '@utils/people';
+import { showDraftLabels } from '@utils/dev';
+import { articleNode } from '@utils/jsonld';
+import { getPersonUrl, resolvePeople } from '@utils/people';
 import { countTocEntries, getTocEntries } from '@utils/renderMarkdown';
 import { getResourcesByIds } from '@utils/resources';
+import { absoluteUrl, ogCardUrl } from '@utils/seo';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
@@ -64,15 +66,45 @@ const {title, publishedDate, heroImage, categories, status } = article.data
 
 const siteConfig = await getEntry('site', 'config');
 const archivedBanner = siteConfig?.data.archivedBanner;
+
+// SEO: description, Open Graph article meta and schema.org Article node
+const authorNames = authors.map((a) => a.name).join(', ');
+const seoDescription =
+	article.data.seoDescription ||
+	getArticleExcerpt(article, 160) ||
+	(authorNames ? `Article by ${authorNames}` : undefined);
+const articleUrl = absoluteUrl(getArticleUrl(article));
+const authorEntities = authors.map((a) => ({
+	name: a.name,
+	url: absoluteUrl(getPersonUrl(a)),
+}));
+const articleMeta = {
+	publishedTime: publishedDate,
+	authors: authorEntities.map((a) => a.url),
+	section: categories?.[0],
+	tags: categories ?? undefined,
+};
+const articleJsonLd = articleNode({
+	url: articleUrl,
+	title,
+	description: seoDescription,
+	image: heroImage
+		? (ogCardUrl(getArticleUrl(article)) ?? absoluteUrl(heroImage.src))
+		: undefined,
+	datePublished: publishedDate,
+	authors: authorEntities,
+	categories: categories ?? undefined,
+});
 ---
 
 <PageLayout
-	title={article.data.title}
-	description={
-		getArticleExcerpt(article, 160) ??
-		`Article by ${authors.map((a) => a?.name).join(', ')}`
-	}
+	title={article.data.seoTitle ?? article.data.title}
+	breadcrumbTitle={article.data.title}
+	description={seoDescription}
 	image={heroImage}
+	ogType="article"
+	article={articleMeta}
+	jsonLd={articleJsonLd}
 >
 	{
 		status === 'archived' && archivedBanner && (
@@ -85,9 +117,9 @@ const archivedBanner = siteConfig?.data.archivedBanner;
 	<!-- Article Header -->
 	<SectionLayout bgImage={heroImage} sectionLabel="hero">
 		<HeroSection title={title}>
-			{/* Draft badge (only visible in dev) */}
+			{/* Draft badge (dev and preview builds only) */}
 			{
-				isDev && status === 'draft' && (
+				showDraftLabels && status === 'draft' && (
 					<div class="mb-4">
 						<Tag variant="highlight" size="md" class="font-bold">
 							DRAFT

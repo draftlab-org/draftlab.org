@@ -4,6 +4,21 @@
 # ============================================================================
 
 # ============================================================================
+# SETTINGS
+# ============================================================================
+settings:
+  content:
+    # Keep keys the CMS does not manage (hand-edited fields, future schema
+    # additions) instead of dropping them on save
+    merge: true
+  commit:
+    # Stamped commit messages let tooling tell editorial commits from code
+    templates:
+      create: 'Create {path} (via Pages CMS)'
+      update: 'Update {path} (via Pages CMS)'
+      delete: 'Delete {path} (via Pages CMS)'
+
+# ============================================================================
 # MEDIA
 # ============================================================================
 media:
@@ -762,7 +777,7 @@ content:
     format: yaml
     filename: '{fields.permalink}.yaml'
     view:
-      fields: [title, description, status]
+      fields: [title, permalink, description, status]
       primary: title
     fields:
       - name: title
@@ -777,8 +792,8 @@ content:
         description: The slug, without slashes or parents, like 'about-us' or 'omg-3'.
         pattern:
           {
-            message: "This must be a web-safe string like 'about-us' or 'omg-3'.",
-            regex: '^[a-zA-Z0-9_-]*$',
+            message: "Use lowercase letters, numbers, hyphens or underscores only, like 'about-us' or 'omg-3'.",
+            regex: '^[a-z0-9_-]+$',
           }
         required: true
 
@@ -901,6 +916,18 @@ content:
             label: Logo Wall Section
             component: logo_wall_section
 
+      # SEO overrides (optional) — used for the browser tab, search results and
+      # social cards; the page's own title/description are the fallback
+      - name: seoTitle
+        label: SEO Title
+        type: string
+        description: Optional. Replaces the title in the browser tab, search results and social cards (the site name is appended automatically).
+
+      - name: seoDescription
+        label: SEO Description
+        type: string
+        description: Optional. Replaces the description in search results and social cards. Aim for under 160 characters.
+
   # --------------------------------------------------------------------------
   # Articles
   # --------------------------------------------------------------------------
@@ -924,8 +951,8 @@ content:
         description: URL-friendly identifier (e.g. my-article-title)
         pattern:
           {
-            message: "Must be a web-safe string like 'my-article-title'.",
-            regex: '^[a-zA-Z0-9_-]*$',
+            message: "Use lowercase letters, numbers, hyphens or underscores only, like 'my-article-title'.",
+            regex: '^[a-z0-9_-]+$',
           }
 
       - name: title
@@ -1021,6 +1048,18 @@ content:
         options:
           media: body-images
 
+      # SEO overrides (optional) — used for the browser tab, search results and
+      # social cards; the page's own title/description are the fallback
+      - name: seoTitle
+        label: SEO Title
+        type: string
+        description: Optional. Replaces the title in the browser tab, search results and social cards (the site name is appended automatically).
+
+      - name: seoDescription
+        label: SEO Description
+        type: string
+        description: Optional. Replaces the description in search results and social cards. Aim for under 160 characters.
+
   # --------------------------------------------------------------------------
   # Docs
   # --------------------------------------------------------------------------
@@ -1043,8 +1082,8 @@ content:
         required: true
         description: URL-friendly identifier (e.g. getting-started)
         pattern:
-          message: "Must be a web-safe string like 'my-doc-page'."
-          regex: '^[a-zA-Z0-9_-]*$'
+          message: "Use lowercase letters, numbers, hyphens or underscores only, like 'my-doc-page'."
+          regex: '^[a-z0-9_-]+$'
 
       - name: title
         label: Title
@@ -1093,6 +1132,18 @@ content:
         type: rich-text
         options:
           media: body-images
+
+      # SEO overrides (optional) — used for the browser tab, search results and
+      # social cards; the page's own title/description are the fallback
+      - name: seoTitle
+        label: SEO Title
+        type: string
+        description: Optional. Replaces the title in the browser tab, search results and social cards (the site name is appended automatically).
+
+      - name: seoDescription
+        label: SEO Description
+        type: string
+        description: Optional. Replaces the description in search results and social cards. Aim for under 160 characters.
 
   # --------------------------------------------------------------------------
   # People
@@ -1148,10 +1199,6 @@ content:
         label: Affiliation
         type: string
 
-      - name: extraInfo
-        label: Other/Previous Affiliations
-        type: string
-
       - name: url
         label: Link
         type: string
@@ -1180,6 +1227,18 @@ content:
             - Operations
             - Community
           # pages-cms:category-sync end
+
+      # SEO overrides (optional) — used for the browser tab, search results and
+      # social cards; the page's own title/description are the fallback
+      - name: seoTitle
+        label: SEO Title
+        type: string
+        description: Optional. Replaces the title in the browser tab, search results and social cards (the site name is appended automatically).
+
+      - name: seoDescription
+        label: SEO Description
+        type: string
+        description: Optional. Replaces the description in search results and social cards. Aim for under 160 characters.
 
   # --------------------------------------------------------------------------
   # Partners
@@ -1265,6 +1324,18 @@ content:
         type: boolean
         default: false
         description: Show this partner in featured sections
+
+      # SEO overrides (optional) — used for the browser tab, search results and
+      # social cards; the page's own title/description are the fallback
+      - name: seoTitle
+        label: SEO Title
+        type: string
+        description: Optional. Replaces the title in the browser tab, search results and social cards (the site name is appended automatically).
+
+      - name: seoDescription
+        label: SEO Description
+        type: string
+        description: Optional. Replaces the description in search results and social cards. Aim for under 160 characters.
 
   # --------------------------------------------------------------------------
   # Resources
@@ -1386,6 +1457,18 @@ content:
         type: string
         list: true
 
+      # SEO overrides (optional) — used for the browser tab, search results and
+      # social cards; the page's own title/description are the fallback
+      - name: seoTitle
+        label: SEO Title
+        type: string
+        description: Optional. Replaces the title in the browser tab, search results and social cards (the site name is appended automatically).
+
+      - name: seoDescription
+        label: SEO Description
+        type: string
+        description: Optional. Replaces the description in search results and social cards. Aim for under 160 characters.
+
   # --------------------------------------------------------------------------
   # Categories
   # --------------------------------------------------------------------------
@@ -1443,6 +1526,11 @@ content:
         type: string
         required: true
         description: Your website's URL (e.g. https://example.com)
+
+      - name: email
+        label: Contact Email
+        type: string
+        description: Public contact address, published in structured data and llms.txt
 
       - name: favicon
         label: Favicon Path
@@ -1639,8 +1727,8 @@ content:
         description: Unique identifier for this menu (e.g. main, footer-1, footer-2)
         pattern:
           {
-            message: "Must be a web-safe string like 'main' or 'footer-1'.",
-            regex: '^[a-zA-Z0-9_-]*$',
+            message: "Use lowercase letters, numbers, hyphens or underscores only, like 'main' or 'footer-1'.",
+            regex: '^[a-z0-9_-]+$',
           }
 
       - name: title

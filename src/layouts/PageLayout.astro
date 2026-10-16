@@ -3,10 +3,12 @@ import { getEntry } from 'astro:content';
 import Breadcrumbs from '@components/molecules/Breadcrumbs.astro';
 import CookieBanner from '@components/organisms/CookieBanner.astro';
 import Footer from '@components/organisms/Footer.astro';
+import type { ArticleMeta } from '@components/organisms/Head.astro';
 import Header from '@components/sections/Header.astro';
 import Main from '@components/sections/Main.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { siteConfig } from '@lib/config';
+import type { JsonLd } from '@utils/jsonld';
 import type { NavItem } from '@utils/navigation';
 import { buildBreadcrumbs, convertNavigationItems } from '@utils/navigation';
 import { getPages } from '@utils/pages';
@@ -35,6 +37,11 @@ export interface Props {
   breadcrumbs?: 'auto' | 'show' | 'hide';
   // Label for the final crumb, when `title` includes extra text (e.g. site name)
   breadcrumbTitle?: string;
+  // SEO: Open Graph type, robots noindex, schema.org nodes, article meta
+  ogType?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  jsonLd?: JsonLd | JsonLd[];
+  article?: ArticleMeta;
 }
 
 const {
@@ -50,6 +57,10 @@ const {
   class: className = '',
   breadcrumbs = 'auto',
   breadcrumbTitle,
+  ogType,
+  noindex,
+  jsonLd,
+  article,
 } = Astro.props;
 
 // Breadcrumbs: derived from the main navigation, falling back to URL segments
@@ -71,7 +82,15 @@ if (siteEntry?.data.showBreadcrumbs !== false && breadcrumbs !== 'hide') {
 }
 ---
 
-<BaseLayout title={title} description={description} image={image}>
+<BaseLayout
+	title={title}
+	description={description}
+	image={image}
+	ogType={ogType}
+	noindex={noindex}
+	jsonLd={jsonLd}
+	article={article}
+>
 	<slot name="head" slot="head" />
 
 	<div class="flex min-h-screen flex-col">

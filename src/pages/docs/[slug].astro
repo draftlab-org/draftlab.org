@@ -25,8 +25,9 @@ const { prev, next } = await getDocNavigation(doc.data.permalink);
 ---
 
 <DocsLayout
-  title={doc.data.title}
-  description={doc.data.description}
+  title={doc.data.seoTitle ?? doc.data.title}
+  breadcrumbTitle={doc.data.title}
+  description={doc.data.seoDescription ?? doc.data.description}
   chapters={chapters}
   currentPermalink={doc.data.permalink}
   toc={toc}

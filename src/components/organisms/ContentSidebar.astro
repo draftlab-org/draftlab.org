@@ -18,7 +18,7 @@ const { tocEntries = [], shareUrl, shareTitle, class: className = '' } =
 ---
 
 <aside class={`hidden lg:block ${className}`}>
-	<div class="sticky top-24 flex flex-col gap-10 pt-6">
+	<div class="sticky top-24 flex max-h-[calc(100vh-8rem)] flex-col gap-10 overflow-y-auto overscroll-contain pt-6">
 		{tocEntries.length > 0 && <TOC client:visible entries={tocEntries} sticky={false} />}
 		<slot />
 		{shareUrl && shareTitle && <ShareButtons url={shareUrl} title={shareTitle} id="share-sidebar" />}

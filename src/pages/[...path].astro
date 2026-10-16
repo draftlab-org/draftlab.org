@@ -43,8 +43,9 @@ const landingType = permalink ? landingPages[permalink] : undefined;
 ---
 
 <PageLayout
-	title={page.data.title}
-	description={page.data.description}
+	title={page.data.seoTitle ?? page.data.title}
+	breadcrumbTitle={page.data.title}
+	description={page.data.seoDescription ?? page.data.description}
 	image={page.data.heroImage}
 	breadcrumbs={page.data.breadcrumbs}
 >

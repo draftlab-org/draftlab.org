@@ -239,9 +239,13 @@ sections:
       Breadcrumbs are built from the same menus.
           
       *   **Site Settings** (`src/content/site/config.json`) — Global
-      configuration: site title, description, social links, favicon, Open Graph
-      image, cookie consent, analytics, share links, breadcrumbs, and footer
-      text.
+      configuration: site title, description, contact email, social links,
+      favicon, Open Graph image, cookie consent, analytics, share links,
+      breadcrumbs, and footer text.
+
+      Every collection also has optional **SEO Title** and **SEO Description**
+      fields. They replace what search engines and social cards show without
+      changing the visible title (the site name is appended automatically).
 
       *   **Categories** (`src/content/categories/`) — The category lists for
       articles, people, partners, and resources. These feed the filters on
@@ -260,7 +264,7 @@ sections:
       All content supports a `status` field with three values:
 
 
-      *   **draft** — Only visible when running the development server.
+      *   **draft** — Only visible when running the development server or on a preview build (`PUBLIC_PREVIEW=true`), where it carries a DRAFT label.
           
       *   **published** — Visible everywhere.
           
@@ -570,8 +574,8 @@ sections:
 
       *   `src/styles/**` — your theme tokens, typography, component utilities
 
-      *   `public/**` — favicons, OG images, robots.txt, and anything else
-      you've added there
+      *   `public/**` — favicons, OG images, and anything else you've added
+      there (`robots.txt` and `llms.txt` are generated, so don't add them here)
 
       *   `fonts.config.mjs` — your font choices (see "Changing fonts" below)
 
