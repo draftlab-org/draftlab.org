@@ -78,7 +78,7 @@ const isActive = (item: NavItemType) => isItemActive(item, currentPath);
 				type="button"
 				id="search-button"
 				aria-label="Search"
-				class="brackets-text inline-flex cursor-pointer items-center gap-2 font-serif text-lg text-gray-900"
+				class="brackets-text inline-flex min-h-[1lh] cursor-pointer items-center gap-2 font-serif text-lg text-gray-900"
 			>
 				<MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
 				<kbd
@@ -86,7 +86,7 @@ const isActive = (item: NavItemType) => isItemActive(item, currentPath);
 					class="hidden font-mono text-xs text-ink-muted md:inline-block"
 					aria-hidden="true"
 				>
-					Ctrl K
+					Ctrl K
 				</kbd>
 			</button>
 
@@ -129,7 +129,7 @@ const isActive = (item: NavItemType) => isItemActive(item, currentPath);
 
 		// Elements are re-created on each View Transition, so re-apply the hint
 		const hint = document.getElementById('search-shortcut');
-		if (hint && isApple) hint.textContent = '⌘ K';
+		if (hint && isApple) hint.textContent = '⌘\u2009K';
 	}
 
 	// Run on initial load and after each View Transition navigation
