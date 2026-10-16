@@ -10,6 +10,18 @@ export const isDev = import.meta.env.DEV;
 export const isPreview = !!import.meta.env.PUBLIC_PREVIEW;
 
 /**
+ * True for production builds that are not preview deploys.
+ * Use for things that should only run on the live site (analytics etc).
+ */
+export const isProduction = !isDev && !isPreview;
+
+/**
+ * Draft content is rendered in dev and on preview builds; label it in both
+ * so editors can tell drafts apart from published content.
+ */
+export const showDraftLabels = isDev || isPreview;
+
+/**
  * True in local dev only — NOT in preview builds.
  * Use for dev tooling (section labels, debug borders) that shouldn't
  * appear on the preview site.

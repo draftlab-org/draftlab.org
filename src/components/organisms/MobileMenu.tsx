@@ -7,9 +7,14 @@ import {
   DisclosureButton,
   DisclosurePanel,
 } from '@headlessui/react';
-import { siteConfig } from '@lib/config';
-import type { NavItem } from '@utils/navigation';
-import { isExternalLink, resolveFlexibleLink } from '@utils/navigation';
+import type { NavItem, NavItemSingle } from '@utils/navigation';
+import {
+  isExternalLink,
+  isItemActive,
+  isPathActive,
+  resolveFlexibleLink,
+} from '@utils/navigation';
+import { slugify } from '@utils/slugify';
 import { useState } from 'react';
 import IconExternalLink from '~icons/heroicons/arrow-top-right-on-square-20-solid';
 import IconBars3 from '~icons/heroicons/bars-3';
@@ -19,20 +24,25 @@ import IconXMark from '~icons/heroicons/x-mark';
 interface MobileMenuProps {
   items: NavItem[];
   currentPath?: string;
+  // Passed in rather than imported, so the site config isn't bundled into client JS
+  siteName: string;
 }
 
 export default function MobileMenu({
   items,
   currentPath = '/',
+  siteName,
 }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const isActive = (href: string) => {
-    if (href === '/') return currentPath === '/';
-    return currentPath.startsWith(href);
-  };
+  const isActive = (href: string) => isPathActive(href, currentPath);
 
-  return (
+  // Draftlab styling: serif + bracket hover, `is-active` marks the current page
+  const renderChildLink = (child: NavItemSingle) => {
+    const href = resolveFlexibleLink(child.link);
+    const external = isExternalLink(child.link);
+    const active = !external && isActive(href);
+    return (
     <>
       {/* Mobile menu button */}
       <button
@@ -75,13 +85,13 @@ export default function MobileMenu({
               <div className="flex h-16 shrink-0 items-center">
                 <a
                   href="/"
-                  aria-label={siteConfig.name}
+                  aria-label={siteName}
                   aria-current={isActive('/') ? 'page' : undefined}
                   className="group"
                 >
                   <img
                     src={draftlabLogoUrl}
-                    alt={siteConfig.name}
+                    alt={siteName}
                     className="h-8 w-auto"
                   />
                 </a>
@@ -90,11 +100,14 @@ export default function MobileMenu({
                 <ul className="flex flex-1 flex-col gap-y-7">
                   <li>
                     <ul className="-mx-2 space-y-4">
-                      {items.map((item) => {
+                      {items.map((item, itemIndex) => {
                         if (item.type === 'dropdown') {
                           return (
                             <li key={item.label}>
-                              <Disclosure as="div">
+                              <Disclosure
+                                as="div"
+                                defaultOpen={isItemActive(item, currentPath)}
+                              >
                                 <DisclosureButton className="group flex w-full items-center gap-x-4 text-xl text-black">
                                   <span className="brackets-text">
                                     {item.label}
@@ -105,41 +118,31 @@ export default function MobileMenu({
                                   as="ul"
                                   className="mt-2 space-y-2 pl-4"
                                 >
-                                  {item.children.map((child) => {
-                                    const href = resolveFlexibleLink(
-                                      child.link
-                                    );
-                                    const external = isExternalLink(child.link);
-                                    const active = isActive(href);
-                                    return (
-                                      <li key={child.label}>
-                                        <a
-                                          href={href}
-                                          target={
-                                            external ? '_blank' : undefined
-                                          }
-                                          rel={
-                                            external
-                                              ? 'noopener noreferrer'
-                                              : undefined
-                                          }
-                                          aria-current={
-                                            active ? 'page' : undefined
-                                          }
-                                          className="group flex items-center gap-x-2 font-serif text-lg text-gray-700"
+                                  {item.children.map((child, childIndex) =>
+                                    child.type === 'dropdown' ? (
+                                      <li key={child.label} className="pt-2">
+                                        <p
+                                          id={`mobile-nav-group-${itemIndex}-${childIndex}-${slugify(child.label)}`}
+                                          className="mb-2 font-mono text-xs tracking-wide text-gray-500 uppercase"
                                         >
-                                          <span
-                                            className={`brackets-text ${active ? 'is-active' : ''}`}
-                                          >
-                                            {child.label}
-                                          </span>
-                                          {external && (
-                                            <IconExternalLink className="h-4 w-4 opacity-70" />
-                                          )}
-                                        </a>
+                                          {child.label}
+                                        </p>
+                                        <ul
+                                          aria-labelledby={`mobile-nav-group-${itemIndex}-${childIndex}-${slugify(child.label)}`}
+                                          className="space-y-2 pl-2"
+                                        >
+                                          {child.children
+                                            .filter(
+                                              (grandchild): grandchild is NavItemSingle =>
+                                                grandchild.type === 'link'
+                                            )
+                                            .map(renderChildLink)}
+                                        </ul>
                                       </li>
-                                    );
-                                  })}
+                                    ) : (
+                                      renderChildLink(child)
+                                    )
+                                  )}
                                 </DisclosurePanel>
                               </Disclosure>
                             </li>

@@ -1,5 +1,5 @@
 ---
-import Link from '@components/atoms/Link.astro';
+import Link from '@components/atoms/Link';
 import NavItemDropdown from '@components/molecules/NavItemDropdown';
 import type { NavItem } from '@utils/navigation';
 import { isExternalLink, resolveFlexibleLink } from '@utils/navigation';
@@ -27,18 +27,14 @@ const classes = ` ${activeStyles} ${className}`;
 
 {
 	item.type === 'dropdown' ? (
-		<NavItemDropdown
-			client:idle
-			item={item}
-			active={active}
-			currentPath={currentPath}
-		/>
+		<NavItemDropdown client:idle item={item} active={active} currentPath={currentPath} />
 	) : (
 		<Link
 			href={resolveFlexibleLink(item.link)}
 			variant="brackets"
 			class={classes}
 			external={isExternalLink(item.link)}
+			aria-current={active ? 'page' : undefined}
 		>
 			{item.label}
 			<slot />

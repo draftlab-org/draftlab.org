@@ -10,6 +10,7 @@ settings:
     templates:
       create: 'Create {path} (via Pages CMS)'
       update: 'Update {path} (via Pages CMS)'
+      delete: 'Delete {path} (via Pages CMS)'
 
 # ============================================================================
 # MEDIA
@@ -1349,6 +1350,24 @@ content:
         label: Contact email
         type: string
         description: Public contact address. Surfaced in structured data (schema.org Organization) and llms.txt.
+
+      - name: analytics
+        label: Analytics
+        type: object
+        description: Cookieless, privacy-preserving analytics. Only loaded on production builds (not in dev or preview). Leave empty to disable.
+        fields:
+          - name: umami
+            label: Umami
+            type: object
+            fields:
+              - name: src
+                label: Script URL
+                type: string
+                description: "URL of your Umami tracker script (e.g. https://umami.example.org/script.js)"
+              - name: websiteId
+                label: Website ID
+                type: string
+                description: The website ID from your Umami dashboard
 
       - name: defaultOgImage
         label: Default Open Graph Image

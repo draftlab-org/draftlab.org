@@ -12,6 +12,10 @@ export const siteConfig = {
   defaultOgImageSquare: (configData as { defaultOgImageSquare?: string })
     .defaultOgImageSquare,
   social: configData.social,
+  // OG cards (/og/*.png) are only generated when a square logo is configured
+  hasOgCards: Boolean(
+    (configData as { defaultLogoSquare?: string }).defaultLogoSquare
+  ),
 } as const;
 
 // Export type for use in components

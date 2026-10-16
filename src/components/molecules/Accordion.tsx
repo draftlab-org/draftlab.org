@@ -69,6 +69,7 @@ export default function Accordion({
     <div className={`divide-y divide-gray-200 ${className}`}>
       {items.map((item, index) => (
         <AccordionItemComponent
+          // biome-ignore lint/suspicious/noArrayIndexKey: static list from content; titles may repeat
           key={`${item.title}:${index}`}
           item={item}
           defaultOpen={index === 0 && !allowMultiple}

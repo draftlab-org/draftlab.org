@@ -26,7 +26,13 @@ const siteConfig = await getEntry('site', 'config');
 const archivedBanner = siteConfig?.data.archivedBanner;
 ---
 
-<PageLayout title={page.data.title} description={page.data.description} image={page.data.heroImage}>
+<PageLayout
+	title={page.data.seoTitle ?? page.data.title}
+	breadcrumbTitle={page.data.title}
+	description={page.data.seoDescription ?? page.data.description}
+	image={page.data.heroImage}
+	breadcrumbs={page.data.breadcrumbs}
+>
 	{page.data.status === 'archived' && archivedBanner && (
 		<Banner variant={mapColorToVariant(archivedBanner.color)} dismissible>
 			{archivedBanner.message}

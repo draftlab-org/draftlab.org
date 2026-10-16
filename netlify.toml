@@ -1,3 +1,15 @@
+[build]
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# Preview site: create a second Netlify site from the same repo and set
+# PUBLIC_PREVIEW = "true" in its environment (Site settings → Environment
+# variables). Preview builds render drafts with labels, are noindex, draw a
+# visible frame and load no analytics. Do not set it here, or the live site
+# becomes a preview too.
+
 [[headers]]
   for = "/api/*"
   [headers.values]

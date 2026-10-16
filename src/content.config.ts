@@ -389,6 +389,17 @@ const siteCollection = defineCollection({
           googleAnalyticsId: z.string().optional(),
         })
         .optional(),
+      /** Cookieless analytics; only loaded on production builds (Scaffold 0.6+). */
+      analytics: z
+        .object({
+          umami: z
+            .object({
+              src: z.string().optional(),
+              websiteId: z.string().optional(),
+            })
+            .optional(),
+        })
+        .optional(),
     }),
 });
 
