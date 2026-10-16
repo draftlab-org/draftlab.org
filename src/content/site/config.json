@@ -23,5 +23,6 @@
       "src": "https://umami.draftlab.dev/script.js",
       "websiteId": "1e20487e-8c1d-4f9d-974b-d15a43c4ca66"
     }
-  }
+  },
+  "showBreadcrumbs": false
 }
