@@ -1,5 +1,4 @@
 ---
-import Button from '@components/atoms/Button';
 import GradientLink from '@components/atoms/GradientLink.astro';
 import Link from '@components/atoms/Link';
 import NavItem from '@components/molecules/NavItem.astro';
@@ -37,7 +36,7 @@ const isActive = (item: NavItemType) => isItemActive(item, currentPath);
 			<Link
 				href="/"
 				variant="unstyled"
-				class="group font-serif text-2xl font-bold text-gray-900 underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8"
+				className="group font-serif text-2xl font-bold text-gray-900 underline decoration-primary-300 decoration-dotted decoration-4 underline-offset-8"
 			>
 				{
 					logo ? (
@@ -73,24 +72,23 @@ const isActive = (item: NavItemType) => isItemActive(item, currentPath);
 			</div>
 
 			<!-- Search Button. The shortcut hint shows from md up and is rewritten
-			     to ⌘ K on Apple devices by the script below -->
-			<Button
-				variant="ghost"
-				size="square"
+			     to ⌘ K on Apple devices by the script below. Plain button so it gets
+			     the same bracket hover as the nav links (no ghost background). -->
+			<button
 				type="button"
 				id="search-button"
 				aria-label="Search"
-				class="gap-2 md:px-2"
+				class="brackets-text inline-flex cursor-pointer items-center gap-2 font-serif text-lg text-gray-900"
 			>
-				<MagnifyingGlassIcon />
+				<MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
 				<kbd
 					id="search-shortcut"
-					class="hidden rounded-sm border border-current/40 px-1.5 py-0.5 font-mono text-xs md:inline-block"
+					class="hidden font-mono text-xs text-ink-muted md:inline-block"
 					aria-hidden="true"
 				>
 					Ctrl K
 				</kbd>
-			</Button>
+			</button>
 
 			<!-- CTA or Actions Slot -->
 			<slot name="actions" />
