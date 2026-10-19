@@ -1,0 +1,21 @@
+{
+  "id": "christopher-wilson",
+  "name": "Christopher Wilson",
+  "status": "published",
+  "headshot": "/src/assets/wilson-headshot.jpg",
+  "title": "Digital Policy & Governance Advisor",
+  "bio": "Christopher helps organisations make sense of digital transformation, tech policy and multi-stakeholder governance. He has supported OGP, EITI and other initiatives in more than 35 countries, combining peer-reviewed research with practical policy advice. He provides technical and strategic support, spanning and integrating facilitation, strategy, design, analysis, and communications. ",
+  "social": {
+    "personalSite": "https://methodicalsnark.org/"
+  },
+  "skills": [
+    "ai-automation",
+    "grant-programme-development",
+    "multi-stakeholder-coordination",
+    "strategic-advising",
+    "capacity-building",
+    "human-centered-design",
+    "responsible-data-governance",
+    "user-research"
+  ]
+}
