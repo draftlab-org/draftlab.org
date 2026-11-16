@@ -25,6 +25,14 @@
         "type": "internal",
         "pageRef": "/imprint"
       }
+    },
+    {
+      "type": "link",
+      "label": "Branding",
+      "link": {
+        "type": "internal",
+        "pageRef": "/branding"
+      }
     }
   ]
 }

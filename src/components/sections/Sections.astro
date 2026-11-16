@@ -1,5 +1,6 @@
 ---
 import ApplyForUxdSection from '@components/sections/ApplyForUxdSection.astro';
+import BrandAssetsSection from '@components/sections/BrandAssetsSection.astro';
 import ButtonSection from '@components/sections/ButtonSection.astro';
 import CalEmbedSection from '@components/sections/CalEmbedSection.astro';
 import CalloutSection from '@components/sections/CalloutSection.astro';
@@ -160,6 +161,13 @@ const verticalSpaceByType: Record<string, VerticalSpace> = {
 				case 'applyForUxd':
 					return (
 						<ApplyForUxdSection
+							title={section.title}
+							description={section.description}
+						/>
+					);
+				case 'brandAssets':
+					return (
+						<BrandAssetsSection
 							title={section.title}
 							description={section.description}
 						/>

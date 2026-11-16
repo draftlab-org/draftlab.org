@@ -1,0 +1,12 @@
+title: Branding
+permalink: branding
+status: published
+description: Draftlab's logos as SVG and PNG files, and the fonts we use.
+background: white
+sections:
+  - type: brandAssets
+    background:
+      bgColor: white
+      bgType: full
+    title: Branding
+    description: You can download our logos from here, and see the fonts we use.

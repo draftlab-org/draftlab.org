@@ -204,6 +204,11 @@ const pagesCollection = defineCollection({
         description: z.string().optional(),
       }),
       SectionCommonSchema.extend({
+        type: z.literal('brandAssets'),
+        title: z.string().optional(),
+        description: z.string().optional(),
+      }),
+      SectionCommonSchema.extend({
         type: z.literal('uxdCta'),
         title: z.string().optional(),
         statement: z.string().optional(),

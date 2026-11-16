@@ -3,6 +3,9 @@
 // Draftlab's fonts. This file is protected on merge — changes survive
 // `npm run update-from-scaffold`.
 //
+// The families themselves (name, weights, styles) live in fonts.data.mjs —
+// edit them there. This file only adds the provider and subsets.
+//
 // NOTE: the cssVariable names carry a `-family` suffix on purpose. Draftlab's
 // src/styles/typography.css maps them onto Tailwind's tokens via
 // `@theme inline { --font-sans: var(--font-sans-family); … }`. Naming the
@@ -16,31 +19,11 @@
 
 // @ts-check
 import { fontProviders } from 'astro/config';
+import { fontFamilies } from './fonts.data.mjs';
 
 /** @type {import('astro').AstroUserConfig['fonts']} */
-export const fonts = [
-  {
-    provider: fontProviders.bunny(),
-    name: 'Fraunces',
-    weights: [300, 400, 500, 700],
-    styles: ['normal'],
-    subsets: ['latin', 'latin-ext'],
-    cssVariable: '--font-serif-family',
-  },
-  {
-    provider: fontProviders.bunny(),
-    name: 'JetBrains Mono',
-    weights: [400, 500],
-    styles: ['normal'],
-    subsets: ['latin', 'latin-ext'],
-    cssVariable: '--font-mono-family',
-  },
-  {
-    provider: fontProviders.bunny(),
-    name: 'Nunito',
-    weights: [300, 400],
-    styles: ['normal', 'italic'],
-    subsets: ['latin', 'latin-ext'],
-    cssVariable: '--font-sans-family',
-  },
-];
+export const fonts = fontFamilies.map((family) => ({
+  ...family,
+  provider: fontProviders.bunny(),
+  subsets: ['latin', 'latin-ext'],
+}));

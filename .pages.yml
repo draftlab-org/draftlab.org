@@ -545,6 +545,20 @@ components:
         label: Description
         type: string
 
+  brand_assets_section:
+    type: object
+    fields:
+      - name: background
+        label: Section Background
+        component: background_select
+      - name: title
+        label: Title
+        type: string
+      - name: description
+        label: Description
+        type: string
+        description: The logos and fonts themselves are generated from the site's own files.
+
   cal_embed_section:
     type: object
     fields:
@@ -719,6 +733,10 @@ content:
           - name: calEmbed
             label: Cal.com Embed
             component: cal_embed_section
+
+          - name: brandAssets
+            label: Brand Assets
+            component: brand_assets_section
 
   # --------------------------------------------------------------------------
   # Projects

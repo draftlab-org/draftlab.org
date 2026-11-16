@@ -1,0 +1,128 @@
+---
+import SectionTitle from '@components/atoms/SectionTitle.astro';
+import Text from '@components/atoms/Text.astro';
+import { brandLogos, pngHeight } from '@utils/brandAssets';
+import { fontFamilies } from '../../../fonts.data.mjs';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+// What each font slot is used for, keyed by the cssVariable in
+// fonts.data.mjs. Names and weights are read from that file, so swapping a
+// font there updates this page.
+const fontRoles: Record<string, { role: string; class: string; sample: string }> = {
+  '--font-serif-family': {
+    role: 'Headings and the logo',
+    class: 'font-serif font-bold',
+    sample: 'From rough idea to lasting impact',
+  },
+  '--font-sans-family': {
+    role: 'Body text',
+    class: 'font-sans font-light',
+    sample: 'Appropriate tech strengthens human systems.',
+  },
+  '--font-mono-family': {
+    role: 'Labels and code',
+    class: 'font-mono',
+    sample: 'Understand, Define, Deliver, Sustain',
+  },
+};
+
+const fontOrder = Object.keys(fontRoles);
+const fontList = [...fontFamilies]
+  .sort(
+    (a, b) => fontOrder.indexOf(a.cssVariable) - fontOrder.indexOf(b.cssVariable)
+  )
+  .map((font) => ({
+    name: font.name,
+    weights: font.weights.join(', '),
+    italic: font.styles.includes('italic'),
+    url: `https://fonts.bunny.net/family/${font.name.toLowerCase().replace(/\s+/g, '-')}`,
+    ...fontRoles[font.cssVariable],
+  }));
+---
+
+<div class="mx-auto max-w-5xl">
+	{
+		title && (
+			<div class="mb-12 flex max-w-2xl flex-col gap-3">
+				<SectionTitle title={title} as="h1" />
+				{description && (
+					<Text size="lg" class="text-ink-soft">
+						{description}
+					</Text>
+				)}
+			</div>
+		)
+	}
+
+	<h2 class="mb-6 text-2xl md:text-3xl">Logos</h2>
+	<ul class="grid list-none grid-cols-1 gap-x-8 gap-y-10 p-0 sm:grid-cols-2 lg:grid-cols-3">
+		{
+			brandLogos.map((logo) => (
+				<li class="flex flex-col gap-3">
+					<div
+						class:list={[
+							'flex aspect-16/10 items-center justify-center p-8',
+							logo.surface === 'dark' ? 'bg-ink' : 'bg-cream',
+						]}
+					>
+						<img
+							src={`/brand/${logo.slug}.svg`}
+							alt={`Draftlab ${logo.name.toLowerCase()}`}
+							width={logo.width}
+							height={logo.height}
+							loading="lazy"
+							class="h-11 w-auto"
+						/>
+					</div>
+					<div>
+						<h3 class="text-lg">{logo.name}</h3>
+						<p class="text-sm text-ink-soft">{logo.use}</p>
+					</div>
+					<p class="flex gap-5 text-sm">
+						<a href={`/brand/${logo.slug}.svg`} data-astro-reload>
+							SVG
+						</a>
+						<a href={`/brand/${logo.slug}.png`} data-astro-reload>
+							PNG, {logo.pngWidth}&thinsp;×&thinsp;{pngHeight(logo)}
+						</a>
+					</p>
+				</li>
+			))
+		}
+	</ul>
+
+	<h2 class="mt-20 mb-6 text-2xl md:text-3xl">Fonts</h2>
+	<ul class="list-none divide-y divide-sand p-0">
+		{
+			fontList.map((font) => (
+				<li class="grid grid-cols-1 gap-x-8 gap-y-2 py-6 md:grid-cols-[14rem_1fr] md:items-baseline">
+					<div>
+						<h3 class="text-lg">
+							<a href={font.url} target="_blank" rel="noopener noreferrer">
+								{font.name}
+							</a>
+						</h3>
+						<p class="text-sm text-ink-soft">{font.role}</p>
+						<p class="text-sm text-ink-soft">
+							Weights {font.weights}
+							{font.italic && ', with italics'}
+						</p>
+					</div>
+					<p class:list={['text-2xl leading-snug text-ink md:text-3xl', font.class]}>
+						{font.sample}
+					</p>
+				</li>
+			))
+		}
+	</ul>
+	<p class="mt-6 max-w-2xl text-sm text-ink-soft">
+		All three are open source under the SIL Open Font License and served from
+		<a href="https://fonts.bunny.net" target="_blank" rel="noopener noreferrer">Bunny Fonts</a>.
+	</p>
+</div>
