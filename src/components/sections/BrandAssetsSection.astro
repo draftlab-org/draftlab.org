@@ -2,14 +2,24 @@
 import SectionTitle from '@components/atoms/SectionTitle.astro';
 import Text from '@components/atoms/Text.astro';
 import { brandLogos, pngHeight } from '@utils/brandAssets';
+import { getBrandColors } from '@utils/brandColors';
+import { renderMarkdown } from '@utils/renderMarkdown';
 import { fontFamilies } from '../../../fonts.data.mjs';
 
 export interface Props {
   title?: string;
   description?: string;
+  // Markdown: how to use the logo, shown under the logo files
+  logoUse?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, logoUse } = Astro.props;
+
+const logoUseHtml = logoUse
+  ? (await renderMarkdown(logoUse, false, 'logo-use')).html
+  : null;
+
+const colors = await getBrandColors();
 
 // What each font slot is used for, keyed by the cssVariable in
 // fonts.data.mjs. Names and weights are read from that file, so swapping a
@@ -61,14 +71,16 @@ const fontList = [...fontFamilies]
 	}
 
 	<h2 class="mb-6 text-2xl md:text-3xl">Logos</h2>
-	<ul class="grid list-none grid-cols-1 gap-x-8 gap-y-10 p-0 sm:grid-cols-2 lg:grid-cols-3">
+	<ul
+		class="grid list-none grid-cols-1 gap-x-8 gap-y-10 p-0 sm:grid-cols-2 lg:grid-cols-3"
+	>
 		{
 			brandLogos.map((logo) => (
 				<li class="flex flex-col gap-3">
 					<div
 						class:list={[
 							'flex aspect-16/10 items-center justify-center p-8',
-							logo.surface === 'dark' ? 'bg-ink' : 'bg-cream',
+							logo.surface === 'dark' ? 'bg-ink' : 'bg-surface-dim',
 						]}
 					>
 						<img
@@ -97,8 +109,44 @@ const fontList = [...fontFamilies]
 		}
 	</ul>
 
+	{
+		logoUseHtml && (
+			<div class="mt-12 max-w-2xl">
+				<h3 class="mb-3 text-xl">
+					Best practices for using our branding assets
+				</h3>
+				<div class="prose" set:html={logoUseHtml} />
+			</div>
+		)
+	}
+
+	<h2 class="mt-20 mb-6 text-2xl md:text-3xl">Colours</h2>
+	<ul
+		class="grid list-none grid-cols-2 gap-x-6 gap-y-8 p-0 sm:grid-cols-3 lg:grid-cols-6"
+	>
+		{
+			colors.map((color) => (
+				<li class="flex flex-col gap-2">
+					<div
+						class="aspect-square border border-gray-200"
+						style={`background-color: var(--color-${color.token})`}
+					/>
+					<div>
+						<h3 class="text-lg">{color.name}</h3>
+						<p class="font-mono text-sm text-ink">{color.hex}</p>
+						<p class="text-sm text-ink-soft">{color.use}</p>
+					</div>
+				</li>
+			))
+		}
+	</ul>
+	<div class="mt-8 h-3 gradient-phase" aria-hidden="true"></div>
+	<p class="mt-3 max-w-2xl text-sm text-ink-soft">
+		The four phase colours also run together as a gradient, in this order.
+	</p>
+
 	<h2 class="mt-20 mb-6 text-2xl md:text-3xl">Fonts</h2>
-	<ul class="list-none divide-y divide-sand p-0">
+	<ul class="list-none divide-y divide-gray-200 p-0">
 		{
 			fontList.map((font) => (
 				<li class="grid grid-cols-1 gap-x-8 gap-y-2 py-6 md:grid-cols-[14rem_1fr] md:items-baseline">
@@ -114,7 +162,12 @@ const fontList = [...fontFamilies]
 							{font.italic && ', with italics'}
 						</p>
 					</div>
-					<p class:list={['text-2xl leading-snug text-ink md:text-3xl', font.class]}>
+					<p
+						class:list={[
+							'text-2xl leading-snug text-ink md:text-3xl',
+							font.class,
+						]}
+					>
 						{font.sample}
 					</p>
 				</li>
@@ -123,6 +176,8 @@ const fontList = [...fontFamilies]
 	</ul>
 	<p class="mt-6 max-w-2xl text-sm text-ink-soft">
 		All three are open source under the SIL Open Font License and served from
-		<a href="https://fonts.bunny.net" target="_blank" rel="noopener noreferrer">Bunny Fonts</a>.
+		<a href="https://fonts.bunny.net" target="_blank" rel="noopener noreferrer"
+			>Bunny Fonts</a
+		>.
 	</p>
 </div>

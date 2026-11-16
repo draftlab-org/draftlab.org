@@ -207,6 +207,7 @@ const pagesCollection = defineCollection({
         type: z.literal('brandAssets'),
         title: z.string().optional(),
         description: z.string().optional(),
+        logoUse: z.string().optional(),
       }),
       SectionCommonSchema.extend({
         type: z.literal('uxdCta'),

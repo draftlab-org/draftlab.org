@@ -557,7 +557,11 @@ components:
       - name: description
         label: Description
         type: string
-        description: The logos and fonts themselves are generated from the site's own files.
+        description: The logos, colours and fonts themselves are generated from the site's own files.
+      - name: logoUse
+        label: Using the logo
+        type: rich-text
+        description: Guidance shown under the logo files.
 
   cal_embed_section:
     type: object

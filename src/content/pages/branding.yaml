@@ -9,4 +9,25 @@ sections:
       bgColor: white
       bgType: full
     title: Branding
-    description: You can download our logos from here, and see the fonts we use.
+    description: You can download our logos from here, and see the typefaces we use.
+    logoUse: >-
+      - Use the black wordmark on light backgrounds and the white one on dark
+      backgrounds. The gradient wordmark is for light backgrounds only.
+
+      - Use the icon where the wordmark won't fit, such as an avatar.
+
+      - If possible, leave clear space around the logo, at least a quarter of its height on
+      every side. If in doubt, trust your judgment.
+
+      - Keep the wordmark at least 80 pixels wide on screen, or 20 mm in print,
+      and the icon at least 16 pixels.
+
+      - Please don't recolour, stretch, rotate or redraw the logo, add effects
+      to it, or remove the brackets.
+
+
+      You're welcome to use the logo to refer to Draftlab or to show that we
+      worked together. You don't have to ask first, but we appreciate it. Please don't use it in a way that
+      suggests we endorse something we weren't part of. The logo is not covered
+      by the Creative Commons licence that applies to the rest of this site. If
+      you're unsure, write to [hello@draftlab.org](mailto:hello@draftlab.org).
